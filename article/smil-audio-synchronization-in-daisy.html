@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Audio Synchronization in DAISY - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) serves as the timing and coordination backbone of the DAISY (Digital Accessible Information System) standard, linking written text directly to prerecorded human or synthetic audio. By structuring synchr">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-audio-synchronization-in-daisy">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Audio Synchronization in DAISY - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-audio-synchronization-in-daisy" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) serves as the timing and coordination backbone of the DAISY (Digital Accessible Information System) standard, linking written text directly to prerecorded human or synthetic audio. By structuring synchr" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-audio-synchronization-in-daisy">SMIL Audio Synchronization
+in DAISY</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) serves as the
+timing and coordination backbone of the DAISY (Digital Accessible
+Information System) standard, linking written text directly to
+prerecorded human or synthetic audio. By structuring synchronized media
+elements into distinct parallel containers, SMIL enables playback
+engines to simultaneously render text and play matching audio at
+granular levels. This article explains how SMIL coordinates structural
+markup with audio timestamps to achieve precise paragraph-level and
+sentence-level synchronization, allowing dynamic highlighting and
+seamless navigation for accessible reading.</p>
+<h3 id="the-foundation-parallel-media-elements">The Foundation: Parallel
+Media Elements</h3>
+<p>At its core, SMIL achieves synchronization through the
+<code>&lt;par&gt;</code> (parallel) container tag. A
+<code>&lt;par&gt;</code> element instructs the DAISY player to render
+two or more media assets simultaneously.</p>
+<p>Inside a standard <code>&lt;par&gt;</code> block, SMIL pairs a
+reference to a visual text node with a corresponding slice of an audio
+file:</p>
+<ul>
+<li><strong>The <code>&lt;text&gt;</code> tag:</strong> Points to a
+specific structural element within the textual document (such as DTBook
+or HTML) using a URI and an XML ID fragment (e.g.,
+<code>src="content.html#p1"</code>).</li>
+<li><strong>The <code>&lt;audio&gt;</code> tag:</strong> Points to the
+target audio file and defines the exact temporal boundaries using
+<code>clipBegin</code> and <code>clipEnd</code> attributes (e.g.,
+<code>clipBegin="00:01:15.000"</code> and
+<code>clipEnd="00:01:22.500"</code>).</li>
+</ul>
+<h3 id="paragraph-level-synchronization">Paragraph-Level
+Synchronization</h3>
+<p>In paragraph-level synchronization, the text document marks an entire
+paragraph with a single identifier:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">p</span> <span class="ot">id=</span><span class="st">&quot;para_01&quot;</span>&gt;The quick brown fox jumps over the lazy dog.&lt;/<span class="kw">p</span>&gt;</span></code></pre></div>
+<p>The corresponding SMIL file aligns this single element to a larger
+segment of audio:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">par</span> <span class="ot">id=</span><span class="st">&quot;sync_p01&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">text</span> <span class="ot">src=</span><span class="st">&quot;book.xml#para_01&quot;</span>/&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;narrative.mp3&quot;</span> <span class="ot">clipBegin=</span><span class="st">&quot;00:00:10.000&quot;</span> <span class="ot">clipEnd=</span><span class="st">&quot;00:00:14.250&quot;</span>/&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">par</span>&gt;</span></code></pre></div>
+<p>When the reader navigates to this paragraph, the DAISY player
+highlights the entire paragraph block visually and triggers the media
+player to play the audio stream from the 10-second mark to the
+14.25-second mark.</p>
+<h3 id="sentence-level-granularity">Sentence-Level Granularity</h3>
+<p>Achieving sentence-level granularity requires subdividing the text
+markup into smaller, addressable nodes. This is typically accomplished
+by wrapping each sentence in an <code>&lt;s&gt;</code> or
+<code>&lt;span&gt;</code> tag equipped with a unique ID:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">p</span> <span class="ot">id=</span><span class="st">&quot;para_01&quot;</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">s</span> <span class="ot">id=</span><span class="st">&quot;sent_01&quot;</span>&gt;The quick brown fox jumps over the lazy dog.&lt;/<span class="kw">s</span>&gt;</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">s</span> <span class="ot">id=</span><span class="st">&quot;sent_02&quot;</span>&gt;It then rested beneath the shade of an oak tree.&lt;/<span class="kw">s</span>&gt;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">p</span>&gt;</span></code></pre></div>
+<p>SMIL then arranges sequential <code>&lt;par&gt;</code> containers
+within a parent <code>&lt;seq&gt;</code> (sequence) container. Each
+<code>&lt;par&gt;</code> represents an individual sentence rather than
+the full paragraph:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">seq</span> <span class="ot">id=</span><span class="st">&quot;seq_para01&quot;</span>&gt;</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">par</span> <span class="ot">id=</span><span class="st">&quot;sync_s01&quot;</span>&gt;</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">text</span> <span class="ot">src=</span><span class="st">&quot;book.xml#sent_01&quot;</span>/&gt;</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;narrative.mp3&quot;</span> <span class="ot">clipBegin=</span><span class="st">&quot;00:00:10.000&quot;</span> <span class="ot">clipEnd=</span><span class="st">&quot;00:00:14.250&quot;</span>/&gt;</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">par</span>&gt;</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">par</span> <span class="ot">id=</span><span class="st">&quot;sync_s02&quot;</span>&gt;</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">text</span> <span class="ot">src=</span><span class="st">&quot;book.xml#sent_02&quot;</span>/&gt;</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;narrative.mp3&quot;</span> <span class="ot">clipBegin=</span><span class="st">&quot;00:00:14.250&quot;</span> <span class="ot">clipEnd=</span><span class="st">&quot;00:00:18.500&quot;</span>/&gt;</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">par</span>&gt;</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">seq</span>&gt;</span></code></pre></div>
+<p>Because each sentence is isolated within its own
+<code>&lt;par&gt;</code> container, the player executes synchronization
+at milliseconds-level accuracy.</p>
+<h3 id="playback-and-navigation-mechanics">Playback and Navigation
+Mechanics</h3>
+<p>When executing granular synchronization, DAISY reading systems
+utilize the SMIL structure in two major ways:</p>
+<ol type="1">
+<li><strong>Synchronous Visual Highlighting:</strong> As playback moves
+from one <code>&lt;par&gt;</code> to the next, the reading system
+updates the Document Object Model (DOM) styling to highlight the active
+sentence or paragraph in real time.</li>
+<li><strong>Granular Skipping and Seeking:</strong> Users can command
+the reader to skip forward or backward by sentence or paragraph. The
+reading system traverses the SMIL tree to find the next or previous
+<code>&lt;par&gt;</code> element, immediately shifting the visual focus
+and seeking the audio playback head to the designated
+<code>clipBegin</code> time.</li>
+</ol></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

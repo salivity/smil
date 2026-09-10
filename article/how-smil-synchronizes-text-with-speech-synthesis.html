@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How SMIL Synchronizes Text with Speech Synthesis - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) bridges visual documents and audio playback by coordinating time-coded markers with specific visual element identifiers. In phonetic text-to-speech (TTS) systems, SMIL aligns synthesized audio with real">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-smil-synchronizes-text-with-speech-synthesis">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How SMIL Synchronizes Text with Speech Synthesis - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-smil-synchronizes-text-with-speech-synthesis" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) bridges visual documents and audio playback by coordinating time-coded markers with specific visual element identifiers. In phonetic text-to-speech (TTS) systems, SMIL aligns synthesized audio with real" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-smil-synchronizes-text-with-speech-synthesis">How SMIL
+Synchronizes Text with Speech Synthesis</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) bridges visual
+documents and audio playback by coordinating time-coded markers with
+specific visual element identifiers. In phonetic text-to-speech (TTS)
+systems, SMIL aligns synthesized audio with real-time text highlighting
+through millisecond-level time slices, structured XML timing containers,
+and DOM-targeted element references. This article explains the technical
+mechanics behind how SMIL extracts speech engine timing data, maps it to
+markup elements, and executes word- or sentence-level highlighting
+during playback.</p>
+<h3 id="the-smil-synchronization-architecture">The SMIL Synchronization
+Architecture</h3>
+<p>SMIL achieves synchronization primarily through the parallel
+container element, <code>&lt;par&gt;</code>. Within a
+<code>&lt;par&gt;</code> block, an audio asset and a text asset are
+declared simultaneously.</p>
+<p>A standard synchronization block links an audio file segment directly
+to a corresponding text node:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">par</span> <span class="ot">id=</span><span class="st">&quot;phrase1&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">text</span> <span class="ot">src=</span><span class="st">&quot;chapter1.xhtml#word1&quot;</span> /&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;speech.mp3&quot;</span> <span class="ot">clipBegin=</span><span class="st">&quot;0.000s&quot;</span> <span class="ot">clipEnd=</span><span class="st">&quot;0.450s&quot;</span> /&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">par</span>&gt;</span></code></pre></div>
+<p>When the SMIL player processes this block, it instructs the audio
+subsystem to play the defined slice (<code>clipBegin</code> to
+<code>clipEnd</code>) while simultaneously notifying the visual
+rendering engine to activate the element identified by the URI fragment
+(<code>#word1</code>).</p>
+<h3 id="extracting-phonetic-and-word-timings-from-tts">Extracting
+Phonetic and Word Timings from TTS</h3>
+<p>Phonetic speech synthesis engines generate audio by converting
+written text into phonetic representations (such as phonemes or visemes)
+and calculating the exact duration required to vocalize each sound. To
+make this data usable for SMIL:</p>
+<ol type="1">
+<li><strong>Event Dispatching and SSML Integration:</strong> Modern TTS
+systems utilize Speech Synthesis Markup Language (SSML) containing
+boundary elements or <code>&lt;mark&gt;</code> tags. During the
+synthesis pipeline, the engine calculates acoustic parameters and fires
+boundary events corresponding to phoneme, syllable, or word
+boundaries.</li>
+<li><strong>Timestamp Logging:</strong> The engine outputs an audio file
+alongside a timing index (often delivered as JSON, XML, or raw timestamp
+arrays). Each entry contains a target ID, a start time, and an end time
+measured down to the millisecond.</li>
+<li><strong>SMIL Manifest Generation:</strong> An automated compiler
+ingests these TTS timing logs and writes the corresponding SMIL markup,
+setting the <code>clipBegin</code> and <code>clipEnd</code> attributes
+to match the precise phonetic duration calculated by the TTS
+engine.</li>
+</ol>
+<h3 id="connecting-smil-to-the-document-object-model">Connecting SMIL to
+the Document Object Model</h3>
+<p>For text highlighting to occur, the host document (typically HTML or
+XHTML, as seen in EPUB 3 Media Overlays) must have granular
+structure.</p>
+<p>The source document wraps target sentences or individual words inside
+inline elements (such as <code>&lt;span&gt;</code> tags), each
+possessing a unique <code>id</code>:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;word1&quot;</span><span class="dt">&gt;</span>Phonetic<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;word2&quot;</span><span class="dt">&gt;</span>synthesis<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>The SMIL file's <code>&lt;text&gt;</code> tags point directly to
+these IDs via their <code>src</code> attributes. Because the SMIL engine
+maintains an active reference to both the time timeline and the
+document's DOM tree, it can track the state of every node during
+playback.</p>
+<h3 id="runtime-execution-and-visual-highlighting">Runtime Execution and
+Visual Highlighting</h3>
+<p>During runtime execution, the media rendering engine synchronizes the
+audio and visual components using an internal clock:</p>
+<ul>
+<li><strong>Time Monitoring:</strong> As the audio output device plays
+the speech stream, the SMIL player monitors playback progress against
+the active <code>&lt;par&gt;</code> definitions.</li>
+<li><strong>Class Toggling:</strong> When the playback clock reaches a
+<code>clipBegin</code> timestamp, the player applies a dynamic styling
+class (such as an active overlay class) to the targeted DOM
+element.</li>
+<li><strong>State Termination:</strong> Once the playback reaches
+<code>clipEnd</code>, the active class is removed from that node and
+applied to the next element defined in the sequence.</li>
+<li><strong>CSS Presentation:</strong> The actual visual highlight—such
+as background color changes, text color shifts, or underlines—is
+rendered via CSS tied to that active class.</li>
+</ul>
+<p>By combining the acoustic boundary calculations of phonetic TTS
+engines with SMIL's container-based time tracking and DOM referencing,
+systems can achieve synchronized, millisecond-accurate text
+highlighting.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

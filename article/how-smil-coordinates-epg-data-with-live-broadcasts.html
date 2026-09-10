@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How SMIL Coordinates EPG Data with Live Broadcasts - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) is an XML-based markup language designed to orchestrate diverse media elements along a unified timeline. In modern television and over-the-top (OTT) streaming architectures, SMIL coordinates Electronic">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-smil-coordinates-epg-data-with-live-broadcasts">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How SMIL Coordinates EPG Data with Live Broadcasts - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-smil-coordinates-epg-data-with-live-broadcasts" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) is an XML-based markup language designed to orchestrate diverse media elements along a unified timeline. In modern television and over-the-top (OTT) streaming architectures, SMIL coordinates Electronic" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-smil-coordinates-epg-data-with-live-broadcasts">How SMIL
+Coordinates EPG Data with Live Broadcasts</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) is an XML-based
+markup language designed to orchestrate diverse media elements along a
+unified timeline. In modern television and over-the-top (OTT) streaming
+architectures, SMIL coordinates Electronic Program Guide (EPG) data with
+live broadcast feeds by mapping scheduled program metadata directly to
+precise temporal markers within media streams. This process ensures that
+program details, such as titles, episode descriptions, parental ratings,
+and start or end times, align seamlessly with real-time video
+delivery.</p>
+<p>SMIL achieves this coordination primarily through its temporal
+control elements: parallel (<code>&lt;par&gt;</code>) and sequential
+(<code>&lt;seq&gt;</code>) containers. A live broadcast feed and its
+associated EPG metadata are encapsulated within a
+<code>&lt;par&gt;</code> tag, directing the player or client device to
+render both assets concurrently. While the video and audio streams run
+continuously, the metadata track runs parallel to them, synchronized by
+specific timing attributes.</p>
+<p>Synchronization requires absolute and relative time mapping. Live
+broadcast workflows rely on wall-clock time to dictate schedule changes.
+SMIL natively supports real-world scheduling through
+<code>wallclock()</code> timing values formatted in ISO 8601. By
+assigning <code>wallclock()</code> timestamps to program segments, a
+SMIL document instructs the media engine precisely when an EPG block
+becomes active and when it should transition to the next program,
+matching standard broadcast programming grids.</p>
+<p>To maintain frame-accurate synchronization against transmission
+latency or stream-level shifts, SMIL can bind EPG data to embedded
+presentation timestamps (PTS) or standard timecodes like SMPTE. In
+advanced live streaming architectures, such as Dynamic Adaptive
+Streaming over HTTP (DASH) or HTTP Live Streaming (HLS), SMIL manifests
+often bridge the gap between broadcast automation systems and client
+manifest generators. When automated ad-insertion signals (like SCTE-35
+markers) or live event triggers occur, the SMIL controller updates the
+timeline definitions in real time.</p>
+<p>Live broadcasts frequently diverge from published schedules due to
+overtime, breaking news, or technical interruptions. SMIL handles these
+fluctuations dynamically. Streaming servers and middleware update and
+regenerate SMIL playlists on the fly. When a program overruns, the
+server extends the duration attribute of the active metadata container,
+prompting the client application to refresh its internal EPG state
+without interrupting the continuous video stream.</p>
+<p>Beyond temporal synchronization, SMIL manages the spatial
+presentation of EPG data through its <code>&lt;layout&gt;</code> and
+<code>&lt;region&gt;</code> specifications. These tags define distinct
+screen zones for the live feed and the informational overlays. As a
+result, client-side applications can automatically display "now playing"
+banners, synopsis overlays, and "up next" prompts at predetermined
+intervals based entirely on the coordinate and timing rules declared in
+the SMIL file.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

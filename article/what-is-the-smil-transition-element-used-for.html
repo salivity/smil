@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is the SMIL transition Element Used For? - smil</title>
+    <meta name="description" content="In Synchronized Multimedia Integration Language (SMIL), the <transition> element defined within the <head> section serves as a reusable template for visual transition effects such as fades, wipes, and dissolves. Defining transition parameters in the docu">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/what-is-the-smil-transition-element-used-for">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is the SMIL transition Element Used For? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/what-is-the-smil-transition-element-used-for" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In Synchronized Multimedia Integration Language (SMIL), the <transition> element defined within the <head> section serves as a reusable template for visual transition effects such as fades, wipes, and dissolves. Defining transition parameters in the docu" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-the-smil-transition-element-used-for">What Is the SMIL
+transition Element Used For?</h1>
+<p>In Synchronized Multimedia Integration Language (SMIL), the
+<code>&lt;transition&gt;</code> element defined within the
+<code>&lt;head&gt;</code> section serves as a reusable template for
+visual transition effects such as fades, wipes, and dissolves. Defining
+transition parameters in the document header allows multimedia authors
+to establish consistent transition styles once and apply them across
+multiple media elements throughout the presentation body.</p>
+<h2 id="purpose-of-the-head-level-transition-element">Purpose of the
+Head-Level Transition Element</h2>
+<p>The primary role of the <code>&lt;transition&gt;</code> element in
+the <code>&lt;head&gt;</code> is to decouple the visual definition of an
+effect from the media objects that display it. Instead of configuring
+transition properties repeatedly across different images, videos, or
+text blocks, the author assigns an identifier (<code>xml:id</code> or
+<code>id</code>) to the transition in the document header.</p>
+<p>Once defined, media elements in the <code>&lt;body&gt;</code> can
+invoke these effects when entering or leaving the presentation area,
+ensuring stylistic consistency and cleaner document architecture.</p>
+<h2 id="key-attributes-configured-in-the-transition-tag">Key Attributes
+Configured in the Transition Tag</h2>
+<p>The <code>&lt;transition&gt;</code> tag accepts several descriptive
+attributes that dictate the behavior and appearance of the visual
+effect:</p>
+<ul>
+<li>**<code>id</code> or <code>xml:id**</code>: Provides a unique
+identifier that body elements use to reference the effect.</li>
+<li><strong><code>type</code></strong>: Specifies the category of the
+transition, such as <code>barWipe</code>, <code>fade</code>,
+<code>irisWipe</code>, or <code>clockWipe</code>.</li>
+<li><strong><code>subtype</code></strong>: Refines the exact motion or
+pattern of the transition, such as <code>leftToRight</code>,
+<code>topToBottom</code>, <code>crossfade</code>, or
+<code>rectangle</code>.</li>
+<li><strong><code>dur</code></strong>: Sets the duration over which the
+transition occurs.</li>
+<li>**<code>startProgress</code> and <code>endProgress**</code>: Defines
+the fractional progress points (from 0.0 to 1.0) where the effect starts
+and finishes.</li>
+<li><strong><code>direction</code></strong>: Determines whether the
+transition reveals forward or in reverse.</li>
+</ul>
+<h2 id="applying-transitions-to-media-elements">Applying Transitions to
+Media Elements</h2>
+<p>Media items located in the SMIL <code>&lt;body&gt;</code> trigger the
+declared transitions using dedicated attributes:</p>
+<ul>
+<li><strong><code>transIn</code></strong>: Executes the specified
+transition effect when the media object begins rendering on screen.</li>
+<li><strong><code>transOut</code></strong>: Executes the specified
+transition effect as the media object finishes its duration and leaves
+the screen.</li>
+</ul>
+<p>When the SMIL presentation engine renders the media, it retrieves the
+configuration from the corresponding <code>&lt;head&gt;</code>
+transition definition and calculates the pixel blending or masking over
+the designated duration.</p>
+<h2 id="structural-example">Structural Example</h2>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span> <span class="ot">version=</span><span class="st">&quot;3.0&quot;</span> <span class="ot">baseProfile=</span><span class="st">&quot;Language&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">layout</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">root-layout</span> <span class="ot">width=</span><span class="st">&quot;640&quot;</span> <span class="ot">height=</span><span class="st">&quot;480&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;main_region&quot;</span> <span class="ot">width=</span><span class="st">&quot;640&quot;</span> <span class="ot">height=</span><span class="st">&quot;480&quot;</span> /&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">transition</span> <span class="ot">id=</span><span class="st">&quot;fadeEffect&quot;</span> <span class="ot">type=</span><span class="st">&quot;fade&quot;</span> <span class="ot">subtype=</span><span class="st">&quot;crossfade&quot;</span> <span class="ot">dur=</span><span class="st">&quot;2s&quot;</span> /&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">seq</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;photo1.jpg&quot;</span> <span class="ot">region=</span><span class="st">&quot;main_region&quot;</span> <span class="ot">dur=</span><span class="st">&quot;5s&quot;</span> <span class="ot">transIn=</span><span class="st">&quot;fadeEffect&quot;</span> <span class="ot">transOut=</span><span class="st">&quot;fadeEffect&quot;</span> /&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;photo2.jpg&quot;</span> <span class="ot">region=</span><span class="st">&quot;main_region&quot;</span> <span class="ot">dur=</span><span class="st">&quot;5s&quot;</span> <span class="ot">transIn=</span><span class="st">&quot;fadeEffect&quot;</span> /&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">seq</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<p>By organizing transition logic inside the <code>&lt;head&gt;</code>,
+SMIL maintains a clean separation between presentation styling and
+timeline synchronization.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

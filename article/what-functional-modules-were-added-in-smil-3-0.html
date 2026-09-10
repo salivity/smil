@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Functional Modules Were Added in SMIL 3.0? - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) 3.0 expanded its core framework by introducing several functional modules and sub-modules to handle advanced timing, interactive state management, embedded typography, and enhanced layout controls. This">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/what-functional-modules-were-added-in-smil-3-0">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Functional Modules Were Added in SMIL 3.0? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/what-functional-modules-were-added-in-smil-3-0" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) 3.0 expanded its core framework by introducing several functional modules and sub-modules to handle advanced timing, interactive state management, embedded typography, and enhanced layout controls. This" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-functional-modules-were-added-in-smil-30">What Functional
+Modules Were Added in SMIL 3.0?</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) 3.0 expanded its
+core framework by introducing several functional modules and sub-modules
+to handle advanced timing, interactive state management, embedded
+typography, and enhanced layout controls. This modular expansion allows
+authors to create richer, more adaptable multimedia presentations across
+desktop, mobile, and accessibility-focused platforms without relying
+heavily on external scripting.</p>
+<h3 id="smil-state-modules">SMIL State Modules</h3>
+<p>One of the most significant architectural additions in SMIL 3.0 is
+the <strong>State</strong> functional area. Prior versions required
+scripting languages (like ECMAScript) to maintain presentation variables
+or complex conditional logic. SMIL 3.0 introduced dedicated modules to
+store, evaluate, and submit internal data states:</p>
+<ul>
+<li><strong>StateTest:</strong> Provides elements and attributes to
+evaluate internal data values and conditionally execute presentation
+branches.</li>
+<li><strong>UserState:</strong> Enables the definition, initialization,
+and runtime modification of document-level variables.</li>
+<li><strong>StateSubmission:</strong> Handles the serializing and
+sending of state data to external endpoints or servers.</li>
+<li><strong>StateInterpolation:</strong> Allows state values to be
+dynamically interpolated over time.</li>
+</ul>
+<h3 id="smiltext-modules">SmilText Modules</h3>
+<p>SMIL 3.0 introduced <strong>smilText</strong>, a native functional
+area providing an in-line timed text container that acts as a standalone
+media format. Rather than referencing external text files via media
+elements, smilText allows authors to embed and animate styled text
+directly:</p>
+<ul>
+<li><strong>BasicText:</strong> Implements the core container element
+and basic inline text rendering capabilities.</li>
+<li><strong>TextStyling:</strong> Adds granular font styling, color
+adjustments, text alignment, and layout rules.</li>
+<li><strong>TextMotion:</strong> Enables dynamic text movement effects,
+such as scrolling tickers, crawl transitions, and teleprompter-style
+motions.</li>
+</ul>
+<h3 id="enhanced-media-object-modules">Enhanced Media Object
+Modules</h3>
+<p>To support modern rendering paradigms, the <strong>Media
+Object</strong> functional area received key enhancements:</p>
+<ul>
+<li><strong>MediaPanZoom Module:</strong> Adds zooming and panning
+viewport controls directly over visual media items, enabling dynamic
+camera movements without modifying the underlying source asset.</li>
+<li><strong>MediaOpacity Module:</strong> Introduces fine-grained alpha
+transparency controls, background opacity adjustments, and chroma key
+(color-key transparency) attributes.</li>
+<li><strong>MediaRenderAttributes Module:</strong> Created during the
+restructuring of media parameters to separate generic initialization
+parameters from visual rendering rules.</li>
+</ul>
+<h3 id="structure-and-layout-modules">Structure and Layout Modules</h3>
+<p>Structural modularization and layout flexibility were updated to
+accommodate new profiles:</p>
+<ul>
+<li><strong>StructureLayout Module:</strong> Introduces a decoupled
+mechanism allowing SMIL documents to declare alternative or external
+layout engines independently of the standard SMIL BasicLayout
+architecture.</li>
+<li><strong>Identity Module:</strong> Establishes standard version and
+profile identification within document roots, replacing individual
+namespace fragmentation across profiles.</li>
+</ul>
+<h3 id="timing-and-dom-extensions">Timing and DOM Extensions</h3>
+<p>SMIL 3.0 extended its core synchronization mechanism by integrating
+Document Object Model (DOM) controls:</p>
+<ul>
+<li><strong>DOMTimingMethods Module:</strong> Exposes programmatic
+start, stop, and seek controls directly through the DOM, allowing
+external applications and host environments to manipulate the SMIL
+timeline in real time.</li>
+<li><strong>RequiredContentControl Module:</strong> Adds the
+<code>systemRequired</code> attribute to determine module dependencies
+dynamically before presentation execution.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

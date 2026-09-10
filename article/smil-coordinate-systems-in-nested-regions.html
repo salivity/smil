@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Coordinate Systems in Nested Regions - smil</title>
+    <meta name="description" content="This article provides an overview of how the Synchronized Multimedia Integration Language (SMIL) establishes and calculates coordinate systems for nested layout regions. In SMIL, visual layouts rely on a hierarchical model where child regions derive thei">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-coordinate-systems-in-nested-regions">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Coordinate Systems in Nested Regions - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-coordinate-systems-in-nested-regions" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of how the Synchronized Multimedia Integration Language (SMIL) establishes and calculates coordinate systems for nested layout regions. In SMIL, visual layouts rely on a hierarchical model where child regions derive thei" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-coordinate-systems-in-nested-regions">SMIL Coordinate
+Systems in Nested Regions</h1>
+<p>This article provides an overview of how the Synchronized Multimedia
+Integration Language (SMIL) establishes and calculates coordinate
+systems for nested layout regions. In SMIL, visual layouts rely on a
+hierarchical model where child regions derive their positioning context
+directly from their immediate parent containers. Understanding how
+origin points, dimensional units, and boundary offsets operate within
+these nested elements is essential for creating flexible, structured
+multimedia presentations.</p>
+<h3 id="the-parent-child-hierarchy">The Parent-Child Hierarchy</h3>
+<p>SMIL 2.0 and later versions support hierarchical layout through the
+nesting of <code>&lt;region&gt;</code> elements inside other
+<code>&lt;region&gt;</code> elements or within a
+<code>&lt;topLayout&gt;</code>. The top-level container defines the
+global presentation window, establishing the root coordinate space.</p>
+<p>When a <code>&lt;region&gt;</code> is nested inside an existing
+region, the inner region becomes a child of the outer region. Rather
+than referencing the global viewport, the nested region calculates all
+geometric placement solely within the bounding box of its immediate
+parent.</p>
+<h3 id="the-local-origin-point">The Local Origin Point</h3>
+<p>The coordinate system of any nested region begins with an origin
+point of <code>(0, 0)</code> located at the upper-left corner of its
+immediate parent region's boundary.</p>
+<p>Any movement along the horizontal X-axis increases positively to the
+right of this origin, while movement along the vertical Y-axis increases
+positively downward. Because the origin is bound to the parent's
+upper-left corner, moving or resizing the parent region automatically
+shifts the entire coordinate space—and consequently the visual
+placement—of all nested child regions.</p>
+<h3 id="positioning-attributes-and-offsets">Positioning Attributes and
+Offsets</h3>
+<p>SMIL defines region placement using four primary directional
+attributes alongside standard dimensions:</p>
+<ul>
+<li><strong><code>left</code></strong>: Specifies the horizontal
+distance from the parent’s left edge to the child’s left edge.</li>
+<li><strong><code>top</code></strong>: Specifies the vertical distance
+from the parent’s top edge to the child’s top edge.</li>
+<li><strong><code>right</code></strong>: Specifies the horizontal
+distance inward from the parent’s right edge to the child’s right
+edge.</li>
+<li><strong><code>bottom</code></strong>: Specifies the vertical
+distance inward from the parent’s bottom edge to the child’s bottom
+edge.</li>
+<li><strong><code>width</code> and <code>height</code></strong>: Define
+the explicit dimensions of the child region.</li>
+</ul>
+<p>If a developer defines <code>left</code> and <code>right</code>
+without explicitly specifying a <code>width</code>, the SMIL player
+calculates the child region's width based on the remaining space between
+those two boundaries relative to the parent’s total width. The vertical
+dimension operates identically when using <code>top</code> and
+<code>bottom</code> without an explicit <code>height</code>.</p>
+<h3 id="units-of-measurement">Units of Measurement</h3>
+<p>Nested coordinate systems accept both absolute and relative
+units:</p>
+<ul>
+<li><strong>Pixel Values</strong>: Fixed numbers (e.g.,
+<code>50px</code> or a unitless integer) define static offsets. An
+offset of <code>left="50"</code> positions the child region exactly 50
+pixels to the right of the parent’s left boundary, regardless of changes
+to the parent's overall size.</li>
+<li><strong>Percentage Values</strong>: Expressed with a percent sign
+(e.g., <code>left="25%"</code>), these values resolve dynamically
+against the width or height of the parent region. For instance, if a
+parent region is 400 pixels wide, a nested region with
+<code>left="25%"</code> and <code>width="50%"</code> results in an
+absolute left offset of 100 pixels and a width of 200 pixels.</li>
+</ul>
+<h3 id="stacking-contexts-and-clipping">Stacking Contexts and
+Clipping</h3>
+<p>In addition to horizontal and vertical coordinates, nested regions
+inherit the clipping and layering behavior of their parents.</p>
+<p>If a nested region's dimensions exceed the boundary of its parent,
+the <code>fit</code> and <code>overflow</code> attributes of the parent
+determine whether the child content is clipped, scrolled, or visible
+outside the defined coordinate bounds. Depth positioning along the
+Z-axis is managed using the <code>z-index</code> attribute; nested
+regions can establish local stacking orders, ensuring that nested visual
+media renders in predictable layers relative to sibling elements within
+the same parent context.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

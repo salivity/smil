@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Do transIn and transOut Work in SMIL Transitions? - smil</title>
+    <meta name="description" content="In Synchronized Multimedia Integration Language (SMIL), the transIn and transOut attributes define visual transition effects when media elements enter and exit a presentation. These attributes reference pre-configured transition elements, enabling precis">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-do-transin-and-transout-work-in-smil-transitions">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Do transIn and transOut Work in SMIL Transitions? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-do-transin-and-transout-work-in-smil-transitions" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In Synchronized Multimedia Integration Language (SMIL), the transIn and transOut attributes define visual transition effects when media elements enter and exit a presentation. These attributes reference pre-configured transition elements, enabling precis" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-do-transin-and-transout-work-in-smil-transitions">How Do
+transIn and transOut Work in SMIL Transitions?</h1>
+<p>In Synchronized Multimedia Integration Language (SMIL), the
+<code>transIn</code> and <code>transOut</code> attributes define visual
+transition effects when media elements enter and exit a presentation.
+These attributes reference pre-configured transition elements, enabling
+precise control over how text, video, or image assets fade, wipe,
+dissolve, or slide on and off the screen without altering the core media
+files.</p>
+<h2 id="understanding-the-role-of-transin-and-transout">Understanding
+the Role of transIn and transOut</h2>
+<p>SMIL separates the definition of a transition effect from its
+application to an asset. The <code>transIn</code> and
+<code>transOut</code> attributes act as connectors on individual media
+objects—such as <code>&lt;img/&gt;</code>, <code>&lt;video/&gt;</code>,
+or <code>&lt;text/&gt;</code>—linking them directly to transition rules
+defined elsewhere in the document.</p>
+<ul>
+<li><strong><code>transIn</code></strong>: Dictates the transition
+applied when the media element begins its active duration. The
+transition starts at the element's start time and progresses
+forward.</li>
+<li><strong><code>transOut</code></strong>: Dictates the transition
+applied when the media element reaches the end of its active duration.
+The transition completes exactly when the element becomes inactive.</li>
+</ul>
+<h2 id="defining-transitions-with-the-transition-element">Defining
+Transitions with the <code>&lt;transition&gt;</code> Element</h2>
+<p>Before applying transitions using <code>transIn</code> or
+<code>transOut</code>, the specific effect must be declared within the
+<code>&lt;head&gt;</code> section inside a <code>&lt;layout&gt;</code>
+or <code>&lt;transitionFilter&gt;</code> block using the
+<code>&lt;transition&gt;</code> element. Each definition requires an
+<code>xml:id</code> or <code>id</code> attribute, along with visual
+parameters:</p>
+<ul>
+<li><strong><code>type</code></strong>: The category of transition (such
+as <code>barWipe</code>, <code>fade</code>, <code>irisWipe</code>, or
+<code>slideWipe</code>).</li>
+<li><strong><code>subtype</code></strong>: The directional variation or
+specific style (such as <code>leftToRight</code>,
+<code>crossfade</code>, or <code>rectangle</code>).</li>
+<li><strong><code>dur</code></strong>: The duration of time the
+transition takes to complete (for example, <code>1.5s</code>).</li>
+</ul>
+<h3 id="example-transition-definition">Example Transition
+Definition</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">layout</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">root-layout</span> <span class="ot">width=</span><span class="st">&quot;800&quot;</span> <span class="ot">height=</span><span class="st">&quot;600&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;main_region&quot;</span> <span class="ot">width=</span><span class="st">&quot;800&quot;</span> <span class="ot">height=</span><span class="st">&quot;600&quot;</span> /&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">transition</span> <span class="ot">id=</span><span class="st">&quot;fadeIn&quot;</span> <span class="ot">type=</span><span class="st">&quot;fade&quot;</span> <span class="ot">subtype=</span><span class="st">&quot;crossfade&quot;</span> <span class="ot">dur=</span><span class="st">&quot;1s&quot;</span> /&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">transition</span> <span class="ot">id=</span><span class="st">&quot;wipeRight&quot;</span> <span class="ot">type=</span><span class="st">&quot;barWipe&quot;</span> <span class="ot">subtype=</span><span class="st">&quot;leftToRight&quot;</span> <span class="ot">dur=</span><span class="st">&quot;1.5s&quot;</span> /&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Media elements placed here --&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<h2 id="applying-transin-and-transout-in-the-document-body">Applying
+transIn and transOut in the Document Body</h2>
+<p>Once defined, the transition IDs are assigned directly to the
+<code>transIn</code> and <code>transOut</code> attributes on media
+elements located within the <code>&lt;body&gt;</code> of the SMIL
+document.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">body</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">seq</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;intro.jpg&quot;</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="ot">region=</span><span class="st">&quot;main_region&quot;</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>         <span class="ot">dur=</span><span class="st">&quot;5s&quot;</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>         <span class="ot">transIn=</span><span class="st">&quot;fadeIn&quot;</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>         <span class="ot">transOut=</span><span class="st">&quot;wipeRight&quot;</span> /&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;presentation.mp4&quot;</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>           <span class="ot">region=</span><span class="st">&quot;main_region&quot;</span> </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>           <span class="ot">dur=</span><span class="st">&quot;30s&quot;</span> </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>           <span class="ot">transIn=</span><span class="st">&quot;wipeRight&quot;</span> /&gt;</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">seq</span>&gt;</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">body</span>&gt;</span></code></pre></div>
+<p>In this sequence, <code>intro.jpg</code> appears with a 1-second
+crossfade into the frame, remains static for its display duration, and
+exits via a 1.5-second bar wipe to the right. As the image exits, the
+subsequent video begins using the same wipe transition as its entrance
+effect.</p>
+<h2 id="timing-and-execution-behavior">Timing and Execution
+Behavior</h2>
+<p>SMIL enforces strict timing rules regarding how transitions interact
+with media duration:</p>
+<ul>
+<li><strong>Inclusive Timing</strong>: The time taken by
+<code>transIn</code> and <code>transOut</code> occurs inside the total
+active duration (<code>dur</code>) of the media element. A 5-second
+image with a 1-second <code>transIn</code> and a 1-second
+<code>transOut</code> will spend 1 second transitioning in, 3 seconds
+fully visible, and 1 second transitioning out.</li>
+<li><strong>Duration Constraints</strong>: The combined duration of
+<code>transIn</code> and <code>transOut</code> cannot exceed the total
+duration of the target media element. If the element's duration is
+shorter than the combined transitions, the player truncates or overrides
+the effect.</li>
+<li><strong>Default Fallbacks</strong>: If a media element specifies a
+<code>transIn</code> or <code>transOut</code> ID that does not exist in
+the <code>&lt;head&gt;</code>, the player ignores the attribute and
+renders the media with standard cut-in and cut-out behavior.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

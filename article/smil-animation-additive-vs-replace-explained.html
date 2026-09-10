@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Animation: Additive vs Replace Explained - smil</title>
+    <meta name="description" content="This article explores the core differences between additive (additive="sum") and replace (additive="replace") animations in SMIL (Synchronized Multimedia Integration Language) for SVG. You will learn how the additive attribute dictates whether an animati">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-animation-additive-vs-replace-explained">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Animation: Additive vs Replace Explained - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-animation-additive-vs-replace-explained" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores the core differences between additive (additive="sum") and replace (additive="replace") animations in SMIL (Synchronized Multimedia Integration Language) for SVG. You will learn how the additive attribute dictates whether an animati" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-animation-additive-vs-replace-explained">SMIL Animation:
+Additive vs Replace Explained</h1>
+<p>This article explores the core differences between additive
+(<code>additive="sum"</code>) and replace
+(<code>additive="replace"</code>) animations in SMIL (Synchronized
+Multimedia Integration Language) for SVG. You will learn how the
+<code>additive</code> attribute dictates whether an animation overwrites
+an element's existing properties or builds upon them, enabling
+predictable layering and complex multi-animation effects.</p>
+<hr />
+<h3 id="understanding-the-additive-attribute">Understanding the
+<code>additive</code> Attribute</h3>
+<p>In SMIL, the <code>additive</code> attribute defines how an animation
+interacts with an element’s base value or with other animations
+concurrently modifying the same attribute. It accepts two primary
+values:</p>
+<ul>
+<li><code>replace</code> (the default behavior)</li>
+<li><code>sum</code></li>
+</ul>
+<h3 id="replace-animation-additivereplace">Replace Animation
+(<code>additive="replace"</code>)</h3>
+<p>When an animation uses <code>additive="replace"</code>, it completely
+ignores the underlying attribute value while running. The animation
+treats its specified keyframes, <code>from</code>, <code>to</code>, or
+<code>by</code> values as absolute replacements for the target
+attribute.</p>
+<ul>
+<li><strong>Default State:</strong> If you omit the
+<code>additive</code> attribute entirely, SMIL assumes
+<code>replace</code>.</li>
+<li><strong>Base Value Handling:</strong> The original base attribute
+defined in the SVG markup is suppressed during playback.</li>
+<li><strong>Multiple Animations:</strong> If two or more animations
+target the same attribute with <code>additive="replace"</code>, the one
+that started most recently or has the highest priority will overwrite
+the others.</li>
+</ul>
+<h4 id="example-scenario">Example Scenario</h4>
+<p>If a circle has a base radius <code>r="20"</code> and an animation
+runs <code>from="30"</code> <code>to="50"</code> with
+<code>additive="replace"</code>, the circle starts at radius 30 and
+expands to 50. The initial radius of 20 has no mathematical impact on
+the animation.</p>
+<h3 id="additive-animation-additivesum">Additive Animation
+(<code>additive="sum"</code>)</h3>
+<p>When an animation uses <code>additive="sum"</code>, its calculated
+value is mathematically added to the base value of the attribute, or to
+the result of any underlying animations targeting that same
+attribute.</p>
+<ul>
+<li><strong>Relative Transformation:</strong> The animation acts as an
+offset rather than an absolute value.</li>
+<li><strong>Stacking and Layering:</strong> Multiple animations can run
+simultaneously on the same attribute without conflicting, accumulating
+their effects together.</li>
+</ul>
+<h4 id="example-scenario-1">Example Scenario</h4>
+<p>If a circle has a base radius <code>r="20"</code> and an animation
+runs <code>from="0"</code> <code>to="30"</code> with
+<code>additive="sum"</code>, the resulting radius animates from 20
+(<code>20 + 0</code>) up to 50 (<code>20 + 30</code>).</p>
+<hr />
+<h3 id="key-differences-at-a-glance">Key Differences at a Glance</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;"><code>additive="replace"</code></th>
+<th style="text-align: left;"><code>additive="sum"</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Default Behavior</strong></td>
+<td style="text-align: left;">Yes (implicit if omitted)</td>
+<td style="text-align: left;">No (must be explicitly declared)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Base Value Impact</strong></td>
+<td style="text-align: left;">Discards/overwrites the base value</td>
+<td style="text-align: left;">Adds animated offsets onto the base
+value</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Animation Stacking</strong></td>
+<td style="text-align: left;">Overrides previous animations</td>
+<td style="text-align: left;">Combines with previous animations</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Primary Use Case</strong></td>
+<td style="text-align: left;">Absolute transitions (e.g., color shifts,
+direct repositions)</td>
+<td style="text-align: left;">Combined transforms (e.g., rotating while
+scaling, multiple movement paths)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="working-with-animatetransform">Working with
+<code>&lt;animateTransform&gt;</code></h3>
+<p>The distinction between <code>replace</code> and <code>sum</code> is
+especially critical when using
+<code>&lt;animateTransform&gt;</code>.</p>
+<p>Because standard SVG transforms (like <code>rotate</code>,
+<code>scale</code>, and <code>translate</code>) share the single
+<code>transform</code> attribute, using <code>additive="replace"</code>
+causes any subsequent transform animation to cancel out earlier ones.
+Setting <code>additive="sum"</code> allows you to stack a rotation, a
+translation, and a scale animation onto the same element simultaneously
+without each operation wiping out the others.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

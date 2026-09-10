@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMA SMIL Profile for Mobile MMS Explained - smil</title>
+    <meta name="description" content="This article explores the standardized Synchronized Multimedia Integration Language (SMIL) profile used in mobile Multimedia Messaging Service (MMS). It outlines how the Open Mobile Alliance (OMA) adopted this standard, the specific specifications that d">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/oma-smil-profile-for-mobile-mms-explained">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="OMA SMIL Profile for Mobile MMS Explained - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/oma-smil-profile-for-mobile-mms-explained" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores the standardized Synchronized Multimedia Integration Language (SMIL) profile used in mobile Multimedia Messaging Service (MMS). It outlines how the Open Mobile Alliance (OMA) adopted this standard, the specific specifications that d" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="oma-smil-profile-for-mobile-mms-explained">OMA SMIL Profile for
+Mobile MMS Explained</h1>
+<p>This article explores the standardized Synchronized Multimedia
+Integration Language (SMIL) profile used in mobile Multimedia Messaging
+Service (MMS). It outlines how the Open Mobile Alliance (OMA) adopted
+this standard, the specific specifications that define it, and the
+operational role it plays in synchronizing text, audio, and images on
+mobile devices.</p>
+<p>The Open Mobile Alliance standardized the <strong>OMA MMS SMIL
+Profile</strong> for mobile MMS. This profile is not an entirely new
+markup language from scratch; rather, it is an application profile
+derived directly from the 3GPP SMIL profile (defined in 3GPP TS 26.140),
+which itself is a subset of the W3C SMIL 2.0 recommendation.</p>
+<h3 id="the-role-of-smil-in-mms">The Role of SMIL in MMS</h3>
+<p>MMS messages are typically more than just simple file attachments. A
+typical MMS presentation requires coordinated timing and layout—such as
+displaying a photo alongside text while background audio plays, followed
+by a second "slide."</p>
+<p>SMIL provides the presentation logic for MMS. It acts as the manifest
+inside the MMS packaging format (MIME multipart), instructing the
+receiving device's messaging client on how to sequence and render each
+media component.</p>
+<h3 id="key-specifications-and-evolution">Key Specifications and
+Evolution</h3>
+<ol type="1">
+<li><strong>3GPP TS 26.140</strong>: The 3rd Generation Partnership
+Project initially specified the SMIL profile to optimize media
+processing on resource-constrained mobile hardware.</li>
+<li><strong>OMA MMS Architecture</strong>: When the Open Mobile Alliance
+took over higher-level mobile service application standards, it adopted
+the 3GPP SMIL profile as the official OMA MMS SMIL standard within its
+MMS specifications (such as MMS 1.2 and MMS 1.3).</li>
+</ol>
+<h3 id="structure-and-constraints-of-the-oma-smil-profile">Structure and
+Constraints of the OMA SMIL Profile</h3>
+<p>To maintain compatibility with low-powered feature phones and reduce
+data overhead, the OMA MMS SMIL profile strictly limits the complex
+features of standard desktop SMIL 2.0. Key characteristics include:</p>
+<ul>
+<li><strong>Simple Temporal Containers</strong>: The profile relies
+heavily on <code>&lt;par&gt;</code> (parallel) and
+<code>&lt;seq&gt;</code> (sequential) tags to create "slides" that
+advance after a set duration.</li>
+<li><strong>Basic Layout Elements</strong>: Visual layout is managed via
+the <code>&lt;layout&gt;</code>, <code>&lt;root-layout&gt;</code>, and
+<code>&lt;region&gt;</code> elements, generally dividing the screen into
+distinct zones for text and images.</li>
+<li><strong>Limited Interactivity</strong>: Features like user-triggered
+links, complex transitions, and dynamic animations available in full
+SMIL are omitted.</li>
+<li><strong>Media Linking</strong>: The profile supports basic media
+elements such as <code>&lt;img&gt;</code>, <code>&lt;text&gt;</code>,
+<code>&lt;audio&gt;</code>, and <code>&lt;video&gt;</code>, which point
+to accompanying parts included in the MMS MIME envelope via content
+identifiers (CID).</li>
+</ul>
+<p>By standardizing the OMA MMS SMIL profile, the Open Mobile Alliance
+ensured consistent, cross-carrier, and cross-device rendering of
+multimedia slides across global mobile networks.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

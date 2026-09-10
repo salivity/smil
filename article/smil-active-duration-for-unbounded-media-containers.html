@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Active Duration for Unbounded Media Containers - smil</title>
+    <meta name="description" content="This article explains how the Synchronized Multimedia Integration Language (SMIL) calculates the active duration of time containers (<par>, <seq>, and <excl>) containing unbounded or indefinite child media. It breaks down the interaction between implicit">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-active-duration-for-unbounded-media-containers">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Active Duration for Unbounded Media Containers - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-active-duration-for-unbounded-media-containers" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how the Synchronized Multimedia Integration Language (SMIL) calculates the active duration of time containers (<par>, <seq>, and <excl>) containing unbounded or indefinite child media. It breaks down the interaction between implicit" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-active-duration-for-unbounded-media-containers">SMIL Active
+Duration for Unbounded Media Containers</h1>
+<p>This article explains how the Synchronized Multimedia Integration
+Language (SMIL) calculates the active duration of time containers
+(<code>&lt;par&gt;</code>, <code>&lt;seq&gt;</code>, and
+<code>&lt;excl&gt;</code>) containing unbounded or indefinite child
+media. It breaks down the interaction between implicit durations,
+explicit timing attributes, container-specific rules, and the
+<code>endsync</code> attribute to illustrate how the SMIL timing model
+resolves media with no predetermined end.</p>
+<h3 id="understanding-unbounded-child-media">Understanding Unbounded
+Child Media</h3>
+<p>In SMIL, unbounded child media refers to elements whose simple or
+active durations cannot be known in advance. This commonly includes
+continuous live streams, media with <code>dur="indefinite"</code>, or
+interactive elements that wait indefinitely for user input. Because
+these elements have no inherent end time, the container holding them
+must rely on standard resolution algorithms to determine its own active
+duration.</p>
+<h3 id="step-1-determining-the-implicit-duration">Step 1: Determining
+the Implicit Duration</h3>
+<p>Before a container computes its active duration, it must establish
+its implicit duration based on its children and the container type:</p>
+<ul>
+<li><strong>Parallel Containers (<code>&lt;par&gt;</code>):</strong> The
+implicit duration depends on the <code>endsync</code> attribute. By
+default, <code>endsync="last"</code>, meaning the container's implicit
+duration continues until all children have ended. If at least one child
+is unbounded and never ends, the container's implicit duration is
+resolved as <strong>indefinite</strong>. Conversely, if
+<code>endsync="first"</code> is declared, the implicit duration ends as
+soon as the first finite child finishes, regardless of any unbounded
+siblings.</li>
+<li><strong>Sequential Containers (<code>&lt;seq&gt;</code>):</strong> A
+sequence plays elements one after another. If an unbounded child begins
+playing, subsequent elements are blocked from starting. Unless
+interrupted by an outside condition, the implicit duration of the
+sequence becomes <strong>indefinite</strong> because the unbounded
+element never reaches its natural end.</li>
+<li><strong>Exclusive Containers (<code>&lt;excl&gt;</code>):</strong>
+Similar to <code>&lt;par&gt;</code>, an <code>&lt;excl&gt;</code>
+container pauses or stops inactive children while one child plays. Its
+implicit duration relies on <code>endsync="last"</code> by default,
+which resolves to <strong>indefinite</strong> if an active child runs
+indefinitely without another element preempting it.</li>
+</ul>
+<h3 id="step-2-calculating-the-simple-duration">Step 2: Calculating the
+Simple Duration</h3>
+<p>The simple duration (<span class="math inline">\(dur\)</span>) of the
+container is resolved by comparing its implicit duration against any
+explicitly authored duration:</p>
+<ol type="1">
+<li>If an explicit <code>dur</code> attribute is defined on the
+container (e.g., <code>dur="30s"</code>), the simple duration is
+strictly set to that explicit value, truncating the unbounded child when
+the time expires.</li>
+<li>If <code>dur="indefinite"</code> is explicitly assigned, the simple
+duration is indefinite.</li>
+<li>If no <code>dur</code> attribute is specified, the simple duration
+equals the <strong>implicit duration</strong> calculated in Step 1. If
+that implicit duration is indefinite, the simple duration remains
+indefinite.</li>
+</ol>
+<h3 id="step-3-computing-the-active-duration">Step 3: Computing the
+Active Duration</h3>
+<p>Once the simple duration is resolved, SMIL computes the active
+duration by applying repetition, bounds, and ending constraints:</p>
+<ul>
+<li><strong>Repetition (<code>repeatCount</code> and
+<code>repeatDur</code>):</strong> If the simple duration is indefinite,
+repetition attributes cannot compute multiple cycles based on simple
+boundaries. The active duration remains indefinite.</li>
+<li><strong>Explicit <code>end</code> Attributes:</strong> If the
+container defines an explicit <code>end</code> attribute (such as a
+specific clock value or an external event), this serves as an overriding
+hard boundary. When the <code>end</code> condition occurs, the
+container's active duration terminates immediately, ending playback of
+any unbounded child media.</li>
+<li><strong>Min and Max Constraints (<code>min</code> /
+<code>max</code>):</strong>
+<ul>
+<li>If the calculated active duration is indefinite, but an explicit
+<code>max</code> constraint is set (e.g., <code>max="60s"</code>), the
+active duration is capped at the <code>max</code> value.</li>
+<li>If a <code>min</code> value is set, the active duration cannot end
+before that threshold, though this primarily affects early-terminating
+media rather than unbounded elements.</li>
+</ul></li>
+</ul>
+<h3 id="summary-rule">Summary Rule</h3>
+<p>When a SMIL container holds unbounded child media, its active
+duration resolves to <strong>indefinite</strong> by default (under
+standard <code>endsync="last"</code> conditions). It will play
+indefinitely unless an author explicitly bounds the container using a
+specified <code>dur</code>, an overriding <code>end</code> condition, an
+<code>endsync="first"</code> rule, or a <code>max</code> constraint.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

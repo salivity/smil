@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is the SMIL systemScreenSize Test Attribute? - smil</title>
+    <meta name="description" content="The systemScreenSize attribute in Synchronized Multimedia Integration Language (SMIL) is a conditional test attribute used to evaluate the host display's physical resolution before rendering content. By determining whether the playback device meets speci">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/what-is-the-smil-systemscreensize-test-attribute">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is the SMIL systemScreenSize Test Attribute? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/what-is-the-smil-systemscreensize-test-attribute" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The systemScreenSize attribute in Synchronized Multimedia Integration Language (SMIL) is a conditional test attribute used to evaluate the host display's physical resolution before rendering content. By determining whether the playback device meets speci" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-the-smil-systemscreensize-test-attribute">What Is the
+SMIL systemScreenSize Test Attribute?</h1>
+<p>The <code>systemScreenSize</code> attribute in Synchronized
+Multimedia Integration Language (SMIL) is a conditional test attribute
+used to evaluate the host display's physical resolution before rendering
+content. By determining whether the playback device meets specific
+screen dimension requirements, <code>systemScreenSize</code> allows
+authors to deliver responsive, device-appropriate layouts, images, and
+video streams across heterogeneous hardware without requiring
+server-side media processing.</p>
+<h2 id="core-mechanics-and-syntax">Core Mechanics and Syntax</h2>
+<p>SMIL defines a suite of system test attributes designed for runtime
+content adaptation. The <code>systemScreenSize</code> attribute
+specifically tests the available screen height and width of the client
+display in pixels.</p>
+<p>The attribute value is formatted as a pixel dimension pair separated
+by an uppercase "X" (for example, <code>1024X768</code> or
+<code>1920X1080</code>):</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">switch</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;hd_stream.mp4&quot;</span> <span class="ot">systemScreenSize=</span><span class="st">&quot;1920X1080&quot;</span> <span class="ot">region=</span><span class="st">&quot;main_viewport&quot;</span> /&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;sd_stream.mp4&quot;</span> <span class="ot">systemScreenSize=</span><span class="st">&quot;800X600&quot;</span> <span class="ot">region=</span><span class="st">&quot;main_viewport&quot;</span> /&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;lowres_stream.mp4&quot;</span> <span class="ot">region=</span><span class="st">&quot;main_viewport&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">switch</span>&gt;</span></code></pre></div>
+<p>When evaluated, the SMIL playback engine checks the target display
+environment. If the screen resolution matches or exceeds the specified
+dimensions (depending on the SMIL profile and implementation), the
+condition returns true, and the associated element executes.</p>
+<h2 id="behavior-across-different-smil-displays">Behavior Across
+Different SMIL Displays</h2>
+<p>Different target displays handle multimedia playback under vastly
+distinct hardware constraints. The <code>systemScreenSize</code>
+attribute plays a pivotal role in standardizing presentation behavior
+across these environments:</p>
+<h3 id="digital-signage-and-commercial-displays">Digital Signage and
+Commercial Displays</h3>
+<p>Digital signage setups range from compact retail shelf screens to
+multi-panel video walls. In signage appliances powered by SMIL (such as
+dedicated media players running SMIL-compliant firmwares):</p>
+<ul>
+<li><strong>Resolution Matching:</strong> It prevents low-resolution
+assets from being unnecessarily stretched over large 4K or 1080p boards,
+and conversely stops 4K media from overwhelming memory-constrained 720p
+hardware.</li>
+<li><strong>Orientation Awareness:</strong> Paired with width and height
+tests, it enables players to select portrait or landscape content
+layouts automatically based on the detected hardware configuration.</li>
+</ul>
+<h3 id="mobile-and-embedded-handhelds">Mobile and Embedded
+Handhelds</h3>
+<p>Mobile SMIL players (historically prevalent in 3GPP MMS messaging and
+lightweight embedded multimedia suites) operate under strict memory and
+battery limits. Using <code>systemScreenSize</code> ensures that:</p>
+<ul>
+<li>High-overhead media assets are bypassed entirely on smaller
+screens.</li>
+<li>Text overlays and subtitles scale to legible dimensions appropriate
+for compact viewport sizes.</li>
+</ul>
+<h3 id="desktop-and-web-smil-runtimes">Desktop and Web SMIL
+Runtimes</h3>
+<p>On desktop multimedia players or SVG/SMIL browser integrations, the
+host display may vary based on multi-monitor setups or variable window
+resolutions. While SMIL 3.0 allows layout scalability through
+percentage-based coordinates, <code>systemScreenSize</code> provides a
+discrete gatekeeper for asset selection, ensuring bitrate and memory
+usage align with output capabilities.</p>
+<h2 id="role-inside-the-smil-switch-element">Role Inside the SMIL
+<code>&lt;switch&gt;</code> Element</h2>
+<p>While <code>systemScreenSize</code> can technically be placed on
+individual media tags, its primary utility is inside a SMIL
+<code>&lt;switch&gt;</code> container.</p>
+<p>The <code>&lt;switch&gt;</code> element processes its child elements
+in sequential order, selecting the very first child whose test
+attributes evaluate to true. To ensure effective fallback behavior
+across varying display sizes, elements must be organized from the most
+restrictive (largest resolution) to the least restrictive (smallest
+resolution), concluding with an untagged default fallback.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">switch</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Selected only on Ultra HD displays --&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">layout</span> <span class="ot">systemScreenSize=</span><span class="st">&quot;3840X2160&quot;</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">root-layout</span> <span class="ot">width=</span><span class="st">&quot;3840&quot;</span> <span class="ot">height=</span><span class="st">&quot;2160&quot;</span> <span class="ot">backgroundColor=</span><span class="st">&quot;black&quot;</span> /&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;content&quot;</span> <span class="ot">top=</span><span class="st">&quot;0&quot;</span> <span class="ot">left=</span><span class="st">&quot;0&quot;</span> <span class="ot">width=</span><span class="st">&quot;3840&quot;</span> <span class="ot">height=</span><span class="st">&quot;2160&quot;</span> /&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Selected on standard High Definition displays --&gt;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">layout</span> <span class="ot">systemScreenSize=</span><span class="st">&quot;1920X1080&quot;</span>&gt;</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">root-layout</span> <span class="ot">width=</span><span class="st">&quot;1920&quot;</span> <span class="ot">height=</span><span class="st">&quot;1080&quot;</span> <span class="ot">backgroundColor=</span><span class="st">&quot;black&quot;</span> /&gt;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;content&quot;</span> <span class="ot">top=</span><span class="st">&quot;0&quot;</span> <span class="ot">left=</span><span class="st">&quot;0&quot;</span> <span class="ot">width=</span><span class="st">&quot;1920&quot;</span> <span class="ot">height=</span><span class="st">&quot;1080&quot;</span> /&gt;</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Default fallback layout for all other display sizes --&gt;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">layout</span>&gt;</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">root-layout</span> <span class="ot">width=</span><span class="st">&quot;1280&quot;</span> <span class="ot">height=</span><span class="st">&quot;720&quot;</span> <span class="ot">backgroundColor=</span><span class="st">&quot;black&quot;</span> /&gt;</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;content&quot;</span> <span class="ot">top=</span><span class="st">&quot;0&quot;</span> <span class="ot">left=</span><span class="st">&quot;0&quot;</span> <span class="ot">width=</span><span class="st">&quot;1280&quot;</span> <span class="ot">height=</span><span class="st">&quot;720&quot;</span> /&gt;</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">switch</span>&gt;</span></code></pre></div>
+<h2 id="complementary-system-test-attributes">Complementary System Test
+Attributes</h2>
+<p>To achieve comprehensive adaptive rendering across diverse displays,
+<code>systemScreenSize</code> is frequently combined with other SMIL
+test attributes:</p>
+<ul>
+<li><strong><code>systemScreenDepth</code>:</strong> Evaluates the color
+depth (in bits per pixel) of the display, allowing content to adapt to
+monochrome, 8-bit, 16-bit, or 24/32-bit panels.</li>
+<li><strong><code>systemBitrate</code>:</strong> Gauges available
+network bandwidth to pair screen size optimizations with transmission
+capacity.</li>
+<li><strong><code>systemComponent</code>:</strong> Checks for
+hardware-level decoding components required for specific high-resolution
+codecs.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

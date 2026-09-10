@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is SMIL Wallclock Timing Syntax? - smil</title>
+    <meta name="description" content="Wallclock timing syntax in Synchronized Multimedia Integration Language (SMIL) allows content authors to schedule multimedia elements against real-world calendar time rather than relative presentation offsets. By binding media playback to absolute dates,">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/what-is-smil-wallclock-timing-syntax">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is SMIL Wallclock Timing Syntax? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/what-is-smil-wallclock-timing-syntax" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Wallclock timing syntax in Synchronized Multimedia Integration Language (SMIL) allows content authors to schedule multimedia elements against real-world calendar time rather than relative presentation offsets. By binding media playback to absolute dates," />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-smil-wallclock-timing-syntax">What Is SMIL Wallclock
+Timing Syntax?</h1>
+<p>Wallclock timing syntax in Synchronized Multimedia Integration
+Language (SMIL) allows content authors to schedule multimedia elements
+against real-world calendar time rather than relative presentation
+offsets. By binding media playback to absolute dates, times, and
+recurring schedules based on ISO 8601 standards, SMIL enables automated,
+broadcast-style programming, dynamic digital signage updates, and
+long-term content scheduling across distributed devices without
+requiring manual restarts or complex server-side triggers.</p>
+<h2 id="understanding-relative-vs-absolute-timing">Understanding
+Relative vs. Absolute Timing</h2>
+<p>Standard SMIL timing structures typically rely on relative offsets,
+where media clips begin playback after a container starts
+(<code>begin="0s"</code>) or in response to another element's lifecycle
+(<code>begin="video1.end"</code>). While this relative approach works
+well for self-contained interactive experiences or linear video
+sequences, it fails in environments where playback must correspond to
+the external world.</p>
+<p>Wallclock timing solves this by anchoring element start and end
+points to the local or coordinated universal time (UTC) of the playback
+device. Instead of measuring elapsed seconds since the presentation
+launched, the SMIL engine evaluates its internal clock against specified
+real-world timestamps.</p>
+<h2 id="syntax-and-formatting-rules">Syntax and Formatting Rules</h2>
+<p>SMIL specifies wallclock values using the <code>wallclock()</code>
+function within <code>begin</code> or <code>end</code> attributes. The
+syntax is derived from the ISO 8601 standard for date and time
+representation, supporting several distinct formats:</p>
+<ul>
+<li><strong>Complete Date and Time:</strong> Specifies an exact,
+non-recurring execution point, such as
+<code>begin="wallclock(2026-09-01T08:00:00Z)"</code> for Coordinated
+Universal Time, or
+<code>begin="wallclock(2026-09-01T08:00:00-05:00)"</code> to include a
+specific timezone offset.</li>
+<li><strong>Time-of-Day Only:</strong> Triggers playback at a specific
+hour, minute, and second on the current day, represented as
+<code>begin="wallclock(14:30:00)"</code>.</li>
+<li><strong>Recurring Periodic Intervals:</strong> Uses the ISO 8601
+recurrence designator <code>R</code> to repeat events at set
+frequencies, such as
+<code>begin="wallclock(R/2026-09-01T00:00:00/PT1H)"</code> to trigger
+playback every hour starting from the designated base date.</li>
+</ul>
+<h2 id="key-applications-in-multimedia-systems">Key Applications in
+Multimedia Systems</h2>
+<p>Wallclock timing forms the structural foundation for unattended and
+continuously running multimedia deployments.</p>
+<h3 id="digital-signage-and-out-of-home-displays">Digital Signage and
+Out-of-Home Displays</h3>
+<p>Retail screens, transit hubs, and corporate dashboards use wallclock
+scheduling to alter content based on the time of day. A restaurant menu
+board, for example, can automatically switch from breakfast to lunch
+menus at precisely 10:30 AM without needing a player reboot or
+continuous network polling.</p>
+<h3 id="scheduled-streaming-and-internet-broadcasting">Scheduled
+Streaming and Internet Broadcasting</h3>
+<p>In simulated-live and linear webcasting workflows, media streams must
+align with programming guides. Wallclock values allow multi-part streams
+to synchronize across geographically distributed audiences, ensuring
+that live streams and recorded segments transition at predictable
+broadcast intervals.</p>
+<h3 id="emergency-alerts-and-time-sensitive-overlays">Emergency Alerts
+and Time-Sensitive Overlays</h3>
+<p>Wallclock triggers enable digital displays to surface time-critical
+announcements, such as scheduled maintenance warnings or automated daily
+announcements, by inserting short, prioritized playlists directly into
+the regular playback loop at predefined intervals.</p>
+<h2
+id="synchronization-and-implementation-considerations">Synchronization
+and Implementation Considerations</h2>
+<p>To implement wallclock timing reliably, the client hardware must
+maintain accurate time synchronization, typically achieved using Network
+Time Protocol (NTP). If the playback device suffers from clock drift or
+lacks time zone configuration, scheduled triggers may execute early,
+late, or fail entirely if an absolute timestamp has already passed
+before presentation initialization. Proper SMIL authoring practices also
+include defining fallback rules for scenarios where network-driven clock
+synchronization is temporarily unavailable.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

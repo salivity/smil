@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Custom XML Host Languages Using SMIL - smil</title>
+    <meta name="description" content="Creating a custom XML host language with SMIL allows developers to embed sophisticated temporal scheduling and spatial positioning into domain-specific markup without building these systems from scratch. This article explains how to design, define, and p">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/create-custom-xml-host-languages-using-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Create Custom XML Host Languages Using SMIL - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/create-custom-xml-host-languages-using-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Creating a custom XML host language with SMIL allows developers to embed sophisticated temporal scheduling and spatial positioning into domain-specific markup without building these systems from scratch. This article explains how to design, define, and p" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="create-custom-xml-host-languages-using-smil">Create Custom XML
+Host Languages Using SMIL</h1>
+<p>Creating a custom XML host language with SMIL allows developers to
+embed sophisticated temporal scheduling and spatial positioning into
+domain-specific markup without building these systems from scratch. This
+article explains how to design, define, and process a custom XML
+vocabulary by combining the Synchronized Multimedia Integration Language
+(SMIL) timing and layout modules with custom semantic elements using
+modular schemas, namespace integration, and dedicated processing
+engines.</p>
+<h3 id="1-understand-the-smil-modular-architecture">1. Understand the
+SMIL Modular Architecture</h3>
+<p>SMIL is designed as a modular framework rather than a monolithic
+language. The W3C defines functional subsets as separate modules,
+enabling developers to import specific capabilities:</p>
+<ul>
+<li><strong>Timing and Synchronization Modules:</strong> Provide
+elements like <code>&lt;seq&gt;</code> (sequential),
+<code>&lt;par&gt;</code> (parallel), and <code>&lt;excl&gt;</code>
+(exclusive), along with timing attributes such as <code>begin</code>,
+<code>dur</code>, <code>end</code>, and <code>repeatCount</code>.</li>
+<li><strong>Layout Modules:</strong> Provide elements like
+<code>&lt;layout&gt;</code>, <code>&lt;root-layout&gt;</code>, and
+<code>&lt;region&gt;</code>, which define visual rendering spaces,
+layering hierarchies (<code>z-index</code>), and coordinate
+mapping.</li>
+</ul>
+<p>When creating a host language, developers select only the required
+modules, avoiding unnecessary features like transition effects or
+linking modules if they are not needed.</p>
+<h3 id="2-define-the-schema-structure">2. Define the Schema
+Structure</h3>
+<p>To build a valid XML host language, developers must define an XML
+Schema (XSD) or RELAX NG grammar that imports SMIL modules and
+integrates them with custom domain elements.</p>
+<ul>
+<li><strong>Namespace Declaration:</strong> Declare standard namespaces
+for the SMIL module elements and a custom namespace for the host
+elements.</li>
+<li><strong>Attribute Integration:</strong> Incorporate SMIL timing
+attributes as global attributes or assign them directly to custom
+elements. This enables custom tags (e.g., <code>&lt;step&gt;</code>,
+<code>&lt;dialogue&gt;</code>, or <code>&lt;sensorData&gt;</code>) to
+support properties like <code>begin="2s"</code> or
+<code>dur="5s"</code>.</li>
+<li><strong>Element Nesting:</strong> Determine whether custom elements
+can contain SMIL time containers, or if SMIL containers
+(<code>&lt;par&gt;</code>, <code>&lt;seq&gt;</code>) will wrap custom
+tags. For instance, allowing <code>&lt;seq&gt;</code> to organize
+domain-specific elements creates structured timelines within the
+document.</li>
+</ul>
+<h3 id="3-integrate-the-smil-layout-module">3. Integrate the SMIL Layout
+Module</h3>
+<p>The SMIL Layout module establishes where visual components render. In
+a custom host language, this is implemented through explicit spatial
+associations:</p>
+<ul>
+<li><strong>The Head Layout Block:</strong> Define a document header
+containing the <code>&lt;layout&gt;</code> element. Within this,
+configure <code>&lt;root-layout&gt;</code> to set the master viewport
+boundaries (width, height, background color) and declare multiple
+<code>&lt;region&gt;</code> elements with distinct IDs.</li>
+<li><strong>Binding Custom Elements to Regions:</strong> Assign a
+<code>region</code> attribute to custom XML elements that represent
+visual or displayable data. At runtime, the processor maps the element's
+content to the coordinates specified by the corresponding
+<code>&lt;region id="..."&gt;</code>.</li>
+</ul>
+<h3 id="4-implement-timing-and-synchronization-semantics">4. Implement
+Timing and Synchronization Semantics</h3>
+<p>Once the schema is defined, specify the precise temporal behavior of
+the host language:</p>
+<ul>
+<li><strong>Container Behavior:</strong> Define whether the root element
+behaves as an implicit <code>&lt;par&gt;</code> (all top-level elements
+execute simultaneously) or an implicit <code>&lt;seq&gt;</code>
+(elements execute in document order).</li>
+<li><strong>Time Graph Generation:</strong> Ensure the parser constructs
+a directed acyclic graph (DAG) of all time intervals, resolving
+dependencies such as event-based offsets
+(<code>begin="button.click+1s"</code>) and synchronization arcs
+(<code>begin="stepA.end"</code>).</li>
+<li><strong>Clock Handlers:</strong> Map element lifecycles to state
+transitions: <code>unresolved</code>, <code>resolved</code>,
+<code>active</code>, and <code>done</code>.</li>
+</ul>
+<h3 id="5-develop-the-parser-and-runtime-engine">5. Develop the Parser
+and Runtime Engine</h3>
+<p>To render or execute the custom language, build or adapt a runtime
+player:</p>
+<ul>
+<li><strong>Mapping to Existing Standards:</strong> Translate the custom
+XML internally into Web standards. For example, convert the SMIL timing
+graph into the Web Animations API (WAAPI) and map layout regions to CSS
+grid, absolute positioning, or SVG viewports.</li>
+<li><strong>Native Interpreters:</strong> For embedded systems or
+specialized environments, write an interpreter using an existing SMIL
+timing library (or a custom state engine) to evaluate the document’s
+timeline, updating the state of your application’s components whenever
+time containers activate or deactivate child nodes.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does systemCPU Optimize Media Selection in SMIL? - smil</title>
+    <meta name="description" content="The systemCPU attribute in Synchronized Multimedia Integration Language (SMIL) optimizes media playback by allowing content authors to deliver hardware-tailored media assets, specialized codecs, and computational instructions matched to a client device">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-systemcpu-optimize-media-selection-in-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does systemCPU Optimize Media Selection in SMIL? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-systemcpu-optimize-media-selection-in-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The systemCPU attribute in Synchronized Multimedia Integration Language (SMIL) optimizes media playback by allowing content authors to deliver hardware-tailored media assets, specialized codecs, and computational instructions matched to a client device" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-systemcpu-optimize-media-selection-in-smil">How Does
+systemCPU Optimize Media Selection in SMIL?</h1>
+<p>The <code>systemCPU</code> attribute in Synchronized Multimedia
+Integration Language (SMIL) optimizes media playback by allowing content
+authors to deliver hardware-tailored media assets, specialized codecs,
+and computational instructions matched to a client device’s processor
+architecture. By evaluating client processing capabilities before assets
+load, SMIL prevents playback stutter, avoids inefficient CPU-level
+software decoding, and ensures each device receives a presentation
+optimized for its computational limits.</p>
+<h2 id="understanding-the-systemcpu-attribute">Understanding the
+<code>systemCPU</code> Attribute</h2>
+<p>SMIL includes a Content Control module designed to adapt
+presentations dynamically to client runtime environments. Within this
+module, test attributes evaluate runtime variables such as network
+speed, language settings, screen dimensions, and system
+architecture.</p>
+<p>The <code>systemCPU</code> attribute specifically tests the central
+processing unit architecture of the host environment. It evaluates to
+<code>true</code> if the client machine's processor matches the
+designated CPU string identifier, and <code>false</code> otherwise.
+Standard identifiers historically include values corresponding to major
+architectures, such as <code>x86</code>, <code>arm</code>,
+<code>mips</code>, or <code>powerpc</code>.</p>
+<h2 id="conditional-evaluation-with-the-switch-element">Conditional
+Evaluation with the <code>&lt;switch&gt;</code> Element</h2>
+<p>Media selection optimization in SMIL occurs primarily inside the
+<code>&lt;switch&gt;</code> element. The <code>&lt;switch&gt;</code>
+container evaluates its child elements sequentially from top to bottom
+and renders the first child whose test attributes evaluate to
+<code>true</code>.</p>
+<p>When <code>systemCPU</code> is applied to media elements like
+<code>&lt;video&gt;</code>, <code>&lt;audio&gt;</code>, or
+<code>&lt;animation&gt;</code> inside a <code>&lt;switch&gt;</code>
+block:</p>
+<ol type="1">
+<li>The SMIL rendering engine queries the client operating system for
+CPU architecture details.</li>
+<li>The player checks the first alternative in the
+<code>&lt;switch&gt;</code> list against the client’s actual
+processor.</li>
+<li>If the <code>systemCPU</code> value matches, that specific media
+element is fetched and rendered, while all subsequent alternatives are
+bypassed.</li>
+<li>If it fails, evaluation moves down the list to fallback options
+designed for less powerful or alternative processors.</li>
+</ol>
+<h2 id="key-optimization-benefits">Key Optimization Benefits</h2>
+<h3 id="architecture-specific-decoding-and-codecs">Architecture-Specific
+Decoding and Codecs</h3>
+<p>Different processor architectures possess distinct vector extensions,
+hardware acceleration pathways, and instruction sets. Using
+<code>systemCPU</code>, an author can serve high-complexity video
+streams or specialized compression formats to desktop processors with
+dedicated instruction sets, while routing ARM-based mobile devices
+toward profiles optimized for mobile chipsets.</p>
+<h3 id="computational-load-balancing">Computational Load Balancing</h3>
+<p>Complex SVG animations, script-heavy media, or high-framerate streams
+can overwhelm lower-end microprocessors. Setting <code>systemCPU</code>
+rules allows presentations to downgrade computational complexity
+automatically, substituting intensive real-time animations with
+pre-rendered video clips or static image alternatives.</p>
+<h3 id="preventing-playback-failure">Preventing Playback Failure</h3>
+<p>Serving incompatible binary plugins, architecture-dependent decoders,
+or high-bitrate media to unsupported processors leads to frame dropping,
+audio-video desynchronization, or player crashes. <code>systemCPU</code>
+provides a deterministic gatekeeper to guarantee baseline compatibility
+before decoding begins.</p>
+<h2 id="implementation-example">Implementation Example</h2>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">switch</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- High-complexity stream for desktop x86 platforms --&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;presentation_avx_high.mp4&quot;</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>             <span class="ot">systemCPU=</span><span class="st">&quot;x86&quot;</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>             <span class="ot">systemBitrate=</span><span class="st">&quot;2500000&quot;</span> /&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Optimized stream for ARM mobile processors --&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;presentation_arm_neon.mp4&quot;</span> </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>             <span class="ot">systemCPU=</span><span class="st">&quot;arm&quot;</span> </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>             <span class="ot">systemBitrate=</span><span class="st">&quot;1200000&quot;</span> /&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Standard fallback for unspecified or generic processors --&gt;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;presentation_standard.mp4&quot;</span> /&gt;</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">switch</span>&gt;</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<p>In this structure, an x86-based system receives the high-complexity
+stream, an ARM-based device receives the mobile-optimized asset, and any
+unrecognized architecture defaults cleanly to the baseline asset without
+breaking the presentation flow.</p>
+<h2 id="combining-systemcpu-with-other-test-attributes">Combining
+<code>systemCPU</code> with Other Test Attributes</h2>
+<p>Maximum delivery optimization is achieved by pairing
+<code>systemCPU</code> with complementary SMIL test attributes, such as
+<code>systemBitrate</code> (evaluating available bandwidth) and
+<code>systemScreenSize</code> (evaluating display resolution). This
+multi-variable filtering ensures media delivery adapts simultaneously to
+network conditions, display constraints, and hardware execution
+power.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

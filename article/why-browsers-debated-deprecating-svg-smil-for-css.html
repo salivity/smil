@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Browsers Debated Deprecating SVG SMIL for CSS - smil</title>
+    <meta name="description" content="The debate among browser vendors over deprecating Synchronized Multimedia Integration Language (SMIL) inside SVG in favor of CSS animations stemmed from redundant web standards, engine maintenance challenges, and shifting performance architectures. While">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/why-browsers-debated-deprecating-svg-smil-for-css">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Browsers Debated Deprecating SVG SMIL for CSS - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/why-browsers-debated-deprecating-svg-smil-for-css" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The debate among browser vendors over deprecating Synchronized Multimedia Integration Language (SMIL) inside SVG in favor of CSS animations stemmed from redundant web standards, engine maintenance challenges, and shifting performance architectures. While" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="why-browsers-debated-deprecating-svg-smil-for-css">Why Browsers
+Debated Deprecating SVG SMIL for CSS</h1>
+<p>The debate among browser vendors over deprecating Synchronized
+Multimedia Integration Language (SMIL) inside SVG in favor of CSS
+animations stemmed from redundant web standards, engine maintenance
+challenges, and shifting performance architectures. While SMIL provided
+powerful declarative animations tailored for vector graphics, emerging
+technologies like CSS Animations and the Web Animations API promised a
+single, unified approach to animating both HTML and SVG. Although major
+vendors like Google Chrome initially pushed to phase out SMIL in the
+mid-2010s, critical feature gaps and pushback from developers ultimately
+preserved its place in modern web standards.</p>
+<h3 id="redundant-standards-and-consolidation">Redundant Standards and
+Consolidation</h3>
+<p>When SMIL was integrated into SVG, CSS lacked the capability to
+handle declarative animations. Over time, the W3C expanded CSS to
+support transitions, keyframe animations, and transforms. Browser
+vendors recognized that maintaining two entirely separate declarative
+animation systems—SMIL for SVG elements and CSS for DOM elements—created
+unnecessary redundancy across the web platform. Consolidating all
+animations into CSS and the JavaScript-driven Web Animations API
+promised a more unified developer experience and a cleaner specification
+roadmap.</p>
+<h3 id="engine-complexity-and-maintenance-costs">Engine Complexity and
+Maintenance Costs</h3>
+<p>From an engineering standpoint, SMIL implementations were notoriously
+difficult to maintain. The SMIL timing model relies on a complex state
+machine that dictates how animations begin, sync, loop, and resolve
+dependencies. In engines like WebKit and Blink, the SMIL codebase was
+largely isolated from the modern rendering and compositing pipelines. It
+generated a disproportionate number of bugs, crashes, and security
+vulnerabilities relative to its usage, leading browser engineers to
+advocate for its removal to reduce technical debt.</p>
+<h3 id="hardware-acceleration-and-performance">Hardware Acceleration and
+Performance</h3>
+<p>Modern browsers rely heavily on GPU-accelerated compositing pipelines
+to ensure smooth 60fps animations. CSS animations were designed and
+optimized to run off the main JavaScript execution thread, allowing
+transforms and opacity changes to render without triggering costly
+layout calculations. Conversely, SMIL was architected before modern
+compositing paradigms existed. Evaluating SMIL timing graphs and
+recalculating SVG DOM attributes frequently forced main-thread reflows
+and repaints, resulting in sub-optimal performance on
+resource-constrained devices.</p>
+<h3 id="feature-parity-issues-and-developer-pushback">Feature Parity
+Issues and Developer Pushback</h3>
+<p>In 2015, Google Chrome officially announced its intent to deprecate
+SMIL, advising developers to migrate to CSS animations and the Web
+Animations API. However, this proposal met immediate resistance from the
+web development community because alternative technologies lacked
+feature parity. Key SMIL capabilities could not be replicated natively
+in CSS, including:</p>
+<ul>
+<li><strong>Morphing Paths:</strong> Animating changes directly between
+complex SVG path data strings (<code>d</code> attribute).</li>
+<li><strong>Motion Along a Path:</strong> Animating elements along
+arbitrary vector paths using <code>&lt;animateMotion&gt;</code>.</li>
+<li><strong>Advanced Timing Controls:</strong> Native support for
+syncbases, event-driven triggers, and additive animations within
+self-contained SVG files.</li>
+</ul>
+<h3 id="the-resolution">The Resolution</h3>
+<p>Because CSS and the Web Animations API did not yet support path
+morphing or motion paths in a cross-browser, performant manner, forcing
+developers away from SMIL would break thousands of existing standalone
+vector assets. In 2016, Chrome suspended its deprecation plans. Browser
+vendors instead shifted focus toward improving underlying SVG
+architectures while standardizing missing features (such as CSS
+<code>offset-path</code>) to achieve parity naturally rather than
+forcibly removing SMIL. Today, SMIL remains natively supported across
+all major evergreen browsers.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

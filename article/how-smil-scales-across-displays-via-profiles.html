@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How SMIL Scales Across Displays via Profiles - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) achieves scalability across disparate display form factors primarily through modular profiling, responsive layout architectures, and content adaptation mechanisms. By decomposing its multimedia specific">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-smil-scales-across-displays-via-profiles">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How SMIL Scales Across Displays via Profiles - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-smil-scales-across-displays-via-profiles" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) achieves scalability across disparate display form factors primarily through modular profiling, responsive layout architectures, and content adaptation mechanisms. By decomposing its multimedia specific" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-smil-scales-across-displays-via-profiles">How SMIL Scales
+Across Displays via Profiles</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) achieves
+scalability across disparate display form factors primarily through
+modular profiling, responsive layout architectures, and content
+adaptation mechanisms. By decomposing its multimedia specification into
+distinct modules, the W3C defined standardized SMIL profiles tailored to
+specific device constraints, allowing content to scale reliably from
+low-power mobile devices to high-resolution digital signage. This
+article explores how SMIL profiles, viewport abstractions, and system
+test attributes work together to deliver consistent multimedia
+presentations across varied hardware environments.</p>
+<h3 id="modular-architecture-and-standard-profiles">Modular Architecture
+and Standard Profiles</h3>
+<p>SMIL is designed around functional modules covering timing,
+animation, layout, linking, and media objects. Rather than requiring
+every runtime player to support the entire specification, the W3C
+grouped these modules into standardized profiles.</p>
+<ol type="1">
+<li><strong>SMIL Tiny and Mobile Profiles</strong>: Tailored for
+constrained devices like early smartphones and embedded displays. These
+profiles exclude resource-intensive features like complex transition
+filters or advanced multi-window hierarchies, focusing on essential
+timing and basic single-surface spatial layout.</li>
+<li><strong>SMIL Basic</strong>: Provides core layout and timing
+support, frequently adopted by mobile MMS standards to render
+predictable layouts on varied screen sizes without taxing mobile
+processors.</li>
+<li><strong>SMIL Full / Language Profile</strong>: Implements the entire
+module collection, including advanced layout options, multiple
+simultaneous top-level windows, and full animation controls suited for
+high-performance desktop applications and dedicated digital media
+appliances.</li>
+</ol>
+<p>By targeting a specific profile, authors ensure that the target
+rendering engine can interpret the media layout without encountering
+unsupported features that could break spatial presentation.</p>
+<h3 id="relative-positioning-and-the-fit-attribute">Relative Positioning
+and the <code>fit</code> Attribute</h3>
+<p>Profiles that include SMIL's Layout Module scale spatial layouts
+across different physical dimensions using resolution-independent units
+and aspect-ratio handlers. Instead of relying solely on absolute pixel
+coordinates, SMIL elements leverage percentages for positioning and
+dimensions (<code>top</code>, <code>left</code>, <code>width</code>,
+<code>height</code>).</p>
+<p>To handle disparities between the source media's aspect ratio and the
+display region assigned to it, SMIL defines the <code>fit</code>
+attribute:</p>
+<ul>
+<li><strong><code>meet</code></strong>: Scales the visual media
+proportionally so the entire asset fits within the destination region
+without cropping, preserving the aspect ratio (letterboxing if
+necessary).</li>
+<li><strong><code>slice</code></strong>: Scales the visual media
+proportionally to completely fill the region, cropping any
+overflow.</li>
+<li><strong><code>fill</code></strong>: Stretches or compresses the
+media non-proportionally to match the exact dimensions of the target
+region.</li>
+<li><strong><code>hidden</code></strong>: Aligns the visual media at a
+1:1 pixel scale within the region and clips any content that exceeds the
+region boundaries.</li>
+</ul>
+<p>These layout behaviors allow regions defined within a profile to
+adapt dynamically to the dimensions of the host display viewport.</p>
+<h3 id="dynamic-adaptation-using-the-switch-element">Dynamic Adaptation
+Using the <code>&lt;switch&gt;</code> Element</h3>
+<p>SMIL profiles handle extreme differences in display form factors
+through runtime evaluation via the <code>&lt;switch&gt;</code> element
+combined with system test attributes. Rather than forcing a single
+layout onto incompatible screens, authors can define alternative media
+streams or region layouts within a single document:</p>
+<ul>
+<li><strong><code>systemScreenSize</code></strong>: Evaluates the screen
+resolution of the playback device and selects the alternative layout
+optimized for that specific resolution range.</li>
+<li><strong><code>systemScreenDepth</code></strong>: Allows content
+creators to deliver high-color or simplified color palettes depending on
+the target display's color rendering capabilities.</li>
+<li><strong><code>systemComponent</code></strong>: Checks whether the
+player's profile supports a specific SMIL module before attempting to
+render it.</li>
+</ul>
+<p>The playback engine evaluates these attributes against the host
+system's hardware parameters in real time, rendering the first matching
+child element and ignoring the rest.</p>
+<h3 id="viewport-abstraction-via-root-and-top-layouts">Viewport
+Abstraction via Root and Top Layouts</h3>
+<p>SMIL standardizes scalability by separating document dimensions from
+physical device dimensions. Through the <code>root-layout</code> or
+<code>topLayout</code> elements, an author establishes a virtual
+coordinate space. Conforming SMIL profile players are responsible for
+mapping this virtual presentation space onto the native display
+interface. Whether the native screen is a 320x240 embedded display or a
+4K display panel, the player maps the declared coordinate system to the
+native resolution, preserving relative layout geometry across diverse
+display form factors.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

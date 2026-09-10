@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is the SMIL Sub-Region Layout Module? - smil</title>
+    <meta name="description" content="The SMIL Sub-Region Layout module is an extension within Synchronized Multimedia Integration Language (SMIL) designed to provide fine-grained spatial control over media elements directly inside predefined display regions. Rather than forcing authors to d">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/what-is-the-smil-sub-region-layout-module">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is the SMIL Sub-Region Layout Module? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/what-is-the-smil-sub-region-layout-module" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The SMIL Sub-Region Layout module is an extension within Synchronized Multimedia Integration Language (SMIL) designed to provide fine-grained spatial control over media elements directly inside predefined display regions. Rather than forcing authors to d" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-the-smil-sub-region-layout-module">What Is the SMIL
+Sub-Region Layout Module?</h1>
+<p>The SMIL Sub-Region Layout module is an extension within Synchronized
+Multimedia Integration Language (SMIL) designed to provide fine-grained
+spatial control over media elements directly inside predefined display
+regions. Rather than forcing authors to declare rigid, static region
+hierarchies inside the document header, this module enables dynamic
+positioning, scaling, and alignment directly on individual media
+elements at runtime.</p>
+<h2 id="core-purpose-and-functionality">Core Purpose and
+Functionality</h2>
+<p>In basic SMIL layout architectures, visual presentation areas are
+defined statically in the <code>&lt;head&gt;</code> section using
+<code>&lt;layout&gt;</code> and <code>&lt;region&gt;</code> elements.
+While effective for simple grid designs, this static model becomes
+cumbersome when multimedia presentations require shifting positions,
+layered graphics, or adaptive media placement.</p>
+<p>The Sub-Region Layout module addresses this limitation by introducing
+positioning attributes that can be applied directly to media elements
+like <code>&lt;video&gt;</code>, <code>&lt;img&gt;</code>,
+<code>&lt;animation&gt;</code>, and <code>&lt;text&gt;</code>. These
+attributes include:</p>
+<ul>
+<li><strong>Positional Offsets:</strong> <code>top</code>,
+<code>bottom</code>, <code>left</code>, and <code>right</code>
+coordinates to define precise offsets within a host region.</li>
+<li><strong>Dimensional Controls:</strong> Explicit <code>width</code>
+and <code>height</code> properties to control the rendering boundaries
+of the media object.</li>
+<li><strong>Coordinate Systems:</strong> Support for both absolute pixel
+dimensions and percentage-based values relative to the parent region's
+dimensions.</li>
+</ul>
+<h2 id="key-advantages-in-multimedia-authoring">Key Advantages in
+Multimedia Authoring</h2>
+<p>By enabling inline spatial positioning, the module simplifies
+document authoring and enables more responsive presentation designs.</p>
+<h3 id="reduced-markup-overhead">Reduced Markup Overhead</h3>
+<p>Authors no longer need to write exhaustive lists of nested
+<code>&lt;region&gt;</code> definitions in the document header for every
+temporary visual position. A single general region can host multiple
+media elements that position themselves independently throughout the
+presentation timeline.</p>
+<h3 id="dynamic-media-alignment-and-fitting">Dynamic Media Alignment and
+Fitting</h3>
+<p>The module works alongside media-fitting rules (such as the
+<code>fit</code> attribute) to let elements clip, scale, or preserve
+their aspect ratios within sub-allocated spaces. This prevents
+distortions when handling assets of varying native resolutions.</p>
+<h3 id="relative-and-hierarchical-layouts">Relative and Hierarchical
+Layouts</h3>
+<p>Using percentage coordinates allows media objects to adapt
+dynamically if the parent region or display window is resized. This
+behavior mirrors CSS absolute positioning relative to a positioned
+container, allowing consistent multi-device rendering.</p>
+<h2 id="common-application-scenarios">Common Application Scenarios</h2>
+<p>The flexibility of the SMIL Sub-Region Layout module makes it
+particularly useful across several multimedia application domains:</p>
+<ul>
+<li><strong>Picture-in-Picture (PiP) Displays:</strong> Insetting a
+secondary video stream or sign-language interpreter into a specific
+quadrant of a main video region.</li>
+<li><strong>Dynamic Captions and Overlays:</strong> Placing scrolling
+news tickers, lower-thirds, or subtitle boxes at designated margins
+relative to active visual content.</li>
+<li><strong>Digital Signage and Kiosks:</strong> Layering interactive
+buttons, product photos, and localized textual descriptions cleanly
+inside composite display zones.</li>
+</ul>
+<p>By bridging document-level layout definitions with element-level
+placement controls, the SMIL Sub-Region Layout module provides a
+structured, standards-based framework for organizing synchronized visual
+content across diverse multimedia platforms.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

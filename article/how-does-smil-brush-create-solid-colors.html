@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does SMIL Brush Create Solid Colors? - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) uses the <brush> element to generate solid color blocks, rectangular fills, and visual backdrops without requiring external image files. Introduced in the SMIL 2.0 Media Objects module, <brush> function">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-smil-brush-create-solid-colors">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does SMIL Brush Create Solid Colors? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-smil-brush-create-solid-colors" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) uses the <brush> element to generate solid color blocks, rectangular fills, and visual backdrops without requiring external image files. Introduced in the SMIL 2.0 Media Objects module, <brush> function" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-smil-brush-create-solid-colors">How Does SMIL Brush
+Create Solid Colors?</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) uses the
+<code>&lt;brush&gt;</code> element to generate solid color blocks,
+rectangular fills, and visual backdrops without requiring external image
+files. Introduced in the SMIL 2.0 Media Objects module,
+<code>&lt;brush&gt;</code> functions as a lightweight, synthetic media
+object that renders vector-like color planes directly onto defined
+layout regions. This guide examines how the element works, its essential
+attributes, how it integrates with layout and timing architectures, and
+its common practical use cases across digital signage and multimedia
+presentations.</p>
+<h2 id="fundamentals-of-the-brush-element">Fundamentals of the Brush
+Element</h2>
+<p>In SMIL, most media elements such as <code>&lt;img&gt;</code>,
+<code>&lt;video&gt;</code>, and <code>&lt;audio&gt;</code> require an
+external <code>src</code> attribute pointing to a URI. The
+<code>&lt;brush&gt;</code> element is unique because it serves as an
+internally synthesized media object. Instead of fetching a raster
+graphic, the SMIL rendering engine dynamically generates a filled
+geometric plane based on declared color and dimension parameters.</p>
+<p>The element participates in the same timing, layout, and
+synchronization model as any standard media object. It can be sequenced
+inside <code>&lt;seq&gt;</code> tags, run in parallel using
+<code>&lt;par&gt;</code> tags, and constrained by time attributes like
+<code>begin</code>, <code>dur</code>, and <code>end</code>.</p>
+<h2 id="syntax-and-key-attributes">Syntax and Key Attributes</h2>
+<p>The core behavior of <code>&lt;brush&gt;</code> is governed by color
+declaration, region assignment, and visual styling properties.</p>
+<ul>
+<li><strong>color:</strong> Specifies the fill color of the brush. It
+accepts standard color naming schemes, including W3C named colors (e.g.,
+<code>black</code>, <code>navy</code>), 6-digit or 3-digit hexadecimal
+values (e.g., <code>#FF5733</code>, <code>#00F</code>), and
+<code>rgb()</code> functional notation.</li>
+<li><strong>region:</strong> Assigns the brush to an area defined in the
+document <code>&lt;head&gt;</code> inside the
+<code>&lt;layout&gt;</code> section. The brush conforms to the spatial
+bounds (<code>top</code>, <code>left</code>, <code>width</code>,
+<code>height</code>) of the target region.</li>
+<li><strong>dur / begin / end:</strong> Defines the temporal life cycle
+of the color block, controlling when the fill appears and
+disappears.</li>
+<li><strong>fit:</strong> Dictates how the fill behaves if spatial
+dimensions vary, though with a solid color, <code>fill</code> or
+<code>meet</code> generally spreads the color across the entire
+allocated canvas area.</li>
+</ul>
+<p>A basic declaration within a body tag resembles the following
+structure:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span> <span class="ot">version=</span><span class="st">&quot;3.0&quot;</span> <span class="ot">baseProfile=</span><span class="st">&quot;Language&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">layout</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">root-layout</span> <span class="ot">width=</span><span class="st">&quot;1920px&quot;</span> <span class="ot">height=</span><span class="st">&quot;1080px&quot;</span> <span class="ot">backgroundColor=</span><span class="st">&quot;black&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;banner_bg&quot;</span> <span class="ot">left=</span><span class="st">&quot;0px&quot;</span> <span class="ot">top=</span><span class="st">&quot;800px&quot;</span> <span class="ot">width=</span><span class="st">&quot;1920px&quot;</span> <span class="ot">height=</span><span class="st">&quot;280px&quot;</span> /&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">par</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">brush</span> <span class="ot">region=</span><span class="st">&quot;banner_bg&quot;</span> <span class="ot">color=</span><span class="st">&quot;#003366&quot;</span> <span class="ot">dur=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">text</span> <span class="ot">src=</span><span class="st">&quot;headlines.txt&quot;</span> <span class="ot">region=</span><span class="st">&quot;banner_bg&quot;</span> <span class="ot">dur=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">par</span>&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<h2 id="layering-stacking-and-translucency">Layering, Stacking, and
+Translucency</h2>
+<p>SMIL handles the visual positioning of multiple elements via z-index
+layering and document order. When generating backgrounds,
+<code>&lt;brush&gt;</code> is typically positioned at the lowest
+rendering layer within a region or across overlapping regions.</p>
+<h3 id="controlling-stacking-order">Controlling Stacking Order</h3>
+<p>When multiple elements occupy the same coordinate space, the
+<code>z-index</code> attribute on the corresponding
+<code>&lt;region&gt;</code> tags dictates which element sits on top. By
+giving the background region a lower <code>z-index</code> than the
+foreground text or video regions, the <code>&lt;brush&gt;</code>
+maintains an uninterrupted backdrop.</p>
+<h3 id="alpha-channels-and-opacity">Alpha Channels and Opacity</h3>
+<p>In profiles supporting advanced styling or SMIL 3.0, opacity
+attributes allow <code>&lt;brush&gt;</code> objects to act as
+semi-transparent color overlays. This is frequently used for dimming a
+video background beneath active captions or displaying tinted
+lower-third banners during live broadcasts.</p>
+<h2 id="performance-and-architecture-advantages">Performance and
+Architecture Advantages</h2>
+<p>Using <code>&lt;brush&gt;</code> offers distinct technical benefits
+over loading standard graphic files:</p>
+<ol type="1">
+<li><strong>Zero Network Overhead:</strong> Because the brush creates
+color algorithmically, it generates no additional HTTP requests and
+consumes zero network bandwidth for asset fetching.</li>
+<li><strong>Instant Rendering:</strong> There is no decoding latency
+associated with parsing JPEG or PNG formats, eliminating layout shift
+and visual flicker during timeline transitions.</li>
+<li><strong>Resolution Independence:</strong> The generated solid plane
+scales to any display resolution or aspect ratio without pixelation,
+visual artifacting, or memory bloat.</li>
+</ol>
+<h2 id="common-use-cases">Common Use Cases</h2>
+<ul>
+<li><strong>Digital Signage Backdrops:</strong> Supplying stable
+background canvas colors behind scheduling widgets, live RSS tickers,
+and split-screen video feeds.</li>
+<li><strong>Letterboxing and Pillarboxing:</strong> Filling negative
+space around media elements that do not match the aspect ratio of the
+primary display.</li>
+<li><strong>Color Washes and Scene Transitions:</strong> Providing
+full-screen color flashes or sustained blackouts between sequence
+chapters without inserting blank media files.</li>
+<li><strong>Subtitle Scaffolding:</strong> Serving as high-contrast
+backing plates behind text layers to guarantee readability against
+complex video frames.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

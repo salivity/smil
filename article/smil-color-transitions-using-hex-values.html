@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Color Transitions Using Hex Values - smil</title>
+    <meta name="description" content="This guide outlines how to create smooth color transitions using hexadecimal values in Synchronized Multimedia Integration Language (SMIL), most commonly used within Scalable Vector Graphics (SVG). By utilizing the SMIL <animate> element, you can dynamic">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-color-transitions-using-hex-values">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Color Transitions Using Hex Values - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-color-transitions-using-hex-values" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This guide outlines how to create smooth color transitions using hexadecimal values in Synchronized Multimedia Integration Language (SMIL), most commonly used within Scalable Vector Graphics (SVG). By utilizing the SMIL <animate> element, you can dynamic" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-color-transitions-using-hex-values">SMIL Color Transitions
+Using Hex Values</h1>
+<p>This guide outlines how to create smooth color transitions using
+hexadecimal values in Synchronized Multimedia Integration Language
+(SMIL), most commonly used within Scalable Vector Graphics (SVG). By
+utilizing the SMIL <code>&lt;animate&gt;</code> element, you can
+dynamically interpolate presentation attributes such as
+<code>fill</code>, <code>stroke</code>, or <code>stop-color</code>
+between defined hex color codes over a set duration.</p>
+<h2 id="the-basic-animate-syntax">The Basic <code>&lt;animate&gt;</code>
+Syntax</h2>
+<p>To transition a color from one hexadecimal value to another, nest an
+<code>&lt;animate&gt;</code> element inside the target SVG graphical
+element. The basic syntax uses the <code>attributeName</code>,
+<code>from</code>, <code>to</code>, and <code>dur</code> (duration)
+attributes.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">rect</span> <span class="ot">width=</span><span class="st">&quot;100&quot;</span> <span class="ot">height=</span><span class="st">&quot;100&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#FF0000&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">animate</span> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="ot">attributeName=</span><span class="st">&quot;fill&quot;</span> </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">from=</span><span class="st">&quot;#FF0000&quot;</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="ot">to=</span><span class="st">&quot;#0000FF&quot;</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">dur=</span><span class="st">&quot;3s&quot;</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="ot">fill=</span><span class="st">&quot;freeze&quot;</span> /&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">rect</span>&gt;</span></code></pre></div>
+<h3 id="key-attributes-defined">Key Attributes Defined:</h3>
+<ul>
+<li><strong><code>attributeName</code></strong>: The target attribute to
+animate (e.g., <code>fill</code>, <code>stroke</code>,
+<code>stop-color</code>).</li>
+<li><strong><code>from</code></strong>: The starting color, defined in
+3-digit (<code>#RGB</code>) or 6-digit (<code>#RRGGBB</code>)
+hexadecimal format.</li>
+<li><strong><code>to</code></strong>: The ending color, defined in
+hexadecimal format.</li>
+<li><strong><code>dur</code></strong>: The clock-value duration for the
+transition (e.g., <code>2s</code>, <code>500ms</code>).</li>
+<li><strong><code>fill="freeze"</code></strong>: Optional. Keeps the
+element at the final <code>to</code> color once the animation finishes
+instead of resetting to the initial state.</li>
+</ul>
+<hr />
+<h2 id="multi-step-transitions-using-the-values-attribute">Multi-Step
+Transitions Using the <code>values</code> Attribute</h2>
+<p>If a transition involves more than two colors, use the
+<code>values</code> attribute instead of <code>from</code> and
+<code>to</code>. Multiple hexadecimal codes are separated by
+semicolons.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">circle</span> <span class="ot">cx=</span><span class="st">&quot;50&quot;</span> <span class="ot">cy=</span><span class="st">&quot;50&quot;</span> <span class="ot">r=</span><span class="st">&quot;40&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#E63946&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">animate</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="ot">attributeName=</span><span class="st">&quot;fill&quot;</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">values=</span><span class="st">&quot;#E63946; #F1FAEE; #A8DADC; #457B9D&quot;</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="ot">keyTimes=</span><span class="st">&quot;0; 0.33; 0.66; 1&quot;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">dur=</span><span class="st">&quot;6s&quot;</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">circle</span>&gt;</span></code></pre></div>
+<h3 id="controlling-timing-with-keytimes">Controlling Timing with
+<code>keyTimes</code>:</h3>
+<ul>
+<li><strong><code>values</code></strong>: Semicolon-delimited list of
+hex color codes executed in order.</li>
+<li><strong><code>keyTimes</code></strong>: Semicolon-delimited list of
+normalized time values between <code>0</code> and <code>1</code>
+defining when each color change in the sequence occurs. The number of
+values in <code>keyTimes</code> must match the number of entries in
+<code>values</code>.</li>
+<li><strong><code>repeatCount="indefinite"</code></strong>: Loops the
+color animation continuously.</li>
+</ul>
+<hr />
+<h2 id="animating-svg-gradient-stops">Animating SVG Gradient Stops</h2>
+<p>To animate colors within an SVG linear or radial gradient, apply the
+<code>&lt;animate&gt;</code> tag directly to the
+<code>&lt;stop&gt;</code> elements, targeting the
+<code>stop-color</code> attribute.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">linearGradient</span> <span class="ot">id=</span><span class="st">&quot;animatedGradient&quot;</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">stop</span> <span class="ot">offset=</span><span class="st">&quot;0%&quot;</span> <span class="ot">stop-color=</span><span class="st">&quot;#FF7A00&quot;</span>&gt;</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animate</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>      <span class="ot">attributeName=</span><span class="st">&quot;stop-color&quot;</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      <span class="ot">values=</span><span class="st">&quot;#FF7A00; #FF007A; #FF7A00&quot;</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="ot">dur=</span><span class="st">&quot;4s&quot;</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">stop</span>&gt;</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">stop</span> <span class="ot">offset=</span><span class="st">&quot;100%&quot;</span> <span class="ot">stop-color=</span><span class="st">&quot;#00E1D9&quot;</span>&gt;</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animate</span> </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>      <span class="ot">attributeName=</span><span class="st">&quot;stop-color&quot;</span> </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      <span class="ot">values=</span><span class="st">&quot;#00E1D9; #007BFF; #00E1D9&quot;</span> </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>      <span class="ot">dur=</span><span class="st">&quot;4s&quot;</span> </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>      <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">stop</span>&gt;</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">linearGradient</span>&gt;</span></code></pre></div>
+<h2 id="hexadecimal-formatting-rules-in-smil">Hexadecimal Formatting
+Rules in SMIL</h2>
+<ol type="1">
+<li><strong>Standard Formats</strong>: Both standard 6-character
+(<code>#RRGGBB</code>) and shorthand 3-character (<code>#RGB</code>)
+formats are supported.</li>
+<li><strong>Alpha Channels</strong>: 8-digit hex codes with alpha
+channels (<code>#RRGGBBAA</code>) are not universally supported across
+all SMIL implementations. For transparency transitions, animate the
+<code>opacity</code>, <code>fill-opacity</code>, or
+<code>stroke-opacity</code> attribute separately.</li>
+<li><strong>Punctuation</strong>: Do not include spaces between the
+semicolons and hex values in the <code>values</code> list, as this can
+cause parsing issues in strict XML environments.</li>
+</ol></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

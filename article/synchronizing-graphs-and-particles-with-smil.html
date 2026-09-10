@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synchronizing Graphs and Particles with SMIL - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) provides a declarative framework for timing and orchestrating animations directly within Scalable Vector Graphics (SVG). In scientific simulations, SMIL synchronizes dual-faceted visualizations—such a">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/synchronizing-graphs-and-particles-with-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Synchronizing Graphs and Particles with SMIL - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/synchronizing-graphs-and-particles-with-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) provides a declarative framework for timing and orchestrating animations directly within Scalable Vector Graphics (SVG). In scientific simulations, SMIL synchronizes dual-faceted visualizations—such a" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="synchronizing-graphs-and-particles-with-smil">Synchronizing
+Graphs and Particles with SMIL</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) provides a
+declarative framework for timing and orchestrating animations directly
+within Scalable Vector Graphics (SVG). In scientific simulations, SMIL
+synchronizes dual-faceted visualizations—such as real-time particle
+dynamics and corresponding quantitative data graphs—along a shared,
+deterministic timeline. By defining concurrent temporal states natively
+within the document object model, SMIL eliminates synchronization drift
+between spatial motion and analytical readouts without requiring
+continuous JavaScript execution.</p>
+<h3 id="the-role-of-smil-in-scientific-visualization">The Role of SMIL
+in Scientific Visualization</h3>
+<p>In computational and physical simulations, researchers often need to
+display physical phenomena alongside real-time metrics. For example, a
+simulation may depict Brownian motion, fluid dynamics, or thermodynamic
+expansion while simultaneously plotting pressure, temperature, or
+kinetic energy curves.</p>
+<p>SMIL fulfills this requirement by acting as the temporal glue between
+disparate SVG elements. Rather than relying on imperative code to
+recalculate and redraw every frame, SMIL describes animation behavior
+using timing attributes such as <code>begin</code>, <code>dur</code>,
+<code>end</code>, and <code>syncbase</code>. This ensures that visual
+events—like a particle colliding with a boundary—coincide precisely with
+analytical events, such as an inflection point on an adjacent graph.</p>
+<h3 id="unified-timeline-and-deterministic-synchronization">Unified
+Timeline and Deterministic Synchronization</h3>
+<p>The primary strength of SMIL in dual-view simulations is its native
+timeline model:</p>
+<ul>
+<li><strong>Syncbase Timing:</strong> SMIL allows one animation's
+timeline to depend directly on another. A graph plotting energy
+dissipation can have its animation triggered
+(<code>begin="particleSimulation.begin"</code>) or modified based on
+specific intervals or events generated by particle elements.</li>
+<li><strong>Declarative Consistency:</strong> Because SMIL runs inside
+the browser's native rendering engine, timing is decoupled from
+main-thread JavaScript bottlenecks. If computational processing causes a
+script slowdown, a SMIL-driven playback engine can maintain relative
+synchronization between graph markers and particle coordinates across
+repeated playback loops.</li>
+<li><strong>Shared Clock Values:</strong> Both kinetic visual paths
+(<code>&lt;animateTransform&gt;</code> or
+<code>&lt;animateMotion&gt;</code>) and plotting elements (updating SVG
+<code>&lt;polyline&gt;</code> or <code>&lt;path&gt;</code> nodes)
+reference the same document timeline, preventing lag between what the
+viewer sees physically and what is represented graphically.</li>
+</ul>
+<h3 id="key-capabilities-in-data-particle-systems">Key Capabilities in
+Data-Particle Systems</h3>
+<ol type="1">
+<li><strong>Path-Based Particle Kinematics:</strong> Using
+<code>&lt;animateMotion&gt;</code>, SMIL allows particles to follow
+complex non-linear vectors calculated from mathematical formulas or
+pre-computed simulation outputs.</li>
+<li><strong>Coordinated Threshold Triggers:</strong> When a particle
+reaches a predefined boundary or energy state, SMIL can dispatch visual
+markers or trigger structural changes in accompanying time-series charts
+using event-based attributes (e.g.,
+<code>begin="particle1.repeat(2)"</code>).</li>
+<li><strong>Parametric Plot Progression:</strong> Line graphs can be
+progressively drawn using <code>&lt;animate&gt;</code> applied to the
+<code>stroke-dashoffset</code> or coordinate arrays of a path, timed to
+unfold at the exact speed of the simulated physical event.</li>
+</ol>
+<h3 id="implementation-advantages-over-pure-scripting">Implementation
+Advantages Over Pure Scripting</h3>
+<p>While JavaScript libraries like D3.js or Canvas-based engines provide
+immense flexibility, SMIL offers distinct advantages for pre-computed
+and recorded simulation playback:</p>
+<ul>
+<li><strong>Low Overhead:</strong> Native SVG animation minimizes
+garbage collection pauses and CPU consumption, freeing system resources
+for background computation.</li>
+<li><strong>Self-Contained Files:</strong> An entire interactive
+simulation—particles, axes, lines, and timing—can be encapsulated within
+a single standalone SVG file that requires no external scripts to render
+deterministically across compatible viewers.</li>
+<li><strong>Accessible Visual State:</strong> Because SMIL modifies SVG
+attributes declaratively, the underlying graphical components remain
+fully inspectable and scalable at any resolution.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

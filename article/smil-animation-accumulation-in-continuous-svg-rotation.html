@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Animation Accumulation in Continuous SVG Rotation - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) manages continuous transformations in SVG through dedicated accumulation and addition attributes that determine how values build over time. When creating an ongoing rotation, SMIL evaluates whether each">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-animation-accumulation-in-continuous-svg-rotation">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Animation Accumulation in Continuous SVG Rotation - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-animation-accumulation-in-continuous-svg-rotation" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) manages continuous transformations in SVG through dedicated accumulation and addition attributes that determine how values build over time. When creating an ongoing rotation, SMIL evaluates whether each" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-animation-accumulation-in-continuous-svg-rotation">SMIL
+Animation Accumulation in Continuous SVG Rotation</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) manages
+continuous transformations in SVG through dedicated accumulation and
+addition attributes that determine how values build over time. When
+creating an ongoing rotation, SMIL evaluates whether each repeated cycle
+resets the transform matrix or stacks progressively on the previous
+cycle's final value. Understanding the interplay between the
+<code>accumulate</code> and <code>additive</code> attributes provides
+precise control over angular velocity, transform list composition, and
+visual continuity in SVG graphics.</p>
+<h3 id="the-role-of-accumulate-in-repeated-animations">The Role of
+<code>accumulate</code> in Repeated Animations</h3>
+<p>In SMIL, the <code>accumulate</code> attribute controls whether an
+animation's value resets or adds up across iterations when
+<code>repeatCount</code> or <code>repeatDur</code> is defined. The
+attribute accepts two values:</p>
+<ul>
+<li><strong><code>accumulate="none"</code> (default):</strong> Each
+repetition restarts strictly from the initial state defined in the
+<code>from</code> or <code>values</code> attribute. In a standard
+continuous 360-degree rotation, the cycle terminates at 360 degrees and
+immediately snaps back to 0 degrees to begin the next iteration. Because
+0 degrees and 360 degrees represent identical geometric orientations,
+the visual motion appears seamless, but the underlying transform value
+resets every cycle.</li>
+<li><strong><code>accumulate="sum"</code>:</strong> Each subsequent
+cycle builds upon the end value of the previous cycle. If a rotation is
+set from <code>0</code> to <code>360</code>, the first cycle spans <span
+class="math inline">\(0^\circ \to 360^\circ\)</span>, the second spans
+<span class="math inline">\(360^\circ \to 720^\circ\)</span>, the third
+spans <span class="math inline">\(720^\circ \to 1080^\circ\)</span>, and
+so on.</li>
+</ul>
+<h3 id="interaction-between-accumulate-and-animatetransform">Interaction
+Between <code>accumulate</code> and
+<code>&lt;animateTransform&gt;</code></h3>
+<p>When animating rotation via the
+<code>&lt;animateTransform type="rotate"&gt;</code> element, values
+consist of up to three parameters: rotation angle, center-x, and
+center-y (<code>angle [cx cy]</code>).</p>
+<p>When <code>accumulate="sum"</code> is used:</p>
+<ol type="1">
+<li><strong>Angular Accumulation:</strong> SMIL uses component-wise
+addition. For the angle component, each cycle increments by the delta
+between the start and end values. If the animation rotates from
+<code>0</code> to <code>90</code> with four iterations, the object
+progressively shifts through <span class="math inline">\(0^\circ \to
+90^\circ\)</span>, <span class="math inline">\(90^\circ \to
+180^\circ\)</span>, <span class="math inline">\(180^\circ \to
+270^\circ\)</span>, and <span class="math inline">\(270^\circ \to
+360^\circ\)</span>.</li>
+<li><strong>Center Coordinates:</strong> If rotation centers
+<code>cx</code> and <code>cy</code> are specified, accumulation applies
+to them as well if they change between the start and end states. To keep
+the element pivoting around a fixed point, the center coordinates must
+remain identical across the keyframes (e.g.,
+<code>from="0 50 50" to="360 50 50"</code>). If the end coordinates
+differ from the start, the pivot point itself will shift continuously
+with every loop.</li>
+</ol>
+<h3 id="distinguishing-accumulate-from-additive">Distinguishing
+<code>accumulate</code> from <code>additive</code></h3>
+<p>It is common to conflate <code>accumulate</code> with
+<code>additive</code>. While both handle value aggregation, they target
+different operational scopes:</p>
+<ul>
+<li><strong><code>additive</code>:</strong> Governs how the animation
+combines with the element's underlying base transform attribute (or
+other preceding active animations). Setting <code>additive="sum"</code>
+appends the current rotation matrix to the existing transform list
+rather than overwriting it (<code>additive="replace"</code>).</li>
+<li><strong><code>accumulate</code>:</strong> Governs exclusively how
+repetitions within the <em>same</em> animation build upon preceding
+loops.</li>
+</ul>
+<p>For continuous rotation overlaid on existing position coordinates,
+developers typically combine <code>additive="sum"</code> (to preserve
+preexisting SVG translations or scales) with
+<code>accumulate="none"</code> (for standard modular rotations) or
+<code>accumulate="sum"</code> (for continuously increasing numerical
+rotation states).</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

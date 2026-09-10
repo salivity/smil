@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does SMIL Animate XML Attributes Over Time? - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) Animation provides a declarative framework that allows host XML languages, such as Scalable Vector Graphics (SVG), to dynamically modify element attributes and CSS properties across a structured timelin">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-smil-animate-xml-attributes-over-time">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does SMIL Animate XML Attributes Over Time? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-smil-animate-xml-attributes-over-time" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) Animation provides a declarative framework that allows host XML languages, such as Scalable Vector Graphics (SVG), to dynamically modify element attributes and CSS properties across a structured timelin" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-smil-animate-xml-attributes-over-time">How Does SMIL
+Animate XML Attributes Over Time?</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) Animation
+provides a declarative framework that allows host XML languages, such as
+Scalable Vector Graphics (SVG), to dynamically modify element attributes
+and CSS properties across a structured timeline. Rather than relying on
+imperative script loops, SMIL embeds dedicated animation elements
+directly within the host document tree, establishing an independent
+timing engine that interpolates target values, resolves complex time
+dependencies, and layers animated effects onto the underlying document
+model.</p>
+<h2 id="the-core-animation-elements-and-target-resolution">The Core
+Animation Elements and Target Resolution</h2>
+<p>SMIL Animation operates by defining specialized XML
+elements—primarily <code>&lt;animate&gt;</code>,
+<code>&lt;set&gt;</code>, <code>&lt;animateMotion&gt;</code>, and
+<code>&lt;animateTransform&gt;</code>—that reference target elements and
+attributes within the host language.</p>
+<p>An animation element identifies its target attribute using the
+<code>attributeName</code> and optional <code>attributeType</code>
+(specifying <code>XML</code> or <code>CSS</code>) attributes. The target
+element can be specified implicitly as the parent container of the
+animation tag or explicitly referenced across the document via an
+<code>xlink:href</code> or <code>href</code> attribute targeting a
+unique <code>id</code>.</p>
+<p>Once bound to an element, the SMIL engine manipulates the
+presentation value of the specified attribute without mutating the
+underlying DOM attribute value. This separation ensures that the
+original XML markup state remains intact while the rendered output
+reflects continuous, time-variant calculations.</p>
+<h2 id="the-smil-timing-and-synchronization-model">The SMIL Timing and
+Synchronization Model</h2>
+<p>At the heart of SMIL is an explicit timing engine governed by a
+document clock and localized time containers. The timeline of an
+individual animation is defined by several key timing attributes:</p>
+<ul>
+<li><strong>begin and dur:</strong> The <code>begin</code> attribute
+defines when the animation activates, accepted as absolute clock values
+(e.g., <code>2s</code>), wall-clock times, or event triggers. The
+<code>dur</code> attribute specifies the simple duration over which the
+attribute manipulation runs.</li>
+<li><strong>Syncbase Timing:</strong> SMIL allows an element’s timing to
+be defined relative to another animation’s life cycle. For instance,
+<code>begin="anim1.end + 0.5s"</code> creates a deterministic dependency
+chain across distinct XML nodes.</li>
+<li><strong>Event-Driven Timing:</strong> Begin and end conditions can
+listen for user interactions or document events, such as
+<code>begin="button.click"</code>, merging temporal scheduling with
+user-driven reactivity.</li>
+<li><strong>Repeat Controls:</strong> Attributes like
+<code>repeatCount</code> and <code>repeatDur</code> allow cyclical
+execution, either for a fixed iteration count or an indefinite
+loop.</li>
+</ul>
+<h2 id="value-interpolation-and-calculation-modes">Value Interpolation
+and Calculation Modes</h2>
+<p>SMIL manipulates target values over its active duration by
+calculating intermediate states between predefined keyframes. The
+animation trajectory is configured through standard value mappings:</p>
+<ul>
+<li><strong><code>from</code>, <code>to</code>, and
+<code>by</code>:</strong> Specify simple transitions between a starting
+value, an ending value, or a relative offset.</li>
+<li><strong><code>values</code> and <code>keyTimes</code>:</strong> For
+multi-stage manipulation, the <code>values</code> attribute accepts a
+semicolon-separated list of target states, while <code>keyTimes</code>
+defines proportional timestamps within the interval [0, 1] to control
+pacing.</li>
+<li><strong><code>calcMode</code>:</strong> Dictates the mathematical
+interpolation method applied across values. Modes include
+<code>discrete</code> (step jumps with no interpolation),
+<code>linear</code> (constant-rate transitions), <code>paced</code>
+(constant velocity across multi-point paths), and <code>spline</code>
+(cubic Bézier pacing controlled via <code>keySplines</code>).</li>
+</ul>
+<h2 id="the-sandwich-model-additive-and-cumulative-composition">The
+Sandwich Model: Additive and Cumulative Composition</h2>
+<p>When multiple SMIL animations target the same XML attribute
+simultaneously, SMIL resolves conflicts using a deterministic layering
+system known as the sandwich model. Animations are ordered based on
+their start times and document tree priority.</p>
+<p>Two attributes govern how these overlapping animations combine:</p>
+<ul>
+<li><strong><code>additive</code>:</strong> Set to either
+<code>replace</code> (the default, where the higher-priority animation
+overwrites lower ones) or <code>sum</code> (where the calculated delta
+is added to the underlying or previously animated value).</li>
+<li><strong><code>accumulate</code>:</strong> When an animation repeats,
+setting <code>accumulate="sum"</code> causes each successive cycle to
+build upon the terminal value of the preceding cycle rather than
+resetting to the initial <code>from</code> state.</li>
+</ul>
+<p>Through this declarative paradigm, SMIL Animation decouples time
+calculations, interpolation math, and event synchronization from
+application logic, delivering consistent, hardware-accelerable attribute
+transformations natively inside XML host environments.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

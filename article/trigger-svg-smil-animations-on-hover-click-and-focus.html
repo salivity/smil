@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trigger SVG SMIL Animations on Hover, Click, and Focus - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) allows developers to build complex, declarative animations directly within SVG code without external JavaScript or CSS. By utilizing event-value specifications inside the begin and end attributes of SMI">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/trigger-svg-smil-animations-on-hover-click-and-focus">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Trigger SVG SMIL Animations on Hover, Click, and Focus - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/trigger-svg-smil-animations-on-hover-click-and-focus" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) allows developers to build complex, declarative animations directly within SVG code without external JavaScript or CSS. By utilizing event-value specifications inside the begin and end attributes of SMI" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="trigger-svg-smil-animations-on-hover-click-and-focus">Trigger
+SVG SMIL Animations on Hover, Click, and Focus</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) allows developers
+to build complex, declarative animations directly within SVG code
+without external JavaScript or CSS. By utilizing event-value
+specifications inside the <code>begin</code> and <code>end</code>
+attributes of SMIL elements such as <code>&lt;animate&gt;</code> or
+<code>&lt;animateTransform&gt;</code>, animations can respond
+dynamically to interactive user inputs. This guide explains how to
+configure SVG SMIL animations to trigger on mouse hovers, clicks, and
+keyboard focus events.</p>
+<h2 id="the-core-concept-the-begin-and-end-attributes">The Core Concept:
+The <code>begin</code> and <code>end</code> Attributes</h2>
+<p>SMIL animation elements like <code>&lt;animate&gt;</code>,
+<code>&lt;animateTransform&gt;</code>, and <code>&lt;set&gt;</code> rely
+on the <code>begin</code> attribute to determine when an animation
+starts and the <code>end</code> attribute to determine when it stops.
+Instead of time-based values (such as <code>begin="0s"</code>), you can
+pass interactive event conditions using the syntax
+<code>[element-id.]event</code>. If no element ID is specified, the
+event defaults to the parent element containing the animation tag.</p>
+<h2 id="triggering-on-hover-mouseover-and-mouseout">Triggering on Hover
+(<code>mouseover</code> and <code>mouseout</code>)</h2>
+<p>To trigger an animation when a user points their cursor over an SVG
+shape, map the <code>begin</code> attribute to <code>mouseover</code>
+(or <code>mouseenter</code>) and the <code>end</code> attribute to
+<code>mouseout</code> (or <code>mouseleave</code>).</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">svg</span> <span class="ot">width=</span><span class="st">&quot;200&quot;</span> <span class="ot">height=</span><span class="st">&quot;200&quot;</span> <span class="ot">viewBox=</span><span class="st">&quot;0 0 100 100&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">circle</span> <span class="ot">cx=</span><span class="st">&quot;50&quot;</span> <span class="ot">cy=</span><span class="st">&quot;50&quot;</span> <span class="ot">r=</span><span class="st">&quot;30&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#3498db&quot;</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Expands on hover and resets on mouse leave --&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animate</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="ot">attributeName=</span><span class="st">&quot;r&quot;</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="ot">to=</span><span class="st">&quot;45&quot;</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="ot">dur=</span><span class="st">&quot;0.3s&quot;</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      <span class="ot">begin=</span><span class="st">&quot;mouseover&quot;</span> </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="ot">end=</span><span class="st">&quot;mouseout&quot;</span> </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      <span class="ot">fill=</span><span class="st">&quot;freeze&quot;</span> /&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">circle</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">svg</span>&gt;</span></code></pre></div>
+<p>Setting <code>fill="freeze"</code> retains the final state while the
+mouse is over the element, while <code>end="mouseout"</code> ensures the
+shape reverts once the cursor leaves.</p>
+<h2 id="triggering-on-click-click">Triggering on Click
+(<code>click</code>)</h2>
+<p>Animations can also start when a user clicks on an element. The
+<code>click</code> event is declared directly inside the
+<code>begin</code> attribute.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">svg</span> <span class="ot">width=</span><span class="st">&quot;200&quot;</span> <span class="ot">height=</span><span class="st">&quot;200&quot;</span> <span class="ot">viewBox=</span><span class="st">&quot;0 0 100 100&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">rect</span> <span class="ot">x=</span><span class="st">&quot;25&quot;</span> <span class="ot">y=</span><span class="st">&quot;25&quot;</span> <span class="ot">width=</span><span class="st">&quot;50&quot;</span> <span class="ot">height=</span><span class="st">&quot;50&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#e74c3c&quot;</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Rotates 90 degrees upon being clicked --&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animateTransform</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="ot">attributeName=</span><span class="st">&quot;transform&quot;</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="ot">type=</span><span class="st">&quot;rotate&quot;</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="ot">from=</span><span class="st">&quot;0 50 50&quot;</span> </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      <span class="ot">to=</span><span class="st">&quot;90 50 50&quot;</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      <span class="ot">dur=</span><span class="st">&quot;0.4s&quot;</span> </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      <span class="ot">begin=</span><span class="st">&quot;click&quot;</span> </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      <span class="ot">fill=</span><span class="st">&quot;freeze&quot;</span> /&gt;</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">rect</span>&gt;</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">svg</span>&gt;</span></code></pre></div>
+<p>You can also create toggle-like behaviors or chain events by setting
+multiple triggers separated by semicolons (e.g.,
+<code>begin="click; otherElement.click"</code>).</p>
+<h2 id="triggering-on-focus-focusin-and-focusout">Triggering on Focus
+(<code>focusin</code> and <code>focusout</code>)</h2>
+<p>To ensure keyboard accessibility, animations can be linked to focus
+events. In standard SVG, graphical elements are not focusable by
+default. To make an SVG element accept focus, add
+<code>tabindex="0"</code>. Then, use <code>focusin</code> and
+<code>focusout</code> (or <code>focus</code> and <code>blur</code>) to
+control the animation.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">svg</span> <span class="ot">width=</span><span class="st">&quot;200&quot;</span> <span class="ot">height=</span><span class="st">&quot;200&quot;</span> <span class="ot">viewBox=</span><span class="st">&quot;0 0 100 100&quot;</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">circle</span> <span class="ot">cx=</span><span class="st">&quot;50&quot;</span> <span class="ot">cy=</span><span class="st">&quot;50&quot;</span> <span class="ot">r=</span><span class="st">&quot;30&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#2ecc71&quot;</span> <span class="ot">tabindex=</span><span class="st">&quot;0&quot;</span>&gt;</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Pulsates when the element receives keyboard focus --&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animate</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      <span class="ot">attributeName=</span><span class="st">&quot;opacity&quot;</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="ot">values=</span><span class="st">&quot;1;0.4;1&quot;</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="ot">dur=</span><span class="st">&quot;1s&quot;</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>      <span class="ot">begin=</span><span class="st">&quot;focusin&quot;</span> </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>      <span class="ot">end=</span><span class="st">&quot;focusout&quot;</span> /&gt;</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">circle</span>&gt;</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">svg</span>&gt;</span></code></pre></div>
+<h2 id="targeting-external-elements">Targeting External Elements</h2>
+<p>An animation does not have to be triggered by its parent shape. By
+referencing the <code>id</code> of another SVG element, you can create
+interactive controls such as buttons that trigger animations elsewhere
+in the document.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">svg</span> <span class="ot">width=</span><span class="st">&quot;300&quot;</span> <span class="ot">height=</span><span class="st">&quot;200&quot;</span> <span class="ot">viewBox=</span><span class="st">&quot;0 0 300 200&quot;</span>&gt;</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Target shape --&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">circle</span> <span class="ot">cx=</span><span class="st">&quot;200&quot;</span> <span class="ot">cy=</span><span class="st">&quot;100&quot;</span> <span class="ot">r=</span><span class="st">&quot;25&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#9b59b6&quot;</span>&gt;</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animate</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      <span class="ot">attributeName=</span><span class="st">&quot;cy&quot;</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>      <span class="ot">to=</span><span class="st">&quot;40&quot;</span> </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      <span class="ot">dur=</span><span class="st">&quot;0.5s&quot;</span> </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      <span class="ot">begin=</span><span class="st">&quot;triggerBtn.click&quot;</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      <span class="ot">end=</span><span class="st">&quot;triggerBtn.mouseout&quot;</span> </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>      <span class="ot">fill=</span><span class="st">&quot;freeze&quot;</span> /&gt;</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">circle</span>&gt;</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Button that controls the circle --&gt;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">rect</span> <span class="ot">id=</span><span class="st">&quot;triggerBtn&quot;</span> <span class="ot">x=</span><span class="st">&quot;20&quot;</span> <span class="ot">y=</span><span class="st">&quot;80&quot;</span> <span class="ot">width=</span><span class="st">&quot;80&quot;</span> <span class="ot">height=</span><span class="st">&quot;40&quot;</span> <span class="ot">rx=</span><span class="st">&quot;5&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#34495e&quot;</span> <span class="ot">cursor=</span><span class="st">&quot;pointer&quot;</span> /&gt;</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">text</span> <span class="ot">x=</span><span class="st">&quot;60&quot;</span> <span class="ot">y=</span><span class="st">&quot;105&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#ffffff&quot;</span> <span class="ot">font-size=</span><span class="st">&quot;12&quot;</span> <span class="ot">text-anchor=</span><span class="st">&quot;middle&quot;</span> <span class="ot">pointer-events=</span><span class="st">&quot;none&quot;</span>&gt;Click Me&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">svg</span>&gt;</span></code></pre></div>
+<p>Using <code>triggerBtn.click</code> directs the SMIL engine to
+observe the element with the matching ID, allowing for clean, decoupled
+UI logic natively within SVG.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

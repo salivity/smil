@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recreating SMIL Timing with Web Components and RxJS - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) historically enabled sophisticated declarative animation timing, syncbases, and event-handling directly within SVG markup, but its deprecation and inconsistent browser support left a gap in modern web a">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/recreating-smil-timing-with-web-components-and-rxjs">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Recreating SMIL Timing with Web Components and RxJS - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/recreating-smil-timing-with-web-components-and-rxjs" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) historically enabled sophisticated declarative animation timing, syncbases, and event-handling directly within SVG markup, but its deprecation and inconsistent browser support left a gap in modern web a" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="recreating-smil-timing-with-web-components-and-rxjs">Recreating
+SMIL Timing with Web Components and RxJS</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) historically
+enabled sophisticated declarative animation timing, syncbases, and
+event-handling directly within SVG markup, but its deprecation and
+inconsistent browser support left a gap in modern web animation
+architectures. By combining custom Web Components for declarative markup
+with RxJS (Reactive Extensions for JavaScript) for stateful event
+streaming, modern web developers can replicate SMIL’s complex timing
+graphs—such as chained triggers, delays, and coordinate syncbases—inside
+a modern, modular, and reactive framework.</p>
+<h3 id="understanding-smil-timing-semantics">Understanding SMIL Timing
+Semantics</h3>
+<p>SMIL relied on declarative timing attributes such as
+<code>begin</code>, <code>dur</code>, <code>end</code>,
+<code>repeatCount</code>, and event-driven triggers (for example,
+<code>begin="button.click + 2s"</code> or
+<code>begin="anim1.end"</code>). These rules allowed animations to
+respond to user interactions, run concurrently, or form interdependent
+execution chains. Replicating this behavior requires two elements: a
+declarative interface accessible in HTML or SVG, and a temporal state
+machine capable of scheduling, delaying, and composing asynchronous
+events.</p>
+<h3 id="the-role-of-web-components">The Role of Web Components</h3>
+<p>Custom Elements provide the declarative layer once offered by native
+SMIL tags like <code>&lt;animate&gt;</code> and
+<code>&lt;set&gt;</code>. Developers define custom elements—such as
+<code>&lt;rx-timeline&gt;</code>, <code>&lt;rx-animate&gt;</code>, or
+<code>&lt;rx-parallel&gt;</code>—which parse timing attributes from the
+DOM.</p>
+<p>The custom element life cycle (<code>connectedCallback</code>,
+<code>attributeChangedCallback</code>, and
+<code>disconnectedCallback</code>) initializes the timing model, reads
+attributes (such as <code>trigger</code>, <code>delay</code>, and
+<code>duration</code>), and establishes teardown mechanisms. By avoiding
+shadow DOM boundaries when targeting external SVG nodes, or using
+standard <code>id</code> references across the document, the custom
+element acts as a bridge between the DOM tree and the underlying
+animation pipeline.</p>
+<h3 id="managing-time-and-synchronization-with-rxjs">Managing Time and
+Synchronization with RxJS</h3>
+<p>RxJS operates as the timing engine, translating discrete user
+actions, delays, and animation lifecycles into composable
+Observables.</p>
+<ol type="1">
+<li><p><strong>Event-Driven Triggers:</strong> SMIL's
+<code>begin="element.click"</code> translates into
+<code>fromEvent(element, 'click')</code>. Additional offsets like
+<code>+ 2s</code> are applied using the <code>delay</code> operator:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> start$ <span class="op">=</span> <span class="fu">fromEvent</span>(triggerElement<span class="op">,</span> <span class="st">&#39;click&#39;</span>)<span class="op">.</span><span class="fu">pipe</span>(<span class="fu">delay</span>(<span class="dv">2000</span>))<span class="op">;</span></span></code></pre></div></li>
+<li><p><strong>Syncbase Timing (Chained Animations):</strong> In SMIL,
+animations can begin relative to the start or end of another animation
+(<code>anim1.end</code>). In RxJS, an animation's execution is
+represented as an Observable stream that emits upon completion.
+Downstream animations subscribe to this completion stream, mimicking
+syncbase relationships:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> anim1Complete$ <span class="op">=</span> <span class="kw">new</span> <span class="fu">Subject</span>()<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> anim2Start$ <span class="op">=</span> anim1Complete$<span class="op">.</span><span class="fu">pipe</span>(<span class="fu">delay</span>(<span class="dv">500</span>))<span class="op">;</span></span></code></pre></div></li>
+<li><p><strong>Repetition and Loops:</strong> SMIL's
+<code>repeatCount</code> attribute is handled using the
+<code>repeat</code> or <code>take</code> operators, allowing loops to
+run indefinitely or terminate after a set number of iterations.</p></li>
+<li><p><strong>Coordination and Resolution:</strong> When multiple
+conditions control an animation’s lifecycle (such as starting on a click
+but terminating if another element is hovered), operators such as
+<code>takeUntil</code>, <code>race</code>, or <code>combineLatest</code>
+handle conflict resolution deterministically without race
+conditions.</p></li>
+</ol>
+<h3 id="bridging-rxjs-to-the-web-animations-api">Bridging RxJS to the
+Web Animations API</h3>
+<p>While RxJS controls the scheduling, the actual visual changes are
+best handled through the Web Animations API (WAAPI) or direct CSS
+variable manipulation.</p>
+<p>Inside the Web Component, the resolved RxJS stream triggers the
+animation:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> RxAnimateComponent <span class="kw">extends</span> <span class="bu">HTMLElement</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">connectedCallback</span>() {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> target <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">querySelector</span>(<span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;target&#39;</span>))<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> delayMs <span class="op">=</span> <span class="pp">parseFloat</span>(<span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;delay&#39;</span>) <span class="op">||</span> <span class="st">&#39;0&#39;</span>) <span class="op">*</span> <span class="dv">1000</span><span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> duration <span class="op">=</span> <span class="pp">parseFloat</span>(<span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;dur&#39;</span>) <span class="op">||</span> <span class="st">&#39;1&#39;</span>) <span class="op">*</span> <span class="dv">1000</span><span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">subscription</span> <span class="op">=</span> <span class="fu">fromEvent</span>(<span class="bu">document</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;trigger&#39;</span>))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">pipe</span>(</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">delay</span>(delayMs)<span class="op">,</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">switchMap</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>          <span class="kw">const</span> animation <span class="op">=</span> target<span class="op">.</span><span class="fu">animate</span>(</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>            [{ <span class="dt">opacity</span><span class="op">:</span> <span class="dv">0</span> }<span class="op">,</span> { <span class="dt">opacity</span><span class="op">:</span> <span class="dv">1</span> }]<span class="op">,</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>            { duration<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">&#39;forwards&#39;</span> }</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>          )<span class="op">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>          <span class="cf">return</span> <span class="fu">fromEvent</span>(animation<span class="op">,</span> <span class="st">&#39;finish&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">subscribe</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">dispatchEvent</span>(<span class="kw">new</span> <span class="bu">CustomEvent</span>(<span class="st">&#39;anim-end&#39;</span>))<span class="op">;</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>      })<span class="op">;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">disconnectedCallback</span>() {</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">subscription</span>) {</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">subscription</span><span class="op">.</span><span class="fu">unsubscribe</span>()<span class="op">;</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>customElements<span class="op">.</span><span class="fu">define</span>(<span class="st">&#39;rx-animate&#39;</span><span class="op">,</span> RxAnimateComponent)<span class="op">;</span></span></code></pre></div>
+<h3 id="advantages-of-the-hybrid-approach">Advantages of the Hybrid
+Approach</h3>
+<p>Replicating SMIL timing with Web Components and RxJS separates
+scheduling logic from visual rendering. Web Components maintain the
+readable, declarative structure that made SMIL popular for SVG authors,
+while RxJS eliminates the edge cases, memory leaks, and synchronization
+bugs traditionally associated with imperative animation code.
+Furthermore, wrapping subscriptions within element lifecycles ensures
+automatic garbage collection whenever elements are detached from the
+DOM.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Sandbox Restrictions for Local File Access - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) documents are subject to strict security sandboxing when attempting to interact with the local file system. Because SMIL is designed to aggregate and choreograph external multimedia assets such as audio">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-sandbox-restrictions-for-local-file-access">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Sandbox Restrictions for Local File Access - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-sandbox-restrictions-for-local-file-access" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) documents are subject to strict security sandboxing when attempting to interact with the local file system. Because SMIL is designed to aggregate and choreograph external multimedia assets such as audio" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-sandbox-restrictions-for-local-file-access">SMIL Sandbox
+Restrictions for Local File Access</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) documents are
+subject to strict security sandboxing when attempting to interact with
+the local file system. Because SMIL is designed to aggregate and
+choreograph external multimedia assets such as audio, video, images, and
+text, parsing engines enforce rigid isolation protocols to prevent
+unauthorized file disclosure, path traversal, and malicious cross-origin
+exploitation. Modern runtimes—including web browsers, EPUB readers, and
+dedicated digital signage media players—apply policies ranging from
+cross-scheme blocking to total file system isolation to secure the host
+environment.</p>
+<h3 id="cross-scheme-and-mixed-origin-blocking">Cross-Scheme and
+Mixed-Origin Blocking</h3>
+<p>When a SMIL document is hosted over a network protocol like HTTP or
+HTTPS, it is entirely restricted from accessing the host's local file
+system. Runtimes enforce a strict scheme boundary where network-loaded
+SMIL files cannot resolve URIs using the <code>file://</code> protocol
+or relative paths pointing to local system directories. Any media
+element (such as <code>&lt;video&gt;</code>, <code>&lt;audio&gt;</code>,
+or <code>&lt;img&gt;</code>) referencing a local path will fail to
+resolve, triggering a silent security violation or standard resource
+load failure.</p>
+<h3 id="local-origin-isolation">Local Origin Isolation</h3>
+<p>When a SMIL document is opened directly from a local storage drive
+via the <code>file://</code> scheme, modern parsing engines do not grant
+it universal access to the rest of the storage system. Most modern
+web-based rendering engines treat every local file as an opaque, unique
+origin (<code>null</code>). Under this model:</p>
+<ul>
+<li>A local SMIL file cannot load media assets from sibling, parent, or
+arbitrary system directories.</li>
+<li>Dynamic references attempting to step out of the current folder via
+relative directory traversal (e.g., <code>../../etc/passwd</code> or
+<code>..\Windows\</code>) are blocked by default.</li>
+<li>The SMIL player typically limits resource resolution strictly to the
+parent directory where the master SMIL file resides, or to
+subdirectories explicitly located beneath it.</li>
+</ul>
+<h3 id="embedded-context-restrictions">Embedded Context
+Restrictions</h3>
+<p>SMIL is frequently embedded within other document formats, most
+notably inside Scalable Vector Graphics (SVG) through SMIL animation
+elements, or within EPUB packages for media overlays. In these
+environments, sandboxing is doubly enforced:</p>
+<ul>
+<li><strong>SVG Animation Sandboxes:</strong> When an SVG containing
+SMIL timing and animation directives is embedded inside an HTML document
+(via <code>&lt;img&gt;</code>, <code>&lt;iframe&gt;</code>, or CSS), the
+user agent strips external resource fetching capabilities. The SMIL
+animations cannot trigger reads from the local file system, preventing
+timing-based side-channel attacks on local files.</li>
+<li><strong>EPUB and Container Packaging:</strong> In packaged
+environments, the SMIL document can only access assets contained within
+the explicit manifest of the package archive (such as the EPUB
+<code>.zip</code> container). Attempts to use paths that point outside
+the archive to the reading device’s file system are denied by the
+parser.</li>
+</ul>
+<h3 id="read-only-and-api-constraints">Read-Only and API
+Constraints</h3>
+<p>By specification, SMIL is a declarative markup language and lacks
+native input/output (I/O) scripting APIs to read arbitrary file data or
+write back to disk. Even if a local file path resolves inside an
+allowable directory, the player engine only reads and decodes valid
+media containers. The document cannot parse arbitrary text, inspect
+binary data, or alter the host system's files. Any interaction that
+falls outside standard media playback within the sandbox is rejected by
+the underlying runtime.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

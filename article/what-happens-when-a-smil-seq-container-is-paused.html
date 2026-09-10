@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Happens When a SMIL seq Container Is Paused - smil</title>
+    <meta name="description" content="When a parent Synchronized Multimedia Integration Language (SMIL) <seq> container is paused mid-playback, its entire local timeline halts immediately, freezing the currently active child element in place while delaying all upcoming sequence items. The ac">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/what-happens-when-a-smil-seq-container-is-paused">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Happens When a SMIL seq Container Is Paused - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/what-happens-when-a-smil-seq-container-is-paused" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="When a parent Synchronized Multimedia Integration Language (SMIL) <seq> container is paused mid-playback, its entire local timeline halts immediately, freezing the currently active child element in place while delaying all upcoming sequence items. The ac" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-happens-when-a-smil-seq-container-is-paused">What Happens
+When a SMIL seq Container Is Paused</h1>
+<p>When a parent Synchronized Multimedia Integration Language (SMIL)
+<code>&lt;seq&gt;</code> container is paused mid-playback, its entire
+local timeline halts immediately, freezing the currently active child
+element in place while delaying all upcoming sequence items. The active
+child's media progression and internal clock stop instantly, and
+subsequent children remain in an un-started state until the parent
+container resumes. Once playback is resumed, the active child finishes
+its remaining duration, and the sequence proceeds normally without
+losing temporal alignment.</p>
+<h3 id="impact-on-the-currently-active-child">Impact on the Currently
+Active Child</h3>
+<p>In a <code>&lt;seq&gt;</code> container, child elements are played
+one after another in chronological order, meaning only one child element
+is actively rendering at any given moment. When the parent
+<code>&lt;seq&gt;</code> container receives a pause command, the local
+time of the container stops advancing. Consequently:</p>
+<ul>
+<li><strong>Time Suspension:</strong> The active child’s local timeline
+freezes at the exact moment of the pause.</li>
+<li><strong>Media Freezing:</strong> Visual elements (such as images,
+text displays, or video frames) pause on the current frame or state.
+Audio elements stop outputting sound instantly.</li>
+<li><strong>State Preservation:</strong> The active child retains its
+active state rather than transitioning to an ended state. It does not
+unload or reset.</li>
+</ul>
+<h3 id="impact-on-subsequent-upcoming-children">Impact on Subsequent
+(Upcoming) Children</h3>
+<p>Children that have not yet started playback are not instantiated or
+evaluated for execution while the parent is paused:</p>
+<ul>
+<li><strong>Delayed Start Times:</strong> In SMIL, each successive child
+in a <code>&lt;seq&gt;</code> element relies on the end time of the
+preceding child. Because the active child’s timeline is paused, its end
+event is delayed by the exact duration of the pause.</li>
+<li><strong>Preserved Queue:</strong> Upcoming children remain queued.
+Their scheduling is shifted forward on the global document timeline,
+ensuring that no elements are skipped, clipped, or prematurely
+triggered.</li>
+</ul>
+<h3 id="impact-on-completed-children">Impact on Completed Children</h3>
+<p>Elements in the sequence that finished playing prior to the pause
+event are unaffected in terms of playback logic:</p>
+<ul>
+<li><strong>Fill Behavior Remains Constant:</strong> If an earlier child
+used <code>fill="freeze"</code>, its final frame remains frozen on the
+display. If it used <code>fill="remove"</code>, it remains invisible.
+The pause action on the parent container does not alter the post-display
+behavior of previously terminated elements.</li>
+</ul>
+<h3 id="resumption-behavior">Resumption Behavior</h3>
+<p>When the parent <code>&lt;seq&gt;</code> container is unpaused or
+receives a resume trigger, the timeline restarts from the exact
+millisecond where it stopped:</p>
+<ul>
+<li>The active child completes its remaining active duration.</li>
+<li>Upon completion of the active child, an <code>end</code> event is
+fired.</li>
+<li>The <code>&lt;seq&gt;</code> container catches the <code>end</code>
+event and triggers the <code>begin</code> event of the next child
+element, restoring normal sequential playback across the rest of the
+media presentation.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

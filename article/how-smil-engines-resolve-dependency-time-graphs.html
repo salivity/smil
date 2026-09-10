@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How SMIL Engines Resolve Dependency Time Graphs - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) engines resolve complex, interdependent timing relationships by combining directed dependency graphs, iterative constraint propagation, and discrete-event simulation. Because SMIL supports dynamic trigg">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-smil-engines-resolve-dependency-time-graphs">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How SMIL Engines Resolve Dependency Time Graphs - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-smil-engines-resolve-dependency-time-graphs" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) engines resolve complex, interdependent timing relationships by combining directed dependency graphs, iterative constraint propagation, and discrete-event simulation. Because SMIL supports dynamic trigg" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-smil-engines-resolve-dependency-time-graphs">How SMIL
+Engines Resolve Dependency Time Graphs</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) engines resolve
+complex, interdependent timing relationships by combining directed
+dependency graphs, iterative constraint propagation, and discrete-event
+simulation. Because SMIL supports dynamic triggers, syncbase-based
+relative timing, and circular references, engines cannot rely on a
+static linear timeline. Instead, they model temporal relationships as an
+active dependency network, dynamically computing valid begin and end
+intervals while continuously reacting to runtime events and resolving
+cyclic constraints.</p>
+<h3 id="the-syncbase-dependency-graph">The Syncbase Dependency
+Graph</h3>
+<p>At the core of a SMIL engine is a directed graph where nodes
+represent timing elements (such as media clips, parallel
+<code>&lt;par&gt;</code> containers, and sequential
+<code>&lt;seq&gt;</code> containers) and edges represent syncbase
+relationships (e.g., element <code>B</code> begins at
+<code>A.end + 2s</code>).</p>
+<p>During the document compilation phase, the engine constructs this
+graph to map both parent-child hierarchical constraints and
+cross-element temporal dependencies. For purely declarative, non-cyclic
+timelines, the engine performs a topological sort on this directed
+acyclic graph (DAG) to determine the baseline order of interval
+evaluation.</p>
+<h3 id="dynamic-instance-list-evaluation">Dynamic Instance List
+Evaluation</h3>
+<p>SMIL separates static time declarations from dynamic run-time
+evaluations using "instance lists." Every element maintains sorted lists
+of resolved begin and end times.</p>
+<p>The evaluation algorithm follows these steps:</p>
+<ol type="1">
+<li><strong>Unresolved State Assignment:</strong> Elements without a
+deterministic start time remain in an unresolved state until their
+syncbase dependencies fire or yield concrete values.</li>
+<li><strong>Current Interval Calculation:</strong> The engine evaluates
+the first valid pair of <code>(begin, end)</code> points from the
+instance lists that satisfies the element's duration, restart semantics,
+and boundary rules (such as <code>min</code> and <code>max</code>
+constraints).</li>
+<li><strong>Pruning and Shifting:</strong> Outdated or superseded
+intervals are pruned. If an ancestor or syncbase changes, subsequent
+instances are shifted or marked dirty.</li>
+</ol>
+<h3 id="forward-constraint-propagation">Forward Constraint
+Propagation</h3>
+<p>When an interval is established, altered, or terminated, the SMIL
+engine initiates forward constraint propagation:</p>
+<ol type="1">
+<li>The modified element notifies all dependent nodes connected via
+outgoing edges in the dependency graph.</li>
+<li>Dependent nodes recalculate their instance lists based on the newly
+reported times.</li>
+<li>If a dependent node's active interval shifts, the change ripples
+downstream through recursive propagation or an evaluation worklist
+queue.</li>
+</ol>
+<p>This iterative relaxation ensures that changes such as a video
+stalling, streaming delays, or user interactions immediately update
+downstream schedules without requiring a full document re-parse.</p>
+<h3 id="cycle-breaking-and-circular-dependency-handling">Cycle Breaking
+and Circular Dependency Handling</h3>
+<p>Complex SMIL schedules often introduce temporal cycles—such as
+element <code>A</code> starting when element <code>B</code> ends, while
+<code>B</code> starts relative to an event on <code>A</code>. To prevent
+infinite loops and deadlocks during constraint propagation, the SMIL
+specification defines strict cycle-breaking rules implemented via the
+following mechanisms:</p>
+<ul>
+<li><strong>Temporal Monotonicity (Past-Freezing):</strong> Once an
+interval has begun or completed, its past boundary becomes immutable.
+Circular dependencies cannot retroactively alter past instance
+times.</li>
+<li><strong>Causal Breakpoints:</strong> Engines track evaluation depth
+during graph traversal. If a dependency chain loops back to an active or
+currently resolving node within the same time step, the engine breaks
+the cycle by evaluating the dependency against the <em>current</em> or
+<em>previous</em> iteration's interval rather than recomputing the loop
+indefinitely.</li>
+<li><strong>Tear-Off State Tracking:</strong> When recursive
+dependencies occur via repeat cycles, new intervals are treated as
+distinct instances, unfolding the cycle over time rather than evaluating
+it as a static recursive constraint.</li>
+</ul>
+<h3 id="discrete-event-simulation-loop">Discrete-Event Simulation
+Loop</h3>
+<p>For runtime execution, the engine couples the dependency graph with a
+discrete-event scheduler backed by a priority queue (min-heap). The
+queue stores scheduled state changes, such as interval endpoints,
+syncbase triggers, and scheduled DOM events.</p>
+<p>At each execution step, the engine advances simulation time to the
+earliest event in the queue, applies the state transitions, triggers
+downstream re-evaluations across the dependency graph, and enqueues any
+newly generated instance times. This hybrid approach allows declarative
+timing trees and unpredictable interactive inputs to resolve
+deterministically within a single unified execution model.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

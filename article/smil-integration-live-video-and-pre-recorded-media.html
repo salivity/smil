@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Integration: Live Video and Pre-Recorded Media - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) enables authors to seamlessly blend live video streams with pre-recorded multimedia assets such as audio clips, static images, text tickers, and local video files. By utilizing declarative XML structure">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-integration-live-video-and-pre-recorded-media">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Integration: Live Video and Pre-Recorded Media - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-integration-live-video-and-pre-recorded-media" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) enables authors to seamlessly blend live video streams with pre-recorded multimedia assets such as audio clips, static images, text tickers, and local video files. By utilizing declarative XML structure" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-integration-live-video-and-pre-recorded-media">SMIL
+Integration: Live Video and Pre-Recorded Media</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) enables authors
+to seamlessly blend live video streams with pre-recorded multimedia
+assets such as audio clips, static images, text tickers, and local video
+files. By utilizing declarative XML structures, SMIL orchestrates
+spatial layouts, timeline synchronization, and network stream
+declarations without requiring complex scripting. This article explains
+how SMIL handles the unpredictable duration and latency of live streams
+while maintaining precise coordination with deterministic, pre-recorded
+content.</p>
+<h3 id="declaring-live-streams-via-media-elements">Declaring Live
+Streams via Media Elements</h3>
+<p>SMIL treats a live stream conceptually the same as static media by
+referencing it through the standard <code>&lt;video&gt;</code> or
+<code>&lt;ref&gt;</code> elements. Instead of pointing to a local file
+or fixed-duration VOD URL, the <code>src</code> attribute targets a
+streaming protocol endpoint (such as RTSP, RTMP, or HLS/DASH manifest
+feeds).</p>
+<p>Because live broadcasts lack a predetermined end point, their
+duration cannot be calculated in advance. Authors address this by
+setting the duration attribute to indefinite
+(<code>dur="indefinite"</code>). This informs the SMIL player that the
+stream must run continuously until an external event, a parent
+container, or a schedule condition terminates it.</p>
+<h3 id="spatial-layout-and-multi-zone-display">Spatial Layout and
+Multi-Zone Display</h3>
+<p>SMIL uses the <code>&lt;layout&gt;</code> element alongside child
+<code>&lt;region&gt;</code> tags to dictate where each media component
+appears on screen. This architecture makes it straightforward to display
+live feeds adjacent to pre-recorded elements:</p>
+<ul>
+<li><strong>Picture-in-Picture (PiP):</strong> A live stream can occupy
+a secondary <code>&lt;region&gt;</code> floating on top of a looping
+pre-recorded background video.</li>
+<li><strong>Digital Signage and Broadcast Overlays:</strong> A primary
+region can host the live broadcast, while dedicated sub-regions display
+pre-recorded sponsor logos, animated graphic overlays
+(<code>&lt;img&gt;</code>), or scrolling HTML/text tickers.</li>
+</ul>
+<p>Because rendering regions are decoupled from media timing, the
+presence or buffering of a live stream will not disrupt the visual
+positioning of accompanying static assets.</p>
+<h3 id="temporal-synchronization-with-containers">Temporal
+Synchronization with Containers</h3>
+<p>SMIL handles the operational interplay between live and pre-recorded
+media using two fundamental timing containers: <code>&lt;par&gt;</code>
+(parallel) and <code>&lt;seq&gt;</code> (sequential).</p>
+<h4 id="parallel-composition-par">Parallel Composition
+(<code>&lt;par&gt;</code>)</h4>
+<p>When running live and pre-recorded assets simultaneously, they are
+wrapped within a <code>&lt;par&gt;</code> container. Authors manage
+relative timing through synchronization attributes:</p>
+<ul>
+<li><strong><code>endsync</code> Attribute:</strong> Defines how the
+container finishes. Setting <code>endsync="first"</code> forces the
+container to close as soon as the pre-recorded asset finishes, cleanly
+ending the live stream alongside it. Conversely, setting
+<code>endsync="mediaElementId"</code> ties the container's lifecycle to
+a specific pre-recorded or live node.</li>
+<li><strong>Syncbase Timing:</strong> Pre-recorded assets can be
+scheduled to begin at fixed offsets relative to the start of the live
+feed (e.g., <code>begin="liveStream.begin+10s"</code> to display an
+overlay ten seconds after connecting).</li>
+</ul>
+<h4 id="sequential-composition-seq">Sequential Composition
+(<code>&lt;seq&gt;</code>)</h4>
+<p>When alternating between live and pre-recorded content, the
+<code>&lt;seq&gt;</code> container plays elements in order. A common
+broadcast workflow plays a pre-recorded pre-roll video, switches
+immediately to the live broadcast, and transitions back to local
+pre-recorded content when the live event finishes. To transition away
+from an indefinite live feed within a <code>&lt;seq&gt;</code>, the
+stream element typically listens for an event trigger (such as an
+end-of-broadcast signal or a wallclock time threshold).</p>
+<h3 id="managing-latency-buffering-and-failovers">Managing Latency,
+Buffering, and Failovers</h3>
+<p>Live streaming introduces variables such as network jitter, dropped
+frames, and connection delays that do not affect pre-recorded local
+files. SMIL provides mechanisms to maintain presentation integrity:</p>
+<ul>
+<li><strong>The <code>&lt;switch&gt;</code> Element:</strong> Authors
+can wrap a live stream in a <code>&lt;switch&gt;</code> block paired
+with test attributes. If the system detects insufficient bandwidth or a
+broken connection, the player automatically falls back to a locally
+cached pre-recorded video or a standby slate.</li>
+<li><strong>Clock Models and <code>syncBehavior</code>:</strong> SMIL
+specifies how tightly a player must lock media clocks together. By
+configuring <code>syncBehavior="independent"</code>, a presentation
+author allows a live stream to buffer or slip slightly without stalling
+the playback of accompanying pre-recorded background music or
+animations.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

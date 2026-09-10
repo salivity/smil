@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Do SMIL Timing Markers Work in Media Files? - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) timing markers define precise temporal milestones and synchronization points across disparate media elements such as audio, video, images, and text. By using declarative timing attributes, fragment iden">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-do-smil-timing-markers-work-in-media-files">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Do SMIL Timing Markers Work in Media Files? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-do-smil-timing-markers-work-in-media-files" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) timing markers define precise temporal milestones and synchronization points across disparate media elements such as audio, video, images, and text. By using declarative timing attributes, fragment iden" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-do-smil-timing-markers-work-in-media-files">How Do SMIL
+Timing Markers Work in Media Files?</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) timing markers
+define precise temporal milestones and synchronization points across
+disparate media elements such as audio, video, images, and text. By
+using declarative timing attributes, fragment identifiers, and
+event-driven triggers, SMIL allows content creators to coordinate the
+playback of separate assets without modifying the underlying raw media
+files. This guide examines how SMIL establishes time containers,
+references specific clip segments, and binds interactive or sequential
+events across multimedia presentations.</p>
+<h2 id="the-core-concept-of-smil-timing-markers">The Core Concept of
+SMIL Timing Markers</h2>
+<p>SMIL (pronounced "smile") is an XML-based markup language developed
+by the World Wide Web Consortium (W3C). Rather than merging video,
+voiceovers, and text into a single baked file, SMIL acts as an
+orchestration layer.</p>
+<p>Timing markers in SMIL serve as anchors that specify when an element
+starts, how long it plays, and when it stops. These markers can be
+defined as absolute time offsets, relative references tied to other
+elements, or internal cue points embedded directly inside media
+tracks.</p>
+<p>The primary timing attributes used in SMIL include:</p>
+<ul>
+<li><code>begin</code>: Dictates when an element becomes active (e.g.,
+<code>begin="5s"</code> or <code>begin="audio1.end"</code>).</li>
+<li><code>dur</code>: Specifies the explicit duration of playback (e.g.,
+<code>dur="10s"</code>).</li>
+<li><code>end</code>: Defines the cutoff point for element
+presentation.</li>
+<li><code>clipBegin</code> and <code>clipEnd</code>: Designate specific
+sub-segments of an external media resource to play, effectively trimming
+playback without destructive editing.</li>
+</ul>
+<h2 id="how-media-files-reference-timing-markers">How Media Files
+Reference Timing Markers</h2>
+<p>SMIL links temporal coordinates to physical media files through
+standardized attribute parsing and URI fragment identifiers.</p>
+<h3 id="1-attribute-based-media-clipping">1. Attribute-Based Media
+Clipping</h3>
+<p>The standard SMIL method for extracting a portion of an audio or
+video file relies on the <code>clipBegin</code> and <code>clipEnd</code>
+attributes within structural media tags like <code>&lt;audio&gt;</code>,
+<code>&lt;video&gt;</code>, or <code>&lt;ref&gt;</code>.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">par</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;narrator.mp3&quot;</span> <span class="ot">clipBegin=</span><span class="st">&quot;00:01:15.000&quot;</span> <span class="ot">clipEnd=</span><span class="st">&quot;00:01:25.500&quot;</span> <span class="ot">id=</span><span class="st">&quot;audio_seg1&quot;</span>/&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">text</span> <span class="ot">src=</span><span class="st">&quot;chapter1.html#sentence1&quot;</span> <span class="ot">id=</span><span class="st">&quot;text_seg1&quot;</span>/&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">par</span>&gt;</span></code></pre></div>
+<p>In this structure, the SMIL playback engine reads the entire audio
+file but seeks directly to the 1 minute, 15 second mark, playing only
+until the 1 minute, 25.5 second mark while simultaneously rendering the
+corresponding text paragraph.</p>
+<h3 id="2-media-fragment-identifiers">2. Media Fragment Identifiers</h3>
+<p>Modern SMIL implementations and related standards (such as EPUB 3
+Media Overlays) support the W3C Media Fragments URI specification.
+Instead of standalone clipping attributes, the temporal marker is
+appended directly to the media URL:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;lecture.mp4#t=75,85.5&quot;</span> /&gt;</span></code></pre></div>
+<p>The playback engine interprets <code>#t=75,85.5</code> as an
+instruction to retrieve and render the media between 75 seconds and 85.5
+seconds.</p>
+<h3 id="3-named-marker-references-cues">3. Named Marker References
+(Cues)</h3>
+<p>Certain audio and video formats support internal cue markers (such as
+embedded metadata chapters or QuickTime/MP4 text tracks). SMIL can bind
+its timeline directly to these named internal markers using marker
+syntax:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;slide2.png&quot;</span> <span class="ot">begin=</span><span class="st">&quot;videoTrack.marker(ChapterTwo)&quot;</span> <span class="ot">dur=</span><span class="st">&quot;15s&quot;</span> /&gt;</span></code></pre></div>
+<p>This syntax instructs the player to display <code>slide2.png</code>
+the exact moment the media element <code>videoTrack</code> reaches its
+internal metadata marker labeled <code>ChapterTwo</code>.</p>
+<h2 id="structuring-time-seq-par-and-syncbase-timing">Structuring Time:
+<code>&lt;seq&gt;</code>, <code>&lt;par&gt;</code>, and
+<code>syncbase</code> Timing</h2>
+<p>SMIL organizes timing relationships using two primary container
+elements and syncbase values:</p>
+<ul>
+<li><strong>Sequential Containers (<code>&lt;seq&gt;</code>):</strong>
+Elements inside a <code>&lt;seq&gt;</code> block play one after another
+automatically. The end marker of the previous child serves as the
+default begin marker for the next.</li>
+<li><strong>Parallel Containers (<code>&lt;par&gt;</code>):</strong>
+Elements within a <code>&lt;par&gt;</code> block execute concurrently,
+allowing background audio, video tracks, and captions to play in
+parallel.</li>
+<li><strong>Syncbase Value Timing:</strong> Elements reference each
+other's state boundaries using <code>elementID.begin</code> or
+<code>elementID.end</code> with optional offsets (e.g.,
+<code>begin="introAudio.end+2s"</code>).</li>
+</ul>
+<h2 id="common-real-world-applications">Common Real-World
+Applications</h2>
+<p>While raw SMIL 3.0 files are less common on the open web today, SMIL
+timing mechanics form the foundation of several major digital media
+standards:</p>
+<ul>
+<li><strong>EPUB 3 Media Overlays:</strong> Digital books use SMIL
+documents to synchronize highlighted text on screen with narrated audio
+files down to the millisecond.</li>
+<li><strong>DAISY Digital Talking Books:</strong> Accessible reading
+systems rely on SMIL timing trees to allow visually impaired users to
+navigate complex document hierarchies synchronously with recorded
+speech.</li>
+<li><strong>SVG Animation (SMIL in SVG):</strong> Vector graphics
+utilize SMIL timing attributes (<code>begin</code>, <code>dur</code>,
+<code>repeatCount</code>, <code>end</code>) to animate visual properties
+without requiring external JavaScript engines.</li>
+<li><strong>Digital Signage (W3C SMIL Profiles):</strong> Commercial
+media players use lightweight SMIL configurations to schedule video
+loops, ticker tapes, and image rotations across multi-zoned
+displays.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

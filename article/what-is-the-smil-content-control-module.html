@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is the SMIL Content Control Module? - smil</title>
+    <meta name="description" content="The Synchronized Multimedia Integration Language (SMIL) Content Control module provides a standardized framework for delivering adaptive multimedia presentations tailored to diverse runtime environments. By evaluating user preferences, hardware capabilit">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/what-is-the-smil-content-control-module">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is the SMIL Content Control Module? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/what-is-the-smil-content-control-module" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Synchronized Multimedia Integration Language (SMIL) Content Control module provides a standardized framework for delivering adaptive multimedia presentations tailored to diverse runtime environments. By evaluating user preferences, hardware capabilit" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-the-smil-content-control-module">What Is the SMIL
+Content Control Module?</h1>
+<p>The Synchronized Multimedia Integration Language (SMIL) Content
+Control module provides a standardized framework for delivering adaptive
+multimedia presentations tailored to diverse runtime environments. By
+evaluating user preferences, hardware capabilities, network bandwidth,
+and accessibility settings, this module enables dynamic content
+selection without requiring custom scripting. This article explores the
+primary mechanisms of the SMIL Content Control module, focusing on
+conditional evaluation, standard test attributes, and its critical role
+in accessibility and multi-platform media delivery.</p>
+<h2 id="core-purpose-and-mechanisms">Core Purpose and Mechanisms</h2>
+<p>In multimedia authoring, presenting identical media streams across
+disparate playback devices and network conditions often leads to
+degraded performance or poor user experiences. The SMIL Content Control
+module resolves this challenge by introducing adaptive selection
+mechanisms directly into the markup. It allows authors to package
+multiple variations of a presentation—such as different video
+resolutions, alternate audio tracks, or localized text captions—within a
+single document.</p>
+<p>The module operates primarily through two complementary
+capabilities:</p>
+<ul>
+<li><strong>Conditional Element Selection:</strong> Grouping alternative
+media objects together so the player renders only the most appropriate
+version.</li>
+<li><strong>Inline Attribute Testing:</strong> Applying specific
+condition tests directly to individual media elements or containers to
+control whether they are rendered.</li>
+</ul>
+<h2 id="the-switch-element">The <code>&lt;switch&gt;</code> Element</h2>
+<p>The <code>&lt;switch&gt;</code> element serves as the core container
+for conditional rendering in SMIL. It defines a set of alternative
+choices and directs the rendering engine to evaluate child elements
+sequentially from top to bottom.</p>
+<p>When a playback engine encounters a <code>&lt;switch&gt;</code>
+container, it evaluates the test attributes on each child element. The
+first child element whose test conditions evaluate to <code>true</code>
+is selected and played, while all subsequent siblings within that
+<code>&lt;switch&gt;</code> block are ignored. If none of the
+conditional elements match, the engine falls back to a default element
+positioned at the end of the switch block that carries no test
+attributes.</p>
+<h2 id="key-system-test-attributes">Key System Test Attributes</h2>
+<p>The SMIL Content Control specification defines a comprehensive suite
+of predefined system attributes. These attributes query the client
+application, operating environment, and user settings at runtime:</p>
+<ul>
+<li><strong><code>systemBitrate</code>:</strong> Evaluates the available
+transmission bandwidth. Authors use this to serve low-bitrate
+audio/video to slow connections and high-bitrate media to broadband
+users.</li>
+<li><strong><code>systemLanguage</code>:</strong> Inspects the user's
+configured language preferences, allowing the player to automatically
+select localized audio commentary or text overlays.</li>
+<li><strong><code>systemCaptions</code> and
+<code>systemOverdubOrSubtitle</code>:</strong> Detects user preferences
+for closed captioning or subtitling versus dubbed audio streams.</li>
+<li><strong><code>systemScreenSize</code> and
+<code>systemScreenDepth</code>:</strong> Checks screen resolution and
+color palette limits to prevent serving oversized assets to
+resource-constrained displays.</li>
+<li><strong><code>systemAudioDesc</code>:</strong> Determines whether
+the listener has enabled audio descriptions for visually impaired
+users.</li>
+<li><strong><code>systemRequired</code>:</strong> Tests whether the
+playback engine supports a specific SMIL extension or XML namespace
+before attempting execution.</li>
+</ul>
+<h2 id="accessibility-and-user-adaptation">Accessibility and User
+Adaptation</h2>
+<p>Beyond device adaptation, accessibility represents one of the most
+vital applications of the SMIL Content Control module. Media players can
+inspect assistive technology settings seamlessly, enabling presentations
+to deliver synchronized sign-language videos, high-contrast captions, or
+spoken descriptions automatically to users who require them.</p>
+<p>The SMIL Content Control module establishes an efficient, declarative
+method for responsive multimedia authoring. By handling device
+profiling, localization, and accessibility within standardized markup,
+it ensures rich media remains robust, efficient, and accessible across
+an evolving ecosystem of playback devices.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

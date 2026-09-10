@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL syncBehavior: Managing Clock Drift - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) coordinates the timed presentation of multiple media elements, such as audio, video, text, and animation. In long-running presentations, media components often diverge from their master timeline due to">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-syncbehavior-managing-clock-drift">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL syncBehavior: Managing Clock Drift - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-syncbehavior-managing-clock-drift" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) coordinates the timed presentation of multiple media elements, such as audio, video, text, and animation. In long-running presentations, media components often diverge from their master timeline due to" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-syncbehavior-managing-clock-drift">SMIL syncBehavior:
+Managing Clock Drift</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) coordinates the
+timed presentation of multiple media elements, such as audio, video,
+text, and animation. In long-running presentations, media components
+often diverge from their master timeline due to hardware
+inconsistencies, processing latency, or frame decoding issues—a
+phenomenon known as clock drift. The <code>syncBehavior</code> attribute
+provides authors with direct control over how a playback engine resolves
+these timing discrepancies, defining whether an element rigidly locks to
+its parent timeline or operates with tolerance for drift.</p>
+<h3 id="understanding-clock-drift-in-smil">Understanding Clock Drift in
+SMIL</h3>
+<p>When a SMIL presentation runs, individual media renderers track time
+using local clocks, while the SMIL player maintains a global container
+timeline. Clock drift occurs when an underlying media decoder runs
+slightly faster or slower than the master container clock. Without
+intervention, audio tracks can desynchronize from video (breaking
+lip-sync), or subtitles can display out of step with dialogue.</p>
+<h3 id="how-syncbehavior-operates">How <code>syncBehavior</code>
+Operates</h3>
+<p>The <code>syncBehavior</code> attribute establishes the
+synchronization relationship between a specific media element (or
+container) and its parent time container. It instructs the playback
+engine on the degree of strictness to enforce whenever drift occurs.</p>
+<p>The attribute accepts four primary values:</p>
+<ul>
+<li><strong><code>locked</code></strong>: Enforces strict
+synchronization. The media element is bound directly to the container
+clock. If drift occurs and exceeds the presentation's defined tolerance,
+the playback engine forces alignment. Depending on whether the element
+is ahead or behind, the player will pause, drop frames, or seek forward
+within the media to bring it back in step with the master timeline.</li>
+<li><strong><code>canSlip</code></strong>: Permits soft synchronization.
+The element is allowed to drift relative to the container clock without
+forced correction. If the media falls behind or runs ahead, the player
+allows it to play at its native pace without interrupting the stream
+with frame drops or micro-pauses. This is ideal when uninterrupted media
+fidelity is preferred over precise temporal alignment.</li>
+<li><strong><code>independent</code></strong>: Completely decouples the
+media element from the parent timeline once playback begins. The element
+starts according to schedule but runs on its own internal clock
+thereafter, ignoring container synchronization events entirely.</li>
+<li><strong><code>default</code></strong>: Inherits the behavior
+specified by the ancestor container's <code>syncBehaviorDefault</code>
+attribute, or reverts to the user-agent default if none is defined.</li>
+</ul>
+<h3 id="interaction-with-synctolerance">Interaction with
+<code>syncTolerance</code></h3>
+<p>The <code>syncBehavior</code> attribute functions alongside
+<code>syncTolerance</code>. While <code>syncBehavior</code> defines
+<em>how</em> the engine responds to drift, <code>syncTolerance</code>
+defines <em>when</em> the engine responds.</p>
+<p>Setting <code>syncBehavior="locked"</code> activates the tolerance
+threshold defined by <code>syncTolerance</code>. As long as the clock
+drift remains within the acceptable window (e.g., 200 milliseconds), the
+playback engine treats the media as synchronized. Once drift exceeds
+that value, the engine applies corrective measures dictated by the
+<code>locked</code> state to realign the presentation.</p>
+<h3 id="practical-application">Practical Application</h3>
+<p>Selecting the proper <code>syncBehavior</code> depends on media
+priority:</p>
+<ul>
+<li>Use <strong><code>locked</code></strong> for video and audio pairs
+requiring lip-sync, interactive quizzes, or timed captions.</li>
+<li>Use <strong><code>canSlip</code></strong> for background audio
+tracks, ambient video loops, or scenarios where preserving smooth media
+playback outweighs exact frame-level coordination.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Parent Speed Affects Child SMIL Duration - smil</title>
+    <meta name="description" content="This article explores how a parent container's speed attribute influences child elements in the Synchronized Multimedia Integration Language (SMIL) timing model. It breaks down the interaction between container-level speed transformations and element dur">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-parent-speed-affects-child-smil-duration">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Parent Speed Affects Child SMIL Duration - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-parent-speed-affects-child-smil-duration" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores how a parent container's speed attribute influences child elements in the Synchronized Multimedia Integration Language (SMIL) timing model. It breaks down the interaction between container-level speed transformations and element dur" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-parent-speed-affects-child-smil-duration">How Parent Speed
+Affects Child SMIL Duration</h1>
+<p>This article explores how a parent container's speed attribute
+influences child elements in the Synchronized Multimedia Integration
+Language (SMIL) timing model. It breaks down the interaction between
+container-level speed transformations and element durations, clarifying
+the distinction between a child's intrinsic simple duration in its local
+timeline and its effective active duration mapped onto the parent's
+timeline.</p>
+<h3 id="the-smil-local-time-system">The SMIL Local Time System</h3>
+<p>In the SMIL specification, timing relationships are hierarchical.
+Every time container—such as <code>&lt;par&gt;</code>,
+<code>&lt;seq&gt;</code>, or <code>&lt;excl&gt;</code>—defines a local
+time coordinate system for its direct children. Elements within that
+container evaluate their beginning, end, and duration relative to this
+local clock rather than the global document timeline.</p>
+<h3 id="invariance-of-the-simple-duration">Invariance of the Simple
+Duration</h3>
+<p>A parent container’s speed transformation does <strong>not</strong>
+alter the declared simple duration (<code>dur</code>) of a child
+element.</p>
+<p>The simple duration is an intrinsic property defined entirely in the
+child element's local time coordinate system. For example, if a child
+specifies <code>dur="10s"</code>, its simple duration remains precisely
+10 seconds of element time. The child must progress through 10 units of
+its internal timeline from start to finish, regardless of what happens
+higher up in the document tree.</p>
+<h3 id="clock-rate-scaling">Clock Rate Scaling</h3>
+<p>While the simple duration remains constant in element time, the
+parent container's <code>speed</code> attribute determines the rate at
+which element time elapses relative to parent time.</p>
+<p>The relationship between the progression of parent time (<span
+class="math inline">\(t_{parent}\)</span>) and child time (<span
+class="math inline">\(t_{child}\)</span>) is defined by the
+transformation rate:</p>
+<p><span class="math display">\[\Delta t_{child} = \Delta t_{parent}
+\times \text{speed}\]</span></p>
+<ul>
+<li><strong>Speed greater than 1.0 (Acceleration):</strong> If the
+parent container specifies <code>speed="2.0"</code>, the local clock of
+the child runs twice as fast as the parent clock. The child still
+experiences 10 seconds of internal simple duration, but it completes
+that duration in only 5 seconds of parent time.</li>
+<li><strong>Speed between 0.0 and 1.0 (Deceleration):</strong> If the
+parent container specifies <code>speed="0.5"</code>, the child's local
+clock advances at half-speed. The 10-second simple duration requires 20
+seconds of parent time to finish.</li>
+<li><strong>Negative Speed (Reverse Playback):</strong> If an
+implementation supports negative speed values (e.g.,
+<code>speed="-1.0"</code>), the simple duration remains unchanged in
+magnitude, but the child plays backward within its simple duration
+window.</li>
+</ul>
+<h3 id="effective-duration-in-the-parent-timeline">Effective Duration in
+the Parent Timeline</h3>
+<p>Because the rate of time passage changes, the child element's
+apparent or effective duration in the parent timeline (<span
+class="math inline">\(Dur_{effective}\)</span>) is scaled inversely to
+the parent container's speed:</p>
+<p><span class="math display">\[Dur_{effective} =
+\frac{dur_{child}}{\text{speed}_{parent}}\]</span></p>
+<p>This scaling cascades into the child's active duration calculations.
+If a child defines repetitions (<code>repeatCount</code> or
+<code>repeatDur</code>), each cycle still respects the unmodified simple
+duration locally, while each cycle completes in scaled time relative to
+the parent.</p>
+<h3 id="nested-speed-transformations">Nested Speed Transformations</h3>
+<p>When time containers are nested, speed transformations compound
+multiplicatively. If a top-level container has <code>speed="2.0"</code>
+and an inner container has <code>speed="1.5"</code>, any child inside
+the inner container has an effective speed of <code>3.0</code> relative
+to the document clock. The child's simple duration is still preserved
+locally, but its elapsed playback time in document coordinate space is
+compressed by a factor of three.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

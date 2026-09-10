@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Does systemCaptions Evaluate in SMIL? - smil</title>
+    <meta name="description" content="The systemCaptions test attribute in Synchronized Multimedia Integration Language (SMIL) evaluates the user's system preferences or media player settings to determine whether closed captions should be displayed. By checking whether a user has explicitly">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/what-does-systemcaptions-evaluate-in-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Does systemCaptions Evaluate in SMIL? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/what-does-systemcaptions-evaluate-in-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The systemCaptions test attribute in Synchronized Multimedia Integration Language (SMIL) evaluates the user's system preferences or media player settings to determine whether closed captions should be displayed. By checking whether a user has explicitly" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-does-systemcaptions-evaluate-in-smil">What Does
+systemCaptions Evaluate in SMIL?</h1>
+<p>The <code>systemCaptions</code> test attribute in Synchronized
+Multimedia Integration Language (SMIL) evaluates the user's system
+preferences or media player settings to determine whether closed
+captions should be displayed. By checking whether a user has explicitly
+turned captions "on" or "off," this attribute allows multimedia
+presentations to adapt dynamically to accessibility needs and playback
+environments without requiring multiple separate document versions.</p>
+<h3 id="purpose-and-functionality">Purpose and Functionality</h3>
+<p>In multimedia authoring, providing accessible alternatives such as
+text transcriptions, subtitles, or closed captions is essential for deaf
+or hard-of-hearing audiences, as well as users in noise-sensitive
+environments. SMIL uses test attributes to query the client runtime
+environment before rendering elements.</p>
+<p>When a media player parses an element containing
+<code>systemCaptions</code>, it inspects the local runtime setting:</p>
+<ul>
+<li><strong><code>on</code></strong>: Evaluates to <code>true</code> if
+the user has enabled closed captioning in their media player or
+operating system settings.</li>
+<li><strong><code>off</code></strong>: Evaluates to <code>true</code> if
+closed captioning is disabled.</li>
+</ul>
+<p>If the condition evaluates to <code>true</code>, the player executes
+or displays the associated media object, such as a text stream or timed
+text track. If it evaluates to <code>false</code>, the player bypasses
+the element.</p>
+<h3 id="usage-in-adaptive-content-delivery">Usage in Adaptive Content
+Delivery</h3>
+<p>The <code>systemCaptions</code> attribute is most commonly
+implemented inside a SMIL <code>&lt;switch&gt;</code> element. The
+<code>&lt;switch&gt;</code> container evaluates its child elements
+sequentially from top to bottom and renders only the first child whose
+test attributes evaluate to <code>true</code>.</p>
+<p>For example, an author can define a presentation where a video file
+plays concurrently with a text stream containing captions, but only when
+<code>systemCaptions="on"</code> is satisfied. If captions are turned
+off, the presentation can gracefully fall back to displaying the video
+track alone or routing alternative content.</p>
+<h3 id="role-in-the-smil-test-attributes-framework">Role in the SMIL
+Test Attributes Framework</h3>
+<p><code>systemCaptions</code> is part of SMIL's broader Content Control
+module, which includes related accessibility and environment test
+attributes such as:</p>
+<ul>
+<li><strong><code>systemAudioDesc</code></strong>: Evaluates whether the
+user prefers audio descriptions for visual content.</li>
+<li><strong><code>systemLanguage</code></strong>: Evaluates the user's
+preferred spoken or written language.</li>
+<li><strong><code>systemBitrate</code></strong>: Evaluates available
+system bandwidth.</li>
+</ul>
+<p>Together, these attributes provide a declarative mechanism for
+authoring accessible, responsive multimedia that automatically aligns
+with the end user's personal configuration.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

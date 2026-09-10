@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizing Radar Sweeps Using SMIL Animation - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) allows developers to build smooth, timed vector animations directly inside Scalable Vector Graphics (SVG) without relying on heavy external JavaScript libraries. This article explains how to translate r">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/visualizing-radar-sweeps-using-smil-animation">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Visualizing Radar Sweeps Using SMIL Animation - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/visualizing-radar-sweeps-using-smil-animation" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) allows developers to build smooth, timed vector animations directly inside Scalable Vector Graphics (SVG) without relying on heavy external JavaScript libraries. This article explains how to translate r" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="visualizing-radar-sweeps-using-smil-animation">Visualizing Radar
+Sweeps Using SMIL Animation</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) allows developers
+to build smooth, timed vector animations directly inside Scalable Vector
+Graphics (SVG) without relying on heavy external JavaScript libraries.
+This article explains how to translate radar sweep data into visually
+timed animations using SMIL, covering how to rotate a continuous sweep
+line, synchronize detected target blips based on angular timing, and
+simulate realistic phosphor-decay fading effects through declarative SVG
+attributes.</p>
+<h3 id="1-setting-up-the-radar-grid-base">1. Setting Up the Radar Grid
+Base</h3>
+<p>A radar interface consists of concentric range rings, azimuth angle
+lines, and a central pivot. In SVG, these are defined using basic
+<code>&lt;circle&gt;</code> and <code>&lt;line&gt;</code> elements
+inside a coordinate viewBox.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">svg</span> <span class="ot">viewBox=</span><span class="st">&quot;0 0 400 400&quot;</span> <span class="ot">width=</span><span class="st">&quot;100%&quot;</span> <span class="ot">height=</span><span class="st">&quot;100%&quot;</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Radar Background and Rings --&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">rect</span> <span class="ot">width=</span><span class="st">&quot;400&quot;</span> <span class="ot">height=</span><span class="st">&quot;400&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#051005&quot;</span> /&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">circle</span> <span class="ot">cx=</span><span class="st">&quot;200&quot;</span> <span class="ot">cy=</span><span class="st">&quot;200&quot;</span> <span class="ot">r=</span><span class="st">&quot;150&quot;</span> <span class="ot">fill=</span><span class="st">&quot;none&quot;</span> <span class="ot">stroke=</span><span class="st">&quot;#1a551a&quot;</span> <span class="ot">stroke-width=</span><span class="st">&quot;1&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">circle</span> <span class="ot">cx=</span><span class="st">&quot;200&quot;</span> <span class="ot">cy=</span><span class="st">&quot;200&quot;</span> <span class="ot">r=</span><span class="st">&quot;100&quot;</span> <span class="ot">fill=</span><span class="st">&quot;none&quot;</span> <span class="ot">stroke=</span><span class="st">&quot;#1a551a&quot;</span> <span class="ot">stroke-width=</span><span class="st">&quot;1&quot;</span> /&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">circle</span> <span class="ot">cx=</span><span class="st">&quot;200&quot;</span> <span class="ot">cy=</span><span class="st">&quot;200&quot;</span> <span class="ot">r=</span><span class="st">&quot;50&quot;</span> <span class="ot">fill=</span><span class="st">&quot;none&quot;</span> <span class="ot">stroke=</span><span class="st">&quot;#1a551a&quot;</span> <span class="ot">stroke-width=</span><span class="st">&quot;1&quot;</span> /&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">line</span> <span class="ot">x1=</span><span class="st">&quot;200&quot;</span> <span class="ot">y1=</span><span class="st">&quot;50&quot;</span> <span class="ot">x2=</span><span class="st">&quot;200&quot;</span> <span class="ot">y2=</span><span class="st">&quot;350&quot;</span> <span class="ot">stroke=</span><span class="st">&quot;#1a551a&quot;</span> <span class="ot">stroke-width=</span><span class="st">&quot;1&quot;</span> /&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">line</span> <span class="ot">x1=</span><span class="st">&quot;50&quot;</span> <span class="ot">y1=</span><span class="st">&quot;200&quot;</span> <span class="ot">x2=</span><span class="st">&quot;350&quot;</span> <span class="ot">y2=</span><span class="st">&quot;200&quot;</span> <span class="ot">stroke=</span><span class="st">&quot;#1a551a&quot;</span> <span class="ot">stroke-width=</span><span class="st">&quot;1&quot;</span> /&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">svg</span>&gt;</span></code></pre></div>
+<h3 id="2-animating-the-continuous-sweep-beam">2. Animating the
+Continuous Sweep Beam</h3>
+<p>The core of a radar display is the rotating beam. In SMIL, continuous
+circular motion is achieved using the
+<code>&lt;animateTransform&gt;</code> element applied to a sweep line or
+a transparent gradient wedge that represents the scanner's field.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Rotating Sweep Line --&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">line</span> <span class="ot">id=</span><span class="st">&quot;sweepLine&quot;</span> <span class="ot">x1=</span><span class="st">&quot;200&quot;</span> <span class="ot">y1=</span><span class="st">&quot;200&quot;</span> <span class="ot">x2=</span><span class="st">&quot;200&quot;</span> <span class="ot">y2=</span><span class="st">&quot;50&quot;</span> <span class="ot">stroke=</span><span class="st">&quot;#00ff66&quot;</span> <span class="ot">stroke-width=</span><span class="st">&quot;2&quot;</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">animateTransform</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">id=</span><span class="st">&quot;radarSweep&quot;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="ot">attributeName=</span><span class="st">&quot;transform&quot;</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">type=</span><span class="st">&quot;rotate&quot;</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="ot">from=</span><span class="st">&quot;0 200 200&quot;</span> </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="ot">to=</span><span class="st">&quot;360 200 200&quot;</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="ot">dur=</span><span class="st">&quot;4s&quot;</span> </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">line</span>&gt;</span></code></pre></div>
+<ul>
+<li><strong><code>dur="4s"</code></strong>: Establishes the scan period.
+The sweep takes precisely four seconds to complete a 360-degree
+rotation.</li>
+<li><strong><code>from</code>/<code>to</code></strong>: Dictates
+rotation around the radar center <code>(200, 200)</code>.</li>
+</ul>
+<h3 id="3-synchronizing-detected-targets-with-sweep-timing">3.
+Synchronizing Detected Targets with Sweep Timing</h3>
+<p>Radar sweep data typically arrives as polar coordinates: an azimuth
+angle (<span class="math inline">\(\theta\)</span>) and a distance
+(<span class="math inline">\(r\)</span>). To accurately reflect
+real-world radar sweeps, a target blip must illuminate at the exact
+moment the sweep beam crosses its coordinates.</p>
+<p>Because the total sweep duration (<span
+class="math inline">\(T\)</span>) covers <span
+class="math inline">\(360^\circ\)</span>, the activation delay (<span
+class="math inline">\(t\)</span>) for any target at azimuth <span
+class="math inline">\(\theta\)</span> (measured clockwise from <span
+class="math inline">\(0^\circ\)</span>) is calculated as:</p>
+<p><span class="math display">\[t = \frac{\theta}{360^\circ} \times
+T\]</span></p>
+<p>For a 4-second sweep (<span class="math inline">\(T =
+4\text{s}\)</span>):</p>
+<ul>
+<li>A target at <span class="math inline">\(90^\circ\)</span> (East)
+triggers at: <span class="math inline">\((90 / 360) \times 4 =
+1.0\text{s}\)</span></li>
+<li>A target at <span class="math inline">\(270^\circ\)</span> (West)
+triggers at: <span class="math inline">\((270 / 360) \times 4 =
+3.0\text{s}\)</span></li>
+</ul>
+<p>In SMIL, this synchronization is defined via the <code>begin</code>
+attribute relative to the sweep's cycle:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Target Blip at 90 Degrees --&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">circle</span> <span class="ot">cx=</span><span class="st">&quot;300&quot;</span> <span class="ot">cy=</span><span class="st">&quot;200&quot;</span> <span class="ot">r=</span><span class="st">&quot;4&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#00ff66&quot;</span> <span class="ot">opacity=</span><span class="st">&quot;0&quot;</span>&gt;</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">animate</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">attributeName=</span><span class="st">&quot;opacity&quot;</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="ot">values=</span><span class="st">&quot;0; 1; 0.6; 0&quot;</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">keyTimes=</span><span class="st">&quot;0; 0.05; 0.3; 1&quot;</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="ot">dur=</span><span class="st">&quot;4s&quot;</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="ot">begin=</span><span class="st">&quot;radarSweep.begin + 1s&quot;</span> </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">circle</span>&gt;</span></code></pre></div>
+<h3 id="4-simulating-phosphor-decay-the-fade-trail">4. Simulating
+Phosphor Decay (The Fade Trail)</h3>
+<p>Authentic analog radars use cathode-ray tubes coated with phosphors
+that glow intensely when excited by the electron beam, then gradually
+decay.</p>
+<p>SMIL reproduces this effect using multi-stage interpolation:</p>
+<ol type="1">
+<li><strong>Flash (<code>opacity="1"</code>)</strong>: Reached
+immediately when the sweep intersects the object
+(<code>keyTimes="0.05"</code>).</li>
+<li><strong>Persistence (<code>opacity="0.6"</code>)</strong>: A slower
+drop representing the primary persistence period
+(<code>keyTimes="0.3"</code>).</li>
+<li><strong>Extinction (<code>opacity="0"</code>)</strong>: Complete
+fade-out before the next pass of the sweep beam
+(<code>keyTimes="1"</code>).</li>
+</ol>
+<h3 id="5-architectural-benefits-of-smil-for-radar-interfaces">5.
+Architectural Benefits of SMIL for Radar Interfaces</h3>
+<ul>
+<li><strong>Hardware Acceleration</strong>: SMIL animations run on the
+browser's compositor thread, minimizing CPU frame drops associated with
+JavaScript <code>requestAnimationFrame</code> loops.</li>
+<li><strong>Data Encapsulation</strong>: Dynamic target updates can be
+injected into the DOM as pure SVG/XML markup. Once inserted, timing is
+governed independently by the SMIL animation clock.</li>
+<li><strong>Resolution Independence</strong>: Vector-based rendering
+ensures crisp display lines, range markings, and data labels regardless
+of display scaling or DPI.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

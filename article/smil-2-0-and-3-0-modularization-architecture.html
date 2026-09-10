@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL 2.0 and 3.0 Modularization Architecture - smil</title>
+    <meta name="description" content="This article examines the modularization architecture introduced in the Synchronized Multimedia Integration Language (SMIL) 2.0 and SMIL 3.0 W3C recommendations. It explains how breaking the monolithic SMIL 1.0 specification into distinct functional modu">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-2-0-and-3-0-modularization-architecture">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL 2.0 and 3.0 Modularization Architecture - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-2-0-and-3-0-modularization-architecture" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article examines the modularization architecture introduced in the Synchronized Multimedia Integration Language (SMIL) 2.0 and SMIL 3.0 W3C recommendations. It explains how breaking the monolithic SMIL 1.0 specification into distinct functional modu" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-20-and-30-modularization-architecture">SMIL 2.0 and 3.0
+Modularization Architecture</h1>
+<p>This article examines the modularization architecture introduced in
+the Synchronized Multimedia Integration Language (SMIL) 2.0 and SMIL 3.0
+W3C recommendations. It explains how breaking the monolithic SMIL 1.0
+specification into distinct functional modules enabled content authors,
+software developers, and other standards (like SVG) to reuse specific
+multimedia timing, layout, and control features. The following sections
+outline the core concepts of this architecture, its key functional
+areas, and how it evolved from SMIL 2.0 to SMIL 3.0.</p>
+<h3 id="the-purpose-of-modularization">The Purpose of
+Modularization</h3>
+<p>SMIL 1.0 was designed as a single, monolithic specification. While
+effective for basic multimedia presentations, it offered little
+flexibility for resource-constrained platforms or for other markup
+languages seeking to adopt its features.</p>
+<p>The W3C introduced a modular architecture in SMIL 2.0 to solve this
+issue. Modularization decomposes the functionality of SMIL into
+discrete, well-defined units of markup called <strong>modules</strong>.
+These modules define specific elements, attributes, and semantic
+behaviors. Developers and standards bodies can group subsets of these
+modules into <strong>profiles</strong>, allowing tailored
+implementations for different devices (such as desktop players, mobile
+handsets, or embedded systems) or integration into host languages such
+as XHTML and SVG.</p>
+<h3 id="architecture-and-module-sets-in-smil-20">Architecture and Module
+Sets in SMIL 2.0</h3>
+<p>SMIL 2.0 organizes functionality into several functional areas, each
+containing a set of related modules:</p>
+<ul>
+<li><strong>Timing and Synchronization:</strong> Defines temporal
+relations between media elements. It includes modules for basic inline
+timing, synchronization arcs, event-based timing, and container elements
+like <code>&lt;seq&gt;</code>, <code>&lt;par&gt;</code>, and
+<code>&lt;excl&gt;</code>.</li>
+<li><strong>Time Manipulations:</strong> Allows authors to alter the
+playback rate, accelerate, decelerate, or reverse time for
+elements.</li>
+<li><strong>Content Control:</strong> Provides mechanisms for content
+selection (via the <code>&lt;switch&gt;</code> element and test
+attributes like <code>systemLanguage</code> or
+<code>systemBitrate</code>) to dynamically adapt media to user
+preferences and network bandwidth.</li>
+<li><strong>Layout:</strong> Defines visual presentation regions and
+module-level abstraction for positioning elements in 2D space.</li>
+<li><strong>Media Objects:</strong> Specifies elements to include
+discrete and continuous media items (such as <code>&lt;video&gt;</code>,
+<code>&lt;audio&gt;</code>, <code>&lt;img /&gt;</code>, and
+<code>&lt;text&gt;</code>), as well as clipping mechanisms.</li>
+<li><strong>Linking:</strong> Extends basic hyperlinking to handle
+temporal links and target locations.</li>
+<li><strong>Transitions:</strong> Standardizes transition effects, such
+as wipes and fades, applied between media clips.</li>
+<li><strong>Metainformation:</strong> Integrates RDF-based metadata
+definitions directly into documents.</li>
+</ul>
+<h4 id="language-profiles">Language Profiles</h4>
+<p>A profile defines which modules are required, optional, or
+prohibited. SMIL 2.0 formally introduced two standard profiles:</p>
+<ol type="1">
+<li><strong>SMIL 2.0 Language Profile:</strong> The fully featured
+profile that incorporates nearly all modules, intended primarily for
+capable desktop clients.</li>
+<li><strong>SMIL 2.0 Basic Profile:</strong> A lightweight subset
+created for low-power and resource-limited devices, such as early mobile
+phones, which later formed the basis for mobile MMS standards.</li>
+</ol>
+<h3 id="evolution-in-smil-30">Evolution in SMIL 3.0</h3>
+<p>SMIL 3.0 expanded the modularization framework by refining existing
+modules, addressing modern multimedia requirements, and introducing
+targeted profiles:</p>
+<ul>
+<li><strong>New Functional Modules:</strong>
+<ul>
+<li><strong>SmilText:</strong> Added native, timed text rendering
+modules for subtitles, captions, and teleprompter effects without
+requiring external media assets.</li>
+<li><strong>SMIL Timesheets:</strong> Separated timing logic from
+presentation content, allowing SMIL timing modules to be applied
+non-intrusively to external DOM trees, such as HTML or XML
+documents.</li>
+</ul></li>
+<li><strong>Refined Profiling Hierarchy:</strong> SMIL 3.0 introduced
+tailored profiles spanning various device capabilities:
+<ul>
+<li><strong>SMIL 3.0 Language Profile:</strong> The complete profile
+with full feature access.</li>
+<li><strong>SMIL 3.0 Unified Mobile Profile:</strong> Targeted at modern
+mobile media players.</li>
+<li><strong>SMIL 3.0 Tiny Profile:</strong> Designed for highly
+constrained hardware environments.</li>
+<li><strong>SMIL 3.0 Extended Mobile Profile:</strong> Supported
+advanced mobile features, such as transition effects and text
+styling.</li>
+</ul></li>
+</ul>
+<h3 id="cross-standard-integration">Cross-Standard Integration</h3>
+<p>A critical success of the modular architecture was external
+interoperability. Instead of adopting the entire SMIL runtime, other W3C
+working groups could import isolated modules. Most notably, SVG
+(Scalable Vector Graphics) adopted the SMIL Animation and Timing modules
+to power declarative vector animation, while HTML+TIME integrated SMIL
+timing semantics into standard web browsers.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

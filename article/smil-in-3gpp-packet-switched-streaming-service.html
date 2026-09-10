@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL in 3GPP Packet-switched Streaming Service - smil</title>
+    <meta name="description" content="The 3rd Generation Partnership Project (3GPP) Packet-switched Streaming Service (PSS) defines standard protocols and codecs for delivering multimedia over mobile networks. Within this framework, the Synchronized Multimedia Integration Language (SMIL) ser">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-in-3gpp-packet-switched-streaming-service">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL in 3GPP Packet-switched Streaming Service - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-in-3gpp-packet-switched-streaming-service" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The 3rd Generation Partnership Project (3GPP) Packet-switched Streaming Service (PSS) defines standard protocols and codecs for delivering multimedia over mobile networks. Within this framework, the Synchronized Multimedia Integration Language (SMIL) ser" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-in-3gpp-packet-switched-streaming-service">SMIL in 3GPP
+Packet-switched Streaming Service</h1>
+<p>The 3rd Generation Partnership Project (3GPP) Packet-switched
+Streaming Service (PSS) defines standard protocols and codecs for
+delivering multimedia over mobile networks. Within this framework, the
+Synchronized Multimedia Integration Language (SMIL) serves as the
+presentation and scene description format. This article examines the
+essential role of SMIL in PSS, detailing how it handles spatial layout,
+temporal synchronization, interactive media integration, and content
+adaptation for mobile user equipment.</p>
+<h3 id="multimedia-scene-description-and-spatial-layout">Multimedia
+Scene Description and Spatial Layout</h3>
+<p>In a 3GPP PSS session, multimedia rarely consists of a single media
+track; it frequently combines streaming video, background audio, static
+images, timed text, and interactive controls. SMIL (specifically the
+3GPP SMIL profile, a mobile-optimized subset of W3C SMIL) acts as the
+architectural blueprint for the client device. It defines the spatial
+layout of the presentation using visual regions, instructing the mobile
+player where to position, scale, and render each visual asset on the
+display.</p>
+<h3 id="temporal-synchronization">Temporal Synchronization</h3>
+<p>The core function of SMIL is coordinating the timing of discrete and
+continuous media elements. In PSS, continuous streams (such as MPEG-4 or
+H.264 video and AMR/AAC audio) are delivered via protocols like
+RTP/RTSP, while discrete elements (such as JPEG images or text overlays)
+might be fetched via HTTP. SMIL synchronizes these disparate media types
+along a shared timeline using structural tags such as:</p>
+<ul>
+<li><code>&lt;seq&gt;</code>: Directs elements to play in sequential
+order.</li>
+<li><code>&lt;par&gt;</code>: Executes multiple media items in parallel,
+ensuring audio, video, and text remain synchronized during
+playback.</li>
+</ul>
+<h3 id="interactivity-and-navigation">Interactivity and Navigation</h3>
+<p>SMIL introduces hyperlinking and interactive controls to 3GPP PSS
+content. Content creators can embed links (similar to HTML anchors) and
+trigger-based actions directly into the presentation. Users can interact
+with on-screen elements to skip scenes, launch secondary media clips,
+request high-resolution images, or navigate to external web resources
+without interrupting the underlying streaming session logic.</p>
+<h3 id="dynamic-adaptation-via-the-switch-element">Dynamic Adaptation
+via the Switch Element</h3>
+<p>Mobile networks and devices possess diverse capabilities regarding
+screen size, processing power, and bandwidth availability. SMIL
+addresses this diversity in PSS through the <code>&lt;switch&gt;</code>
+element. The <code>&lt;switch&gt;</code> tag allows content authors to
+provide multiple alternative streams or layouts. At runtime, the client
+evaluates system attributes—such as <code>systemBitrate</code>,
+<code>systemLanguage</code>, and <code>systemScreenSize</code>—and
+dynamically selects the media component best suited for the user's
+specific network conditions and hardware specifications.</p>
+<h3 id="optimization-for-mobile-environments">Optimization for Mobile
+Environments</h3>
+<p>The standard SMIL specification contains extensive features that
+exceed the processing and memory constraints of mobile devices. By
+adopting a streamlined 3GPP SMIL profile, PSS guarantees a predictable,
+lightweight processing footprint. This profile removes non-essential
+layout complexity while retaining the essential mechanisms required to
+deliver unified, synchronized, and bandwidth-efficient multimedia
+presentations over packet-switched cellular networks.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

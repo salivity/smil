@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Which SMIL Attributes Set Transition Duration and Direction? - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) provides specialized transition effects to blend media elements smoothly over time. Controlling the timing, speed, and geometric movement of these visual effects relies on a core set of dedicated XML at">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/which-smil-attributes-set-transition-duration-and-direction">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Which SMIL Attributes Set Transition Duration and Direction? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/which-smil-attributes-set-transition-duration-and-direction" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) provides specialized transition effects to blend media elements smoothly over time. Controlling the timing, speed, and geometric movement of these visual effects relies on a core set of dedicated XML at" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1
+id="which-smil-attributes-set-transition-duration-and-direction">Which
+SMIL Attributes Set Transition Duration and Direction?</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) provides
+specialized transition effects to blend media elements smoothly over
+time. Controlling the timing, speed, and geometric movement of these
+visual effects relies on a core set of dedicated XML attributes. This
+article explains the primary attributes used to define how long a SMIL
+transition lasts and the specific direction or pattern across the screen
+it follows.</p>
+<h2 id="controlling-duration-with-the-dur-attribute">Controlling
+Duration with the <code>dur</code> Attribute</h2>
+<p>The length of time a transition takes to complete is primarily
+governed by the <code>dur</code> attribute. When applied to a
+<code>&lt;transition&gt;</code> element or directly to a media object
+using transition filters, <code>dur</code> defines the active clock
+duration of the visual change.</p>
+<ul>
+<li><strong>Syntax and Values:</strong> The <code>dur</code> attribute
+accepts standard SMIL clock values, such as seconds (e.g.,
+<code>dur="2.5s"</code>) or minutes and seconds (e.g.,
+<code>dur="00:03"</code>).</li>
+<li><strong>Behavior:</strong> If <code>dur</code> is omitted, the
+player defaults to the implementation-defined duration or inherits
+timing parameters from the parent timeline. Setting an explicit
+<code>dur</code> ensures precise synchronization with accompanying audio
+or concurrent visual tracks.</li>
+</ul>
+<h2
+id="defining-geometric-direction-with-subtype-and-direction">Defining
+Geometric Direction with <code>subtype</code> and
+<code>direction</code></h2>
+<p>SMIL splits direction control into two main attributes:
+<code>subtype</code> for geometric orientation and
+<code>direction</code> for the temporal progression of the wipe.</p>
+<h3 id="the-subtype-attribute">The <code>subtype</code> Attribute</h3>
+<p>While the <code>type</code> attribute defines the broad family of the
+transition (such as <code>barWipe</code>, <code>irisWipe</code>, or
+<code>slideWipe</code>), the <code>subtype</code> attribute specifies
+the exact axis and vector of movement. Common values include:</p>
+<ul>
+<li><code>leftToRight</code> and <code>rightToLeft</code> for horizontal
+wipes.</li>
+<li><code>topToBottom</code> and <code>bottomToTop</code> for vertical
+wipes.</li>
+<li><code>clockwise</code> and <code>counterClockwise</code> for radial
+transitions like <code>clockWipe</code> or
+<code>pinWheelWipe</code>.</li>
+<li><code>cornersIn</code>, <code>cornersOut</code>,
+<code>topRight</code>, or <code>bottomLeft</code> for box and diagonal
+transitions.</li>
+</ul>
+<h3 id="the-direction-attribute">The <code>direction</code>
+Attribute</h3>
+<p>The <code>direction</code> attribute modifies the forward or backward
+execution of the transition pattern. It accepts two primary values:</p>
+<ul>
+<li><code>forward</code>: The transition reveals the new media according
+to the standard geometric path defined by the <code>type</code> and
+<code>subtype</code>. This is the default setting.</li>
+<li><code>reverse</code>: The transition inverts the geometric
+progression, wiping the effect in the opposite direction without
+requiring a change to the underlying <code>subtype</code>.</li>
+</ul>
+<h2
+id="fine-tuning-boundaries-with-startprogress-and-endprogress">Fine-Tuning
+Boundaries with <code>startProgress</code> and
+<code>endProgress</code></h2>
+<p>To control partial transitions or alter where a directional movement
+begins and ends, SMIL uses <code>startProgress</code> and
+<code>endProgress</code>:</p>
+<ul>
+<li><code>startProgress</code>: Takes a fractional value between
+<code>0.0</code> and <code>1.0</code> defining the starting state of the
+transition (default is <code>0.0</code>).</li>
+<li><code>endProgress</code>: Takes a fractional value between
+<code>0.0</code> and <code>1.0</code> defining the completion point
+(default is <code>1.0</code>).</li>
+</ul>
+<p>Using these attributes alongside <code>dur</code>,
+<code>subtype</code>, and <code>direction</code> allows developers to
+truncate the path of a directional wipe or create faster, specialized
+segment transitions across multimedia presentations.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

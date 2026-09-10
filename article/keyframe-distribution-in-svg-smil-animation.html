@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyframe Distribution in SVG SMIL Animation - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) controls the timing and interpolation of SVG animations through specific XML attributes applied directly to animation elements like <animate>, <animateTransform>, and <animateMotion>. Instead of using t">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/keyframe-distribution-in-svg-smil-animation">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Keyframe Distribution in SVG SMIL Animation - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/keyframe-distribution-in-svg-smil-animation" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) controls the timing and interpolation of SVG animations through specific XML attributes applied directly to animation elements like <animate>, <animateTransform>, and <animateMotion>. Instead of using t" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="keyframe-distribution-in-svg-smil-animation">Keyframe
+Distribution in SVG SMIL Animation</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) controls the
+timing and interpolation of SVG animations through specific XML
+attributes applied directly to animation elements like
+<code>&lt;animate&gt;</code>, <code>&lt;animateTransform&gt;</code>, and
+<code>&lt;animateMotion&gt;</code>. Instead of using traditional
+percentage symbols as seen in CSS keyframes, SMIL utilizes normalized
+floating-point values between <code>0</code> and <code>1</code> defined
+within the <code>keyTimes</code> attribute to establish keyframe
+percentage distributions. Paired with attributes such as
+<code>values</code>, <code>calcMode</code>, and <code>keySplines</code>,
+SMIL enables granular control over pacing, easing, and state transitions
+throughout an animation’s duration.</p>
+<h3 id="the-core-mechanism-keytimes-and-values">The Core Mechanism:
+<code>keyTimes</code> and <code>values</code></h3>
+<p>To create keyframed behavior, SMIL coordinates two primary
+attributes:</p>
+<ul>
+<li><strong><code>values</code></strong>: A semicolon-separated list of
+values that the target attribute will adopt during the animation
+cycle.</li>
+<li><strong><code>keyTimes</code></strong>: A semicolon-separated list
+of normalized timestamps ranging from <code>0</code> to <code>1</code>
+that correspond sequentially to each entry in the <code>values</code>
+list.</li>
+</ul>
+<p>Each value in <code>keyTimes</code> acts as a percentage checkpoint.
+A value of <code>0</code> represents 0% of the total animation duration
+(<code>dur</code>), <code>0.5</code> represents 50%, and <code>1</code>
+represents 100%.</p>
+<p>For a valid distribution:</p>
+<ol type="1">
+<li>The first value in <code>keyTimes</code> must be
+<code>0</code>.</li>
+<li>The final value in <code>keyTimes</code> must be
+<code>1</code>.</li>
+<li>Each intermediate value must be greater than or equal to the
+preceding value (strictly monotonically non-decreasing).</li>
+<li>The number of timestamps in <code>keyTimes</code> must exactly match
+the number of definitions in the <code>values</code> list.</li>
+</ol>
+<h3 id="controlling-distribution-with-calcmode">Controlling Distribution
+with <code>calcMode</code></h3>
+<p>The method by which an animation transitions between keyframe
+intervals depends on the <code>calcMode</code> attribute. SMIL supports
+four calculation modes:</p>
+<ul>
+<li><strong><code>linear</code> (Default)</strong>: Interpolates values
+smoothly at a constant rate between the keyframe percentages specified
+in <code>keyTimes</code>. If <code>keyTimes</code> is omitted, the
+duration is distributed equally across all segments defined in
+<code>values</code>.</li>
+<li><strong><code>discrete</code></strong>: Jumps abruptly from one
+value to the next without smooth interpolation. The animation holds the
+specified value until the next keyframe threshold in
+<code>keyTimes</code> is reached.</li>
+<li><strong><code>paced</code></strong>: Ignores <code>keyTimes</code>
+entirely. SMIL automatically calculates keyframe intervals to produce an
+animation that runs at a uniform velocity throughout its entire
+duration, based on the spatial distance or numeric variance between
+points.</li>
+<li><strong><code>spline</code></strong>: Uses cubic Bézier curves
+defined by the <code>keySplines</code> attribute to control easing
+between keyframes. When <code>calcMode="spline"</code> is used,
+<code>keyTimes</code> defines the percentage boundaries, while
+<code>keySplines</code> defines the acceleration and deceleration within
+each interval.</li>
+</ul>
+<h3 id="easing-distributions-with-keysplines">Easing Distributions with
+<code>keySplines</code></h3>
+<p>When precision easing is required between percentage checkpoints, the
+<code>keySplines</code> attribute is used alongside
+<code>keyTimes</code>.</p>
+<p>Because <code>keySplines</code> defines the transition
+<em>between</em> frames, the number of cubic Bézier definitions must be
+exactly one less than the total count of entries in
+<code>keyTimes</code>. Each spline takes four coordinate points
+(<code>x1 y1 x2 y2</code>), matching the standard cubic Bézier format
+used in CSS timing functions.</p>
+<h3 id="example-implementation">Example Implementation</h3>
+<p>The following example demonstrates an element shifting its horizontal
+position across uneven keyframe percentage distributions (0%, 20%, 80%,
+and 100%):</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">svg</span> <span class="ot">width=</span><span class="st">&quot;200&quot;</span> <span class="ot">height=</span><span class="st">&quot;100&quot;</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">circle</span> <span class="ot">cx=</span><span class="st">&quot;20&quot;</span> <span class="ot">cy=</span><span class="st">&quot;50&quot;</span> <span class="ot">r=</span><span class="st">&quot;15&quot;</span> <span class="ot">fill=</span><span class="st">&quot;crimson&quot;</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animate</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="ot">attributeName=</span><span class="st">&quot;cx&quot;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="ot">dur=</span><span class="st">&quot;4s&quot;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="ot">calcMode=</span><span class="st">&quot;spline&quot;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      <span class="ot">values=</span><span class="st">&quot;20; 60; 140; 180&quot;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="ot">keyTimes=</span><span class="st">&quot;0; 0.2; 0.8; 1&quot;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      <span class="ot">keySplines=</span><span class="st">&quot;0.42 0 0.58 1; 0.42 0 0.58 1; 0.42 0 0.58 1&quot;</span> /&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">circle</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">svg</span>&gt;</span></code></pre></div>
+<p>In this setup:</p>
+<ul>
+<li>Between 0% and 20% of the timeline (<code>0</code> to
+<code>0.2</code>), the circle moves from <code>cx="20"</code> to
+<code>cx="60"</code>.</li>
+<li>Between 20% and 80% (<code>0.2</code> to <code>0.8</code>), it
+traverses from <code>60</code> to <code>140</code>.</li>
+<li>Between 80% and 100% (<code>0.8</code> to <code>1</code>), it
+completes the movement from <code>140</code> to <code>180</code>.</li>
+<li>Each segment uses the easing curve defined in the corresponding
+segment of <code>keySplines</code>.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

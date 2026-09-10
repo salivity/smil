@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL calcMode: Discrete vs Linear vs Paced - smil</title>
+    <meta name="description" content="The calcMode attribute in SMIL (Synchronized Multimedia Integration Language) controls the interpolation and timing behavior of SVG animations between keyframes. This article explains the functional differences between calcMode="discrete", calcMode="line">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-calcmode-discrete-vs-linear-vs-paced">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL calcMode: Discrete vs Linear vs Paced - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-calcmode-discrete-vs-linear-vs-paced" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The calcMode attribute in SMIL (Synchronized Multimedia Integration Language) controls the interpolation and timing behavior of SVG animations between keyframes. This article explains the functional differences between calcMode="discrete", calcMode="line" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-calcmode-discrete-vs-linear-vs-paced">SMIL calcMode:
+Discrete vs Linear vs Paced</h1>
+<p>The <code>calcMode</code> attribute in SMIL (Synchronized Multimedia
+Integration Language) controls the interpolation and timing behavior of
+SVG animations between keyframes. This article explains the functional
+differences between <code>calcMode="discrete"</code>,
+<code>calcMode="linear"</code>, and <code>calcMode="paced"</code>,
+highlighting how each mode handles value progression, transition
+smoothness, and velocity distribution across animation durations.</p>
+<h3 id="understanding-calcmode">Understanding <code>calcMode</code></h3>
+<p>When defining an animation using elements like
+<code>&lt;animate&gt;</code>, <code>&lt;animateTransform&gt;</code>, or
+<code>&lt;animateMotion&gt;</code>, the browser needs to determine how
+to advance values over time. The <code>calcMode</code> attribute
+dictates whether values change instantaneously or continuously, and how
+speed is distributed between defined points.</p>
+<hr />
+<h3 id="calcmodediscrete"><code>calcMode="discrete"</code></h3>
+<p><code>calcMode="discrete"</code> produces instantaneous, step-like
+changes between values without any continuous interpolation.</p>
+<ul>
+<li><strong>Behavior:</strong> The animation jumps directly from one
+defined value to the next. The current value remains completely static
+for its allotted duration until the next keyframe is reached.</li>
+<li><strong>Timing:</strong> When paired with <code>keyTimes</code>,
+values switch at the designated percentages of total duration. If
+<code>keyTimes</code> is omitted, the duration is split evenly among the
+values.</li>
+<li><strong>Use Cases:</strong> Ideal for frame-by-frame sprite
+animations, toggling visibility, alternating colors abruptly, or
+switching states without fading or sliding.</li>
+</ul>
+<hr />
+<h3 id="calcmodelinear"><code>calcMode="linear"</code></h3>
+<p><code>calcMode="linear"</code> interpolates continuously between
+values at an even speed within each individual segment defined by
+keyframes. This is the default mode for most animated attributes.</p>
+<ul>
+<li><strong>Behavior:</strong> The animation transitions smoothly from
+point A to point B, then from point B to point C. The rate of change
+within each segment is constant.</li>
+<li><strong>Timing:</strong> Segments are mapped directly to elapsed
+time based on the <code>keyTimes</code> list. If segments have different
+physical distances (e.g., 10px in the first segment and 100px in the
+second segment) but identical time allocations, the animation will
+visibly accelerate or decelerate at the segment boundary.</li>
+<li><strong>Use Cases:</strong> Standard, continuous transitions where
+predictable progress tied directly to specific timestamps is
+required.</li>
+</ul>
+<hr />
+<h3 id="calcmodepaced"><code>calcMode="paced"</code></h3>
+<p><code>calcMode="paced"</code> forces the animation to proceed at a
+completely uniform velocity across the entire timeline, regardless of
+the distance between individual values.</p>
+<ul>
+<li><strong>Behavior:</strong> Instead of relying on predefined segment
+durations, the browser calculates the total "distance" (numeric or
+geometric) across all defined values and moves at a single, unchanging
+rate from start to finish.</li>
+<li><strong>Timing:</strong> The <code>keyTimes</code> attribute is
+ignored if provided. The browser automatically assigns time to each
+segment proportionally based on its distance relative to the total
+distance.</li>
+<li><strong>Use Cases:</strong> Smooth path traversal via
+<code>&lt;animateMotion&gt;</code> or multi-point position changes where
+sudden changes in speed at keyframes would look unnatural. Note that
+<code>paced</code> only works on attributes where a distance or
+magnitude can be computed (e.g., coordinates, lengths, numbers).</li>
+</ul>
+<hr />
+<h3 id="key-comparison">Key Comparison</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;"><code>discrete</code></th>
+<th style="text-align: left;"><code>linear</code></th>
+<th style="text-align: left;"><code>paced</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Interpolation</strong></td>
+<td style="text-align: left;">None (instant jump)</td>
+<td style="text-align: left;">Continuous (per segment)</td>
+<td style="text-align: left;">Continuous (entire timeline)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Overall Speed</strong></td>
+<td style="text-align: left;">Not applicable</td>
+<td style="text-align: left;">Variable between segments</td>
+<td style="text-align: left;">Strictly constant</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>keyTimes</code>
+Support</strong></td>
+<td style="text-align: left;">Fully supported</td>
+<td style="text-align: left;">Fully supported</td>
+<td style="text-align: left;">Ignored / Overridden</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Default In</strong></td>
+<td style="text-align: left;">Attributes without intermediate
+states</td>
+<td style="text-align: left;">Most standard SVG animations</td>
+<td style="text-align: left;"><code>&lt;animateMotion&gt;</code></td>
+</tr>
+</tbody>
+</table></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

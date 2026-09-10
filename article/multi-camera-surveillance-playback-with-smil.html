@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Camera Surveillance Playback with SMIL - smil</title>
+    <meta name="description" content="Modern video surveillance systems rely on Synchronized Multimedia Integration Language (SMIL) to orchestrate and display synchronized multi-camera playback matrices. By utilizing an XML-based markup structure, SMIL enables security video management softw">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/multi-camera-surveillance-playback-with-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Multi-Camera Surveillance Playback with SMIL - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/multi-camera-surveillance-playback-with-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Modern video surveillance systems rely on Synchronized Multimedia Integration Language (SMIL) to orchestrate and display synchronized multi-camera playback matrices. By utilizing an XML-based markup structure, SMIL enables security video management softw" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="multi-camera-surveillance-playback-with-smil">Multi-Camera
+Surveillance Playback with SMIL</h1>
+<p>Modern video surveillance systems rely on Synchronized Multimedia
+Integration Language (SMIL) to orchestrate and display synchronized
+multi-camera playback matrices. By utilizing an XML-based markup
+structure, SMIL enables security video management software (VMS) to
+define spatial grid layouts, synchronize disparate video feeds along a
+unified timeline, and handle adaptive streaming efficiently. This
+article explains the technical mechanisms behind how SMIL controls
+spatial arrangements, temporal alignment, and multi-feed synchronization
+for incident review.</p>
+<h3 id="defining-the-playback-grid-with-spatial-layouts">Defining the
+Playback Grid with Spatial Layouts</h3>
+<p>Surveillance matrices require precise screen partitioning to display
+feeds from adjacent cameras simultaneously, such as a 2x2, 3x3, or
+asymmetric layout. SMIL handles this through its
+<code>&lt;layout&gt;</code> element, primarily utilizing the basic
+layout module.</p>
+<p>Within the <code>&lt;layout&gt;</code> block, the system defines
+multiple <code>&lt;region&gt;</code> tags, each assigned a unique
+identifier, coordinate positions (<code>top</code>, <code>left</code>),
+and dimensions (<code>width</code>, <code>height</code>). When rendering
+a four-camera playback matrix, the surveillance client allocates four
+distinct regions corresponding to the quadrants of the display
+interface. Media players interpret these regions as designated
+viewports, ensuring that incoming Real-Time Streaming Protocol (RTSP) or
+HTTP Live Streaming (HLS) feeds render within their designated
+boundaries without overlapping or distorting aspect ratios.</p>
+<h3 id="temporal-synchronization-using-parallel-containers">Temporal
+Synchronization Using Parallel Containers</h3>
+<p>The primary challenge in multi-camera playback is ensuring that
+actions captured across multiple angles are viewed at the exact same
+point in time. SMIL achieves this using the <code>&lt;par&gt;</code>
+(parallel) timing container.</p>
+<p>When an operator selects an incident timeframe, the VMS generates a
+SMIL file wrapping the requested video streams inside a
+<code>&lt;par&gt;</code> block. Inside this container:</p>
+<ul>
+<li><strong>Universal Start Times:</strong> All
+<code>&lt;video&gt;</code> elements inherit the parent container's
+clock, forcing playback engines to decode and present frames
+concurrently.</li>
+<li><strong>Offset Synchronization:</strong> If cameras started
+recording at slightly different intervals, SMIL uses attributes like
+<code>clipBegin</code> and <code>clipEnd</code> or relative
+<code>begin</code> offsets to trim and align streams to a shared master
+timestamp (such as UTC or Network Time Protocol time).</li>
+<li><strong>Unified Scrubbing:</strong> Transport controls—such as
+fast-forward, reverse, pause, and seek—are sent to the SMIL container
+rather than individual streams, ensuring the temporal offset across all
+cameras remains locked during navigation.</li>
+</ul>
+<h3 id="bandwidth-and-quality-control-via-adaptive-switching">Bandwidth
+and Quality Control via Adaptive Switching</h3>
+<p>Decoding multiple high-resolution streams simultaneously can overload
+client hardware and network bandwidth. Surveillance systems utilize
+SMIL’s <code>&lt;switch&gt;</code> element to optimize matrix rendering
+based on screen size and hardware capabilities.</p>
+<p>The <code>&lt;switch&gt;</code> tag evaluates attributes such as
+<code>systemBitrate</code> or client-side display parameters to select
+the appropriate stream variant. For instance, in a 16-camera grid where
+each viewport is small, the SMIL definition directs the player to fetch
+lower-resolution sub-streams. If an operator double-clicks a single
+region to maximize it, the player dynamically switches to the
+full-resolution primary stream, reducing decoding latency while
+preserving detail where needed.</p>
+<h3 id="standardized-integration-across-diverse-hardware">Standardized
+Integration Across Diverse Hardware</h3>
+<p>Surveillance environments frequently combine legacy analog cameras
+connected via encoders with modern IP cameras from various
+manufacturers. Because SMIL is an open standard, it acts as an
+abstraction layer between diverse hardware inputs and the video
+presentation client. As long as the VMS can map camera recordings to
+standard RTSP, WebRTC, or HTTP streams, a SMIL document can unify these
+feeds into a single, cohesive playback session across desktop
+workstations, web browsers, and mobile monitoring apps.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

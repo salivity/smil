@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL autoReverse for Back-and-Forth Animations - smil</title>
+    <meta name="description" content="The autoReverse attribute in Synchronized Multimedia Integration Language (SMIL) provides a native declarative method for creating back-and-forth or bouncing motions without requiring duplicated keyframes. By setting this timing attribute to run automati">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-autoreverse-for-back-and-forth-animations">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL autoReverse for Back-and-Forth Animations - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-autoreverse-for-back-and-forth-animations" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The autoReverse attribute in Synchronized Multimedia Integration Language (SMIL) provides a native declarative method for creating back-and-forth or bouncing motions without requiring duplicated keyframes. By setting this timing attribute to run automati" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-autoreverse-for-back-and-forth-animations">SMIL autoReverse
+for Back-and-Forth Animations</h1>
+<p>The <code>autoReverse</code> attribute in Synchronized Multimedia
+Integration Language (SMIL) provides a native declarative method for
+creating back-and-forth or bouncing motions without requiring duplicated
+keyframes. By setting this timing attribute to run automatically in
+reverse after completing its forward cycle, developers can generate
+seamless bidirectional animations—often referred to as a "ping-pong" or
+"yo-yo" effect. This article explains how <code>autoReverse</code>
+works, its impact on timeline duration, and how it simplifies
+declarative animation markup.</p>
+<h3 id="the-core-mechanism-of-autoreverse">The Core Mechanism of
+<code>autoReverse</code></h3>
+<p>In standard SMIL animations, an element interpolates from its initial
+state (defined by attributes such as <code>from</code> or the first
+entry in <code>values</code>) to its end state (defined by
+<code>to</code> or the final entry). Once the duration
+(<code>dur</code>) finishes, the animation resets abruptly to the
+beginning if it loops, creating a discontinuous jump.</p>
+<p>When <code>autoReverse="true"</code> is declared, the animation
+engine modifies the playback trajectory. The element transitions from
+its starting value to its end value, and upon reaching the target, it
+immediately plays backward from the end value back to the starting
+value. This interpolation occurs symmetrically, reversing properties
+such as translation, opacity, color, or scale smoothly.</p>
+<h3 id="timeline-and-duration-behavior">Timeline and Duration
+Behavior</h3>
+<p>Understanding the temporal impact of <code>autoReverse</code> is
+critical for synchronizing multiple elements.</p>
+<ul>
+<li><strong>Cycle Duration:</strong> When <code>autoReverse</code> is
+enabled, the simple duration specified by the <code>dur</code> attribute
+applies to the forward motion. The reverse motion also takes the same
+amount of time. Consequently, one complete forward-and-backward cycle
+takes twice the specified simple duration (<span class="math inline">\(2
+\times \text{dur}\)</span>).</li>
+<li><strong>Active Duration:</strong> If an active duration
+(<code>repeatDur</code>) or repeat count (<code>repeatCount</code>) is
+defined, the engine counts the complete round trip (forward and
+backward) as the baseline cycle.</li>
+</ul>
+<h3 id="creating-continuous-bouncing-loops">Creating Continuous Bouncing
+Loops</h3>
+<p>To produce an ongoing bouncing or oscillating effect,
+<code>autoReverse="true"</code> is paired with
+<code>repeatCount="indefinite"</code>.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">animate</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="ot">attributeName=</span><span class="st">&quot;cy&quot;</span> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="ot">from=</span><span class="st">&quot;50&quot;</span> </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">to=</span><span class="st">&quot;200&quot;</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="ot">dur=</span><span class="st">&quot;1s&quot;</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">autoReverse=</span><span class="st">&quot;true&quot;</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span></code></pre></div>
+<p>In this scenario:</p>
+<ol type="1">
+<li>The animated object moves vertically from <code>cy="50"</code> to
+<code>cy="200"</code> over 1 second.</li>
+<li>The <code>autoReverse</code> attribute activates, moving the object
+from <code>cy="200"</code> back to <code>cy="50"</code> over another 1
+second.</li>
+<li>Because <code>repeatCount="indefinite"</code> is set, this 2-second
+cycle repeats continuously without visible seam or abrupt resets.</li>
+</ol>
+<h3 id="advantages-over-manual-keyframing">Advantages Over Manual
+Keyframing</h3>
+<p>Without <code>autoReverse</code>, achieving a back-and-forth
+animation requires explicitly defining intermediate points using the
+<code>values</code> and <code>keyTimes</code> attributes:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Manual approach without autoReverse --&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">animate</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="ot">attributeName=</span><span class="st">&quot;cy&quot;</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">values=</span><span class="st">&quot;50; 200; 50&quot;</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="ot">keyTimes=</span><span class="st">&quot;0; 0.5; 1&quot;</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">dur=</span><span class="st">&quot;2s&quot;</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span></code></pre></div>
+<p>While the manual approach achieves a similar visual outcome, using
+<code>autoReverse</code> offers distinct advantages:</p>
+<ul>
+<li><strong>Cleaner Markup:</strong> Eliminates redundant value
+definitions and manual pacing calculations.</li>
+<li><strong>Maintainability:</strong> Adjusting the target value
+requires editing only a single attribute (<code>to</code>) rather than
+multiple points across an array of values.</li>
+<li><strong>Easing Consistency:</strong> Spline-based easing applied to
+the animation curve automatically mirrors during the reverse segment,
+maintaining consistent acceleration and deceleration dynamics.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

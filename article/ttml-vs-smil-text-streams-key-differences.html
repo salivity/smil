@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTML vs SMIL Text Streams: Key Differences - smil</title>
+    <meta name="description" content="Timed text delivery is critical for video accessibility and global localization. While both the Synchronized Multimedia Integration Language (SMIL) and the Timed Text Markup Language (TTML) are World Wide Web Consortium (W3C) standards that manage timed">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/ttml-vs-smil-text-streams-key-differences">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="TTML vs SMIL Text Streams: Key Differences - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/ttml-vs-smil-text-streams-key-differences" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Timed text delivery is critical for video accessibility and global localization. While both the Synchronized Multimedia Integration Language (SMIL) and the Timed Text Markup Language (TTML) are World Wide Web Consortium (W3C) standards that manage timed" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="ttml-vs-smil-text-streams-key-differences">TTML vs SMIL Text
+Streams: Key Differences</h1>
+<p>Timed text delivery is critical for video accessibility and global
+localization. While both the Synchronized Multimedia Integration
+Language (SMIL) and the Timed Text Markup Language (TTML) are World Wide
+Web Consortium (W3C) standards that manage timed media, they serve
+fundamentally different architectural purposes. This article explores
+the contrasting roles of TTML and SMIL text streams, examining how SMIL
+approached basic text synchronization within broader multimedia
+presentations, why TTML became the global standard for professional
+subtitling and closed captioning, and how their functional capabilities
+diverge.</p>
+<h3 id="architectural-focus-and-scope">Architectural Focus and
+Scope</h3>
+<p>SMIL is a high-level presentation language designed to choreograph
+multiple independent media types—including audio, video, images, and
+text—into a unified presentation. Within SMIL, a text stream is simply
+one component of an overall multimedia document, placed on a timeline
+alongside other assets. SMIL text focuses primarily on basic
+synchronization, sequencing, and rudimentary layout within a media
+player viewport.</p>
+<p>In contrast, TTML was engineered specifically for the deep, nuanced
+representation of subtitles and captions. Rather than choreographing
+external video and audio files, a TTML document operates as a standalone
+data format dedicated entirely to text timing, positioning, styling, and
+metadata. It was built from the ground up to solve the complex
+challenges of international broadcast and digital streaming
+accessibility.</p>
+<h3 id="styling-and-formatting-capabilities">Styling and Formatting
+Capabilities</h3>
+<p>SMIL text streams provide foundational styling capabilities, such as
+basic font selection, text color, and alignment, often borrowing
+properties from CSS or basic XHTML. However, SMIL lacks the granular
+control required for broadcast-grade closed captioning.</p>
+<p>TTML includes an extensive, specialized styling vocabulary. It
+supports advanced typographical features essential for global
+distribution, such as:</p>
+<ul>
+<li>Exact bounding-box positioning and multi-region display.</li>
+<li>Vertical text and ruby annotation for East Asian languages (such as
+Japanese and Chinese).</li>
+<li>Bidirectional text handling for right-to-left scripts like Arabic
+and Hebrew.</li>
+<li>Precise color mapping, background padding, line-height constraints,
+and text outlines for readability over dynamic video content.</li>
+</ul>
+<h3 id="the-role-of-interchange-and-transcoding">The Role of Interchange
+and Transcoding</h3>
+<p>A primary purpose of TTML is to serve as an authoring and interchange
+format across legacy and modern broadcast systems. Broadcasters and
+content distributors use TTML profiles—such as IMSC (TTML Profiles for
+Internet Media Subtitles and Captions) and SMPTE-TT—to bridge disparate
+closed-caption formats (such as CEA-608/708 in North America and EBU-STL
+in Europe). TTML can carry both text and bitmap subtitle images
+(prerendered graphics), ensuring frame-accurate timing across various
+display devices.</p>
+<p>SMIL was never intended to be an interchange format for professional
+captioning pipelines. Its text capabilities were designed for direct
+consumption by SMIL-compatible multimedia players, such as RealPlayer or
+QuickTime in early desktop computing, and 3GPP-compatible mobile clients
+for MMS (Multimedia Messaging Service).</p>
+<h3 id="modern-industry-adoption">Modern Industry Adoption</h3>
+<p>While SMIL pioneered concepts of XML-based media synchronization that
+influenced technologies like SVG animations and HTML5 timing concepts,
+standalone SMIL text streams have largely fallen out of active
+development in modern media workflows.</p>
+<p>TTML, conversely, is the dominant technical foundation for global
+video streaming. Major standards bodies, including the European
+Broadcasting Union (EBU-TT), the Society of Motion Picture and
+Television Engineers (SMPTE), and streaming architectures like MPEG-DASH
+and HLS, rely on TTML and its IMSC profiles to guarantee accessible,
+localized subtitle delivery across modern digital devices.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

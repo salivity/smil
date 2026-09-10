@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL and QuickTime Text Track Relationship - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) and the QuickTime Text track specification are historically intertwined technologies that defined early digital multimedia synchronization and playback. While the QuickTime Text track functioned as a fo">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-and-quicktime-text-track-relationship">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL and QuickTime Text Track Relationship - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-and-quicktime-text-track-relationship" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) and the QuickTime Text track specification are historically intertwined technologies that defined early digital multimedia synchronization and playback. While the QuickTime Text track functioned as a fo" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-and-quicktime-text-track-relationship">SMIL and QuickTime
+Text Track Relationship</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) and the QuickTime
+Text track specification are historically intertwined technologies that
+defined early digital multimedia synchronization and playback. While the
+QuickTime Text track functioned as a format for storing and rendering
+timed text, SMIL acted as the overarching orchestration layer that
+coordinated these text elements alongside audio and video. This article
+examines the technical relationship between the two formats, their
+implementation within media frameworks, and their collective influence
+on modern timed text standards.</p>
+<h2 id="defining-the-technologies">Defining the Technologies</h2>
+<p>To understand their relationship, it is essential to distinguish the
+roles of both formats:</p>
+<ul>
+<li><strong>QuickTime Text Tracks:</strong> Developed by Apple, this
+specification allows plain text, styling instructions, and timestamps to
+be embedded directly into QuickTime (<code>.mov</code>) files or
+authored as standalone text files. It defines the appearance, font,
+color, scrolling behavior, and precise display duration of subtitles,
+captions, or chapter markers.</li>
+<li><strong>SMIL:</strong> Developed by the World Wide Web Consortium
+(W3C), SMIL is an XML-based markup language designed to orchestrate
+independent multimedia objects—such as images, video clips, audio
+tracks, and text—into a unified, synchronized presentation using
+temporal and spatial declarations.</li>
+</ul>
+<h2 id="technical-integration-and-architecture">Technical Integration
+and Architecture</h2>
+<p>The primary relationship between SMIL and QuickTime Text is one of
+architecture: SMIL acts as the structural orchestrator, while the
+QuickTime Text track acts as a media component within that
+structure.</p>
+<p>Beginning with QuickTime 4.1, Apple integrated native SMIL support
+into the QuickTime engine. Rather than replacing the proprietary
+QuickTime Text track, QuickTime used SMIL to dynamically assemble media
+components:</p>
+<ol type="1">
+<li><strong>Spatial Layout:</strong> SMIL files use the
+<code>&lt;layout&gt;</code> and <code>&lt;region&gt;</code> tags to
+define the presentation window and allocate visual space. A SMIL
+document can define a specific bounding box for text overlays,
+positioning the QuickTime Text track over a running video stream.</li>
+<li><strong>Temporal Synchronization:</strong> While a QuickTime Text
+track contains its own internal timestamps for individual lines of text,
+SMIL uses <code>&lt;par&gt;</code> (parallel) and
+<code>&lt;seq&gt;</code> (sequential) tags to establish when the entire
+text track begins and ends in relation to other media assets.</li>
+<li><strong>Media Referencing:</strong> Inside a SMIL document, the
+<code>&lt;text&gt;</code> or <code>&lt;textstream&gt;</code> element is
+used to point to the QuickTime Text asset, whether stored as an external
+<code>.txt</code> file or as an internal track inside a QuickTime
+container.</li>
+</ol>
+<p>In this relationship, SMIL does not parse the individual lines of
+text; instead, it delegates rendering and font formatting to QuickTime’s
+text engine, while maintaining global control over the timeline and
+display area.</p>
+<h2 id="legacy-and-influence-on-open-standards">Legacy and Influence on
+Open Standards</h2>
+<p>The convergence of SMIL and the QuickTime Text track laid the
+groundwork for modern mobile and web multimedia standards. When the 3rd
+Generation Partnership Project (3GPP) developed multimedia
+specifications for mobile devices, it combined both paradigms:</p>
+<ul>
+<li>The QuickTime Text track architecture was adapted to create
+<strong>3GPP Timed Text</strong> (3GPP TS 26.245), the basis for timed
+text in MP4 containers.</li>
+<li>SMIL was adopted as the scene-description language for
+<strong>Multimedia Messaging Service (MMS)</strong> and 3GPP streaming
+presentations.</li>
+</ul>
+<p>Ultimately, the relationship between SMIL and the QuickTime Text
+specification represents the division between presentation composition
+and media encoding, demonstrating how XML orchestration and
+container-level timed text tracks operate in tandem.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

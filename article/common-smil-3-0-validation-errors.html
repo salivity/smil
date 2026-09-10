@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common SMIL 3.0 Validation Errors - smil</title>
+    <meta name="description" content="Authoring Synchronized Multimedia Integration Language (SMIL) 3.0 documents requires strict adherence to XML syntax, proper profile declarations, and precise temporal structuring. When compiling or testing these files, authors frequently encounter valida">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/common-smil-3-0-validation-errors">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Common SMIL 3.0 Validation Errors - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/common-smil-3-0-validation-errors" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Authoring Synchronized Multimedia Integration Language (SMIL) 3.0 documents requires strict adherence to XML syntax, proper profile declarations, and precise temporal structuring. When compiling or testing these files, authors frequently encounter valida" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="common-smil-30-validation-errors">Common SMIL 3.0 Validation
+Errors</h1>
+<p>Authoring Synchronized Multimedia Integration Language (SMIL) 3.0
+documents requires strict adherence to XML syntax, proper profile
+declarations, and precise temporal structuring. When compiling or
+testing these files, authors frequently encounter validation failures
+that prevent playback or corrupt multimedia synchronization. This guide
+breaks down the most common SMIL 3.0 validation errors, explaining why
+they occur and how to fix them.</p>
+<h3 id="1-xml-well-formedness-errors">1. XML Well-Formedness Errors</h3>
+<p>Because SMIL 3.0 is an XML application, documents must be strictly
+well-formed. The most basic validation errors stem from standard XML
+mistakes:</p>
+<ul>
+<li><strong>Unclosed Elements:</strong> Empty tags such as
+<code>&lt;video /&gt;</code>, <code>&lt;audio /&gt;</code>, or
+<code>&lt;ref /&gt;</code> must either be self-closing or paired with an
+explicit closing tag.</li>
+<li><strong>Case Sensitivity:</strong> SMIL 3.0 elements and attributes
+are case-sensitive and predominantly lowercase. Writing
+<code>&lt;Par&gt;</code> instead of <code>&lt;par&gt;</code> or
+<code>&lt;Begin&gt;</code> instead of <code>&lt;begin&gt;</code>
+triggers immediate schema validation failures.</li>
+<li><strong>Unquoted Attribute Values:</strong> Attribute values must
+always be enclosed in single or double quotes (e.g.,
+<code>dur="5s"</code>, not <code>dur=5s</code>).</li>
+</ul>
+<h3 id="2-missing-or-incorrect-namespace-declarations">2. Missing or
+Incorrect Namespace Declarations</h3>
+<p>SMIL 3.0 documents require the correct default namespace declaration
+in the root <code>&lt;smil&gt;</code> element. Specifying an outdated
+namespace (such as SMIL 2.0) or omitting the namespace entirely prevents
+validators from matching elements against the SMIL 3.0 schema.</p>
+<p>A valid root element must declare the SMIL 3.0 namespace:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span> <span class="ot">version=</span><span class="st">&quot;3.0&quot;</span> <span class="ot">baseProfile=</span><span class="st">&quot;Language&quot;</span>&gt;</span></code></pre></div>
+<p>Failure to define the <code>baseProfile</code> attribute (or
+selecting an invalid profile) will also cause validator warnings or
+failures, as the validator cannot determine which module rules to
+enforce.</p>
+<h3 id="3-profile-incompatibilities">3. Profile Incompatibilities</h3>
+<p>SMIL 3.0 is modular and specifies distinct profiles, such as the full
+Language Profile, the Unified Mobile Profile (SMIL 3.0 UMP), and the
+DAISY Profile. A common error occurs when authors attempt to use
+elements or attributes from an advanced module (such as complex smilText
+styling or state manipulation) inside a profile that does not support
+them. Validators configured for a specific profile will reject any
+elements not defined within that profile's subset.</p>
+<h3 id="4-layout-and-region-reference-mismatches">4. Layout and Region
+Reference Mismatches</h3>
+<p>The presentation layout is defined in the <code>&lt;head&gt;</code>
+section using <code>&lt;layout&gt;</code> and
+<code>&lt;region&gt;</code> tags. Common errors include:</p>
+<ul>
+<li><strong>Unresolved Region IDs:</strong> Media elements inside the
+<code>&lt;body&gt;</code> referencing an undefined region (e.g.,
+<code>&lt;video region="main_video" .../&gt;</code> when no
+<code>&lt;region xml:id="main_video" .../&gt;</code> exists in the
+<code>&lt;layout&gt;</code>).</li>
+<li><strong>ID Attribute Errors:</strong> Using <code>id</code> instead
+of <code>xml:id</code> (or vice versa), depending on the strictness of
+the XML schema parser.</li>
+<li><strong>Missing Root Layout:</strong> Omitting
+<code>&lt;root-layout&gt;</code> inside <code>&lt;layout&gt;</code>,
+causing undefined viewport dimensions.</li>
+</ul>
+<h3 id="5-timing-and-synchronization-errors">5. Timing and
+Synchronization Errors</h3>
+<p>SMIL 3.0 relies heavily on time containers (<code>&lt;seq&gt;</code>,
+<code>&lt;par&gt;</code>, and <code>&lt;excl&gt;</code>). Common
+temporal authoring errors include:</p>
+<ul>
+<li><strong>Circular Dependencies:</strong> Defining synchronization
+references where two elements rely on each other to start or stop (e.g.,
+element A begins when element B ends, but element B begins when element
+A ends).</li>
+<li><strong>Invalid Clock Values:</strong> Formatting errors in time
+values, such as omitting required time units (using
+<code>dur="10"</code> instead of <code>dur="10s"</code> or
+<code>dur="00:10"</code>).</li>
+<li><strong>Placing Media Elements Outside Time Containers:</strong>
+Placing media elements directly within the <code>&lt;body&gt;</code>
+without an explicit or implicit container can violate content model
+rules depending on the profile.</li>
+</ul>
+<h3 id="6-media-and-content-declaration-errors">6. Media and Content
+Declaration Errors</h3>
+<p>When embedding media:</p>
+<ul>
+<li><strong>Missing <code>src</code> Attributes:</strong> Media elements
+(<code>&lt;audio&gt;</code>, <code>&lt;video&gt;</code>,
+<code>&lt;img&gt;</code>) must have a valid <code>src</code> attribute
+pointing to a URI.</li>
+<li><strong>Improper MIME Types:</strong> Using the <code>type</code>
+attribute with an unrecognized or malformed MIME type will fail strict
+validation checks.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

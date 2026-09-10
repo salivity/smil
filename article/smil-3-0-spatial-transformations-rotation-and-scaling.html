@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL 3.0 Spatial Transformations: Rotation and Scaling - smil</title>
+    <meta name="description" content="SMIL 3.0 (Synchronized Multimedia Integration Language) handles spatial transformations by combining declarative layout rules, dedicated multimedia modules, and timed animation elements. While SMIL is primarily an orchestration language rather than a ful">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-3-0-spatial-transformations-rotation-and-scaling">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL 3.0 Spatial Transformations: Rotation and Scaling - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-3-0-spatial-transformations-rotation-and-scaling" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="SMIL 3.0 (Synchronized Multimedia Integration Language) handles spatial transformations by combining declarative layout rules, dedicated multimedia modules, and timed animation elements. While SMIL is primarily an orchestration language rather than a ful" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-30-spatial-transformations-rotation-and-scaling">SMIL 3.0
+Spatial Transformations: Rotation and Scaling</h1>
+<p>SMIL 3.0 (Synchronized Multimedia Integration Language) handles
+spatial transformations by combining declarative layout rules, dedicated
+multimedia modules, and timed animation elements. While SMIL is
+primarily an orchestration language rather than a full 2D rendering
+engine, it manages spatial scaling through the Layout and PanZoom
+modules, and processes continuous transformations like rotation and
+dynamic scaling via the SMIL Animation module.</p>
+<h3 id="scaling-and-aspect-ratio-control">Scaling and Aspect Ratio
+Control</h3>
+<p>Static and bounded scaling in SMIL 3.0 is primarily managed through
+region definitions and content-fitting rules in the Layout modules:</p>
+<ul>
+<li><strong>The <code>fit</code> Attribute:</strong> Applied to media
+elements or regions, the <code>fit</code> attribute determines how
+visual media scales to match target dimensions:
+<ul>
+<li><code>fill</code>: Scales the media non-uniformly to completely fill
+the target area, ignoring the original aspect ratio.</li>
+<li><code>meet</code>: Uniformly scales the media until it reaches the
+bounds of the region, preserving the aspect ratio without clipping.</li>
+<li><code>slice</code>: Uniformly scales the media to completely cover
+the region, preserving the aspect ratio and clipping any overflowing
+parts.</li>
+<li><code>hidden</code> or <code>scroll</code>: Renders the media at
+native size, either hiding or providing scrollbars for overflowing
+areas.</li>
+</ul></li>
+<li><strong>Hierarchical and Sub-Region Layout:</strong> SMIL 3.0
+permits nested regions using percentages and relative units, enabling
+automatic scaling when parent layouts resize.</li>
+</ul>
+<h3 id="the-smil-30-panzoom-module">The SMIL 3.0 PanZoom Module</h3>
+<p>SMIL 3.0 introduced the PanZoom module specifically for
+high-resolution graphics and video. It allows authoring tools and
+players to scale and pan into a specific bounding box of an asset over
+time without distorting the outer layout:</p>
+<ul>
+<li>The <code>panZoom</code> attribute establishes a virtual viewing
+window over the target media.</li>
+<li>By adjusting coordinates dynamically or over predefined durations,
+authors achieve zoom-in (scaling up details) and zoom-out operations
+directly on media surfaces.</li>
+</ul>
+<h3 id="dynamic-transformations-via-animatetransform">Dynamic
+Transformations via <code>&lt;animateTransform&gt;</code></h3>
+<p>For arbitrary scaling and rotation, SMIL 3.0 relies on the SMIL
+Animation module, often applied in host languages such as SVG:</p>
+<ul>
+<li><strong>Rotation:</strong> SMIL does not feature a static
+<code>&lt;region rotate="..."&gt;</code> attribute in its core layout
+syntax. Instead, rotation is handled via the
+<code>&lt;animateTransform&gt;</code> element with the attribute
+<code>type="rotate"</code>.
+<ul>
+<li><strong>Syntax:</strong> Values are written as
+<code>&lt;angle&gt; [, &lt;cx&gt;, &lt;cy&gt;]</code>, where
+<code>angle</code> defines the rotation in degrees, and optional
+<code>cx</code> and <code>cy</code> parameters define the center
+coordinates around which the object rotates.</li>
+<li><strong>Application:</strong> Authors can define static rotations by
+setting <code>from</code> and <code>to</code> to the same angle, or
+animate rotations by defining differing angle values over a specified
+<code>dur</code> (duration).</li>
+</ul></li>
+<li><strong>Scaling:</strong> In addition to the <code>fit</code>
+attribute, <code>&lt;animateTransform&gt;</code> supports
+<code>type="scale"</code>.
+<ul>
+<li><strong>Syntax:</strong> Values are represented as
+<code>&lt;sx&gt; [, &lt;sy&gt;]</code>, allowing both uniform scaling (a
+single multiplier) and non-uniform scaling (separate horizontal and
+vertical multipliers).</li>
+</ul></li>
+</ul>
+<h3 id="additive-and-sequential-operations">Additive and Sequential
+Operations</h3>
+<p>When both rotation and scaling are required, SMIL 3.0 manages them
+using transformation composition attributes:</p>
+<ul>
+<li><strong><code>additive="sum"</code>:</strong> Allows multiple
+<code>&lt;animateTransform&gt;</code> operations (such as a concurrent
+scale and rotate) to combine instead of overriding one another.</li>
+<li><strong><code>accumulate="sum"</code>:</strong> Allows repeated
+transformations (e.g., repeating a 45-degree rotation) to build upon the
+ending state of previous cycles.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

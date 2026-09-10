@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Sub-Region Positioning: Top, Bottom, Left, Right - smil</title>
+    <meta name="description" content="SMIL sub-region positioning allows authors to position media dynamically within a defined layout region without creating separate layout containers for every element. By applying top, bottom, left, and right attributes directly to a media tag—such as <">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-sub-region-positioning-top-bottom-left-right">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Sub-Region Positioning: Top, Bottom, Left, Right - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-sub-region-positioning-top-bottom-left-right" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="SMIL sub-region positioning allows authors to position media dynamically within a defined layout region without creating separate layout containers for every element. By applying top, bottom, left, and right attributes directly to a media tag—such as <" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-sub-region-positioning-top-bottom-left-right">SMIL
+Sub-Region Positioning: Top, Bottom, Left, Right</h1>
+<p>SMIL sub-region positioning allows authors to position media
+dynamically within a defined layout region without creating separate
+layout containers for every element. By applying <code>top</code>,
+<code>bottom</code>, <code>left</code>, and <code>right</code>
+attributes directly to a media tag—such as <code>&lt;video&gt;</code>,
+<code>&lt;img&gt;</code>, or <code>&lt;text&gt;</code>—the media
+generates a localized sub-rectangle inside its assigned parent
+<code>&lt;region&gt;</code>. This guide explains how these four
+attributes dictate media placement, how coordinates are measured, and
+how conflicting values are resolved.</p>
+<h3 id="the-coordinate-space-of-sub-regions">The Coordinate Space of
+Sub-Regions</h3>
+<p>When a media element references a layout region via the
+<code>region</code> attribute, it inherits that region's boundaries as
+its viewport. Applying <code>top</code>, <code>bottom</code>,
+<code>left</code>, or <code>right</code> directly to the media element
+overrides the default behavior of filling the entire region:</p>
+<ul>
+<li><strong><code>left</code></strong>: Specifies the horizontal
+distance from the left edge of the parent region to the left edge of the
+media sub-region.</li>
+<li><strong><code>right</code></strong>: Specifies the horizontal
+distance from the right edge of the parent region to the right edge of
+the media sub-region.</li>
+<li><strong><code>top</code></strong>: Specifies the vertical distance
+from the top edge of the parent region to the top edge of the media
+sub-region.</li>
+<li><strong><code>bottom</code></strong>: Specifies the vertical
+distance from the bottom edge of the parent region to the bottom edge of
+the media sub-region.</li>
+</ul>
+<h3 id="supported-measurement-units">Supported Measurement Units</h3>
+<p>These attributes accept two primary value types:</p>
+<ol type="1">
+<li><strong>Pixel Values</strong>: Defined either as unitless integers
+or suffixed with <code>px</code> (e.g., <code>left="20px"</code> or
+<code>left="20"</code>). These create a fixed offset irrespective of the
+parent region's actual size.</li>
+<li><strong>Percentages</strong>: Expressed with a <code>%</code> symbol
+(e.g., <code>top="15%"</code>). Percentages are evaluated relative to
+the size of the parent region. Horizontal offsets (<code>left</code>,
+<code>right</code>) use the parent region's width, while vertical
+offsets (<code>top</code>, <code>bottom</code>) use the parent region's
+height.</li>
+</ol>
+<h3 id="calculating-size-and-position">Calculating Size and
+Position</h3>
+<p>The sub-region dimensions depend on the relationship between these
+offset attributes and explicit <code>width</code> or <code>height</code>
+values declared on the media element.</p>
+<h4 id="horizontal-positioning">Horizontal Positioning</h4>
+<ul>
+<li><strong><code>left</code> and <code>right</code> only</strong>: If
+both <code>left</code> and <code>right</code> are set without an
+explicit <code>width</code>, the sub-region width is automatically
+computed as:<br />
+<code>Parent Width - (left + right)</code>.</li>
+<li><strong><code>left</code> and <code>width</code></strong>: The
+sub-region begins at <code>left</code> and extends across
+<code>width</code>. A declared <code>right</code> attribute is ignored
+or overridden.</li>
+<li><strong><code>right</code> and <code>width</code></strong>: The
+sub-region ends at <code>right</code> offset from the right boundary,
+with its left edge calculated backward according to
+<code>width</code>.</li>
+<li><strong>Single attribute</strong>: If only <code>left</code> is
+provided (without <code>width</code> or <code>right</code>), the media
+uses its intrinsic width or fills the remaining space to the right
+border, depending on the <code>fit</code> attribute.</li>
+</ul>
+<h4 id="vertical-positioning">Vertical Positioning</h4>
+<ul>
+<li><strong><code>top</code> and <code>bottom</code> only</strong>: If
+both <code>top</code> and <code>bottom</code> are set without a declared
+<code>height</code>, the sub-region height is computed as:<br />
+<code>Parent Height - (top + bottom)</code>.</li>
+<li><strong><code>top</code> and <code>height</code></strong>: The
+sub-region begins at <code>top</code> and extends downward by
+<code>height</code>. An accompanying <code>bottom</code> attribute is
+ignored.</li>
+<li><strong><code>bottom</code> and <code>height</code></strong>: The
+sub-region terminates at the <code>bottom</code> offset, anchoring the
+media relative to the lower edge.</li>
+</ul>
+<h3 id="interaction-with-the-fit-attribute">Interaction with the
+<code>fit</code> Attribute</h3>
+<p>Once <code>top</code>, <code>bottom</code>, <code>left</code>, and
+<code>right</code> establish the sub-region rectangle, the media
+element’s <code>fit</code> attribute determines how the visual content
+fills that computed space:</p>
+<ul>
+<li><strong><code>fill</code></strong>: The media stretches to match the
+sub-region bounds completely.</li>
+<li><strong><code>meet</code></strong>: The media preserves its aspect
+ratio, scaling until it hits the nearest edge of the sub-region.</li>
+<li><strong><code>slice</code></strong>: The media scales to cover the
+entire sub-region, cropping overflow.</li>
+<li><strong><code>hidden</code> / <code>scroll</code></strong>: The
+media renders at its natural size starting at the top-left of the
+sub-region, clipping or scrolling any overflow.</li>
+</ul>
+<h3 id="example-usage">Example Usage</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">layout</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">root-layout</span> <span class="ot">width=</span><span class="st">&quot;1920px&quot;</span> <span class="ot">height=</span><span class="st">&quot;1080px&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;main_area&quot;</span> <span class="ot">left=</span><span class="st">&quot;0&quot;</span> <span class="ot">top=</span><span class="st">&quot;0&quot;</span> <span class="ot">width=</span><span class="st">&quot;100%&quot;</span> <span class="ot">height=</span><span class="st">&quot;100%&quot;</span> /&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">par</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Media positioned with 5% margins on all sides --&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;clip.mp4&quot;</span> <span class="ot">region=</span><span class="st">&quot;main_area&quot;</span> <span class="ot">top=</span><span class="st">&quot;5%&quot;</span> <span class="ot">bottom=</span><span class="st">&quot;5%&quot;</span> <span class="ot">left=</span><span class="st">&quot;5%&quot;</span> <span class="ot">right=</span><span class="st">&quot;5%&quot;</span> <span class="ot">fit=</span><span class="st">&quot;meet&quot;</span> /&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Sub-region pinned to the bottom-right corner --&gt;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;watermark.png&quot;</span> <span class="ot">region=</span><span class="st">&quot;main_area&quot;</span> <span class="ot">right=</span><span class="st">&quot;20px&quot;</span> <span class="ot">bottom=</span><span class="st">&quot;20px&quot;</span> <span class="ot">width=</span><span class="st">&quot;150px&quot;</span> <span class="ot">height=</span><span class="st">&quot;50px&quot;</span> /&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">par</span>&gt;</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<p>By utilizing <code>top</code>, <code>bottom</code>,
+<code>left</code>, and <code>right</code>, SMIL enables responsive,
+relative positioning directly on media items, reducing the need for
+redundant region elements in the document header.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Grayscale Mask Transition Wipe Syntax Guide - smil</title>
+    <meta name="description" content="This guide details the syntax for implementing custom transition wipe patterns using grayscale mask images in Synchronized Multimedia Integration Language (SMIL). It covers the structure of the <transition> declaration, explains how luminance gradients d">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-grayscale-mask-transition-wipe-syntax-guide">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Grayscale Mask Transition Wipe Syntax Guide - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-grayscale-mask-transition-wipe-syntax-guide" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This guide details the syntax for implementing custom transition wipe patterns using grayscale mask images in Synchronized Multimedia Integration Language (SMIL). It covers the structure of the <transition> declaration, explains how luminance gradients d" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-grayscale-mask-transition-wipe-syntax-guide">SMIL Grayscale
+Mask Transition Wipe Syntax Guide</h1>
+<p>This guide details the syntax for implementing custom transition wipe
+patterns using grayscale mask images in Synchronized Multimedia
+Integration Language (SMIL). It covers the structure of the
+<code>&lt;transition&gt;</code> declaration, explains how luminance
+gradients dictate wipe timing, and demonstrates how to bind the custom
+transition to target media elements.</p>
+<h2 id="declaring-the-custom-transition">Declaring the Custom
+Transition</h2>
+<p>Custom wipe patterns using grayscale images are declared within the
+<code>&lt;head&gt;</code> section of a SMIL document using the
+<code>&lt;transition&gt;</code> element. The grayscale image acts as a
+luminance map that guides the sequence of the wipe across the display
+area.</p>
+<h3 id="syntax-structure">Syntax Structure</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">head</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">transition</span> <span class="ot">id=</span><span class="st">&quot;customWipeId&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>              <span class="ot">type=</span><span class="st">&quot;custom&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>              <span class="ot">src=</span><span class="st">&quot;path/to/mask.png&quot;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>              <span class="ot">dur=</span><span class="st">&quot;2s&quot;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>              <span class="ot">startProgress=</span><span class="st">&quot;0.0&quot;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>              <span class="ot">endProgress=</span><span class="st">&quot;1.0&quot;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>              <span class="ot">direction=</span><span class="st">&quot;forward&quot;</span> /&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">head</span>&gt;</span></code></pre></div>
+<h3 id="key-attributes">Key Attributes</h3>
+<ul>
+<li><strong><code>id</code></strong>: A unique XML identifier used to
+reference the transition within media elements.</li>
+<li><strong><code>type</code></strong>: Specified as <code>custom</code>
+(or in certain player profiles, <code>miscTransition</code> or extended
+vendor types) to indicate an external map is being utilized rather than
+a predefined SMPTE wipe.</li>
+<li><strong><code>src</code></strong>: The URI path pointing to the
+grayscale image file (typically PNG or JPEG).</li>
+<li><strong><code>dur</code></strong>: The duration of the transition
+from start to finish (e.g., <code>2s</code> or
+<code>1500ms</code>).</li>
+<li><strong><code>startProgress</code></strong> <em>(optional)</em>: The
+progress value at which the transition begins, ranging from
+<code>0.0</code> (start of mask) to <code>1.0</code>. Default is
+<code>0.0</code>.</li>
+<li><strong><code>endProgress</code></strong> <em>(optional)</em>: The
+progress value at which the transition ends. Default is
+<code>1.0</code>.</li>
+<li><strong><code>direction</code></strong> <em>(optional)</em>:
+Determines whether the wipe moves <code>forward</code> (revealing along
+the gradient) or <code>reverse</code>.</li>
+</ul>
+<h2 id="how-the-grayscale-mask-works">How the Grayscale Mask Works</h2>
+<p>The rendering engine evaluates the luminance (brightness) of each
+pixel in the mask image:</p>
+<ul>
+<li><strong>Black (Value 0):</strong> Transitions immediately at the
+beginning of the timeline (<code>0%</code> progress).</li>
+<li><strong>Mid-tone Grays (Values 1–254):</strong> Transition
+proportionally over the course of the duration according to their
+brightness.</li>
+<li><strong>White (Value 255):</strong> Transitions last, concluding at
+the end of the duration (<code>100%</code> progress).</li>
+</ul>
+<p>Gradients with soft edges produce a feathered or blurred wipe border,
+while high-contrast posterized masks create sharp, defined wipe
+edges.</p>
+<h2 id="applying-the-transition-to-media-elements">Applying the
+Transition to Media Elements</h2>
+<p>To invoke the defined transition, assign its <code>id</code> to the
+<code>transIn</code> (entry transition) or <code>transOut</code> (exit
+transition) attribute of any SMIL media element, such as
+<code>&lt;img&gt;</code>, <code>&lt;video&gt;</code>, or
+<code>&lt;ref&gt;</code>.</p>
+<h3 id="complete-smil-document-example">Complete SMIL Document
+Example</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span> <span class="ot">version=</span><span class="st">&quot;3.0&quot;</span> <span class="ot">baseProfile=</span><span class="st">&quot;Language&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">layout</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">root-layout</span> <span class="ot">width=</span><span class="st">&quot;1920&quot;</span> <span class="ot">height=</span><span class="st">&quot;1080&quot;</span> <span class="ot">backgroundColor=</span><span class="st">&quot;black&quot;</span> /&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;mainRegion&quot;</span> <span class="ot">width=</span><span class="st">&quot;1920&quot;</span> <span class="ot">height=</span><span class="st">&quot;1080&quot;</span> /&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">transition</span> <span class="ot">id=</span><span class="st">&quot;gradientWipe&quot;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                <span class="ot">type=</span><span class="st">&quot;custom&quot;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                <span class="ot">src=</span><span class="st">&quot;transitions/radial_gradient.png&quot;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                <span class="ot">dur=</span><span class="st">&quot;1.5s&quot;</span> /&gt;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">seq</span>&gt;</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Media transitioning in using the grayscale mask --&gt;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;slide1.jpg&quot;</span> </span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>           <span class="ot">region=</span><span class="st">&quot;mainRegion&quot;</span> </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>           <span class="ot">dur=</span><span class="st">&quot;5s&quot;</span> /&gt;</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;slide2.jpg&quot;</span> </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>           <span class="ot">region=</span><span class="st">&quot;mainRegion&quot;</span> </span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>           <span class="ot">dur=</span><span class="st">&quot;5s&quot;</span> </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>           <span class="ot">transIn=</span><span class="st">&quot;gradientWipe&quot;</span> /&gt;</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">seq</span>&gt;</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

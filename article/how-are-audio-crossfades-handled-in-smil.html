@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Are Audio Crossfades Handled in SMIL? - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) manages audio crossfading primarily by combining temporal synchronization elements with transition effects or audio-level control modules. While visual transitions dominate standard SMIL specifications,">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-are-audio-crossfades-handled-in-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Are Audio Crossfades Handled in SMIL? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-are-audio-crossfades-handled-in-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) manages audio crossfading primarily by combining temporal synchronization elements with transition effects or audio-level control modules. While visual transitions dominate standard SMIL specifications," />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-are-audio-crossfades-handled-in-smil">How Are Audio
+Crossfades Handled in SMIL?</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) manages audio
+crossfading primarily by combining temporal synchronization elements
+with transition effects or audio-level control modules. While visual
+transitions dominate standard SMIL specifications, audio crossfades are
+achieved either through the SMIL <code>transitionFilter</code> applied
+to sound volume or by defining overlapping temporal intervals inside
+parallel media blocks using the <code>soundLevel</code> attribute. This
+article explains how SMIL orchestrates audio mixing, the specific module
+attributes used for smooth transitions, and practical syntax structures
+for crossfading audio tracks.</p>
+<h2 id="the-foundation-smil-timing-and-layout-architecture">The
+Foundation: SMIL Timing and Layout Architecture</h2>
+<p>To perform an audio crossfade, SMIL relies on its core timing
+architecture. Crossfading requires two audio streams to play
+concurrently for a designated period: the outgoing track decreasing in
+volume while the incoming track increases.</p>
+<p>In SMIL, media playback structure is governed by time containers:</p>
+<ul>
+<li><code>&lt;par&gt;</code>: Executes child elements in parallel
+(simultaneously).</li>
+<li><code>&lt;seq&gt;</code>: Executes child elements sequentially.</li>
+</ul>
+<p>Because crossfading requires an overlap, the transition period must
+occur inside a <code>&lt;par&gt;</code> container or an overlapping
+temporal structure where both audio elements are active at the same
+moment.</p>
+<h2 id="method-1-using-the-smil-30-transitionfilter-element">Method 1:
+Using the SMIL 3.0 transitionFilter Element</h2>
+<p>SMIL 3.0 introduces transition filtering directly applicable to
+continuous media attributes, including audio parameters. The
+<code>transitionFilter</code> element modifies media properties over a
+specified duration using predefined transition types.</p>
+<p>When applied to audio, the transition modifies the volume level
+rather than visual pixel data.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span> <span class="ot">version=</span><span class="st">&quot;3.0&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">transition</span> <span class="ot">id=</span><span class="st">&quot;fadeVolume&quot;</span> <span class="ot">type=</span><span class="st">&quot;fade&quot;</span> <span class="ot">subtype=</span><span class="st">&quot;crossfade&quot;</span> <span class="ot">dur=</span><span class="st">&quot;3s&quot;</span> /&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">par</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;track1.mp3&quot;</span> <span class="ot">dur=</span><span class="st">&quot;15s&quot;</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">transitionFilter</span> <span class="ot">transIn=</span><span class="st">&quot;fadeVolume&quot;</span> <span class="ot">mode=</span><span class="st">&quot;in&quot;</span> <span class="ot">dur=</span><span class="st">&quot;3s&quot;</span> /&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">transitionFilter</span> <span class="ot">transOut=</span><span class="st">&quot;fadeVolume&quot;</span> <span class="ot">mode=</span><span class="st">&quot;out&quot;</span> <span class="ot">dur=</span><span class="st">&quot;3s&quot;</span> <span class="ot">begin=</span><span class="st">&quot;12s&quot;</span> /&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">audio</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;track2.mp3&quot;</span> <span class="ot">begin=</span><span class="st">&quot;12s&quot;</span> <span class="ot">dur=</span><span class="st">&quot;15s&quot;</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">transitionFilter</span> <span class="ot">transIn=</span><span class="st">&quot;fadeVolume&quot;</span> <span class="ot">mode=</span><span class="st">&quot;in&quot;</span> <span class="ot">dur=</span><span class="st">&quot;3s&quot;</span> /&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">audio</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">par</span>&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<p>In this implementation:</p>
+<ol type="1">
+<li>The <code>&lt;head&gt;</code> defines a reusable transition rule
+(<code>fadeVolume</code>) with a duration of 3 seconds.</li>
+<li>Track 1 begins immediately and triggers a 3-second fade-out
+transition at the 12-second mark.</li>
+<li>Track 2 begins at 12 seconds, matching the exact start of Track 1's
+fade-out, and applies a 3-second fade-in.</li>
+<li>The parallel playback between 12s and 15s creates a clean, linear
+audio crossfade.</li>
+</ol>
+<h2 id="method-2-audio-control-using-the-soundlevel-attribute">Method 2:
+Audio Control Using the soundLevel Attribute</h2>
+<p>In SMIL Media Control and Audio modules, media objects support the
+<code>soundLevel</code> attribute to explicitly set and manipulate
+relative volume. The <code>soundLevel</code> attribute accepts
+percentage values (e.g., <code>100%</code>, <code>0%</code>, or decibel
+offsets like <code>+3dB</code>, <code>-6dB</code>).</p>
+<p>When paired with SMIL Animation modules
+(<code>&lt;animate&gt;</code>), dynamic crossfading can be implemented
+directly on volume levels without relying on visual transition
+engines:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span> <span class="ot">version=</span><span class="st">&quot;3.0&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">par</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Outgoing Audio Stream --&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">audio</span> <span class="ot">id=</span><span class="st">&quot;trackA&quot;</span> <span class="ot">src=</span><span class="st">&quot;ambient1.ogg&quot;</span> <span class="ot">dur=</span><span class="st">&quot;10s&quot;</span> <span class="ot">soundLevel=</span><span class="st">&quot;100%&quot;</span>&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">animate</span> <span class="ot">attributeName=</span><span class="st">&quot;soundLevel&quot;</span> <span class="ot">from=</span><span class="st">&quot;100%&quot;</span> <span class="ot">to=</span><span class="st">&quot;0%&quot;</span> <span class="ot">begin=</span><span class="st">&quot;7s&quot;</span> <span class="ot">dur=</span><span class="st">&quot;3s&quot;</span> <span class="ot">fill=</span><span class="st">&quot;freeze&quot;</span> /&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">audio</span>&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Incoming Audio Stream --&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">audio</span> <span class="ot">id=</span><span class="st">&quot;trackB&quot;</span> <span class="ot">src=</span><span class="st">&quot;ambient2.ogg&quot;</span> <span class="ot">begin=</span><span class="st">&quot;7s&quot;</span> <span class="ot">dur=</span><span class="st">&quot;10s&quot;</span> <span class="ot">soundLevel=</span><span class="st">&quot;0%&quot;</span>&gt;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">animate</span> <span class="ot">attributeName=</span><span class="st">&quot;soundLevel&quot;</span> <span class="ot">from=</span><span class="st">&quot;0%&quot;</span> <span class="ot">to=</span><span class="st">&quot;100%&quot;</span> <span class="ot">begin=</span><span class="st">&quot;0s&quot;</span> <span class="ot">dur=</span><span class="st">&quot;3s&quot;</span> <span class="ot">fill=</span><span class="st">&quot;freeze&quot;</span> /&gt;</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">audio</span>&gt;</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">par</span>&gt;</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<h3 id="key-parameters-in-audio-animation">Key Parameters in Audio
+Animation</h3>
+<ul>
+<li><strong><code>attributeName="soundLevel"</code></strong>: Targets
+the audio gain of the element.</li>
+<li>**<code>from</code> and <code>to**</code>: Define the initial and
+final volume states across the transition window.</li>
+<li><strong><code>fill="freeze"</code></strong>: Retains the final
+target volume until the media element lifecycle terminates, preventing
+sudden volume resets.</li>
+</ul>
+<h2 id="handling-equal-power-vs-linear-audio-transitions">Handling
+Equal-Power vs. Linear Audio Transitions</h2>
+<p>Standard SMIL transitions operate on linear interpolation curves by
+default. In acoustic engineering, a linear volume crossfade often causes
+an apparent drop in perceived loudness at the midpoint (the 50% overlap
+mark).</p>
+<p>To mitigate this, SMIL provides timing spline controls via the
+<code>calcMode</code> and <code>keySplines</code> attributes in its
+animation specification:</p>
+<ul>
+<li><strong><code>calcMode="spline"</code></strong>: Enables non-linear,
+cubic Bézier interpolation curves.</li>
+<li>**<code>keyTimes</code> and <code>keySplines**</code>: Allow
+authoring logarithmic or equal-power crossfades so that the sum of the
+acoustic power remains constant throughout the transition:</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">animate</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="ot">attributeName=</span><span class="st">&quot;soundLevel&quot;</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="ot">calcMode=</span><span class="st">&quot;spline&quot;</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="ot">keyTimes=</span><span class="st">&quot;0; 1&quot;</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="ot">keySplines=</span><span class="st">&quot;0.4 0.0 0.6 1.0&quot;</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="ot">from=</span><span class="st">&quot;0%&quot;</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="ot">to=</span><span class="st">&quot;100%&quot;</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="ot">dur=</span><span class="st">&quot;3s&quot;</span> /&gt;</span></code></pre></div>
+<h2 id="practical-considerations-and-engine-support">Practical
+Considerations and Engine Support</h2>
+<p>Audio crossfade execution depends significantly on the underlying
+SMIL player engine:</p>
+<ol type="1">
+<li><strong>Decoder Capability</strong>: The playback client must
+support simultaneous decoding of two distinct audio channels or files
+inside a single <code>&lt;par&gt;</code> container.</li>
+<li><strong>Audio Mixing Modules</strong>: Engines implementing full
+SMIL profiles (such as SMIL 3.0 Language Profile) process audio mixing
+natively, whereas lightweight profiles (like SMIL Tiny) may only support
+discrete sound playback without dynamic volume interpolation.</li>
+<li><strong>Synchronization Accuracy</strong>: Precise crossfades
+require sample-accurate sync, which is maintained using SMIL's
+<code>syncMaster</code> and <code>syncBehavior</code> properties to
+ensure network buffering does not offset the overlap window.</li>
+</ol></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combining Multiple SVG animateTransform Elements - smil</title>
+    <meta name="description" content="In SVG SMIL animations, the <animateTransform> element modifies a target element's transform attribute using operations like translate, scale, and rotate. Because the default SMIL behavior replaces previous transformations rather than merging them, combi">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/combining-multiple-svg-animatetransform-elements">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Combining Multiple SVG animateTransform Elements - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/combining-multiple-svg-animatetransform-elements" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In SVG SMIL animations, the <animateTransform> element modifies a target element's transform attribute using operations like translate, scale, and rotate. Because the default SMIL behavior replaces previous transformations rather than merging them, combi" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="combining-multiple-svg-animatetransform-elements">Combining
+Multiple SVG animateTransform Elements</h1>
+<p>In SVG SMIL animations, the <code>&lt;animateTransform&gt;</code>
+element modifies a target element's <code>transform</code> attribute
+using operations like <code>translate</code>, <code>scale</code>, and
+<code>rotate</code>. Because the default SMIL behavior replaces previous
+transformations rather than merging them, combining multiple
+transformation types requires specific configurations. This article
+explains how SMIL handles simultaneous transformations through the
+<code>additive</code> attribute and matrix order, as well as the
+alternative nested group technique for complex animations.</p>
+<h3 id="the-default-overwrite-behavior">The Default Overwrite
+Behavior</h3>
+<p>By default, an <code>&lt;animateTransform&gt;</code> element has its
+<code>additive</code> attribute set to <code>replace</code>. When
+multiple <code>&lt;animateTransform&gt;</code> elements target the same
+element concurrently—such as one attempting to translate and another
+attempting to rotate—the animation defined last in the document will
+overwrite the preceding ones. Consequently, the element will not display
+a combined effect, but rather only the final active transform.</p>
+<h3 id="using-additivesum">Using <code>additive="sum"</code></h3>
+<p>To combine translation, rotation, and scaling on a single element,
+you must explicitly declare <code>additive="sum"</code> on the secondary
+(and subsequent) <code>&lt;animateTransform&gt;</code> elements, and
+preferably on all of them.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">rect</span> <span class="ot">width=</span><span class="st">&quot;50&quot;</span> <span class="ot">height=</span><span class="st">&quot;50&quot;</span> <span class="ot">fill=</span><span class="st">&quot;royalblue&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Translation --&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">animateTransform</span> </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">attributeName=</span><span class="st">&quot;transform&quot;</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="ot">type=</span><span class="st">&quot;translate&quot;</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">from=</span><span class="st">&quot;0,0&quot;</span> <span class="ot">to=</span><span class="st">&quot;100,50&quot;</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="ot">dur=</span><span class="st">&quot;4s&quot;</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="ot">additive=</span><span class="st">&quot;sum&quot;</span> /&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Rotation --&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">animateTransform</span> </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="ot">attributeName=</span><span class="st">&quot;transform&quot;</span> </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="ot">type=</span><span class="st">&quot;rotate&quot;</span> </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="ot">from=</span><span class="st">&quot;0 25 25&quot;</span> <span class="ot">to=</span><span class="st">&quot;360 25 25&quot;</span> </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="ot">dur=</span><span class="st">&quot;4s&quot;</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="ot">additive=</span><span class="st">&quot;sum&quot;</span> /&gt;</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Scaling --&gt;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">animateTransform</span> </span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="ot">attributeName=</span><span class="st">&quot;transform&quot;</span> </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="ot">type=</span><span class="st">&quot;scale&quot;</span> </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="ot">values=</span><span class="st">&quot;1; 1.5; 1&quot;</span> </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="ot">dur=</span><span class="st">&quot;4s&quot;</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="ot">additive=</span><span class="st">&quot;sum&quot;</span> /&gt;</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">rect</span>&gt;</span></code></pre></div>
+<p>When <code>additive="sum"</code> is used, the transformation matrices
+generated by each animation are post-multiplied together.</p>
+<h3 id="transformation-order-matters">Transformation Order Matters</h3>
+<p>In matrix mathematics, transformation order dictates the visual
+outcome. For instance, rotating an object and then translating it
+produces a different trajectory than translating it first and then
+rotating it around its own center.</p>
+<p>In SMIL, when multiple <code>&lt;animateTransform&gt;</code> elements
+with <code>additive="sum"</code> are applied to the same element, they
+are processed in document order. The first
+<code>&lt;animateTransform&gt;</code> listed forms the base matrix, and
+each subsequent <code>&lt;animateTransform&gt;</code> post-multiplies
+its matrix onto the running total:</p>
+<p><span class="math display">\[\text{Final Transform} = M_1 \times M_2
+\times M_3\]</span></p>
+<p>If your translate animation precedes your rotate animation, the
+object moves first and then rotates around the specified origin. If the
+rotate animation is placed first, translation moves the object along the
+rotated axes.</p>
+<h3 id="the-nested-group-technique">The Nested Group Technique</h3>
+<p>While <code>additive="sum"</code> works directly on a single element,
+managing multiple transformations and their relative origins can become
+complex. An alternative approach is nesting SVG <code>&lt;g&gt;</code>
+(group) elements, assigning a single
+<code>&lt;animateTransform&gt;</code> to each group:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">g</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">animateTransform</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="ot">attributeName=</span><span class="st">&quot;transform&quot;</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">type=</span><span class="st">&quot;translate&quot;</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="ot">from=</span><span class="st">&quot;0 0&quot;</span> <span class="ot">to=</span><span class="st">&quot;100 50&quot;</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">dur=</span><span class="st">&quot;4s&quot;</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">g</span>&gt;</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animateTransform</span> </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      <span class="ot">attributeName=</span><span class="st">&quot;transform&quot;</span> </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      <span class="ot">type=</span><span class="st">&quot;rotate&quot;</span> </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>      <span class="ot">from=</span><span class="st">&quot;0 25 25&quot;</span> <span class="ot">to=</span><span class="st">&quot;360 25 25&quot;</span> </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>      <span class="ot">dur=</span><span class="st">&quot;4s&quot;</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">g</span>&gt;</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">animateTransform</span> </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="ot">attributeName=</span><span class="st">&quot;transform&quot;</span> </span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="ot">type=</span><span class="st">&quot;scale&quot;</span> </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="ot">values=</span><span class="st">&quot;1; 1.5; 1&quot;</span> </span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="ot">dur=</span><span class="st">&quot;4s&quot;</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">rect</span> <span class="ot">width=</span><span class="st">&quot;50&quot;</span> <span class="ot">height=</span><span class="st">&quot;50&quot;</span> <span class="ot">fill=</span><span class="st">&quot;royalblue&quot;</span> /&gt;</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">g</span>&gt;</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">g</span>&gt;</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">g</span>&gt;</span></code></pre></div>
+<p>This method eliminates the need for <code>additive="sum"</code>
+because each transform operates in its own local coordinate system. It
+provides clear, hierarchical control over the exact order in which
+translation, scaling, and rotation are evaluated.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

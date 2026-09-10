@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG animateMotion Guide: Move Objects Along Paths - smil</title>
+    <meta name="description" content="The <animateMotion> element in Synchronized Multimedia Integration Language (SMIL) enables SVG elements to move along defined vector paths dynamically. By utilizing this declarative animation element, developers can guide shapes, text, or groups along st">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/svg-animatemotion-guide-move-objects-along-paths">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SVG animateMotion Guide: Move Objects Along Paths - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/svg-animatemotion-guide-move-objects-along-paths" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The <animateMotion> element in Synchronized Multimedia Integration Language (SMIL) enables SVG elements to move along defined vector paths dynamically. By utilizing this declarative animation element, developers can guide shapes, text, or groups along st" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="svg-animatemotion-guide-move-objects-along-paths">SVG
+animateMotion Guide: Move Objects Along Paths</h1>
+<p>The <code>&lt;animateMotion&gt;</code> element in Synchronized
+Multimedia Integration Language (SMIL) enables SVG elements to move
+along defined vector paths dynamically. By utilizing this declarative
+animation element, developers can guide shapes, text, or groups along
+straight, curved, or complex bezier trajectories without needing
+external JavaScript libraries or manual frame-by-frame coordinate
+calculations.</p>
+<h2 id="the-core-purpose-of-animatemotion">The Core Purpose of
+<code>&lt;animateMotion&gt;</code></h2>
+<p>In standard SVG animations, translating an object across coordinates
+typically involves changing the <code>x</code>, <code>y</code>,
+<code>cx</code>, <code>cy</code>, or <code>transform</code> attributes.
+However, these basic coordinate updates are limited to linear
+interpolations.</p>
+<p>The primary purpose of <code>&lt;animateMotion&gt;</code> is to bind
+an element's position directly to the geometry of an SVG
+<code>&lt;path&gt;</code>. The browser parses the path data, determines
+the curve segments, and calculates the intermediate coordinates needed
+to transition the target object smoothly along that path over a
+specified duration.</p>
+<h2 id="key-attributes-and-mechanisms">Key Attributes and
+Mechanisms</h2>
+<p><code>&lt;animateMotion&gt;</code> provides specialized attributes
+designed specifically for trajectory-based movement:</p>
+<h3 id="defining-the-path-path-vs-mpath">Defining the Path:
+<code>path</code> vs. <code>&lt;mpath&gt;</code></h3>
+<p>You can specify the movement trajectory in two ways:</p>
+<ul>
+<li><strong>The <code>path</code> attribute:</strong> Embeds path
+commands directly within the <code>&lt;animateMotion&gt;</code> tag
+(e.g., <code>path="M 0 0 L 100 100"</code>).</li>
+<li><strong>The <code>&lt;mpath&gt;</code> child element:</strong>
+References an external or existing <code>&lt;path&gt;</code> element
+defined elsewhere in the <code>&lt;defs&gt;</code> or canvas using an
+<code>href</code> attribute (e.g.,
+<code>&lt;mpath href="#trajectory"/&gt;</code>). This allows the visual
+path line to be reused for the motion itself.</li>
+</ul>
+<h3 id="automatic-orientation-rotate">Automatic Orientation:
+<code>rotate</code></h3>
+<p>A standout capability of <code>&lt;animateMotion&gt;</code> is
+tangential alignment:</p>
+<ul>
+<li><code>rotate="auto"</code>: Automatically rotates the moving element
+so its horizontal axis matches the tangent angle of the vector path at
+every point.</li>
+<li><code>rotate="auto-reverse"</code>: Rotates the target element 180
+degrees opposite the tangent direction, useful for reversing an object's
+heading.</li>
+<li><code>rotate="[degrees]"</code>: Keeps the object at a fixed angle
+throughout the animation.</li>
+</ul>
+<h3 id="timing-and-control-attributes">Timing and Control
+Attributes</h3>
+<ul>
+<li><code>dur</code>: Defines the duration of one complete traversal
+along the path.</li>
+<li><code>repeatCount</code>: Controls whether the animation runs once,
+multiple times, or continuously (<code>indefinite</code>).</li>
+<li><code>fill</code>: Determines whether the object returns to its
+starting point (<code>remove</code>) or remains at the end of the path
+(<code>freeze</code>).</li>
+<li><code>keyPoints</code> and <code>keyTimes</code>: Provide
+fine-grained control over the speed and pacing of the object at specific
+intervals along the path.</li>
+</ul>
+<h2 id="basic-syntax-example">Basic Syntax Example</h2>
+<p>Below is a minimal implementation showing a circle following a cubic
+bezier curve:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">svg</span> <span class="ot">viewBox=</span><span class="st">&quot;0 0 500 300&quot;</span> <span class="ot">width=</span><span class="st">&quot;100%&quot;</span> <span class="ot">height=</span><span class="st">&quot;300&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- The visible trajectory --&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">path</span> <span class="ot">id=</span><span class="st">&quot;motionPath&quot;</span> <span class="ot">d=</span><span class="st">&quot;M 50 150 C 150 50, 350 250, 450 150&quot;</span> <span class="ot">fill=</span><span class="st">&quot;none&quot;</span> <span class="ot">stroke=</span><span class="st">&quot;#ccc&quot;</span> <span class="ot">stroke-dasharray=</span><span class="st">&quot;5,5&quot;</span>/&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- The moving object --&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">circle</span> <span class="ot">r=</span><span class="st">&quot;10&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#007acc&quot;</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animateMotion</span> <span class="ot">dur=</span><span class="st">&quot;4s&quot;</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> <span class="ot">rotate=</span><span class="st">&quot;auto&quot;</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">mpath</span> <span class="ot">href=</span><span class="st">&quot;#motionPath&quot;</span>/&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">animateMotion</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">circle</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">svg</span>&gt;</span></code></pre></div>
+<h2 id="advantages-over-script-based-motion">Advantages Over
+Script-Based Motion</h2>
+<ul>
+<li><strong>Performance:</strong> Handled natively by the browser's
+rendering engine, reducing thread overhead compared to JavaScript
+interval loops.</li>
+<li><strong>Simplicity:</strong> Eliminates the need to compute complex
+mathematical formulas (such as cubic bezier equations) to find points on
+a curve.</li>
+<li><strong>Portability:</strong> The entire animation lives directly
+within the SVG markup, making it self-contained and easily embeddable
+across web platforms.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

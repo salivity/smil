@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does systemScreenDepth Select SMIL Graphics? - smil</title>
+    <meta name="description" content="The systemScreenDepth attribute in Synchronized Multimedia Integration Language (SMIL) enables adaptive content delivery by evaluating the display hardware's color depth before rendering visual media. As a test attribute within SMIL switch elements, it t">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-systemscreendepth-select-smil-graphics">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does systemScreenDepth Select SMIL Graphics? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-systemscreendepth-select-smil-graphics" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The systemScreenDepth attribute in Synchronized Multimedia Integration Language (SMIL) enables adaptive content delivery by evaluating the display hardware's color depth before rendering visual media. As a test attribute within SMIL switch elements, it t" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-systemscreendepth-select-smil-graphics">How Does
+systemScreenDepth Select SMIL Graphics?</h1>
+<p>The <code>systemScreenDepth</code> attribute in Synchronized
+Multimedia Integration Language (SMIL) enables adaptive content delivery
+by evaluating the display hardware's color depth before rendering visual
+media. As a test attribute within SMIL switch elements, it tests the
+number of bits per pixel supported by the user's screen and matches it
+against authored media variations. This mechanism ensures that clients
+receive graphics and video streams optimized for their specific display
+capabilities, conserving bandwidth on low-color devices while delivering
+rich fidelity to high-end screens.</p>
+<h2 id="understanding-smil-test-attributes">Understanding SMIL Test
+Attributes</h2>
+<p>SMIL provides a set of system test attributes designed to make
+multimedia presentations responsive to runtime environments. Rather than
+serving a static asset configuration to every client, authors can wrap
+alternative media elements inside a <code>&lt;switch&gt;</code>
+container.</p>
+<p>When a SMIL player evaluates a <code>&lt;switch&gt;</code> block, it
+processes child elements in sequential order from top to bottom. It
+renders the first child element whose test conditions evaluate to
+<code>true</code> and ignores the remaining candidates. Test attributes
+cover parameters such as network bandwidth (<code>systemBitrate</code>),
+client language (<code>systemLanguage</code>), and screen capabilities
+like <code>systemScreenDepth</code>.</p>
+<h2 id="how-systemscreendepth-evaluates-values">How systemScreenDepth
+Evaluates Values</h2>
+<p>The <code>systemScreenDepth</code> attribute accepts a positive
+integer value representing the minimum bit depth required to render a
+specific visual asset. Bit depth refers to the number of bits used to
+represent the color of a single pixel on the host display:</p>
+<ul>
+<li><strong>1-bit:</strong> Monochrome displays (black and white)</li>
+<li><strong>8-bit:</strong> 256 indexed colors</li>
+<li><strong>16-bit:</strong> High Color (65,536 colors)</li>
+<li><strong>24-bit or 32-bit:</strong> True Color (over 16.7 million
+colors)</li>
+</ul>
+<p>During evaluation, the client evaluates whether its current screen
+bit depth is greater than or equal to the integer value declared in
+<code>systemScreenDepth</code>. If the system's screen depth matches or
+exceeds the defined value, the expression evaluates to
+<code>true</code>. If the screen depth is lower than the specified
+value, the expression evaluates to <code>false</code>, prompting the
+player to move to the next item in the switch statement.</p>
+<h2 id="implementation-structure">Implementation Structure</h2>
+<p>To successfully direct high-fidelity assets to capable displays and
+low-overhead alternatives to limited screens, authors arrange items from
+highest depth to lowest depth. A fallback element with no attribute is
+typically placed last.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">switch</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- 24-bit True Color graphic for modern displays --&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;chart-truecolor.png&quot;</span> <span class="ot">systemScreenDepth=</span><span class="st">&quot;24&quot;</span> /&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- 8-bit indexed palette graphic for limited displays --&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;chart-256color.png&quot;</span> <span class="ot">systemScreenDepth=</span><span class="st">&quot;8&quot;</span> /&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- 1-bit monochrome fallback for e-ink or basic screens --&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;chart-monochrome.png&quot;</span> /&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">switch</span>&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<p>In this flow, a display running at 32-bit or 24-bit depth satisfies
+the first condition and immediately loads
+<code>chart-truecolor.png</code>. An older device or legacy embedded
+system running an 8-bit display evaluates the first condition as
+<code>false</code>, matches the second condition
+(<code>systemScreenDepth="8"</code>), and loads
+<code>chart-256color.png</code>.</p>
+<h2 id="practical-benefits-in-multimedia-delivery">Practical Benefits in
+Multimedia Delivery</h2>
+<p>Deploying <code>systemScreenDepth</code> provides distinct
+optimization advantages across distributed multimedia networks:</p>
+<ol type="1">
+<li><strong>Bandwidth Optimization:</strong> Uncompressed or indexed
+graphics for lower bit depths feature significantly smaller file sizes,
+avoiding unnecessary data consumption on lightweight terminals.</li>
+<li><strong>Rendering Performance:</strong> Devices with constrained
+graphic processing units (GPUs) or limited memory avoid downsampling
+penalties that occur when high-depth images are forced onto lower-depth
+hardware.</li>
+<li><strong>Display Integrity:</strong> By preparing custom color
+palettes tailored specifically to lower bit depths, content creators
+prevent automatic color banding or dithering artifacts introduced by
+runtime hardware conversions.</li>
+</ol></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

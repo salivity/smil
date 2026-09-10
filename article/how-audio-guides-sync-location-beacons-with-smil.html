@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Audio Guides Sync Location Beacons with SMIL - smil</title>
+    <meta name="description" content="Modern museum audio guides deliver location-aware experiences by integrating physical proximity sensors with declarative multimedia markup. This article explains how guide hardware and software capture indoor location beacon signals, process proximity th">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-audio-guides-sync-location-beacons-with-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Audio Guides Sync Location Beacons with SMIL - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-audio-guides-sync-location-beacons-with-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Modern museum audio guides deliver location-aware experiences by integrating physical proximity sensors with declarative multimedia markup. This article explains how guide hardware and software capture indoor location beacon signals, process proximity th" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-audio-guides-sync-location-beacons-with-smil">How Audio
+Guides Sync Location Beacons with SMIL</h1>
+<p>Modern museum audio guides deliver location-aware experiences by
+integrating physical proximity sensors with declarative multimedia
+markup. This article explains how guide hardware and software capture
+indoor location beacon signals, process proximity thresholds, and
+translate physical presence into dynamic event triggers within a
+Synchronized Multimedia Integration Language (SMIL) timeline to provide
+uninterrupted, contextual playback.</p>
+<h3 id="the-underlying-technologies">The Underlying Technologies</h3>
+<p>Indoor location tracking in cultural institutions predominantly
+relies on Bluetooth Low Energy (BLE) beacons utilizing protocols such as
+iBeacon or Eddystone, or Ultra-Wideband (UWB) tags for sub-meter
+precision. These hardware transmitters broadcast unique identifiers
+(UUID, Major, Minor) and measured transmission power (TxPower) at fixed
+intervals.</p>
+<p>Synchronized Multimedia Integration Language (SMIL) is a W3C-standard
+XML-based language designed to choreograph audio, video, text, and
+images along spatial and temporal dimensions. SMIL defines when and how
+media elements load, play, pause, or terminate relative to one another
+and to external interaction events.</p>
+<h3 id="signal-ingestion-and-smoothing">Signal Ingestion and
+Smoothing</h3>
+<p>Direct beacon data is inherently noisy due to radio frequency
+multipath interference, physical obstructions, and visitor movement.
+Before interacting with a multimedia timeline, raw beacon packets pass
+through a localized middleware layer on the visitor's device.</p>
+<ol type="1">
+<li><strong>RSSI Filtering:</strong> The device measures the Received
+Signal Strength Indicator (RSSI) of nearby beacons and applies
+mathematical filtering, such as a moving average or a Kalman filter, to
+eliminate signal spikes.</li>
+<li><strong>Proximity Calculation:</strong> Filtered RSSI values are
+compared against the beacon’s calibrated TxPower to estimate distance,
+categorizing proximity into distinct zones (e.g., Immediate, Near,
+Far).</li>
+<li><strong>Debounce Logic:</strong> Hysteresis algorithms prevent
+rapid, unintended toggling between exhibit zones when a visitor lingers
+at the threshold between two beacons.</li>
+</ol>
+<h3 id="translating-beacons-to-smil-timing-events">Translating Beacons
+to SMIL Timing Events</h3>
+<p>SMIL natively supports event-based timing through attributes like
+<code>begin</code> and <code>end</code>. Instead of relying solely on
+absolute wall-clock times or relative offsets, media elements can begin
+or terminate when a specific DOM or custom runtime event fires.</p>
+<p>When a visitor crosses into a valid proximity zone, the device's
+native runtime triggers a custom event (for example,
+<code>onExhibitZoneEnter</code>). The SMIL engine listens for these
+system-level signals and evaluates them against the document’s active
+timeline:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Exclusive container ensures only one exhibit track plays at once --&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">excl</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Zone 1 Exhibit Audio --&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">audio</span> <span class="ot">id=</span><span class="st">&quot;audioExhibit1&quot;</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>             <span class="ot">src=</span><span class="st">&quot;exhibit1_narration.mp3&quot;</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>             <span class="ot">begin=</span><span class="st">&quot;beaconZone1.enter&quot;</span> </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>             <span class="ot">end=</span><span class="st">&quot;beaconZone1.exit&quot;</span> /&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Zone 2 Exhibit Audio --&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">audio</span> <span class="ot">id=</span><span class="st">&quot;audioExhibit2&quot;</span> </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>             <span class="ot">src=</span><span class="st">&quot;exhibit2_narration.mp3&quot;</span> </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>             <span class="ot">begin=</span><span class="st">&quot;beaconZone2.enter&quot;</span> </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>             <span class="ot">end=</span><span class="st">&quot;beaconZone2.exit&quot;</span> /&gt;</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">excl</span>&gt;</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<h3 id="managing-playback-flow-with-temporal-containers">Managing
+Playback Flow with Temporal Containers</h3>
+<p>SMIL utilizes structural tags that manage how location events affect
+surrounding content:</p>
+<ul>
+<li><strong>The <code>&lt;excl&gt;</code> (Exclusive)
+Container:</strong> Museum tours require that two exhibit narrations
+never play simultaneously. Wrapping exhibit tracks in an
+<code>&lt;excl&gt;</code> container dictates that triggering a new
+beacon's entry event immediately pauses or terminates the previously
+active narration.</li>
+<li><strong>The <code>&lt;par&gt;</code> (Parallel) Container:</strong>
+Guides often synchronize ambient background audio, subtitles, or
+synchronized screen visuals alongside spoken narration. Nesting these
+elements within a <code>&lt;par&gt;</code> container allows a single
+beacon entry event to orchestrate multiple media streams
+simultaneously.</li>
+<li><strong>Priority Classes
+(<code>&lt;priorityClass&gt;</code>):</strong> SMIL enables rules
+regarding interruption behavior. If a visitor moves away mid-track, the
+priority class defines whether the media pauses (to be resumed if the
+user re-enters the zone) or stops completely.</li>
+</ul>
+<h3 id="real-time-synchronization-lifecycle">Real-Time Synchronization
+Lifecycle</h3>
+<p>The end-to-end synchronization pipeline follows a continuous,
+event-driven cycle:</p>
+<ol type="1">
+<li><strong>Detection:</strong> The audio guide scans for ambient radio
+signals and registers an authorized beacon UUID.</li>
+<li><strong>Evaluation:</strong> The local engine confirms the visitor
+has crossed the required distance threshold and has remained within
+range past the debounce interval.</li>
+<li><strong>Dispatch:</strong> The application runtime dispatches a
+custom event matching the beacon ID to the SMIL execution
+environment.</li>
+<li><strong>Resolution:</strong> The SMIL timing graph identifies
+dependencies tied to the event, halts conflicting active tracks per
+<code>&lt;excl&gt;</code> definitions, and initiates the target media
+element.</li>
+<li><strong>Exit and Cleanup:</strong> Once the signal attenuates beyond
+the minimum threshold, a corresponding exit event fires, prompting the
+timeline to execute fade-outs, return to background ambience, or await
+the next entry event.</li>
+</ol></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

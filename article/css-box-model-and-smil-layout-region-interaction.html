@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Box Model and SMIL Layout Region Interaction - smil</title>
+    <meta name="description" content="This article examines how the CSS box model interfaces with layout region declarations in the Synchronized Multimedia Integration Language (SMIL). It details how SMIL spatial containers operate as presentation viewports, the structural alignment between">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/css-box-model-and-smil-layout-region-interaction">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="CSS Box Model and SMIL Layout Region Interaction - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/css-box-model-and-smil-layout-region-interaction" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article examines how the CSS box model interfaces with layout region declarations in the Synchronized Multimedia Integration Language (SMIL). It details how SMIL spatial containers operate as presentation viewports, the structural alignment between" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="css-box-model-and-smil-layout-region-interaction">CSS Box Model
+and SMIL Layout Region Interaction</h1>
+<p>This article examines how the CSS box model interfaces with layout
+region declarations in the Synchronized Multimedia Integration Language
+(SMIL). It details how SMIL spatial containers operate as presentation
+viewports, the structural alignment between SMIL attributes and CSS
+dimensions, how box model components (margin, border, padding, and
+content) affect SMIL regions, and how conflicts between declarative XML
+positioning and CSS styling rules are resolved.</p>
+<h3 id="conceptual-differences-in-spatial-definition">Conceptual
+Differences in Spatial Definition</h3>
+<p>SMIL controls presentation structure via the
+<code>&lt;layout&gt;</code> element, using
+<code>&lt;root-layout&gt;</code> to define the global presentation
+canvas and one or more <code>&lt;region&gt;</code> tags to define
+discrete rendering viewports. These regions traditionally use explicit
+coordinates such as <code>top</code>, <code>left</code>,
+<code>bottom</code>, <code>right</code>, <code>width</code>,
+<code>height</code>, and <code>z-index</code>.</p>
+<p>In contrast, the CSS box model structures elements through nested
+spatial layers: the core content area, followed outward by padding,
+border, and margin. When CSS is applied to a SMIL presentation—either
+through inline <code>style</code> attributes, internal
+<code>&lt;style&gt;</code> elements, or external stylesheets—the region
+elements cease to be purely mathematical spatial anchors and take on the
+behaviors of positioned CSS block containers.</p>
+<h3 id="mapping-the-css-box-model-to-smil-regions">Mapping the CSS Box
+Model to SMIL Regions</h3>
+<p>When a rendering engine evaluates CSS on a SMIL
+<code>&lt;region&gt;</code>:</p>
+<ol type="1">
+<li><strong>Content Area</strong>: The declared SMIL <code>width</code>
+and <code>height</code> correspond to the CSS content dimensions (unless
+altered by CSS <code>box-sizing</code>). This defines the inner canvas
+onto which continuous or discrete media (such as video or images) is
+painted.</li>
+<li><strong>Padding</strong>: Padding creates an offset between the
+boundaries of the SMIL region and the media content inside it. If a
+media element within the region uses relative sizing (like 100% width),
+the actual rendering bounds are constrained inside the padding box.</li>
+<li><strong>Border</strong>: The border surrounds the padding area. In
+systems rendering SMIL via CSS engines, the border adds directly to the
+outer dimensions of the region unless
+<code>box-sizing: border-box</code> is explicitly applied.</li>
+<li><strong>Margin</strong>: Margins offset the region relative to its
+parent container (typically the <code>&lt;root-layout&gt;</code> or a
+parent <code>&lt;region&gt;</code> in SMIL 3.0 hierarchical
+layouts).</li>
+</ol>
+<h3 id="coordinate-resolution-and-cascading-precedence">Coordinate
+Resolution and Cascading Precedence</h3>
+<p>When layout coordinates are declared in both SMIL XML attributes and
+CSS properties, standard styling specificity applies:</p>
+<ul>
+<li><strong>Presentation Attributes vs. CSS Rules</strong>: SMIL layout
+attributes (e.g., <code>&lt;region top="10px" left="20px" /&gt;</code>)
+are treated as presentation attributes. According to SMIL and CSS
+integration specifications, presentation attributes hold the lowest
+specificity weight.</li>
+<li><strong>Overrides</strong>: Any CSS rule targeting the region via a
+stylesheet selector or inline <code>style</code> attribute overrides the
+native SMIL spatial attributes. For example, a region with
+<code>left="50px"</code> will be repositioned if a CSS rule applies
+<code>left: 100px;</code>.</li>
+<li><strong>Flow Positioning</strong>: SMIL regions are inherently
+positioned out-of-flow, functioning identically to
+<code>position: absolute</code>. Applying CSS properties that rely on
+normal document flow (such as <code>float</code> or <code>clear</code>)
+will either be ignored or cause rendering anomalies, as SMIL layout
+engines require explicit spatial registration against the presentation
+coordinate space.</li>
+</ul>
+<h3 id="interaction-between-media-fitting-and-overflow">Interaction
+Between Media Fitting and Overflow</h3>
+<p>SMIL provides spatial media adaptation through the <code>fit</code>
+attribute, which accepts values such as <code>fill</code>,
+<code>meet</code>, <code>slice</code>, <code>scroll</code>, and
+<code>hidden</code>. This interacts directly with CSS box-sizing and
+overflow handling:</p>
+<ul>
+<li><strong><code>fit="meet"</code> and
+<code>fit="slice"</code></strong>: These mirror the modern CSS
+<code>object-fit: contain</code> and <code>object-fit: cover</code>
+properties, respectively. The calculation of the aspect ratio takes
+place strictly within the CSS content box, excluding padding and
+borders.</li>
+<li><strong><code>fit="scroll"</code> and
+<code>fit="hidden"</code></strong>: These directly map to the CSS
+<code>overflow</code> property (<code>overflow: scroll</code> and
+<code>overflow: hidden</code>). If the media content exceeds the
+dimension of the region's inner box model, the engine relies on the CSS
+overflow mechanisms assigned to that region container.</li>
+</ul>
+<h3 id="modern-implementation-context">Modern Implementation
+Context</h3>
+<p>Native support for pure SMIL layout regions alongside CSS is largely
+obsolete in modern web browsers, which have deprecated standalone SMIL
+player architectures in favor of HTML5, CSS Grid, and Flexbox. However,
+this interaction remains functionally significant in dedicated
+multimedia environments, including SMIL-based digital signage hardware,
+specialized SVG implementations (where SMIL timing coordinates with SVG
+viewboxes), and multimedia authoring formats that bridge legacy
+broadcast frameworks with web-based CSS styling engines.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

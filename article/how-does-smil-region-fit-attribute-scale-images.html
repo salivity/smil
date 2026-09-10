@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does SMIL Region Fit Attribute Scale Images? - smil</title>
+    <meta name="description" content="The fit attribute in Synchronized Multimedia Integration Language (SMIL) controls how visual media elements, such as images or video streams, adapt to the physical dimensions of their target <region>. By specifying values like hidden, fill, meet, slice,">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-smil-region-fit-attribute-scale-images">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does SMIL Region Fit Attribute Scale Images? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-smil-region-fit-attribute-scale-images" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The fit attribute in Synchronized Multimedia Integration Language (SMIL) controls how visual media elements, such as images or video streams, adapt to the physical dimensions of their target <region>. By specifying values like hidden, fill, meet, slice," />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-smil-region-fit-attribute-scale-images">How Does SMIL
+Region Fit Attribute Scale Images?</h1>
+<p>The <code>fit</code> attribute in Synchronized Multimedia Integration
+Language (SMIL) controls how visual media elements, such as images or
+video streams, adapt to the physical dimensions of their target
+<code>&lt;region&gt;</code>. By specifying values like
+<code>hidden</code>, <code>fill</code>, <code>meet</code>,
+<code>slice</code>, or <code>scroll</code>, authors can dictate whether
+media scales uniformly, stretches non-uniformly, crops overflow, or
+preserves native aspect ratios. Understanding how these values interact
+with intrinsic image dimensions is essential for predictable multimedia
+layout and rendering across SMIL-compliant players.</p>
+<h2 id="core-role-of-the-fit-attribute">Core Role of the Fit
+Attribute</h2>
+<p>In SMIL layout models, visual components render inside dedicated
+spatial containers defined by <code>&lt;region&gt;</code> tags within
+the <code>&lt;layout&gt;</code> header. When an image's native width and
+height differ from the region's declared bounds, the <code>fit</code>
+attribute determines the rendering behavior:</p>
+<ul>
+<li><strong>Aspect Ratio Preservation:</strong> It dictates whether the
+player enforces the original width-to-height ratio or distorts the image
+to occupy all available space.</li>
+<li><strong>Overflow Handling:</strong> It specifies whether media
+extending past region boundaries should be clipped, displayed with
+scroll mechanisms, or scaled down.</li>
+<li><strong>Blank Space Management:</strong> It governs whether empty
+space (letterboxing or pillarboxing) appears when an aspect ratio does
+not match the bounding box.</li>
+</ul>
+<h2 id="breakdown-of-fit-values">Breakdown of Fit Values</h2>
+<p>SMIL defines several standard values for the <code>fit</code>
+attribute, each directly influencing aspect ratio and scale.</p>
+<h3 id="hidden"><code>hidden</code></h3>
+<p>The <code>hidden</code> value acts as the default behavior in many
+SMIL profiles. The visual asset renders at its exact intrinsic
+resolution, anchored at the top-left corner of the region. No scaling
+occurs. If the image is smaller than the region, the remaining area
+displays the background color. If the image exceeds the region
+dimensions, any content extending beyond the boundaries is clipped and
+hidden from view.</p>
+<h3 id="fill"><code>fill</code></h3>
+<p>Setting <code>fit="fill"</code> forces the media object to scale both
+horizontally and vertically until its width and height match the target
+region exactly. This mode ignores intrinsic aspect ratios. If the
+region's aspect ratio differs from the image's source ratio, the visual
+content stretches or compresses, leading to visible distortion.</p>
+<h3 id="meet"><code>meet</code></h3>
+<p>The <code>meet</code> value scales the visual element uniformly while
+strictly preserving its original aspect ratio. The media scales until
+one dimension reaches the boundary of the region, ensuring the entire
+image remains visible without cropping. If the region aspect ratio does
+not match the image, empty space appears along the unconstrained axis,
+creating letterbox (horizontal bars) or pillarbox (vertical bars)
+effects.</p>
+<h3 id="slice"><code>slice</code></h3>
+<p>Like <code>meet</code>, <code>fit="slice"</code> scales the media
+uniformly to preserve the original aspect ratio. However, instead of
+stopping when the first edge touches the boundary, it continues scaling
+until the entire region area is fully covered. As a result, the
+dimension that exceeds the region's bounds is cropped, eliminating blank
+margins at the cost of losing peripheral visual content.</p>
+<h3 id="scroll"><code>scroll</code></h3>
+<p>The <code>scroll</code> setting renders the image at its native
+dimensions without scaling, similar to <code>hidden</code>. However, if
+the asset exceeds the bounding box, the user agent provides interactive
+scrolling controls (such as horizontal or vertical scrollbars) allowing
+the user to pan across the full graphic.</p>
+<h2 id="comparison-of-scaling-behaviors">Comparison of Scaling
+Behaviors</h2>
+<table>
+<thead>
+<tr>
+<th>Fit Value</th>
+<th>Preserves Aspect Ratio</th>
+<th>Scales Media</th>
+<th>Crops Content</th>
+<th>May Introduce Letterboxing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hidden</code></td>
+<td>Yes (Native Size)</td>
+<td>No</td>
+<td>Yes (If oversized)</td>
+<td>No (Shows background)</td>
+</tr>
+<tr>
+<td><code>fill</code></td>
+<td>No</td>
+<td>Yes (Non-uniform)</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>meet</code></td>
+<td>Yes</td>
+<td>Yes (Uniform)</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>slice</code></td>
+<td>Yes</td>
+<td>Yes (Uniform)</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>scroll</code></td>
+<td>Yes (Native Size)</td>
+<td>No</td>
+<td>No (Scrollable)</td>
+<td>No (Shows background)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="implementation-example">Implementation Example</h2>
+<p>The following SMIL layout configuration illustrates how different
+scaling rules apply to regional definitions:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span> <span class="ot">version=</span><span class="st">&quot;3.0&quot;</span> <span class="ot">baseProfile=</span><span class="st">&quot;Language&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">layout</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">root-layout</span> <span class="ot">width=</span><span class="st">&quot;800px&quot;</span> <span class="ot">height=</span><span class="st">&quot;600px&quot;</span> <span class="ot">backgroundColor=</span><span class="st">&quot;black&quot;</span>/&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Uniform scaling with letterboxing --&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;main_viewport&quot;</span> <span class="ot">top=</span><span class="st">&quot;0px&quot;</span> <span class="ot">left=</span><span class="st">&quot;0px&quot;</span> <span class="ot">width=</span><span class="st">&quot;800px&quot;</span> <span class="ot">height=</span><span class="st">&quot;450px&quot;</span> <span class="ot">fit=</span><span class="st">&quot;meet&quot;</span>/&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Cropped full-bleed background --&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;bg_layer&quot;</span> <span class="ot">top=</span><span class="st">&quot;0px&quot;</span> <span class="ot">left=</span><span class="st">&quot;0px&quot;</span> <span class="ot">width=</span><span class="st">&quot;800px&quot;</span> <span class="ot">height=</span><span class="st">&quot;600px&quot;</span> <span class="ot">fit=</span><span class="st">&quot;slice&quot;</span>/&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">par</span>&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;background.jpg&quot;</span> <span class="ot">region=</span><span class="st">&quot;bg_layer&quot;</span>/&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;graphic.png&quot;</span> <span class="ot">region=</span><span class="st">&quot;main_viewport&quot;</span>/&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">par</span>&gt;</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<p>When authoring responsive or multi-display SMIL presentations,
+selecting between <code>meet</code> and <code>slice</code> provides the
+most reliable way to handle disparate screen resolutions without
+introducing visual distortion.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

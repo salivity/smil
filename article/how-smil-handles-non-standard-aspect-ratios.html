@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How SMIL Handles Non-Standard Aspect Ratios - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) manages non-standard aspect ratios, such as ultra-wide digital signage ribbons and pillar displays, by utilizing XML-based coordinate systems and declarative layout tags. Through explicit canvas declara">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-smil-handles-non-standard-aspect-ratios">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How SMIL Handles Non-Standard Aspect Ratios - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-smil-handles-non-standard-aspect-ratios" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) manages non-standard aspect ratios, such as ultra-wide digital signage ribbons and pillar displays, by utilizing XML-based coordinate systems and declarative layout tags. Through explicit canvas declara" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-smil-handles-non-standard-aspect-ratios">How SMIL Handles
+Non-Standard Aspect Ratios</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) manages
+non-standard aspect ratios, such as ultra-wide digital signage ribbons
+and pillar displays, by utilizing XML-based coordinate systems and
+declarative layout tags. Through explicit canvas declarations in the
+<code>&lt;root-layout&gt;</code> tag, modular sub-divisions via
+<code>&lt;region&gt;</code> tags, and deterministic scaling controls via
+the <code>fit</code> attribute, SMIL allows digital signage engines to
+render content precisely across unconventional pixel dimensions without
+geometric distortion or unexpected cropping.</p>
+<h3 id="the-root-layout-foundation">The Root-Layout Foundation</h3>
+<p>SMIL establishes display parameters within the
+<code>&lt;head&gt;</code> section using the <code>&lt;layout&gt;</code>
+module. For non-standard screens like stretched LCDs or ultra-wide LED
+ribbons (for example, a display with a resolution of 1920x360 or
+3840x600 pixels), SMIL sets the base display boundaries using the
+<code>&lt;root-layout&gt;</code> element.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">layout</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">root-layout</span> <span class="ot">width=</span><span class="st">&quot;1920&quot;</span> <span class="ot">height=</span><span class="st">&quot;360&quot;</span> <span class="ot">background-color=</span><span class="st">&quot;#000000&quot;</span> /&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">layout</span>&gt;</span></code></pre></div>
+<p>By explicitly defining the canvas dimensions in pixels or relative
+percentages, the SMIL rendering engine overrides generic 16:9 or 4:3
+default player settings, establishing an absolute coordinate space
+matching the physical output resolution of the ultra-wide hardware.</p>
+<h3 id="region-based-segmentation">Region-Based Segmentation</h3>
+<p>Ultra-wide ribbons are often ill-suited for standard full-screen
+video, requiring spatial segmentation to be effective. SMIL handles this
+by nesting multiple <code>&lt;region&gt;</code> elements inside the
+layout. Each region can represent a dedicated zone across the
+ribbon:</p>
+<ul>
+<li><strong>Ticker Zones:</strong> Long, continuous horizontal strips
+spanning the entire display width with minimal height.</li>
+<li><strong>Segmented Blocks:</strong> Multi-column grids dividing an
+ultra-wide screen into distinct thematic areas (e.g., three sequential
+16:9 boxes side by side).</li>
+<li><strong>Dynamic Overlays:</strong> Layered regions utilizing the
+<code>z-index</code> attribute to float branding or alert banners over
+continuous video feeds.</li>
+</ul>
+<p>Positions within these regions are defined using exact pixel values
+(<code>top</code>, <code>left</code>, <code>width</code>,
+<code>height</code>) or percentage-based measurements, allowing content
+configurations to adapt dynamically if ribbon resolutions change.</p>
+<h3 id="controlling-distortion-with-the-fit-attribute">Controlling
+Distortion with the <code>fit</code> Attribute</h3>
+<p>The primary challenge of unusual aspect ratios is preventing standard
+content from stretching awkwardly. SMIL governs visual adaptation on a
+per-media or per-region basis using the <code>fit</code> attribute:</p>
+<ul>
+<li><strong><code>meet</code>:</strong> Scales the media element
+proportionally until it fits entirely within the region, preserving the
+original aspect ratio while adding letterboxing or pillarboxing where
+necessary.</li>
+<li><strong><code>slice</code>:</strong> Scales the media proportionally
+to cover the entire target region, cleanly cropping any visual overflow
+that exceeds the ribbon's boundaries.</li>
+<li><strong><code>fill</code>:</strong> Forces the media to stretch
+non-proportionally to match the exact dimensions of the target region,
+useful for abstract textures, motion backgrounds, or data
+gradients.</li>
+<li><strong><code>hidden</code>:</strong> Displays the media at its
+native resolution aligned to the upper-left corner, masking any overflow
+without scaling.</li>
+</ul>
+<h3 id="playback-coordination-and-hardware-handshake">Playback
+Coordination and Hardware Handshake</h3>
+<p>Once the layout geometry is established, the SMIL
+<code>&lt;body&gt;</code> references these customized regions via
+<code>&lt;par&gt;</code> (parallel) and <code>&lt;seq&gt;</code>
+(sequential) timing containers. Signage media players running SMIL
+runtimes translate these declarative XML structures directly to the
+display controller. Because SMIL decouples content playback from
+hardware coordinate definitions, it ensures reliable, unskewed visuals
+across extreme display geometries without requiring proprietary video
+processors.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

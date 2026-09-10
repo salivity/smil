@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Wallclock Scheduling: Leap Seconds and DST - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) allows media elements to be scheduled against real-world time using wallclock timing syntax. This article explains how SMIL handles real-world temporal anomalies—specifically Daylight Saving Time (DST">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-wallclock-scheduling-leap-seconds-and-dst">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Wallclock Scheduling: Leap Seconds and DST - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-wallclock-scheduling-leap-seconds-and-dst" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) allows media elements to be scheduled against real-world time using wallclock timing syntax. This article explains how SMIL handles real-world temporal anomalies—specifically Daylight Saving Time (DST" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-wallclock-scheduling-leap-seconds-and-dst">SMIL Wallclock
+Scheduling: Leap Seconds and DST</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) allows media
+elements to be scheduled against real-world time using wallclock timing
+syntax. This article explains how SMIL handles real-world temporal
+anomalies—specifically Daylight Saving Time (DST) shifts and leap
+seconds—by examining its reliance on ISO 8601 standards, the host
+operating system's clock, and timeline resolution mechanisms.</p>
+<h2 id="wallclock-values-in-smil">Wallclock Values in SMIL</h2>
+<p>SMIL defines real-world scheduling using the <code>wallclock()</code>
+timing syntax, which conforms to the ISO 8601 standard. Authors can
+specify absolute dates and times (e.g.,
+<code>wallclock(2025-06-01T09:00:00Z)</code>), local times with offsets,
+or recurring daily/weekly schedules (e.g.,
+<code>wallclock(08:00:00)</code>).</p>
+<p>SMIL does not maintain an independent astronomical or calendar
+engine. Instead, the SMIL timing model maps these wallclock values to
+presentation time instances relative to the playback engine and the host
+environment’s system clock.</p>
+<h2 id="daylight-saving-time-dst-adjustments">Daylight Saving Time (DST)
+Adjustments</h2>
+<p>When scheduling events with local wallclock times across DST
+boundaries, SMIL relies on the host platform's time-zone database to
+translate local time into absolute timeline points.</p>
+<h3 id="spring-forward-clock-jump">"Spring Forward" (Clock Jump)</h3>
+<p>During the transition to DST, local clocks move forward (typically
+from 01:59:59 to 03:00:00), effectively skipping an hour.</p>
+<ul>
+<li>If a SMIL event is scheduled using an absolute local time that falls
+within the skipped hour (e.g., <code>02:30:00</code>), the player
+resolves the time based on how the underlying platform parses invalid
+local times.</li>
+<li>Typically, the event triggers immediately at the transition moment
+(03:00:00) when the clock advances past the target time, preventing
+missed triggers.</li>
+</ul>
+<h3 id="fall-back-clock-repeat">"Fall Back" (Clock Repeat)</h3>
+<p>During the transition out of DST, local clocks move backward,
+repeating an hour (e.g., repeating the hour between 01:00:00 and
+02:00:00).</p>
+<ul>
+<li>An ambiguous wallclock schedule that lacks a specific UTC offset
+presents two possible trigger moments.</li>
+<li>Most SMIL implementations trigger the event on the first occurrence
+of the specified wallclock time and will not re-trigger during the
+repeated hour unless the schedule is explicitly marked as
+recurring.</li>
+</ul>
+<h3 id="best-practice-for-dst">Best Practice for DST</h3>
+<p>To eliminate ambiguity during DST transitions, schedules should
+specify exact UTC offsets (e.g., <code>+01:00</code> or
+<code>-05:00</code>) or use standard UTC (<code>Z</code>) notation.</p>
+<h2 id="handling-leap-seconds">Handling Leap Seconds</h2>
+<p>Leap seconds are periodically introduced by the International Earth
+Rotation and Reference Systems Service (IERS) to synchronize Coordinated
+Universal Time (UTC) with Earth's actual rotation.</p>
+<h3 id="iso-8601-compatibility">ISO 8601 Compatibility</h3>
+<p>The ISO 8601 standard allows the designation of a leap second using
+the <code>23:59:60</code> format. If a SMIL document explicitly
+specifies this value, a conforming XML/ISO parser can parse the string
+without throwing a syntax error.</p>
+<h3 id="host-platform-dependency">Host Platform Dependency</h3>
+<p>SMIL engines execute on platforms that follow POSIX standards.
+Standard POSIX time cannot represent leap seconds natively; it handles
+them by either repeating the 59th second (<code>23:59:59</code>),
+applying Network Time Protocol (NTP) clock slewing (gradually slowing
+the clock over hours), or stepping the clock backward by one second.</p>
+<p>Consequently, SMIL does not attempt internal leap-second
+compensation:</p>
+<ul>
+<li>If the host OS steps the clock back by one second, SMIL’s internal
+clock comparison may detect that the current time briefly failed to
+advance, but presentation playback remains tied to its monotonic
+internal document timeline.</li>
+<li>If NTP slews the clock, SMIL will not detect any discontinuity, and
+wallclock triggers will execute according to the smooth adjustment
+provided by the OS.</li>
+</ul>
+<h2 id="presentation-timeline-vs-wallclock-time">Presentation Timeline
+vs. Wallclock Time</h2>
+<p>SMIL maintains a strict separation between the <strong>document
+timeline</strong> (continuous presentation time that begins at document
+start) and the <strong>wallclock schedule</strong> (used purely to
+calculate synchronization points or trigger start/end times).</p>
+<p>Once a wallclock event has been resolved to a concrete point on the
+document timeline:</p>
+<ul>
+<li>Adjustments to the wallclock (such as a leap-second correction or
+manual time changes) do not alter the playback rate or pitch of
+currently running media.</li>
+<li>Only future, unresolved wallclock events recalculate their trigger
+points according to the updated system clock.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How animateColor Interpolates SMIL Color Values - smil</title>
+    <meta name="description" content="The <animateColor> element in SMIL interpolates color values over time by decomposing colors into distinct numeric color channels and calculating intermediate values mathematically for each frame. This article explains the underlying mechanics of this pr">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-animatecolor-interpolates-smil-color-values">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How animateColor Interpolates SMIL Color Values - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-animatecolor-interpolates-smil-color-values" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The <animateColor> element in SMIL interpolates color values over time by decomposing colors into distinct numeric color channels and calculating intermediate values mathematically for each frame. This article explains the underlying mechanics of this pr" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-animatecolor-interpolates-smil-color-values">How
+animateColor Interpolates SMIL Color Values</h1>
+<p>The <code>&lt;animateColor&gt;</code> element in SMIL interpolates
+color values over time by decomposing colors into distinct numeric color
+channels and calculating intermediate values mathematically for each
+frame. This article explains the underlying mechanics of this process,
+including channel extraction, mathematical interpolation formulas,
+calculation modes, and the influence of color space settings.</p>
+<h3 id="color-channel-extraction-and-parsing">Color Channel Extraction
+and Parsing</h3>
+<p>Before interpolation can occur, <code>&lt;animateColor&gt;</code>
+parses the starting, ending, and intermediate values defined in
+attributes such as <code>from</code>, <code>to</code>, <code>by</code>,
+or <code>values</code>. Regardless of whether colors are declared as hex
+codes (<code>#ff0000</code>), named colors (<code>red</code>), or
+functional notation (<code>rgb(255, 0, 0)</code>), the rendering engine
+normalizes them into separate numerical channels: Red (R), Green (G),
+Blue (B), and Alpha (A).</p>
+<p>Color components are typically converted to normalized floating-point
+numbers in the range [0.0, 1.0] or integers in the range [0, 255] before
+the animation engine performs calculations.</p>
+<h3 id="channel-by-channel-linear-interpolation">Channel-by-Channel
+Linear Interpolation</h3>
+<p>SMIL evaluates transitions using independent linear interpolation for
+each color channel. Given a normalized time progress <span
+class="math inline">\(t\)</span> ranging from <span
+class="math inline">\(0\)</span> to <span
+class="math inline">\(1\)</span> between two keyframes, a channel value
+<span class="math inline">\(V\)</span> transitions from a starting value
+<span class="math inline">\(V_0\)</span> to an ending value <span
+class="math inline">\(V_1\)</span> using the standard formula:</p>
+<p><span class="math display">\[V(t) = V_0 \times (1 - t) + V_1 \times
+t\]</span></p>
+<p>Because this calculation applies individually to R, G, B, and A
+channels, the resulting intermediate colors move in a straight line
+through the active Cartesian color space rather than traversing a
+perceptual color wheel (such as HSL).</p>
+<h3 id="calculation-modes-calcmode">Calculation Modes
+(<code>calcMode</code>)</h3>
+<p>The timing and progression of channel interpolation are directed by
+the <code>calcMode</code> attribute:</p>
+<ul>
+<li><strong><code>linear</code> (default):</strong> Divides the
+animation time evenly across value segments, applying linear
+mathematical interpolation between adjacent values.</li>
+<li><strong><code>discrete</code>:</strong> Disables interpolation
+entirely. The engine jumps instantly from one color to the next at
+specified time intervals without generating intermediate frames.</li>
+<li><strong><code>paced</code>:</strong> Calculates the total Euclidean
+distance through the color space across all specified colors to maintain
+a constant speed of color change throughout the entire duration.</li>
+<li><strong><code>spline</code>:</strong> Employs cubic Bézier curves
+defined by the <code>keyTimes</code> and <code>keySplines</code>
+attributes. The engine maps progress <span
+class="math inline">\(t\)</span> through the spline function before
+computing the linear channel blend, enabling effects such as ease-in and
+ease-out transitions between colors.</li>
+</ul>
+<h3 id="color-space-context">Color Space Context</h3>
+<p>The visual output of the interpolation depends heavily on the
+<code>color-interpolation</code> property:</p>
+<ul>
+<li><strong><code>sRGB</code> (default):</strong> Interpolation occurs
+directly on gamma-compressed sRGB channel values. While computationally
+lightweight, this can occasionally result in intermediate colors
+appearing darker or desaturated at midpoints.</li>
+<li><strong><code>linearRGB</code>:</strong> The engine first linearizes
+gamma-encoded sRGB values, performs the channel interpolation in a
+linear radiometric space, and converts the result back to sRGB for
+screen rendering. This yields smoother, physically accurate color
+transitions that avoid muddy intermediate shades.</li>
+</ul>
+<p>Although <code>&lt;animateColor&gt;</code> has been deprecated in
+modern SVG specifications in favor of the unified
+<code>&lt;animate&gt;</code> element, modern SVG engines continue to
+process color animations using these exact interpolation principles.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

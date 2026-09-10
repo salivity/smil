@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does SMIL Support Multi-Window Layouts? - smil</title>
+    <meta name="description" content="The Synchronized Multimedia Integration Language (SMIL) enables multi-window layouts across multiple physical displays primarily through its modular layout architecture, most notably the MultiWindowLayout and HierarchicalLayout modules. By separating med">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-smil-support-multi-window-layouts">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does SMIL Support Multi-Window Layouts? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-smil-support-multi-window-layouts" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Synchronized Multimedia Integration Language (SMIL) enables multi-window layouts across multiple physical displays primarily through its modular layout architecture, most notably the MultiWindowLayout and HierarchicalLayout modules. By separating med" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-smil-support-multi-window-layouts">How Does SMIL
+Support Multi-Window Layouts?</h1>
+<p>The Synchronized Multimedia Integration Language (SMIL) enables
+multi-window layouts across multiple physical displays primarily through
+its modular layout architecture, most notably the MultiWindowLayout and
+HierarchicalLayout modules. By separating media synchronization from
+visual geometry, SMIL allows authors to declare multiple independent
+top-level presentation surfaces (top-level windows) or map a single
+extended virtual canvas across multiple physical screens.</p>
+<h2 id="the-smil-layout-architecture">The SMIL Layout Architecture</h2>
+<p>In standard SMIL configurations, layout definitions reside in the
+document <code>&lt;head&gt;</code> within the
+<code>&lt;layout&gt;</code> element. While early specifications relied
+exclusively on a single <code>&lt;root-layout&gt;</code> container
+representing a single screen or application window, the SMIL
+specification expanded to support complex multi-surface and
+multi-display setups.</p>
+<p>Within this structure, two primary techniques manage multi-window
+output across physical hardware:</p>
+<ul>
+<li>**Top-Level Window Partitioning via
+<code>MultiWindowLayout**</code></li>
+<li><strong>Virtual Canvas Spanning Across Display
+Matrices</strong></li>
+</ul>
+<h2 id="multiwindowlayout-and-the-toplayout-element">MultiWindowLayout
+and the <code>&lt;topLayout&gt;</code> Element</h2>
+<p>The <code>MultiWindowLayout</code> module replaces or augments the
+traditional <code>&lt;root-layout&gt;</code> element by introducing
+<code>&lt;topLayout&gt;</code>.</p>
+<ul>
+<li><strong>Independent Rendering Windows:</strong> Authors can declare
+multiple <code>&lt;topLayout&gt;</code> elements inside a single
+<code>&lt;layout&gt;</code> container. Each
+<code>&lt;topLayout&gt;</code> instance functions as an autonomous,
+top-level window.</li>
+<li><strong>Physical Screen Targeting:</strong> In operating systems or
+dedicated media players configured for extended desktops, each
+<code>&lt;topLayout&gt;</code> can be assigned specific screen
+coordinates (<code>left</code>, <code>top</code>, <code>width</code>,
+<code>height</code>) or designated display targets, effectively placing
+different windows on different physical monitors.</li>
+<li><strong>Nested Sub-Regions:</strong> Within each
+<code>&lt;topLayout&gt;</code>, standard <code>&lt;region&gt;</code>
+tags define zones for video, text tickers, or images. Media elements in
+the <code>&lt;body&gt;</code> map directly to these regions using the
+<code>region</code> attribute, completely independent of the playback
+schedule.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">layout</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Display 1: Primary Screen --&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">topLayout</span> <span class="ot">id=</span><span class="st">&quot;screen1&quot;</span> <span class="ot">title=</span><span class="st">&quot;Main Display&quot;</span> <span class="ot">left=</span><span class="st">&quot;0&quot;</span> <span class="ot">top=</span><span class="st">&quot;0&quot;</span> <span class="ot">width=</span><span class="st">&quot;1920&quot;</span> <span class="ot">height=</span><span class="st">&quot;1080&quot;</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;main_video&quot;</span> <span class="ot">left=</span><span class="st">&quot;0&quot;</span> <span class="ot">top=</span><span class="st">&quot;0&quot;</span> <span class="ot">width=</span><span class="st">&quot;1920&quot;</span> <span class="ot">height=</span><span class="st">&quot;1080&quot;</span> /&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">topLayout</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Display 2: Secondary Screen --&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">topLayout</span> <span class="ot">id=</span><span class="st">&quot;screen2&quot;</span> <span class="ot">title=</span><span class="st">&quot;Side Display&quot;</span> <span class="ot">left=</span><span class="st">&quot;1920&quot;</span> <span class="ot">top=</span><span class="st">&quot;0&quot;</span> <span class="ot">width=</span><span class="st">&quot;1920&quot;</span> <span class="ot">height=</span><span class="st">&quot;1080&quot;</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;ticker&quot;</span> <span class="ot">left=</span><span class="st">&quot;0&quot;</span> <span class="ot">top=</span><span class="st">&quot;0&quot;</span> <span class="ot">width=</span><span class="st">&quot;1920&quot;</span> <span class="ot">height=</span><span class="st">&quot;200&quot;</span> /&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;side_ad&quot;</span> <span class="ot">left=</span><span class="st">&quot;0&quot;</span> <span class="ot">top=</span><span class="st">&quot;200&quot;</span> <span class="ot">width=</span><span class="st">&quot;1920&quot;</span> <span class="ot">height=</span><span class="st">&quot;880&quot;</span> /&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">topLayout</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">par</span>&gt;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;hero.mp4&quot;</span> <span class="ot">region=</span><span class="st">&quot;main_video&quot;</span> /&gt;</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">text</span> <span class="ot">src=</span><span class="st">&quot;news.txt&quot;</span> <span class="ot">region=</span><span class="st">&quot;ticker&quot;</span> /&gt;</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;promo.jpg&quot;</span> <span class="ot">region=</span><span class="st">&quot;side_ad&quot;</span> /&gt;</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">par</span>&gt;</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<h2 id="virtual-canvas-mapping-digital-signage-configurations">Virtual
+Canvas Mapping (Digital Signage Configurations)</h2>
+<p>In digital signage and video wall environments, SMIL players often
+leverage a unified virtual desktop configuration.</p>
+<ul>
+<li><strong>Unified Root Canvas:</strong> The author defines a single
+large <code>&lt;root-layout&gt;</code> encompassing the combined
+resolution of all connected monitors (e.g., 3840×1080 for two
+side-by-side Full HD screens).</li>
+<li><strong>Coordinate-Based Display Assignment:</strong> Individual
+<code>&lt;region&gt;</code> elements are placed at coordinates that
+match the physical boundaries of each display.</li>
+<li><strong>Hardware Slicing:</strong> The host graphics card or digital
+signage media player splits the unified desktop output across the
+respective video output ports (such as HDMI or DisplayPort).</li>
+</ul>
+<h2 id="synchronization-across-multiple-surfaces">Synchronization Across
+Multiple Surfaces</h2>
+<p>A key strength of SMIL in multi-window environments is its native
+timing and synchronization engine. Because all regions and windows
+reside within a single SMIL document, media across different displays
+can be orchestrated with millisecond accuracy using
+<code>&lt;par&gt;</code> (parallel), <code>&lt;seq&gt;</code>
+(sequential), and <code>syncMaster</code> attributes, ensuring seamless
+transitions across multi-screen installations.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

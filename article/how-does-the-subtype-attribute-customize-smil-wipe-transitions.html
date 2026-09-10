@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does the Subtype Attribute Customize SMIL Wipe Transitions? - smil</title>
+    <meta name="description" content="The subtype attribute in Synchronized Multimedia Integration Language (SMIL) refines standard transition elements by specifying the exact direction, pattern, starting point, and orientation of visual wipe effects. While the primary type attribute defines">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-the-subtype-attribute-customize-smil-wipe-transitions">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does the Subtype Attribute Customize SMIL Wipe Transitions? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-the-subtype-attribute-customize-smil-wipe-transitions" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The subtype attribute in Synchronized Multimedia Integration Language (SMIL) refines standard transition elements by specifying the exact direction, pattern, starting point, and orientation of visual wipe effects. While the primary type attribute defines" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1
+id="how-does-the-subtype-attribute-customize-smil-wipe-transitions">How
+Does the Subtype Attribute Customize SMIL Wipe Transitions?</h1>
+<p>The <code>subtype</code> attribute in Synchronized Multimedia
+Integration Language (SMIL) refines standard transition elements by
+specifying the exact direction, pattern, starting point, and orientation
+of visual wipe effects. While the primary <code>type</code> attribute
+defines the overarching geometric family of a transition—such as
+<code>barWipe</code>, <code>irisWipe</code>, or
+<code>clockWipe</code>—the <code>subtype</code> attribute controls the
+precise mechanics of how the transition reveals or conceals media
+elements on screen.</p>
+<h2 id="the-role-of-transitions-in-smil">The Role of Transitions in
+SMIL</h2>
+<p>SMIL includes a dedicated transition module that standardizes how
+visual transitions execute across multimedia presentations. The primary
+element used to define these effects is
+<code>&lt;transition&gt;</code>.</p>
+<p>A standard transition definition incorporates several key
+attributes:</p>
+<ul>
+<li><strong>type</strong>: Specifies the broader transition family,
+mapped closely to SMPTE wipe codes (e.g., <code>barWipe</code>,
+<code>fourBoxWipe</code>, <code>radialWipe</code>).</li>
+<li><strong>subtype</strong>: Defines the specific direction or
+geometric variation for that wipe family.</li>
+<li><strong>dur</strong>: Determines the duration over which the
+transition completes.</li>
+<li><strong>startProgress</strong> and <strong>endProgress</strong>:
+Define the partial progress values for entry and exit points.</li>
+<li><strong>direction</strong>: Controls whether the transition moves
+forward or backward in sequence.</li>
+</ul>
+<h2 id="directional-control-in-linear-bar-wipes">Directional Control in
+Linear Bar Wipes</h2>
+<p>The standard <code>barWipe</code> transitions from one media item to
+another along a straight linear axis. Without a <code>subtype</code>, a
+player defaults to a predefined direction, but explicitly setting the
+<code>subtype</code> allows developers to orient the wipe along any
+primary axis:</p>
+<ul>
+<li><code>leftToRight</code>: The wipe reveals the new media asset
+starting from the left edge and moving toward the right.</li>
+<li><code>topToBottom</code>: The wipe initiates at the top border and
+travels downward.</li>
+<li><code>bottomToTop</code>: The wipe progresses from the lower edge
+upward.</li>
+<li><code>rightToLeft</code>: The wipe originates on the right side and
+moves leftward.</li>
+</ul>
+<p>For split-bar wipes where multiple bands move concurrently, subtypes
+like <code>vertical</code> or <code>horizontal</code> create opposing
+movements originating simultaneously from center outward or edges
+inward.</p>
+<h2 id="shaping-iris-and-shape-based-wipes">Shaping Iris and Shape-Based
+Wipes</h2>
+<p>For shape-based wipe patterns like <code>irisWipe</code> or
+<code>triangleWipe</code>, the <code>subtype</code> attribute modifies
+geometric orientation and growth origins:</p>
+<ul>
+<li><code>rectangle</code>: Expands an iris transition as an escalating
+rectangular viewport.</li>
+<li><code>diamond</code>: Expands the transition in a four-point diamond
+layout.</li>
+<li><code>topCenter</code>, <code>bottomCenter</code>,
+<code>leftCenter</code>, <code>rightCenter</code>: Aligns the origin
+point of directional triangular or polygon wipes to specific edges
+rather than defaulting to the frame's center coordinates.</li>
+</ul>
+<h2 id="rotational-and-clock-wipes">Rotational and Clock Wipes</h2>
+<p>Radial and rotational wipe families, such as <code>clockWipe</code>
+or <code>fanWipe</code>, rely heavily on the <code>subtype</code>
+attribute to establish the anchor point and angular trajectory of the
+wipe sweep:</p>
+<ul>
+<li><code>clockwiseTop</code>: Initiates the rotational reveal from the
+12 o'clock position and moves in a standard clockwise circle.</li>
+<li><code>clockwiseBottom</code>: Starts the radial sweep from the 6
+o'clock position.</li>
+<li><code>counterClockwiseTop</code>: Inverts the circular motion
+direction while retaining the top center starting anchor.</li>
+<li><code>twoBladeVertical</code>: Creates opposing dual-radial sweeps
+simultaneously along the vertical meridian.</li>
+</ul>
+<h2 id="implementation-syntax">Implementation Syntax</h2>
+<p>A basic SMIL implementation defines the transition in the
+<code>&lt;head&gt;</code> section using <code>type</code> and
+<code>subtype</code>, then applies that transition to a visual asset in
+the <code>&lt;body&gt;</code> layout:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">layout</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">root-layout</span> <span class="ot">width=</span><span class="st">&quot;640&quot;</span> <span class="ot">height=</span><span class="st">&quot;480&quot;</span>/&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;mainRegion&quot;</span> <span class="ot">top=</span><span class="st">&quot;0&quot;</span> <span class="ot">left=</span><span class="st">&quot;0&quot;</span> <span class="ot">width=</span><span class="st">&quot;640&quot;</span> <span class="ot">height=</span><span class="st">&quot;480&quot;</span>/&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">transition</span> <span class="ot">id=</span><span class="st">&quot;wipeRight&quot;</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                <span class="ot">type=</span><span class="st">&quot;barWipe&quot;</span> </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                <span class="ot">subtype=</span><span class="st">&quot;leftToRight&quot;</span> </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                <span class="ot">dur=</span><span class="st">&quot;1.5s&quot;</span>/&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">seq</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;slide1.jpg&quot;</span> <span class="ot">region=</span><span class="st">&quot;mainRegion&quot;</span> <span class="ot">dur=</span><span class="st">&quot;5s&quot;</span>/&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;slide2.jpg&quot;</span> <span class="ot">region=</span><span class="st">&quot;mainRegion&quot;</span> <span class="ot">dur=</span><span class="st">&quot;5s&quot;</span> <span class="ot">transIn=</span><span class="st">&quot;wipeRight&quot;</span>/&gt;</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">seq</span>&gt;</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<p>By isolating visual mechanics into the <code>subtype</code> property,
+SMIL decouples geometric algorithms from motion parameters, allowing
+developers to configure granular SMPTE-compliant video transitions
+directly through declarative XML markup.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does SMIL Integrate with JavaScript in Time Containers? - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) coordinates complex, time-based media layouts, while JavaScript provides the programmatic interface needed to alter that timeline dynamically. By combining SMIL time containers—such as sequential (<se">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-smil-integrate-with-javascript-in-time-containers">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does SMIL Integrate with JavaScript in Time Containers? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-smil-integrate-with-javascript-in-time-containers" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) coordinates complex, time-based media layouts, while JavaScript provides the programmatic interface needed to alter that timeline dynamically. By combining SMIL time containers—such as sequential (<se" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-smil-integrate-with-javascript-in-time-containers">How
+Does SMIL Integrate with JavaScript in Time Containers?</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) coordinates
+complex, time-based media layouts, while JavaScript provides the
+programmatic interface needed to alter that timeline dynamically. By
+combining SMIL time containers—such as sequential
+(<code>&lt;seq&gt;</code>), parallel (<code>&lt;par&gt;</code>), and
+exclusive (<code>&lt;excl&gt;</code>) groupings—with standard Document
+Object Model (DOM) methods and the <code>ElementTimeControl</code>
+interface, developers can start, stop, reschedule, or restructure time
+containers on the fly.</p>
+<h2 id="core-smil-time-containers">Core SMIL Time Containers</h2>
+<p>SMIL organizes media elements along a temporal graph using
+specialized container elements or attributes:</p>
+<ul>
+<li><strong><code>&lt;par&gt;</code> (Parallel):</strong> Plays all
+child elements simultaneously, finishing when all children conclude or
+when explicitly terminated by attributes like <code>endsync</code>.</li>
+<li><strong><code>&lt;seq&gt;</code> (Sequential):</strong> Plays child
+items one after another in order, where each element begins as the
+previous one ends.</li>
+<li><strong><code>&lt;excl&gt;</code> (Exclusive):</strong> Allows only
+one child element to be active at a time, pausing or stopping running
+elements when a sibling triggers.</li>
+</ul>
+<p>In host environments like SVG or HTML+SMIL profiles, these behaviors
+can also be attached to generic grouping elements using the
+<code>timeContainer="par|seq|excl"</code> attribute.</p>
+<h2 id="the-elementtimecontrol-interface">The ElementTimeControl
+Interface</h2>
+<p>SMIL exposes native timing methods directly on elements that
+implement the <code>ElementTimeControl</code> or
+<code>SVGAnimationElement</code> interfaces:</p>
+<ul>
+<li><code>beginElement()</code>: Triggers the container or animation
+element to start immediately in the local timeline.</li>
+<li><code>beginElementAt(offset)</code>: Schedules the start time
+relative to the current clock with a numeric offset in seconds.</li>
+<li><code>endElement()</code>: Forces the element to finish its active
+duration immediately.</li>
+<li><code>endElementAt(offset)</code>: Schedules element termination
+after a designated delay.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Access a SMIL time container or animation element</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> container <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&quot;introSequence&quot;</span>)<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Force the container to begin immediately</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>container<span class="op">.</span><span class="fu">beginElement</span>()<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Schedule container termination 3.5 seconds from now</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>container<span class="op">.</span><span class="fu">endElementAt</span>(<span class="fl">3.5</span>)<span class="op">;</span></span></code></pre></div>
+<h2 id="dynamic-attribute-mutation-via-dom-apis">Dynamic Attribute
+Mutation via DOM APIs</h2>
+<p>JavaScript can alter synchronization rules at runtime using standard
+<code>setAttribute()</code> and <code>removeAttribute()</code> calls.
+Changing timing attributes modifies how SMIL evaluates the
+synchronization graph:</p>
+<ul>
+<li><strong>Modifying Durations:</strong> Adjusting the <code>dur</code>
+attribute dynamically speeds up or extends playback intervals.</li>
+<li><strong>Re-anchoring Begin/End Syncs:</strong> Setting
+<code>begin</code> to an element-based identifier (e.g.,
+<code>containerB.begin = "containerA.end + 2s"</code>) reconfigures
+dependency arcs between containers.</li>
+<li><strong>Loop Control:</strong> Mutating <code>repeatCount</code> or
+<code>repeatDur</code> to integer values or <code>"indefinite"</code>
+controls container iteration cycles.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> mainPar <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&quot;parallelGroup&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">// Dynamically shorten overall duration</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>mainPar<span class="op">.</span><span class="fu">setAttribute</span>(<span class="st">&quot;dur&quot;</span><span class="op">,</span> <span class="st">&quot;4s&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">// Re-link container begin time to an alternate event</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>mainPar<span class="op">.</span><span class="fu">setAttribute</span>(<span class="st">&quot;begin&quot;</span><span class="op">,</span> <span class="st">&quot;userTrigger.click; nextBtn.click + 1s&quot;</span>)<span class="op">;</span></span></code></pre></div>
+<h2 id="structural-mutation-of-the-time-graph">Structural Mutation of
+the Time Graph</h2>
+<p>Because SMIL schedules items based on DOM hierarchy, altering the DOM
+tree directly transforms playback order:</p>
+<ul>
+<li><strong>Reordering Sequence Items:</strong> Moving child nodes
+within a <code>&lt;seq&gt;</code> container immediately alters the
+execution sequence for future iterations.</li>
+<li><strong>Injecting Dynamic Nodes:</strong> Appending newly created
+media or animation nodes to an active <code>&lt;par&gt;</code> or
+<code>&lt;seq&gt;</code> container causes the SMIL timing engine to
+calculate fresh instance times.</li>
+<li><strong>Pruning Active Nodes:</strong> Removing active children
+dynamically cancels their scheduled end times and resolves remaining
+container durations according to <code>endsync</code> rules.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> seqContainer <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&quot;playlistSeq&quot;</span>)<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> firstTrack <span class="op">=</span> seqContainer<span class="op">.</span><span class="at">firstElementChild</span><span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Move first item to the back of the queue</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (firstTrack) {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  seqContainer<span class="op">.</span><span class="fu">appendChild</span>(firstTrack)<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="global-timeline-synchronization">Global Timeline
+Synchronization</h2>
+<p>In SVG-based SMIL implementations, the root <code>&lt;svg&gt;</code>
+element exposes global timeline methods that pause, resume, or seek the
+entire synchronization tree:</p>
+<ul>
+<li><code>pauseAnimations()</code>: Suspends playback across all active
+containers.</li>
+<li><code>unpauseAnimations()</code>: Resumes playback from the current
+paused state.</li>
+<li><code>setCurrentTime(seconds)</code>: Fast-forwards or rewinds the
+document timeline to an arbitrary timestamp.</li>
+<li><code>getCurrentTime()</code>: Retrieves the current elapsed time
+since document start.</li>
+</ul>
+<p>Using these methods in tandem with DOM events gives JavaScript full
+real-time control over declarative SMIL media schedules.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

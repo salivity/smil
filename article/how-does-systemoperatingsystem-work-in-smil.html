@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does systemOperatingSystem Work in SMIL? - smil</title>
+    <meta name="description" content="The systemOperatingSystem test attribute in Synchronized Multimedia Integration Language (SMIL) enables adaptive content delivery by evaluating the host operating system of the playback environment. Part of SMIL's Content Control Module, this attribute a">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-systemoperatingsystem-work-in-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does systemOperatingSystem Work in SMIL? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-systemoperatingsystem-work-in-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The systemOperatingSystem test attribute in Synchronized Multimedia Integration Language (SMIL) enables adaptive content delivery by evaluating the host operating system of the playback environment. Part of SMIL's Content Control Module, this attribute a" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-systemoperatingsystem-work-in-smil">How Does
+systemOperatingSystem Work in SMIL?</h1>
+<p>The <code>systemOperatingSystem</code> test attribute in Synchronized
+Multimedia Integration Language (SMIL) enables adaptive content delivery
+by evaluating the host operating system of the playback environment.
+Part of SMIL's Content Control Module, this attribute allows authors to
+tailor multimedia presentations, adjust resource paths, or toggle
+specific media assets based on whether a client is running platforms
+such as Windows, macOS, Linux, or mobile operating systems.</p>
+<h2 id="purpose-of-the-attribute">Purpose of the Attribute</h2>
+<p>SMIL is designed to orchestrate rich multimedia presentations across
+diverse hardware and software environments. Because media decoders, file
+format support, screen rendering behaviors, and system capabilities vary
+across operating systems, authors often need a mechanism to
+conditionally execute markup.</p>
+<p>The <code>systemOperatingSystem</code> attribute provides a
+standardized way to query the underlying platform at runtime. When a
+SMIL player parses an element containing this attribute, it evaluates
+the specified string against its host environment. If the condition
+evaluates to <code>true</code>, the element is processed; if
+<code>false</code>, the element is ignored or skipped.</p>
+<h2 id="how-it-functions-in-smil-markup">How It Functions in SMIL
+Markup</h2>
+<p>The attribute can be used directly on individual media elements (such
+as <code>&lt;video&gt;</code>, <code>&lt;audio&gt;</code>, or
+<code>&lt;text&gt;</code>) or inside a <code>&lt;switch&gt;</code>
+container to select one optimal candidate among multiple
+alternatives.</p>
+<h3 id="standalone-conditional-evaluation">Standalone Conditional
+Evaluation</h3>
+<p>When applied directly to a standalone element, playback depends
+entirely on whether the host system matches the specified value:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;presentation_directx.wmv&quot;</span> <span class="ot">systemOperatingSystem=</span><span class="st">&quot;windows&quot;</span> /&gt;</span></code></pre></div>
+<p>If the presentation runs on Windows, the video plays. On non-matching
+operating systems, the SMIL engine bypasses the element without
+interrupting the broader presentation timeline.</p>
+<h3 id="alternative-selection-with-the-switch-element">Alternative
+Selection with the <code>&lt;switch&gt;</code> Element</h3>
+<p>The most common implementation places
+<code>systemOperatingSystem</code> inside a <code>&lt;switch&gt;</code>
+block. The SMIL player evaluates child elements sequentially from top to
+bottom and renders only the first element whose test attributes evaluate
+to <code>true</code>.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">switch</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;video_prores.mov&quot;</span> <span class="ot">systemOperatingSystem=</span><span class="st">&quot;macos&quot;</span> /&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;video_wvc1.wmv&quot;</span> <span class="ot">systemOperatingSystem=</span><span class="st">&quot;windows&quot;</span> /&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;video_h264.mp4&quot;</span> /&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">switch</span>&gt;</span></code></pre></div>
+<p>In this structure, a macOS system selects the first stream, a Windows
+system selects the second, and all other operating systems fall back to
+the generic MP4 stream at the end of the list.</p>
+<h2 id="common-values-and-matching-rules">Common Values and Matching
+Rules</h2>
+<p>SMIL specifications designate standard identifier conventions for
+operating system values, typically matching lowercase platform
+tokens:</p>
+<ul>
+<li><code>windows</code>: Identifies Microsoft Windows operating
+systems.</li>
+<li><code>macos</code> or <code>osx</code>: Identifies Apple desktop
+operating systems.</li>
+<li><code>linux</code>: Identifies Linux distributions.</li>
+<li><code>unix</code>: Identifies general Unix-based environments.</li>
+<li><code>ios</code> / <code>android</code>: Used in extended profile
+implementations targeting mobile runtimes.</li>
+</ul>
+<p>Evaluation is case-insensitive in most conforming SMIL user agents.
+If an unknown or unsupported operating system token is supplied, the
+engine evaluates the attribute as <code>false</code>.</p>
+<h2 id="practical-use-cases">Practical Use Cases</h2>
+<ul>
+<li><strong>Codec and Container Compatibility:</strong> Directing legacy
+players to container formats natively supported by specific OS media
+frameworks (e.g., DirectShow/Media Foundation on Windows vs.
+AVFoundation/QuickTime on macOS).</li>
+<li><strong>Font and Typography Rendering:</strong> Adjusting text
+overlay elements or closed-caption styling to reference fonts
+pre-installed on specific operating systems.</li>
+<li><strong>Platform-Specific Interaction:</strong> Providing
+alternative interaction handlers or launching native helper applications
+depending on the desktop environment.</li>
+</ul>
+<h2 id="best-practices">Best Practices</h2>
+<p>To maintain reliable cross-platform presentation fidelity, always
+include a default fallback element without test attributes as the final
+child of any <code>&lt;switch&gt;</code> container. Relying on
+platform-specific test attributes without an unconditional default can
+lead to silent playback failures when presentations run on unlisted or
+emerging operating systems.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

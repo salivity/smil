@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purpose of the epub:textref Attribute in EPUB SMIL - smil</title>
+    <meta name="description" content="This article provides an overview of the epub:textref attribute used within EPUB 3 Media Overlays. It explores the technical purpose of the attribute, how it bridges the gap between Synchronized Multimedia Integration Language (SMIL) elements and XHTML m">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/purpose-of-the-epub-textref-attribute-in-epub-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Purpose of the epub:textref Attribute in EPUB SMIL - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/purpose-of-the-epub-textref-attribute-in-epub-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of the epub:textref attribute used within EPUB 3 Media Overlays. It explores the technical purpose of the attribute, how it bridges the gap between Synchronized Multimedia Integration Language (SMIL) elements and XHTML m" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="purpose-of-the-epubtextref-attribute-in-epub-smil">Purpose of
+the epub:textref Attribute in EPUB SMIL</h1>
+<p>This article provides an overview of the <code>epub:textref</code>
+attribute used within EPUB 3 Media Overlays. It explores the technical
+purpose of the attribute, how it bridges the gap between Synchronized
+Multimedia Integration Language (SMIL) elements and XHTML markup, and
+its role in delivering synchronized audio playback and visual
+highlighting in modern e-books.</p>
+<p>The primary purpose of the <code>epub:textref</code> attribute is to
+link synchronization data in a SMIL file to a specific element within an
+XHTML content document. In EPUB 3 Media Overlays, books pair
+pre-recorded narration with visual text. While SMIL handles the timing
+and audio cues, it does not display content directly; instead, it
+references the existing XHTML pages. The <code>epub:textref</code>
+attribute supplies the precise URI and fragment identifier (element ID)
+required to locate the corresponding visual text.</p>
+<h3 id="establishing-the-link-between-audio-and-text">Establishing the
+Link Between Audio and Text</h3>
+<p>Within a SMIL document, narration is broken down into discrete
+segments, typically wrapped in parallel <code>&lt;par&gt;</code>
+elements. Each segment references both an audio clip and the
+corresponding text. The <code>epub:textref</code> attribute designates
+which part of the XHTML structure aligns with that specific audio
+timeframe:</p>
+<ul>
+<li><strong>Active Highlighting:</strong> As an audio clip defined by a
+<code>&lt;par&gt;</code> element plays, the EPUB reading system uses the
+<code>epub:textref</code> target to apply styling—typically visual
+highlighting—to that exact word, sentence, or paragraph in the XHTML
+file.</li>
+<li><strong>Granular Addressing:</strong> By appending an ID (such as
+<code>chapter1.xhtml#sentence-2</code>), the attribute targets granular
+document nodes rather than just the whole document, allowing
+sentence-by-sentence or word-by-word synchronization.</li>
+</ul>
+<h3 id="enabling-bidirectional-interactivity">Enabling Bidirectional
+Interactivity</h3>
+<p>The connection established by <code>epub:textref</code> works in both
+directions:</p>
+<ol type="1">
+<li><strong>Audio to Text:</strong> When continuous narration plays, the
+reading system follows the <code>epub:textref</code> targets to turn
+pages automatically and keep the user's viewport centered on the
+currently spoken text.</li>
+<li><strong>Text to Audio:</strong> When a reader taps or clicks on a
+specific paragraph or sentence in the XHTML document, the reading system
+checks the Media Overlay associations to find the matching SMIL node,
+allowing playback to begin immediately from that exact point in the
+audio track.</li>
+</ol>
+<p>By mapping temporal media to the structural markup of an e-book, the
+<code>epub:textref</code> attribute ensures synchronized, accessible,
+and interactive reading experiences.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

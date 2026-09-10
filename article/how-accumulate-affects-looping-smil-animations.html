@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How accumulate Affects Looping SMIL Animations - smil</title>
+    <meta name="description" content="The accumulate attribute in Synchronized Multimedia Integration Language (SMIL) controls whether a repeating SVG animation resets to its starting value on each iteration or builds progressively upon the value reached at the end of the previous cycle. By">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-accumulate-affects-looping-smil-animations">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How accumulate Affects Looping SMIL Animations - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-accumulate-affects-looping-smil-animations" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The accumulate attribute in Synchronized Multimedia Integration Language (SMIL) controls whether a repeating SVG animation resets to its starting value on each iteration or builds progressively upon the value reached at the end of the previous cycle. By" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-accumulate-affects-looping-smil-animations">How accumulate
+Affects Looping SMIL Animations</h1>
+<p>The <code>accumulate</code> attribute in Synchronized Multimedia
+Integration Language (SMIL) controls whether a repeating SVG animation
+resets to its starting value on each iteration or builds progressively
+upon the value reached at the end of the previous cycle. By modifying
+this behavior using the values <code>none</code> and <code>sum</code>,
+developers can create continuous, compounding motion effects—such as
+objects traveling progressively across a screen or scaling continuously
+larger—without writing complex keyframes or JavaScript.</p>
+<h3 id="the-role-of-the-accumulate-attribute">The Role of the
+<code>accumulate</code> Attribute</h3>
+<p>In SVG SMIL animations defined by elements like
+<code>&lt;animate&gt;</code>, <code>&lt;animateTransform&gt;</code>, or
+<code>&lt;animateMotion&gt;</code>, looping is achieved using the
+<code>repeatCount</code> or <code>repeatDur</code> attributes. When an
+animation repeats, the browser must decide where the animated property
+should start on iteration two, three, and beyond. This behavior is
+governed strictly by <code>accumulate</code>.</p>
+<p>The attribute accepts two values:</p>
+<ul>
+<li><strong><code>none</code> (default):</strong> The animation resets
+completely at the beginning of each iteration. Every repeat cycle starts
+from the original <code>from</code> or baseline value.</li>
+<li><strong><code>sum</code>:</strong> Each repeated iteration builds on
+the final value of the previous iteration. The ending value of iteration
+<span class="math inline">\(N\)</span> becomes the effective baseline
+for iteration <span class="math inline">\(N + 1\)</span>.</li>
+</ul>
+<h3 id="accumulatenone-vs-accumulatesum"><code>accumulate="none"</code>
+vs. <code>accumulate="sum"</code></h3>
+<p>Consider an SVG circle moving along the X-axis using
+<code>&lt;animate&gt;</code>:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">circle</span> <span class="ot">cx=</span><span class="st">&quot;50&quot;</span> <span class="ot">cy=</span><span class="st">&quot;50&quot;</span> <span class="ot">r=</span><span class="st">&quot;20&quot;</span> <span class="ot">fill=</span><span class="st">&quot;blue&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">animate</span> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="ot">attributeName=</span><span class="st">&quot;cx&quot;</span> </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">by=</span><span class="st">&quot;100&quot;</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="ot">dur=</span><span class="st">&quot;2s&quot;</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">repeatCount=</span><span class="st">&quot;3&quot;</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="ot">accumulate=</span><span class="st">&quot;none&quot;</span> /&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">circle</span>&gt;</span></code></pre></div>
+<p>With <code>accumulate="none"</code>, the circle starts at
+<code>cx="50"</code>, animates to <code>cx="150"</code> over two
+seconds, and then abruptly jumps back to <code>cx="50"</code> to repeat
+the sequence. It does this three times, always traversing the exact same
+100-pixel interval.</p>
+<p>If you change the attribute to <code>accumulate="sum"</code>:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">circle</span> <span class="ot">cx=</span><span class="st">&quot;50&quot;</span> <span class="ot">cy=</span><span class="st">&quot;50&quot;</span> <span class="ot">r=</span><span class="st">&quot;20&quot;</span> <span class="ot">fill=</span><span class="st">&quot;blue&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">animate</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="ot">attributeName=</span><span class="st">&quot;cx&quot;</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">by=</span><span class="st">&quot;100&quot;</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="ot">dur=</span><span class="st">&quot;2s&quot;</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">repeatCount=</span><span class="st">&quot;3&quot;</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="ot">accumulate=</span><span class="st">&quot;sum&quot;</span> /&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">circle</span>&gt;</span></code></pre></div>
+<p>The behavior changes significantly:</p>
+<ol type="1">
+<li><strong>Iteration 1:</strong> Animates from <code>cx="50"</code> to
+<code>cx="150"</code>.</li>
+<li><strong>Iteration 2:</strong> Instead of resetting, it treats
+<code>150</code> as the new base, animating from <code>cx="150"</code>
+to <code>cx="250"</code>.</li>
+<li><strong>Iteration 3:</strong> Continues from <code>250</code>,
+animating to <code>cx="350"</code>.</li>
+</ol>
+<h3 id="accumulation-with-transforms">Accumulation with Transforms</h3>
+<p>The <code>accumulate</code> attribute is particularly common in
+<code>&lt;animateTransform&gt;</code> operations, such as progressive
+rotations or stepping translations:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">rect</span> <span class="ot">width=</span><span class="st">&quot;40&quot;</span> <span class="ot">height=</span><span class="st">&quot;40&quot;</span> <span class="ot">fill=</span><span class="st">&quot;red&quot;</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">animateTransform</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="ot">attributeName=</span><span class="st">&quot;transform&quot;</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">type=</span><span class="st">&quot;rotate&quot;</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="ot">from=</span><span class="st">&quot;0 20 20&quot;</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">to=</span><span class="st">&quot;45 20 20&quot;</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="ot">dur=</span><span class="st">&quot;1s&quot;</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="ot">repeatCount=</span><span class="st">&quot;4&quot;</span> </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="ot">accumulate=</span><span class="st">&quot;sum&quot;</span> /&gt;</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">rect</span>&gt;</span></code></pre></div>
+<p>In this example, the rectangle rotates 45 degrees in the first
+second, then rotates from 45 to 90 degrees in the second, reaching 180
+degrees by the end of the fourth repeat. Without
+<code>accumulate="sum"</code>, the rectangle would snap back to 0
+degrees at the start of every second.</p>
+<h3 id="difference-between-accumulate-and-additive">Difference Between
+<code>accumulate</code> and <code>additive</code></h3>
+<p>It is easy to confuse <code>accumulate</code> with the
+<code>additive</code> attribute:</p>
+<ul>
+<li><strong><code>additive</code></strong> dictates how an animation
+combines with the underlying static attribute or other concurrent
+animations on the same property (e.g., adding an offset to a circle's
+predefined <code>cx</code> attribute).</li>
+<li><strong><code>accumulate</code></strong> applies exclusively across
+multiple repetitions of the <em>same</em> animation cycle, dictating
+whether repeated loops compound over time.</li>
+</ul>
+<p>For progressive, stair-step, or compounding animations in native SVG
+without scripting, setting <code>accumulate="sum"</code> is the standard
+approach.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMS SMIL Region and File Size Limits Explained - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) defines how multimedia elements are organized, scheduled, and displayed within a Multimedia Messaging Service (MMS) message. Because MMS relies on mobile network carrier architectures and legacy device">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/mms-smil-region-and-file-size-limits-explained">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="MMS SMIL Region and File Size Limits Explained - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/mms-smil-region-and-file-size-limits-explained" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) defines how multimedia elements are organized, scheduled, and displayed within a Multimedia Messaging Service (MMS) message. Because MMS relies on mobile network carrier architectures and legacy device" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="mms-smil-region-and-file-size-limits-explained">MMS SMIL Region
+and File Size Limits Explained</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) defines how
+multimedia elements are organized, scheduled, and displayed within a
+Multimedia Messaging Service (MMS) message. Because MMS relies on mobile
+network carrier architectures and legacy device compatibility, standard
+MMS SMIL implementations operate under strict constraints defined
+primarily by the Open Mobile Alliance (OMA) and the 3rd Generation
+Partnership Project (3GPP). Understanding these limitations—specifically
+regarding layout regions and file sizes—is critical for ensuring
+multimedia messages render predictably across diverse mobile
+clients.</p>
+<h3 id="file-size-limitations">File Size Limitations</h3>
+<p>MMS size restrictions are governed by network carrier thresholds, OMA
+standards, and handset specifications rather than the SMIL specification
+itself. Because the SMIL markup, text, images, and audio/video
+components are packaged together inside a single multipart/related MIME
+container, the entire message must conform to rigid size ceilings:</p>
+<ul>
+<li><strong>Total Message Size:</strong> The standard OMA MMS 1.2
+profile established a baseline maximum of 300 KB to guarantee
+cross-carrier interoperability. While MMS 1.3 and modern carrier
+implementations often support caps of 600 KB, 1 MB, or occasionally 2
+MB, 300 KB to 600 KB remains the safest operational target across global
+carrier gateways.</li>
+<li><strong>SMIL File Overhead:</strong> The <code>.smil</code> file
+itself is small—typically between 1 KB and 5 KB. However, this XML
+payload contributes directly to the total MMS message size budget,
+reducing the bytes available for high-resolution images or longer audio
+clips.</li>
+<li><strong>Individual Media Boundaries:</strong> Individual media
+assets must be compressed to fit within the overall message size cap. A
+video embedded inside a SMIL presentation is usually constrained to
+100–300 KB, while still images are generally kept under 100 KB to allow
+room for accompanying audio and SMIL code.</li>
+</ul>
+<h3 id="region-limitations-in-mms-smil">Region Limitations in MMS
+SMIL</h3>
+<p>MMS SMIL is a restricted subset of the broader W3C SMIL standard,
+tailored to resource-constrained devices. Layout rendering inside
+standard MMS players must adhere to specific spatial rules configured in
+the <code>&lt;layout&gt;</code> element via
+<code>&lt;root-layout&gt;</code> and <code>&lt;region&gt;</code>
+tags.</p>
+<ul>
+<li><strong>Limited Active Visual Regions:</strong> Standard MMS
+implementations typically support a maximum of two active visual regions
+per slide: one region for visual media (image or video) and one region
+for text. Attempting to define three or more concurrent visual regions
+often leads to rendering errors or forces the client to degrade to a
+slide-show format.</li>
+<li><strong>No Overlapping Regions:</strong> Unlike desktop SMIL,
+standard MMS SMIL implementations do not support overlapping regions or
+z-indexing. Layouts are strictly sequential or segmented. If regions
+overlap, mobile clients may fail to render the message, clip the
+content, or display media elements sequentially rather than
+concurrently.</li>
+<li><strong>Predefined Layout Templates:</strong> Most carrier-certified
+MMS clients enforce standardized layout models:
+<ul>
+<li><em>Image Top, Text Bottom:</em> Visual region at the top (typically
+70–80% of screen height) with text positioned below.</li>
+<li><em>Text Top, Image Bottom:</em> Text region at the top with visual
+media positioned below.</li>
+</ul></li>
+<li><strong>Dimension and Coordinate Constraints:</strong> Coordinates
+(<code>top</code>, <code>left</code>, <code>width</code>,
+<code>height</code>) must be expressed using either absolute pixels or
+relative percentages:
+<ul>
+<li>Percentage-based values (<code>width="100%"</code>,
+<code>height="70%"</code>) are standard, allowing the MMS player to
+dynamically map regions to varying screen resolutions.</li>
+<li>Absolute pixel declarations are discouraged; hardcoded dimensions
+exceeding the physical display boundaries or carrier gateway parameters
+cause cropping or scale distortion.</li>
+</ul></li>
+<li><strong>Fit Attribute Restrictions:</strong> The <code>fit</code>
+attribute controls how media adapts to its assigned region. Standard MMS
+engines widely support <code>fit="meet"</code> (maintaining aspect ratio
+while scaling to fit) and <code>fit="hidden"</code> (displaying the
+asset at actual size and cropping overflow). Advanced behaviors like
+<code>fit="slice"</code> or <code>fit="scroll"</code> are rarely
+supported and often default to <code>meet</code> or cause rendering
+failures.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

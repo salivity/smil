@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How SMIL Validators Check Excl Priority Clashes - smil</title>
+    <meta name="description" content="This article explains how Synchronized Multimedia Integration Language (SMIL) validators detect and evaluate overlapping priority clashes inside an <excl> time container. It breaks down the role of the <priorityClass> element, analyzes the peer and hiera">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-smil-validators-check-excl-priority-clashes">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How SMIL Validators Check Excl Priority Clashes - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-smil-validators-check-excl-priority-clashes" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how Synchronized Multimedia Integration Language (SMIL) validators detect and evaluate overlapping priority clashes inside an <excl> time container. It breaks down the role of the <priorityClass> element, analyzes the peer and hiera" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-smil-validators-check-excl-priority-clashes">How SMIL
+Validators Check Excl Priority Clashes</h1>
+<p>This article explains how Synchronized Multimedia Integration
+Language (SMIL) validators detect and evaluate overlapping priority
+clashes inside an <code>&lt;excl&gt;</code> time container. It breaks
+down the role of the <code>&lt;priorityClass&gt;</code> element,
+analyzes the peer and hierarchy attributes (<code>peers</code>,
+<code>higher</code>, and <code>lower</code>), and details the
+algorithmic checks validators use to catch runtime deadlocks, timing
+conflicts, and undefined interruption behaviors.</p>
+<h3 id="understanding-the-excl-container-semantics">Understanding the
+<code>&lt;excl&gt;</code> Container Semantics</h3>
+<p>The <code>&lt;excl&gt;</code> container specifies that only one child
+element may play at any given moment. When multiple child elements have
+overlapping active intervals, the SMIL runtime must determine which
+element takes precedence, which element stops or pauses, and which
+element is deferred or discarded.</p>
+<p>To manage these interactions, developers group media elements into
+child <code>&lt;priorityClass&gt;</code> elements. Each
+<code>&lt;priorityClass&gt;</code> defines rules through three core
+attributes:</p>
+<ul>
+<li><strong><code>peers</code></strong>: Defines how elements within the
+same priority class interact when they collide (values:
+<code>stop</code>, <code>pause</code>, <code>defer</code>,
+<code>never</code>).</li>
+<li><strong><code>higher</code></strong>: Dictates the fate of an active
+child in this class if an element from a higher-priority class begins
+(values: <code>stop</code>, <code>pause</code>).</li>
+<li><strong><code>lower</code></strong>: Dictates the fate of an element
+in this class if it attempts to start while an element from a
+higher-priority class is playing (values: <code>defer</code>,
+<code>never</code>).</li>
+</ul>
+<h3 id="step-1-parsing-the-priority-class-hierarchy">Step 1: Parsing the
+Priority Class Hierarchy</h3>
+<p>A SMIL validator begins by parsing the syntactic structure of the
+<code>&lt;excl&gt;</code> block. Priority order is determined by
+document layout: <code>&lt;priorityClass&gt;</code> elements declared
+earlier in the XML tree have higher priority than those declared
+later.</p>
+<p>The validator verifies:</p>
+<ul>
+<li>Media elements belong to valid <code>&lt;priorityClass&gt;</code>
+definitions or default fallback buckets.</li>
+<li>The <code>peers</code>, <code>higher</code>, and <code>lower</code>
+attributes contain valid enumerated values.</li>
+<li>No contradictory syntax exists within local scope definitions.</li>
+</ul>
+<h3 id="step-2-temporal-graph-and-active-interval-mapping">Step 2:
+Temporal Graph and Active Interval Mapping</h3>
+<p>Once structural integrity is confirmed, the validator calculates the
+active begin and end intervals for each child element within the
+<code>&lt;excl&gt;</code> block.</p>
+<p>By building a temporal graph, the validator maps points in timeline
+coordinates where two or more elements attempt to execute concurrently.
+These overlapping intervals trigger the conflict-resolution
+evaluation.</p>
+<h3 id="step-3-conflict-simulation-and-rule-verification">Step 3:
+Conflict Simulation and Rule Verification</h3>
+<p>When the validator identifies an overlapping segment, it evaluates
+the interaction against the explicit or default priority rules to detect
+invalid states:</p>
+<ol type="1">
+<li><p><strong>Peer-Level Clashes</strong>: If two elements in the same
+<code>&lt;priorityClass&gt;</code> overlap:</p>
+<ul>
+<li>If <code>peers="stop"</code>, the validator ensures the active
+element successfully terminates upon the second element's start.</li>
+<li>If <code>peers="pause"</code>, the validator confirms the first
+element has a valid pause/resume lifecycle and sufficient duration
+metrics to resume later.</li>
+<li>If <code>peers="never"</code>, the validator flags a potential
+dead-code warning if the second element can never be executed under
+standard playback conditions.</li>
+<li>If <code>peers="defer"</code>, the validator checks whether deferred
+playback violates container boundaries or unresolved
+synchronizations.</li>
+</ul></li>
+<li><p><strong>Cross-Class Interruption Checks</strong>: If elements
+from distinct priority classes overlap:</p>
+<ul>
+<li>The validator evaluates whether the <code>higher</code> attribute of
+the lower class aligns with the start conditions of the incoming
+higher-priority element.</li>
+<li>The validator evaluates whether the <code>lower</code> attribute
+allows or drops execution if an incoming lower-priority element triggers
+while a higher-priority element is active.</li>
+</ul></li>
+</ol>
+<h3 id="step-4-deadlock-and-cyclic-deferral-detection">Step 4: Deadlock
+and Cyclic Deferral Detection</h3>
+<p>The most critical functional check is identifying cyclic dependencies
+and indefinite queue buildup. If multiple elements defer to one another,
+or if recursive pause/resume behaviors occur, an playback engine can
+freeze.</p>
+<p>The validator performs dependency-loop tracing on all
+<code>defer</code> actions across active intervals:</p>
+<ul>
+<li>It traces the deferral queue to confirm every deferred item has a
+deterministic point where it can either resume, restart, or safely
+terminate.</li>
+<li>It checks whether an element deferred past the end of the parent
+<code>&lt;excl&gt;</code> container duration causes an illegal state or
+clipped presentation.</li>
+</ul>
+<h3 id="step-5-emitting-validation-errors-and-diagnostics">Step 5:
+Emitting Validation Errors and Diagnostics</h3>
+<p>If the timing graph exposes ambiguous priorities—such as missing
+explicit rules for unclassified peers or impossible synchronization
+anchors—the validator reports precise diagnostic messages:</p>
+<ul>
+<li><strong>Unresolved Collisions</strong>: Instances where timing
+specifications force concurrent playback without defined
+preemption.</li>
+<li><strong>Starvation/Unreachable States</strong>: Elements configured
+with <code>never</code> that will consistently be suppressed by
+continuous higher-priority media.</li>
+<li><strong>Queue Overflows and Deadlocks</strong>: Cyclic deferrals
+that prevent the <code>&lt;excl&gt;</code> element from resolving its
+own lifecycle.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

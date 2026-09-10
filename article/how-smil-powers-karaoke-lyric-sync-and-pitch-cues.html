@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How SMIL Powers Karaoke Lyric Sync and Pitch Cues - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) is an XML-based markup standard that enables karaoke software to synchronize distinct media elements—such as audio, text, and vector graphics—along a unified timeline. By defining precise temporal r">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-smil-powers-karaoke-lyric-sync-and-pitch-cues">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How SMIL Powers Karaoke Lyric Sync and Pitch Cues - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-smil-powers-karaoke-lyric-sync-and-pitch-cues" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) is an XML-based markup standard that enables karaoke software to synchronize distinct media elements—such as audio, text, and vector graphics—along a unified timeline. By defining precise temporal r" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-smil-powers-karaoke-lyric-sync-and-pitch-cues">How SMIL
+Powers Karaoke Lyric Sync and Pitch Cues</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) is an XML-based
+markup standard that enables karaoke software to synchronize distinct
+media elements—such as audio, text, and vector graphics—along a unified
+timeline. By defining precise temporal relationships, SMIL allows
+karaoke systems to display real-time, syllable-by-syllable lyric
+highlights and render dynamic pitch cues that guide singers through
+pitch accuracy and timing.</p>
+<h3 id="core-mechanisms-of-lyric-synchronization">Core Mechanisms of
+Lyric Synchronization</h3>
+<p>SMIL handles lyric synchronization by decoupling the raw audio file
+from the visual text while maintaining strict time alignment. Karaoke
+engines utilize SMIL's container tags to control how assets appear
+relative to the audio:</p>
+<ul>
+<li><strong>Parallel Synchronization
+(<code>&lt;par&gt;</code>):</strong> Plays the master backing track
+simultaneously with visual elements like lyric blocks and background
+animations.</li>
+<li><strong>Sequential Timing (<code>&lt;seq&gt;</code>):</strong>
+Sequences text lines, verses, and choruses in chronological order.</li>
+<li><strong>Granular Timing Attributes:</strong> Uses
+<code>begin</code>, <code>dur</code>, and <code>end</code> attributes
+with millisecond precision to control word-level and syllable-level
+highlighting.</li>
+</ul>
+<p>Through these temporal constructs, the software can sweep a highlight
+color across a word at the exact rate it is sung, matching phoneme
+durations rather than relying on static line-by-line transitions.</p>
+<h3 id="rendering-pitch-guides-and-visual-cues">Rendering Pitch Guides
+and Visual Cues</h3>
+<p>Modern karaoke software often displays a melodic pitch track—similar
+to a visual piano roll—showing the target note and duration alongside
+incoming vocal input. SMIL facilitates this through its ability to
+coordinate vector graphics (often integrated with SVG) with audio
+playback:</p>
+<ol type="1">
+<li><strong>Note Duration and Position:</strong> Pitch bars are defined
+as spatial and temporal elements. SMIL coordinates the exact moment a
+pitch bar enters the screen, passes the "singing target" marker, and
+exits.</li>
+<li><strong>Dynamic Cursor Tracking:</strong> SMIL controls the
+horizontal progression of the playhead or cursor across pitch bars in
+lockstep with the musical tempo.</li>
+<li><strong>Visual Feedback Integration:</strong> By synchronizing
+secondary visual tracks in parallel (<code>&lt;par&gt;</code>), engines
+can trigger real-time color changes on pitch bars to indicate whether
+the singer is hitting, undershooting, or overshooting the intended
+frequency.</li>
+</ol>
+<h3 id="advantages-of-smil-in-karaoke-architecture">Advantages of SMIL
+in Karaoke Architecture</h3>
+<p>SMIL provides a structured, platform-independent framework for
+karaoke formats. Because it is standard XML, metadata files remain
+lightweight and human-readable, keeping media files separated from
+timing instructions. This architecture allows developers to swap
+background music, change lyric translations, or re-render graphics for
+different screen resolutions without altering the underlying
+synchronization data.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

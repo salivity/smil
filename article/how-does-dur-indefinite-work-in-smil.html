@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does dur="indefinite" Work in SMIL? - smil</title>
+    <meta name="description" content="In Synchronized Multimedia Integration Language (SMIL), assigning dur="indefinite" specifies that an element's simple duration has no predefined mathematical boundary and will persist until explicitly terminated. While a standard clock value defines a de">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-dur-indefinite-work-in-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does dur="indefinite" Work in SMIL? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-dur-indefinite-work-in-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In Synchronized Multimedia Integration Language (SMIL), assigning dur="indefinite" specifies that an element's simple duration has no predefined mathematical boundary and will persist until explicitly terminated. While a standard clock value defines a de" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-durindefinite-work-in-smil">How Does dur="indefinite"
+Work in SMIL?</h1>
+<p>In Synchronized Multimedia Integration Language (SMIL), assigning
+<code>dur="indefinite"</code> specifies that an element's simple
+duration has no predefined mathematical boundary and will persist until
+explicitly terminated. While a standard clock value defines a
+deterministic runtime, an indefinite duration shifts lifecycle
+management to external triggers, explicit end conditions, or parent
+container boundaries. This mechanism allows animations, audio, video,
+and structured content blocks to remain active until user interaction,
+scripted DOM calls, or document hierarchy constraints resolve their
+active duration.</p>
+<h2 id="the-role-of-simple-duration">The Role of Simple Duration</h2>
+<p>Within the SMIL timing model, the <code>dur</code> attribute defines
+the simple duration of an element—the unrepeated, baseline span of time
+required for the element to run through its presentation cycle. When
+<code>dur="indefinite"</code> is applied, the simple duration is
+evaluated as infinite.</p>
+<p>Unlike bounded intervals (such as <code>dur="5s"</code>), an
+indefinite simple duration never completes a natural cycle on its
+own:</p>
+<ul>
+<li><strong>Interpolation Behavior:</strong> In vector animation
+contexts such as SVG using SMIL syntax (<code>&lt;animate&gt;</code>,
+<code>&lt;set&gt;</code>), an indefinite simple duration prevents
+keyframe-based interpolations from resolving to completion unless
+explicit fractional timing or discrete values are evaluated. A
+<code>&lt;set&gt;</code> element, which changes an attribute
+immediately, maintains that state indefinitely.</li>
+<li><strong>Repetition Disablement:</strong> Attributes like
+<code>repeatCount</code> or <code>repeatDur</code> have no observable
+impact when the simple duration is indefinite, as the element never
+reaches the end of its first cycle to trigger subsequent
+iterations.</li>
+</ul>
+<h2 id="resolving-active-duration-with-end-conditions">Resolving Active
+Duration with End Conditions</h2>
+<p>An element with an indefinite simple duration does not necessarily
+play forever. SMIL distinguishes between <em>simple duration</em> (the
+intrinsic length of the media/animation) and <em>active duration</em>
+(the actual span of time the element is active in the document
+timeline).</p>
+<p>Active duration is determined by combining <code>begin</code>,
+<code>dur</code>, <code>end</code>, and container bounds. To terminate
+an element defined with <code>dur="indefinite"</code>, SMIL relies on
+explicit end conditions specified via the <code>end</code>
+attribute:</p>
+<ul>
+<li><strong>Event-Driven Endings:</strong> An element can be bound to
+user interface events (such as <code>end="click"</code> or
+<code>end="mouseover"</code>). The element runs continuously until the
+specified event fires, at which point SMIL calculates the current time
+as the active end.</li>
+<li><strong>Syncbase Value Timing:</strong> An element can synchronize
+its end time with the milestone of another element (such as
+<code>end="otherElement.end"</code> or
+<code>end="audioTrack.end"</code>).</li>
+<li><strong>DOM Method Calls:</strong> Scripting environments can
+manually conclude indefinite elements by invoking SMIL DOM methods such
+as <code>endElement()</code> or <code>endElementAt()</code>.</li>
+</ul>
+<p>If an element has <code>dur="indefinite"</code> and no
+<code>end</code> attribute, event trigger, or container constraint, its
+active duration remains infinite.</p>
+<h2 id="behavior-within-sequential-and-parallel-containers">Behavior
+Within Sequential and Parallel Containers</h2>
+<p>The lifecycle of an indefinite element depends heavily on the time
+container enclosing it:</p>
+<h3 id="parallel-containers-par">Parallel Containers
+(<code>&lt;par&gt;</code>)</h3>
+<p>In a <code>&lt;par&gt;</code> container, child elements execute
+concurrently. If a child element has <code>dur="indefinite"</code>, the
+default container ending rule (<code>endsync="last"</code>) causes the
+<code>&lt;par&gt;</code> container itself to remain active indefinitely
+unless the indefinite child is explicitly ended or the container defines
+an explicit <code>dur</code> or <code>end</code>. If the container uses
+<code>endsync="first"</code>, the indefinite element terminates as soon
+as the shortest bounded sibling completes.</p>
+<h3 id="sequential-containers-seq">Sequential Containers
+(<code>&lt;seq&gt;</code>)</h3>
+<p>In a <code>&lt;seq&gt;</code> container, elements execute one after
+another in document order. A child element with
+<code>dur="indefinite"</code> blocks all subsequent siblings from
+starting because the current element never reaches a natural end point.
+Subsequent siblings only activate if the indefinite element is ended via
+an explicit trigger or event.</p>
+<h2 id="post-active-state-and-the-fill-attribute">Post-Active State and
+the <code>fill</code> Attribute</h2>
+<p>When an element with <code>dur="indefinite"</code> is finally
+terminated by an external event or parent boundary, SMIL evaluates the
+<code>fill</code> attribute to dictate rendering behavior:</p>
+<ul>
+<li><strong><code>fill="remove"</code> (default):</strong> The visual or
+audio state applied by the element is immediately undone, removing its
+effects from the presentation graph once the active duration ends.</li>
+<li><strong><code>fill="freeze"</code>:</strong> The visual state
+achieved at the exact moment of termination is preserved across the
+target properties for the remainder of the containing timeline.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

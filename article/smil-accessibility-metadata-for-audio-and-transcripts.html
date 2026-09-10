@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Accessibility Metadata for Audio and Transcripts - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) manages accessibility metadata by combining structural XML elements, content control attributes, and dedicated metadata blocks. Rather than storing this information as arbitrary text, SMIL relies on sta">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-accessibility-metadata-for-audio-and-transcripts">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Accessibility Metadata for Audio and Transcripts - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-accessibility-metadata-for-audio-and-transcripts" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) manages accessibility metadata by combining structural XML elements, content control attributes, and dedicated metadata blocks. Rather than storing this information as arbitrary text, SMIL relies on sta" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-accessibility-metadata-for-audio-and-transcripts">SMIL
+Accessibility Metadata for Audio and Transcripts</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) manages
+accessibility metadata by combining structural XML elements, content
+control attributes, and dedicated metadata blocks. Rather than storing
+this information as arbitrary text, SMIL relies on standardized modules
+that allow playback engines to dynamically detect, select, and
+synchronize accessible alternative media. By utilizing attributes like
+<code>systemLanguage</code> and <code>systemAudioDesc</code> alongside
+dedicated <code>&lt;text&gt;</code> or <code>&lt;textstream&gt;</code>
+elements referencing external file paths, SMIL ensures that audio
+descriptions, transcripts, and captions align accurately with primary
+media.</p>
+<h3 id="audio-description-configuration-and-language-tagging">Audio
+Description Configuration and Language Tagging</h3>
+<p>SMIL handles alternate audio tracks—such as audio
+descriptions—primarily through its Content Control module, often
+leveraging the <code>&lt;switch&gt;</code> element or inline evaluation
+attributes. When authors provide multiple audio tracks, they define the
+language using the <code>systemLanguage</code> attribute, conforming to
+BCP 47 language codes (e.g., <code>en</code>, <code>es</code>,
+<code>fr</code>).</p>
+<p>To identify an audio track specifically as an audio description for
+visually impaired users, SMIL provides the <code>systemAudioDesc</code>
+test attribute. When set to <code>on</code>, compliant players evaluate
+user preferences; if the user requires audio descriptions, the player
+enables the corresponding track.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">switch</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;audio_desc_es.mp3&quot;</span> <span class="ot">systemAudioDesc=</span><span class="st">&quot;on&quot;</span> <span class="ot">systemLanguage=</span><span class="st">&quot;es&quot;</span> /&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;audio_desc_en.mp3&quot;</span> <span class="ot">systemAudioDesc=</span><span class="st">&quot;on&quot;</span> <span class="ot">systemLanguage=</span><span class="st">&quot;en&quot;</span> /&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;primary_audio.mp3&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">switch</span>&gt;</span></code></pre></div>
+<p>In parallel structures where descriptions run concurrently with
+secondary video elements, authors can also use the
+<code>&lt;ref&gt;</code> or <code>&lt;audio&gt;</code> elements directly
+inside a <code>&lt;par&gt;</code> (parallel) container, qualifying the
+track with <code>systemAudioDesc="on"</code>.</p>
+<h3 id="storing-transcript-and-caption-paths">Storing Transcript and
+Caption Paths</h3>
+<p>Transcripts and captions in SMIL are not embedded as raw strings;
+instead, SMIL references external resources using URI paths inside media
+container tags.</p>
+<ol type="1">
+<li><p><strong>Static and Interactive Transcripts:</strong> Standard
+text transcripts are linked using the <code>&lt;text&gt;</code> element.
+The <code>src</code> attribute stores the relative or absolute path to
+the text or HTML document. To point to specific segments of a transcript
+corresponding to a precise timeframe, authors append fragment
+identifiers (such as an element ID or timestamp marker) to the path:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">text</span> <span class="ot">src=</span><span class="st">&quot;transcripts/chapter1.html#section2&quot;</span> <span class="ot">region=</span><span class="st">&quot;transcript_area&quot;</span> /&gt;</span></code></pre></div></li>
+<li><p><strong>Timed Text and Captions:</strong> For dynamically
+updating streams, such as WebVTT, TTML, or raw caption files, SMIL
+employs the <code>&lt;textstream&gt;</code> or
+<code>&lt;animation&gt;</code> elements. The path is stored in the
+<code>src</code> attribute, and its temporal behavior is coordinated via
+timing attributes like <code>begin</code>, <code>dur</code>, and
+<code>end</code>:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">textstream</span> <span class="ot">src=</span><span class="st">&quot;captions/captions_en.vtt&quot;</span> <span class="ot">systemCaptions=</span><span class="st">&quot;on&quot;</span> <span class="ot">systemLanguage=</span><span class="st">&quot;en&quot;</span> /&gt;</span></code></pre></div></li>
+</ol>
+<p>When synchronized inside a <code>&lt;par&gt;</code> block, the text
+path and the audio/video path execute simultaneously, maintaining
+precise alignment between the text display and media playback.</p>
+<h3 id="document-level-accessibility-metadata">Document-Level
+Accessibility Metadata</h3>
+<p>Beyond media-level attributes, SMIL allows document-wide
+accessibility metadata to be stored within the <code>&lt;head&gt;</code>
+element using a child <code>&lt;metadata&gt;</code> container.</p>
+<p>Inside <code>&lt;metadata&gt;</code>, SMIL hosts standard RDF
+(Resource Description Framework) or Dublin Core schemas. Authors record
+global accessibility properties such as primary presentation language
+(<code>dc:language</code>), the presence of alternative resources
+(<code>dc:relation</code>), and access modes (using schemas such as
+schema.org/Accessibility):</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span> <span class="ot">version=</span><span class="st">&quot;3.0&quot;</span>&gt;</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">metadata</span>&gt;</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">rdf:RDF</span> <span class="ot">xmlns:rdf=</span><span class="st">&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>               <span class="ot">xmlns:dc=</span><span class="st">&quot;http://purl.org/dc/elements/1.1/&quot;</span>&gt;</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">rdf:Description</span> <span class="ot">rdf:about=</span><span class="st">&quot;&quot;</span>&gt;</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>          &lt;<span class="kw">dc:language</span>&gt;en&lt;/<span class="kw">dc:language</span>&gt;</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>          &lt;<span class="kw">dc:description</span>&gt;Presentation with synchronized audio description and text transcripts.&lt;/<span class="kw">dc:description</span>&gt;</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">rdf:Description</span>&gt;</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">rdf:RDF</span>&gt;</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">metadata</span>&gt;</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Synchronized media elements --&gt;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<p>By separating file locations into explicit URI references, qualifying
+track semantics through system test attributes, and centralizing
+cataloging data within schema-based metadata blocks, SMIL establishes a
+resilient and machine-readable framework for media accessibility.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

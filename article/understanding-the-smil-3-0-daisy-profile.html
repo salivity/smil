@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding the SMIL 3.0 DAISY Profile - smil</title>
+    <meta name="description" content="The SMIL 3.0 DAISY Profile is a specialized modular specification of the Synchronized Multimedia Integration Language designed to power accessible Digital Talking Books (DTBs). This article breaks down what the profile was specifically tailored to achiev">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/understanding-the-smil-3-0-daisy-profile">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Understanding the SMIL 3.0 DAISY Profile - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/understanding-the-smil-3-0-daisy-profile" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The SMIL 3.0 DAISY Profile is a specialized modular specification of the Synchronized Multimedia Integration Language designed to power accessible Digital Talking Books (DTBs). This article breaks down what the profile was specifically tailored to achiev" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="understanding-the-smil-30-daisy-profile">Understanding the SMIL
+3.0 DAISY Profile</h1>
+<p>The SMIL 3.0 DAISY Profile is a specialized modular specification of
+the Synchronized Multimedia Integration Language designed to power
+accessible Digital Talking Books (DTBs). This article breaks down what
+the profile was specifically tailored to achieve, highlighting its role
+in synchronizing multimedia elements, enabling granular document
+navigation, and standardizing accessible digital reading for individuals
+with print and visual disabilities.</p>
+<h3 id="audio-and-text-synchronization">Audio and Text
+Synchronization</h3>
+<p>The primary objective of the SMIL 3.0 DAISY Profile is the precise
+temporal alignment of synthetic or recorded human speech with digital
+text and visual elements. In a DAISY-compliant digital book, the profile
+coordinates playback so that as an audio narrator reads a sentence, the
+corresponding visual text on screen can be highlighted simultaneously.
+This multimodal presentation is crucial not only for blind and
+low-vision readers, but also for individuals with cognitive or learning
+disabilities, such as dyslexia.</p>
+<h3 id="non-linear-and-hierarchical-navigation">Non-Linear and
+Hierarchical Navigation</h3>
+<p>Standard multimedia formats typically allow only sequential playback
+with basic forward or rewind controls. The DAISY Profile was built to
+support complex document hierarchies, giving users the ability to
+navigate a digital book just as a sighted reader navigates a printed
+one. It allows readers to:</p>
+<ul>
+<li>Skip directly between chapters, sections, and subheadings.</li>
+<li>Jump directly to specific page numbers corresponding to a printed
+edition.</li>
+<li>Bypass ancillary content such as footnotes, sidebars, page numbers,
+and producer notes, or access them on demand.</li>
+<li>Traverse text at granular levels, including paragraphs and
+individual sentences.</li>
+</ul>
+<h3 id="resource-efficiency-and-interoperability">Resource Efficiency
+and Interoperability</h3>
+<p>SMIL 3.0 as a whole is a broad, complex standard used across diverse
+multimedia environments. The DAISY Profile tailors the broader SMIL 3.0
+framework by selecting only the specific modules necessary for digital
+publishing and accessibility. By stripping away extraneous modules
+designed for complex web animation and visual effects, the DAISY Profile
+achieves:</p>
+<ul>
+<li>Lower processing overhead, enabling low-power specialized hardware
+players and portable reading devices to parse and render content
+smoothly.</li>
+<li>High interoperability among assistive technology software, mobile
+apps, and dedicated digital talking book players.</li>
+<li>A standardized framework that later served as the architectural
+foundation for modern digital publishing standards, such as EPUB 3 Media
+Overlays.</li>
+</ul>
+<h3 id="support-for-flexible-content-models">Support for Flexible
+Content Models</h3>
+<p>The profile is engineered to accommodate different authoring
+constraints and user needs across three primary content
+presentations:</p>
+<ol type="1">
+<li><strong>Full Text and Full Audio:</strong> Both complete electronic
+text and complete audio recordings are present and synchronized.</li>
+<li><strong>Audio with Partial Text:</strong> Designed for recorded
+books where text is provided primarily for structural navigation (such
+as table of contents and headings).</li>
+<li><strong>Text-Only with Synthetic Speech:</strong> Designed for
+purely electronic text files meant to be rendered dynamically by
+text-to-speech (TTS) engines using predefined timing information.</li>
+</ol></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

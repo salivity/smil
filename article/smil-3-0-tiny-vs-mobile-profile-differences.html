@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL 3.0 Tiny vs Mobile Profile Differences - smil</title>
+    <meta name="description" content="This article provides a comparative analysis of the SMIL 3.0 Tiny and SMIL 3.0 Mobile profiles defined within the Synchronized Multimedia Integration Language (SMIL 3.0) recommendation. Both specifications are modular subsets designed for resource-constr">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-3-0-tiny-vs-mobile-profile-differences">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL 3.0 Tiny vs Mobile Profile Differences - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-3-0-tiny-vs-mobile-profile-differences" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comparative analysis of the SMIL 3.0 Tiny and SMIL 3.0 Mobile profiles defined within the Synchronized Multimedia Integration Language (SMIL 3.0) recommendation. Both specifications are modular subsets designed for resource-constr" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-30-tiny-vs-mobile-profile-differences">SMIL 3.0 Tiny vs
+Mobile Profile Differences</h1>
+<p>This article provides a comparative analysis of the SMIL 3.0 Tiny and
+SMIL 3.0 Mobile profiles defined within the Synchronized Multimedia
+Integration Language (SMIL 3.0) recommendation. Both specifications are
+modular subsets designed for resource-constrained devices, but they
+target different tiers of hardware capabilities. The following sections
+detail their core distinctions across target deployment environments,
+layout systems, timing and synchronization, animation, and
+interactivity.</p>
+<h3 id="target-hardware-and-resource-footprint">Target Hardware and
+Resource Footprint</h3>
+<p>The SMIL 3.0 Tiny profile represents the absolute minimal footprint
+defined by the W3C specification. It is engineered for deeply
+constrained environments, such as low-cost embedded systems, ultra-basic
+mobile handsets, and digital pagers with very low processing power,
+minimal RAM, and limited screen resolutions.</p>
+<p>In contrast, the SMIL 3.0 Mobile profile is designed for more capable
+portable platforms, such as feature phones, standard mobile smartphones,
+and handheld multimedia terminals. It acts as an evolution and superset
+of the MMS (Multimedia Messaging Service) profile, accommodating devices
+that possess dedicated graphics processing, larger displays, and
+sufficient memory to manage richer media workflows.</p>
+<h3 id="layout-and-visual-presentation">Layout and Visual
+Presentation</h3>
+<p>The Tiny profile restricts visual formatting to bare essentials. It
+incorporates the <code>BasicLayout</code> module, allowing simple visual
+region declarations where media items can appear. Complex sub-regions,
+hierarchical layout models, and visual overlapping rules are excluded to
+avoid taxing the rendering engines of lightweight hardware.</p>
+<p>The Mobile profile expands layout capabilities considerably. In
+addition to basic region assignment, it supports the
+<code>SubRegionLayout</code> module and advanced visual attributes. This
+enables authors to create parent-child visual relationships, calculate
+relative offsets, control fit and fill behaviors (such as
+<code>meet</code> or <code>slice</code>), and achieve adaptive rendering
+tailored to dynamic screen dimensions and orientations.</p>
+<h3 id="timing-synchronization-and-interactivity">Timing,
+Synchronization, and Interactivity</h3>
+<p>Timing in the SMIL 3.0 Tiny profile is strictly deterministic and
+minimalist. It supports basic sequential (<code>&lt;seq&gt;</code>) and
+parallel (<code>&lt;par&gt;</code>) elements alongside basic begin and
+end offsets. Dynamic runtime synchronization, runtime event triggers,
+and complex event-based loops are largely omitted to ensure
+predictability and minimal CPU overhead during playback.</p>
+<p>The Mobile profile offers a more flexible timing model. It supports
+expanded event-based timing modules, enabling presentations to respond
+dynamically to user input, such as keypresses and screen taps. It also
+allows media to be triggered by runtime states, marker events within
+audio tracks, and end-user navigation commands via linking elements.</p>
+<h3 id="transitions-and-animation">Transitions and Animation</h3>
+<p>Visual transition effects are largely absent from the SMIL 3.0 Tiny
+profile. Tiny playback engines are not required to support
+software-based pixel transformations, cross-fades, or edge-wipes,
+keeping the compositor code as lightweight as possible.</p>
+<p>The Mobile profile explicitly incorporates transitions and motion
+primitives. It includes the <code>BasicTransitions</code> module,
+allowing transitions such as wipes and fades between image displays.
+Furthermore, it supports the <code>BasicAnimation</code> and
+<code>PanZoom</code> capabilities, which allow elements to move across
+regions or smoothly scale visual media to focus on specific coordinates
+of high-resolution images.</p>
+<h3 id="summary-of-differences">Summary of Differences</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">SMIL 3.0 Tiny Profile</th>
+<th style="text-align: left;">SMIL 3.0 Mobile Profile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Primary Target</strong></td>
+<td style="text-align: left;">Severely constrained embedded devices</td>
+<td style="text-align: left;">Standard mobile phones and handhelds</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Layout Model</strong></td>
+<td style="text-align: left;">Basic visual layout only</td>
+<td style="text-align: left;">Hierarchical, sub-region, and relative
+layout</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>User Interactivity</strong></td>
+<td style="text-align: left;">Minimal or non-existent</td>
+<td style="text-align: left;">User events, linking, and navigational
+controls</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Transitions</strong></td>
+<td style="text-align: left;">Not supported</td>
+<td style="text-align: left;">Basic transition effects (e.g., fades,
+wipes)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Animation</strong></td>
+<td style="text-align: left;">Excluded</td>
+<td style="text-align: left;">Basic animation and pan/zoom modules
+supported</td>
+</tr>
+</tbody>
+</table></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

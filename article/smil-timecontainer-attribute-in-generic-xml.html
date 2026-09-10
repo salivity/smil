@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL timeContainer Attribute in Generic XML - smil</title>
+    <meta name="description" content="This article explains the role and functionality of the timeContainer attribute in Synchronized Multimedia Integration Language (SMIL). It covers how this attribute enables generic XML nodes to adopt SMIL timing semantics—such as parallel, sequential,">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-timecontainer-attribute-in-generic-xml">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL timeContainer Attribute in Generic XML - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-timecontainer-attribute-in-generic-xml" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the role and functionality of the timeContainer attribute in Synchronized Multimedia Integration Language (SMIL). It covers how this attribute enables generic XML nodes to adopt SMIL timing semantics—such as parallel, sequential," />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-timecontainer-attribute-in-generic-xml">SMIL timeContainer
+Attribute in Generic XML</h1>
+<p>This article explains the role and functionality of the
+<code>timeContainer</code> attribute in Synchronized Multimedia
+Integration Language (SMIL). It covers how this attribute enables
+generic XML nodes to adopt SMIL timing semantics—such as parallel,
+sequential, or exclusive playback—without altering their underlying
+structural element names, preserving schema validity while enabling
+complex multimedia synchronization.</p>
+<h3 id="the-purpose-of-timecontainer">The Purpose of
+<code>timeContainer</code></h3>
+<p>In native SMIL documents, timing relationships between media items
+are typically established using dedicated container elements:
+<code>&lt;par&gt;</code> for parallel execution,
+<code>&lt;seq&gt;</code> for sequential execution, and
+<code>&lt;excl&gt;</code> for mutually exclusive execution. However,
+when SMIL timing is integrated into host languages or generic XML
+dialects (such as XHTML or SVG), replacing native elements with SMIL
+tags can disrupt the document's structure, styling, or semantic
+validation.</p>
+<p>The <code>timeContainer</code> attribute solves this problem by
+allowing any generic XML element to function as a temporal container. By
+attaching this attribute to an existing node (such as a
+<code>&lt;div&gt;</code>, <code>&lt;section&gt;</code>, or a custom XML
+tag), authors superimpose SMIL timing behavior onto the host language's
+existing hierarchy.</p>
+<h3 id="supported-values-and-behaviors">Supported Values and
+Behaviors</h3>
+<p>The <code>timeContainer</code> attribute accepts four primary values,
+each defining how the child elements of the node are scheduled along the
+timeline:</p>
+<ul>
+<li><strong><code>par</code> (Parallel):</strong> Child elements execute
+concurrently. By default, the duration of the container is determined by
+the child element with the longest active duration, though this can be
+modified with additional timing attributes.</li>
+<li><strong><code>seq</code> (Sequential):</strong> Child elements
+execute one after the other in document order. Each subsequent sibling
+begins playback immediately after the preceding sibling finishes its
+active duration.</li>
+<li><strong><code>excl</code> (Exclusive):</strong> Only one child
+element plays at any given time. Pausing or activating one child will
+interrupt or defer other active children, which is standard for building
+menus, interactive playlists, or tabbed interfaces.</li>
+<li><strong><code>none</code>:</strong> Explicitly designates that the
+element does not manage the timing of its children. This is the default
+state for standard XML elements.</li>
+</ul>
+<h3 id="structural-and-architectural-advantages">Structural and
+Architectural Advantages</h3>
+<p>Using the <code>timeContainer</code> attribute offers several key
+technical benefits when orchestrating multimedia in custom XML
+schemas:</p>
+<ol type="1">
+<li><strong>Preservation of Document Semantics:</strong> Developers do
+not need to wrap content in redundant SMIL-specific container tags,
+keeping the DOM tree clean and maintaining native layout semantics.</li>
+<li><strong>Schema Compliance:</strong> Generic XML parsers validate
+elements based on predefined DTDs or XML Schemas. Adding an attribute to
+an allowed element is often compliant with extended schemas, whereas
+inserting foreign elements like <code>&lt;seq&gt;</code> or
+<code>&lt;par&gt;</code> would cause validation errors.</li>
+<li><strong>Encapsulation of Timing:</strong> It isolates the temporal
+layer from the presentation and structural layers. The same XML node can
+define layout via CSS, data structure via XML, and temporal
+orchestration via SMIL attributes.</li>
+</ol>
+<p>By leveraging <code>timeContainer</code>, standard XML structures
+transition from static data representations into fully synchronized,
+dynamic multimedia presentations.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

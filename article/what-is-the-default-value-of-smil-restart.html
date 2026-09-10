@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is the Default Value of SMIL Restart? - smil</title>
+    <meta name="description" content="This article examines the restart attribute in the Synchronized Multimedia Integration Language (SMIL), identifying its default value across major SMIL specifications and explaining how this setting governs multimedia and animation playback behavior. In">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/what-is-the-default-value-of-smil-restart">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is the Default Value of SMIL Restart? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/what-is-the-default-value-of-smil-restart" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article examines the restart attribute in the Synchronized Multimedia Integration Language (SMIL), identifying its default value across major SMIL specifications and explaining how this setting governs multimedia and animation playback behavior. In" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-the-default-value-of-smil-restart">What Is the Default
+Value of SMIL Restart?</h1>
+<p>This article examines the <code>restart</code> attribute in the
+Synchronized Multimedia Integration Language (SMIL), identifying its
+default value across major SMIL specifications and explaining how this
+setting governs multimedia and animation playback behavior.</p>
+<h2 id="overview-of-the-restart-attribute-in-smil">Overview of the
+Restart Attribute in SMIL</h2>
+<p>In the Synchronized Multimedia Integration Language (SMIL) and its
+integrated profiles (such as SVG animation), the <code>restart</code>
+attribute dictates how timed elements react when triggered to begin
+while already running or after finishing playback. It helps developers
+control user interactions, event triggers, and synchronization rules to
+prevent unexpected overlapping or restarting of media clips and
+animations.</p>
+<h2 id="the-default-value-across-smil-versions">The Default Value Across
+SMIL Versions</h2>
+<p>Across all versions of SMIL that define the attribute—including
+<strong>SMIL 2.0, SMIL 2.1, and SMIL 3.0</strong> (as well as the SVG
+animation specifications derived from SMIL)—the default value of the
+<code>restart</code> attribute is
+<strong><code>always</code></strong>.</p>
+<h3 id="smil-10">SMIL 1.0</h3>
+<p>SMIL 1.0 did not include the <code>restart</code> attribute. Timing
+in SMIL 1.0 relied on a simpler model with static begin times,
+durations, and basic <code>repeat</code> attributes without granular
+restart controls.</p>
+<h3 id="smil-20-and-smil-21">SMIL 2.0 and SMIL 2.1</h3>
+<p>The <code>restart</code> attribute was formally introduced in SMIL
+2.0 as part of the Timing and Synchronization module to handle advanced
+interactive scenarios and DOM event activations. The default behavior
+was established as <code>restart="always"</code>.</p>
+<h3 id="smil-30">SMIL 3.0</h3>
+<p>SMIL 3.0 retained the established timing model. The default value
+remained <code>restart="always"</code>, ensuring complete backward
+compatibility with SMIL 2.x documents.</p>
+<h2 id="valid-values-and-behavior">Valid Values and Behavior</h2>
+<p>The <code>restart</code> attribute accepts three discrete keyword
+values:</p>
+<ul>
+<li><strong><code>always</code> (Default):</strong> The element can be
+restarted at any point in time. If a begin condition or event occurs
+while the element is currently active, the current playback interval is
+terminated, and a new interval begins immediately.</li>
+<li><strong><code>whenNotActive</code>:</strong> The element can only be
+restarted if it is not currently playing. Any begin triggers or events
+that occur during the element's active duration are ignored.</li>
+<li><strong><code>never</code>:</strong> The element can only begin once
+per document lifecycle. Any subsequent attempts to trigger or
+re-activate the element are disregarded.</li>
+</ul>
+<h2 id="controlling-defaults-via-restartdefault">Controlling Defaults
+via <code>restartDefault</code></h2>
+<p>SMIL specifications also provide the <code>restartDefault</code>
+attribute, which can be applied to parent time containers (such as
+<code>&lt;par&gt;</code>, <code>&lt;seq&gt;</code>, or
+<code>&lt;excl&gt;</code>) or document root elements.</p>
+<p>When individual child elements do not explicitly declare a
+<code>restart</code> attribute, they inherit the behavior specified by
+the ancestor's <code>restartDefault</code> attribute. If no ancestor
+defines <code>restartDefault</code>, the standard fallback throughout
+the hierarchy remains <code>always</code>.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Events Can SMIL Capture for Interactive Media? - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) transforms static media presentations into responsive, dynamic environments by binding temporal presentation logic to internal and external events. Rather than relying entirely on pre-scheduled timeline">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/what-events-can-smil-capture-for-interactive-media">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Events Can SMIL Capture for Interactive Media? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/what-events-can-smil-capture-for-interactive-media" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) transforms static media presentations into responsive, dynamic environments by binding temporal presentation logic to internal and external events. Rather than relying entirely on pre-scheduled timeline" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-events-can-smil-capture-for-interactive-media">What Events
+Can SMIL Capture for Interactive Media?</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) transforms static
+media presentations into responsive, dynamic environments by binding
+temporal presentation logic to internal and external events. Rather than
+relying entirely on pre-scheduled timelines, SMIL authors use
+event-based timing to trigger, pause, branch, or terminate multimedia
+elements. Through timing attributes like <code>begin</code>,
+<code>end</code>, and container structures like
+<code>&lt;excl&gt;</code>, SMIL captures four primary categories of
+events: user interface interactions, media synchronization milestones,
+DOM mutations, and system state transitions.</p>
+<h3 id="user-interface-interaction-events">User Interface Interaction
+Events</h3>
+<p>User-driven events allow audiences to control pacing, make narrative
+choices, or trigger overlays. SMIL captures standard pointer, keyboard,
+and focus interactions across multimedia components:</p>
+<ul>
+<li><strong>Mouse and Pointer Events:</strong> Standard pointer actions
+such as <code>click</code>, <code>activateEvent</code>,
+<code>mousedown</code>, <code>mouseup</code>, <code>mouseover</code>,
+and <code>mouseout</code> allow users to select menu options, inspect
+hot spots, or reveal captions.</li>
+<li><strong>Keyboard Events:</strong> Keystroke triggers such as
+<code>keydown</code>, <code>keyup</code>, and specific key presses
+enable navigation through accessibility peripherals or standard
+keyboards.</li>
+<li><strong>Focus Events:</strong> <code>focusInEvent</code> and
+<code>focusOutEvent</code> (or standard
+<code>DOMFocusIn</code>/<code>DOMFocusOut</code>) track tab navigation
+across interactive regions, ensuring full accessibility for assistive
+technologies.</li>
+</ul>
+<h3 id="media-synchronization-and-lifecycle-events">Media
+Synchronization and Lifecycle Events</h3>
+<p>Multimedia elements in SMIL emit lifecycle signals that can
+orchestrate parallel or sequential content flows:</p>
+<ul>
+<li><strong>Element Lifecycle Events:</strong> The
+<code>beginEvent</code> fires when a media object or timing container
+starts playing, while <code>endEvent</code> triggers when it finishes.
+These allow secondary tracks (such as commentary or subtitles) to sync
+automatically with primary media.</li>
+<li><strong>Repetition Events:</strong> The <code>repeatEvent</code>
+fires every time a looping clip completes an iteration, useful for
+cycling background ambiance or looping graphics.</li>
+<li><strong>Media Marker Events:</strong> Embedded markers within audio
+or video files can emit events at precise cue points, synchronizing
+slides or annotations exactly when a speaker introduces a topic.</li>
+</ul>
+<h3 id="dom-and-document-mutation-events">DOM and Document Mutation
+Events</h3>
+<p>SMIL integrations that work alongside web standard document models
+can react directly to programmatic changes:</p>
+<ul>
+<li><strong>Load and Unload Triggers:</strong> Presentation-level and
+component-level <code>load</code> events signal when assets are fully
+buffered and ready for playback.</li>
+<li><strong>Attribute and Node Changes:</strong> Dynamic script engines
+updating the underlying DOM tree can fire mutation events that notify
+the SMIL scheduler to re-evaluate conditional branches or layout
+boundaries.</li>
+</ul>
+<h3 id="system-environmental-and-state-events">System, Environmental,
+and State Events</h3>
+<p>Advanced SMIL profiles evaluate real-time runtime conditions to
+tailor playback to device capabilities and connectivity constraints:</p>
+<ul>
+<li><strong>State Change Events:</strong> Through the SMIL State module,
+expressions evaluating changes to internal variables (such as scores,
+user preferences, or volume settings) trigger custom interactive
+logic.</li>
+<li><strong>Connection and Stream Status:</strong> Stream dropouts,
+bandwidth adjustments, or stall conditions fire error and recovery
+events, allowing the player to fall back gracefully to lower-bitrate
+streams or static imagery.</li>
+</ul>
+<p>By linking these events to SMIL timing semantics, creators construct
+non-linear multimedia experiences, rich talking books, digital signage,
+and adaptive animations without writing complex imperative code.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

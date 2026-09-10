@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RepeatCount vs RepeatDur in SMIL: What Is the Difference? - smil</title>
+    <meta name="description" content="In Synchronized Multimedia Integration Language (SMIL) and SVG animations, repeatCount and repeatDur both control how long an animation loops, but they determine the ending condition through different metrics. While repeatCount specifies repetition based">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/repeatcount-vs-repeatdur-in-smil-what-is-the-difference">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="RepeatCount vs RepeatDur in SMIL: What Is the Difference? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/repeatcount-vs-repeatdur-in-smil-what-is-the-difference" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In Synchronized Multimedia Integration Language (SMIL) and SVG animations, repeatCount and repeatDur both control how long an animation loops, but they determine the ending condition through different metrics. While repeatCount specifies repetition based" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1
+id="repeatcount-vs-repeatdur-in-smil-what-is-the-difference">RepeatCount
+vs RepeatDur in SMIL: What Is the Difference?</h1>
+<p>In Synchronized Multimedia Integration Language (SMIL) and SVG
+animations, <code>repeatCount</code> and <code>repeatDur</code> both
+control how long an animation loops, but they determine the ending
+condition through different metrics. While <code>repeatCount</code>
+specifies repetition based on the exact number of cycles completed,
+<code>repeatDur</code> defines the total clock time during which the
+animation is allowed to repeat. Choosing between them dictates whether
+an animation finishes cleanly at the end of a full loop or stops
+strictly when a specific duration elapses.</p>
+<h2 id="defining-the-parameters">Defining the Parameters</h2>
+<p>Both attributes are part of the SMIL timing model used within SVG
+animation elements such as <code>&lt;animate&gt;</code>,
+<code>&lt;animateTransform&gt;</code>, and
+<code>&lt;animateMotion&gt;</code>.</p>
+<h3 id="the-repeatcount-attribute">The <code>repeatCount</code>
+Attribute</h3>
+<p>The <code>repeatCount</code> attribute defines the number of
+iterations an animation executes.</p>
+<ul>
+<li><strong>Syntax:</strong> Accepts a positive floating-point number
+(e.g., <code>repeatCount="3"</code>, <code>repeatCount="2.5"</code>) or
+the keyword <code>"indefinite"</code>.</li>
+<li><strong>Behavior:</strong> If set to an integer like <code>3</code>,
+the animation runs through its simple duration (<code>dur</code>)
+exactly three times from start to finish. If set to a fractional number
+like <code>2.5</code>, it runs twice fully and stops halfway through the
+third cycle.</li>
+<li><strong>Total Time Calculation:</strong> The total active repeat
+time is determined by multiplying <code>repeatCount</code> by
+<code>dur</code>.</li>
+</ul>
+<h3 id="the-repeatdur-attribute">The <code>repeatDur</code>
+Attribute</h3>
+<p>The <code>repeatDur</code> attribute specifies the total accumulated
+clock time for which the animation is permitted to repeat.</p>
+<ul>
+<li><strong>Syntax:</strong> Accepts a standard clock value (e.g.,
+<code>repeatDur="10s"</code>, <code>repeatDur="01:30"</code>) or the
+keyword <code>"indefinite"</code>.</li>
+<li><strong>Behavior:</strong> The animation begins repeating its
+standard cycle and continues until the total elapsed time reaches the
+specified <code>repeatDur</code>. If <code>repeatDur</code> does not
+divide evenly by <code>dur</code>, the animation cuts off mid-cycle as
+soon as the time limit expires.</li>
+</ul>
+<h2 id="key-functional-differences">Key Functional Differences</h2>
+<p>The practical differences between both attributes appear most clearly
+across cycle alignment, timing dependencies, and interaction when used
+together.</p>
+<h3 id="cycle-alignment-and-truncation">Cycle Alignment and
+Truncation</h3>
+<ul>
+<li><strong><code>repeatCount</code> ensures cycle integrity:</strong>
+When configured with whole numbers, it guarantees the animation always
+ends on the final keyframe or resting state.</li>
+<li><strong><code>repeatDur</code> prioritizes time
+constraints:</strong> It ensures the animation stops precisely at a time
+boundary, often leaving the animated element frozen mid-motion if the
+duration runs out before a cycle concludes.</li>
+</ul>
+<h3 id="behavior-when-duration-dur-changes">Behavior When Duration
+(<code>dur</code>) Changes</h3>
+<ul>
+<li>With <code>repeatCount</code>, changing the base animation duration
+(<code>dur="2s"</code> to <code>dur="4s"</code>) changes the overall
+active playback duration from 6 seconds to 12 seconds for
+<code>repeatCount="3"</code>.</li>
+<li>With <code>repeatDur="10s"</code>, changing <code>dur</code> alters
+only how many individual loops fit within that fixed 10-second window,
+keeping total runtime constant.</li>
+</ul>
+<h2 id="combining-repeatcount-and-repeatdur">Combining
+<code>repeatCount</code> and <code>repeatDur</code></h2>
+<p>When both <code>repeatCount</code> and <code>repeatDur</code> are
+defined on the same animation element, SMIL rules dictate that the
+active repetition period ends at whichever constraint is reached
+first.</p>
+<p>For example, consider an element with <code>dur="2s"</code>,
+<code>repeatCount="5"</code>, and <code>repeatDur="6s"</code>:</p>
+<ul>
+<li><code>repeatCount="5"</code> targets a total runtime of 10 seconds
+(5 cycles × 2 seconds).</li>
+<li><code>repeatDur="6s"</code> limits the runtime to 6 seconds.</li>
+</ul>
+<p>Because 6 seconds is shorter than 10 seconds, the animation stops
+repeating after 6 seconds (completing exactly 3 cycles).</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

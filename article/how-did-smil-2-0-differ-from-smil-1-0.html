@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Did SMIL 2.0 Differ from SMIL 1.0? - smil</title>
+    <meta name="description" content="The transition from Synchronized Multimedia Integration Language (SMIL) 1.0 to SMIL 2.0 represented a fundamental shift from a rigid, monolithic specification to a flexible, modular architecture. While SMIL 1.0 provided a straightforward syntax for synch">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-did-smil-2-0-differ-from-smil-1-0">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Did SMIL 2.0 Differ from SMIL 1.0? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-did-smil-2-0-differ-from-smil-1-0" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The transition from Synchronized Multimedia Integration Language (SMIL) 1.0 to SMIL 2.0 represented a fundamental shift from a rigid, monolithic specification to a flexible, modular architecture. While SMIL 1.0 provided a straightforward syntax for synch" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-did-smil-20-differ-from-smil-10">How Did SMIL 2.0 Differ
+from SMIL 1.0?</h1>
+<p>The transition from Synchronized Multimedia Integration Language
+(SMIL) 1.0 to SMIL 2.0 represented a fundamental shift from a rigid,
+monolithic specification to a flexible, modular architecture. While SMIL
+1.0 provided a straightforward syntax for synchronizing multimedia
+presentations in standalone players, SMIL 2.0 decoupled the language's
+core functional areas into discrete modules. This architectural overhaul
+allowed other XML standards to integrate specific SMIL components—such
+as timing, animation, or layout—without adopting the entire multimedia
+delivery stack.</p>
+<h3 id="modular-architecture-vs-monolithic-design">Modular Architecture
+vs. Monolithic Design</h3>
+<p>SMIL 1.0 was designed as a self-contained language. Its elements and
+attributes were defined in a unified Document Type Definition (DTD),
+making it difficult to extract individual capabilities for use in other
+host languages.</p>
+<p>In contrast, SMIL 2.0 broke the language down into functional modules
+grouped into several core domains:</p>
+<ul>
+<li><strong>Timing and Synchronization:</strong> Defines synchronization
+primitives, sequence containers, and event-based start/end
+conditions.</li>
+<li><strong>Content Control:</strong> Manages media test attributes and
+runtime feature evaluation.</li>
+<li><strong>Layout:</strong> Controls visual region positioning and
+sub-region placement.</li>
+<li><strong>Linking:</strong> Handles spatial and temporal hyperlinking
+semantics.</li>
+<li><strong>Media Objects:</strong> Specifies references to external
+media types, clipping, and rendering rules.</li>
+<li><strong>Animation:</strong> Introduces element-level property
+manipulation over time.</li>
+<li><strong>Transitions:</strong> Defines visual transitions such as
+wipes and fades.</li>
+</ul>
+<p>This modular structure allowed the World Wide Web Consortium (W3C)
+and third-party implementers to create tailored language profiles by
+combining select modules.</p>
+<h3 id="introduction-of-language-profiles">Introduction of Language
+Profiles</h3>
+<p>Because SMIL 1.0 offered only a single implementation model, hardware
+and software targets with varying resource constraints struggled with
+compliance. SMIL 2.0 resolved this through formal profiles that bundled
+specific module subsets:</p>
+<ol type="1">
+<li><strong>SMIL 2.0 Language Profile:</strong> The full, comprehensive
+specification intended for feature-rich desktop authoring tools and
+multimedia players.</li>
+<li><strong>SMIL 2.0 Basic Profile:</strong> A lightweight profile
+designed for resource-constrained environments, such as early mobile
+devices and embedded players, which formed the basis for mobile
+multimedia messaging (MMS).</li>
+<li><strong>Host-Language Profiles (e.g., SVG and XHTML+SMIL):</strong>
+Other specifications adopted modules independently. Scalable Vector
+Graphics (SVG), for example, directly incorporated SMIL 2.0 Animation
+modules to enable native vector transitions without requiring the rest
+of the SMIL playback environment.</li>
+</ol>
+<h3 id="advanced-temporal-and-event-based-timing">Advanced Temporal and
+Event-Based Timing</h3>
+<p>SMIL 1.0 relied largely on static temporal relationships defined by
+container structures like <code>&lt;seq&gt;</code> (sequential) and
+<code>&lt;par&gt;</code> (parallel), using predetermined offsets.</p>
+<p>SMIL 2.0 introduced a richer event-driven timing model. Key
+enhancements included:</p>
+<ul>
+<li><strong>Interactive Event Handling:</strong> Elements could trigger
+based on user inputs (such as clicks or mouse-overs) or system
+notifications.</li>
+<li><strong>Multi-Arc and Dynamic Sync:</strong> Elements could define
+multiple start and end times, allowing loops, pauses, dynamic restarts,
+and complex dependency graphs between media elements.</li>
+<li><strong>Time Manipulations:</strong> Authors could alter the
+perceived playback speed, reverse direction, or accelerate/decelerate
+individual timelines using temporal transformation attributes.</li>
+</ul>
+<h3 id="animation-and-transition-engines">Animation and Transition
+Engines</h3>
+<p>SMIL 1.0 lacked native animation mechanisms; any motion or visual
+transformation had to be baked directly into the source video or
+animated image files. SMIL 2.0 introduced dedicated animation
+elements—including <code>&lt;animate&gt;</code>,
+<code>&lt;animateMotion&gt;</code>, <code>&lt;animateColor&gt;</code>,
+and <code>&lt;set&gt;</code>—that enabled direct manipulation of target
+document attributes. This layer separated the visual content from its
+motion paths, reducing file sizes and improving rendering efficiency.
+Additionally, transition filters were standardized to control visual
+blending between scenes.</p>
+<h3 id="expanded-layout-and-media-control">Expanded Layout and Media
+Control</h3>
+<p>SMIL 1.0 provided a basic layout syntax modeled loosely after CSS
+positioning, primarily utilizing the <code>&lt;root-layout&gt;</code>
+and <code>&lt;region&gt;</code> elements. SMIL 2.0 expanded this
+architecture by adding hierarchical region nesting
+(<code>&lt;region&gt;</code> within <code>&lt;region&gt;</code>),
+sub-region positioning, and support for multi-window presentation
+targets. Audio layout capabilities were also introduced to control
+playback volumes and sound panning across independent channels.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

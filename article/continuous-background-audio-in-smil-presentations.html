@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continuous Background Audio in SMIL Presentations - smil</title>
+    <meta name="description" content="This article explains how Synchronized Multimedia Integration Language (SMIL) enables continuous background audio playback while cycling through multiple visual slides. By combining SMIL's parallel (<par>) and sequential (<seq>) temporal containers, auth">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/continuous-background-audio-in-smil-presentations">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Continuous Background Audio in SMIL Presentations - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/continuous-background-audio-in-smil-presentations" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how Synchronized Multimedia Integration Language (SMIL) enables continuous background audio playback while cycling through multiple visual slides. By combining SMIL's parallel (<par>) and sequential (<seq>) temporal containers, auth" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="continuous-background-audio-in-smil-presentations">Continuous
+Background Audio in SMIL Presentations</h1>
+<p>This article explains how Synchronized Multimedia Integration
+Language (SMIL) enables continuous background audio playback while
+cycling through multiple visual slides. By combining SMIL's parallel
+(<code>&lt;par&gt;</code>) and sequential (<code>&lt;seq&gt;</code>)
+temporal containers, authors can decouple audio playback from individual
+slide lifecycles, ensuring an uninterrupted soundtrack across an entire
+presentation.</p>
+<p>In SMIL, managing media timing relies on structuring temporal
+containers. When a presentation requires audio to persist across
+multiple visual transitions, the audio track and the sequence of slides
+must run concurrently in a parent parallel container.</p>
+<h3 id="the-structural-pattern">The Structural Pattern</h3>
+<p>To achieve continuous background audio, place the
+<code>&lt;audio&gt;</code> element and a <code>&lt;seq&gt;</code>
+container as sibling elements inside a top-level
+<code>&lt;par&gt;</code> element:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">par</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Background Audio playing continuously --&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;background-music.mp3&quot;</span> <span class="ot">dur=</span><span class="st">&quot;60s&quot;</span> /&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Visual slides advancing in sequence --&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">seq</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;slide1.jpg&quot;</span> <span class="ot">dur=</span><span class="st">&quot;15s&quot;</span> /&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;slide2.jpg&quot;</span> <span class="ot">dur=</span><span class="st">&quot;15s&quot;</span> /&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;slide3.jpg&quot;</span> <span class="ot">dur=</span><span class="st">&quot;15s&quot;</span> /&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;slide4.jpg&quot;</span> <span class="ot">dur=</span><span class="st">&quot;15s&quot;</span> /&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">seq</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">par</span>&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<h3 id="key-components">Key Components</h3>
+<ul>
+<li><strong>The <code>&lt;par&gt;</code> Container:</strong> Instructs
+the player to start both the background audio and the visual timeline
+simultaneously at the beginning of the presentation.</li>
+<li><strong>The <code>&lt;seq&gt;</code> Container:</strong> Groups
+visual elements (such as <code>&lt;img&gt;</code>,
+<code>&lt;video&gt;</code>, or <code>text</code>) and displays them one
+after another in order. Each element dictates its own display duration
+using the <code>dur</code> attribute without interrupting sibling tracks
+in the outer <code>&lt;par&gt;</code>.</li>
+<li><strong>The <code>&lt;audio&gt;</code> Element:</strong> Operates
+independently of the nested <code>&lt;seq&gt;</code>. Its duration can
+match the total presentation time, or it can use attributes like
+<code>repeatCount="indefinite"</code> to loop continuously until the
+visual sequence concludes.</li>
+</ul>
+<h3 id="synchronization-control">Synchronization Control</h3>
+<p>To handle mismatches between the duration of the audio and the visual
+slides, SMIL provides the <code>endsync</code> attribute on the parent
+<code>&lt;par&gt;</code> element:</p>
+<ul>
+<li><code>endsync="first"</code> terminates the entire presentation as
+soon as either the audio or the slide sequence finishes.</li>
+<li><code>endsync="last"</code> ensures playback continues until all
+child tracks—both the audio and the complete sequence of slides—have
+ended.</li>
+<li><code>endsync="id(slideSequence)"</code> forces the entire
+presentation, including the audio, to cut off precisely when the
+specified slide sequence finishes.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

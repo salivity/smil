@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Management and ICC Profiles in SMIL Regions - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) orchestrates multimedia timing and spatial layout across visual regions, but it does not define a dedicated, native color management architecture or explicit ICC profile tag. Instead, SMIL relies on sta">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/color-management-and-icc-profiles-in-smil-regions">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Color Management and ICC Profiles in SMIL Regions - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/color-management-and-icc-profiles-in-smil-regions" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) orchestrates multimedia timing and spatial layout across visual regions, but it does not define a dedicated, native color management architecture or explicit ICC profile tag. Instead, SMIL relies on sta" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="color-management-and-icc-profiles-in-smil-regions">Color
+Management and ICC Profiles in SMIL Regions</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) orchestrates
+multimedia timing and spatial layout across visual regions, but it does
+not define a dedicated, native color management architecture or explicit
+ICC profile tag. Instead, SMIL relies on standard color
+spaces—predominantly sRGB—for structural layout elements, while
+delegating ICC profile parsing and color rendering to the underlying
+media decoders and host playback engines.</p>
+<h3 id="region-level-color-specifications">Region-Level Color
+Specifications</h3>
+<p>Visual layouts in SMIL are defined using elements such as
+<code>&lt;layout&gt;</code>, <code>&lt;root-layout&gt;</code>,
+<code>&lt;topLayout&gt;</code>, and <code>&lt;region&gt;</code>.
+Stylistic visual properties applied to these structural containers, most
+notably the <code>backgroundColor</code> attribute, adhere to standard
+web color definitions (hexadecimal values, RGB values, or predefined CSS
+color names).</p>
+<p>SMIL specifications do not provide syntax to attach an ICC
+(International Color Consortium) profile to a
+<code>&lt;region&gt;</code> or <code>&lt;topLayout&gt;</code> container.
+Consequently, region backgrounds and default canvas areas are rendered
+directly within the sRGB color space, assuming the standard gamma and
+chromaticities common to web display environments.</p>
+<h3 id="icc-handling-in-embedded-media">ICC Handling in Embedded
+Media</h3>
+<p>While SMIL structural regions lack native ICC profile definitions,
+color management for visual media placed <em>inside</em> these
+regions—such as elements declared via
+<code>&lt;img src="..." /&gt;</code> or
+<code>&lt;video src="..." /&gt;</code>—is handled at the media-stream
+level:</p>
+<ul>
+<li><strong>Embedded Profiles:</strong> If an image format (such as
+JPEG, PNG, or TIFF) contains an embedded ICC profile, the SMIL player's
+media decoding subsystem is responsible for reading the profile
+header.</li>
+<li><strong>Decoder Delegation:</strong> SMIL acts as a synchronization
+and layout framework, not a raster graphics pipeline. It passes the
+media object to the corresponding platform codec, which translates the
+embedded color profile to the target display space.</li>
+<li><strong>Unprofiled Assets:</strong> Media files lacking embedded
+profiles are mapped directly using sRGB fallback rules to maintain
+consistency with the surrounding region's background color.</li>
+</ul>
+<h3 id="compositing-across-visual-regions">Compositing Across Visual
+Regions</h3>
+<p>When multiple visual regions overlap or sit adjacently on the SMIL
+canvas, maintaining color fidelity requires proper engine-level
+compositing:</p>
+<ol type="1">
+<li><strong>Color Space Mismatch:</strong> If an image utilizing an
+Adobe RGB (1998) or Display P3 profile is placed inside a region
+adjacent to an unmanaged sRGB background, the SMIL presentation engine
+must convert both to the display device's output profile to avoid
+visible shifts or gamut clipping.</li>
+<li><strong>Alpha Compositing:</strong> Region transparency (using
+<code>backgroundOpacity</code> or alpha-channel media overlays) is
+computed during the layout engine's rasterization phase. If the engine
+lacks full color management, blending untagged region backgrounds with
+wide-gamut media can cause tone distortion at transparent
+boundaries.</li>
+</ol>
+<h3 id="bridging-advanced-profiles-via-svg">Bridging Advanced Profiles
+via SVG</h3>
+<p>For workflows requiring rigorous, XML-driven color fidelity across
+layout regions, SMIL is frequently paired with Scalable Vector Graphics
+(SVG). Unlike pure SMIL, SVG provides specific color management
+mechanisms, such as the <code>&lt;color-profile&gt;</code> element and
+support for the ICC-named color syntax (<code>icc-color()</code>). In
+hybrid environments, SVG provides the color-managed vector canvas and
+ICC definitions, while SMIL provides the temporal scheduling and
+synchronization directives across the visual regions.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

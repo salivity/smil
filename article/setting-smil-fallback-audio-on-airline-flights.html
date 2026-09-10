@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setting SMIL Fallback Audio on Airline Flights - smil</title>
+    <meta name="description" content="In-flight entertainment (IFE) systems rely on Synchronized Multimedia Integration Language (SMIL) to orchestrate multimedia presentation, dynamically matching passenger language preferences with available media streams. The primary mechanism for setting">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/setting-smil-fallback-audio-on-airline-flights">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Setting SMIL Fallback Audio on Airline Flights - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/setting-smil-fallback-audio-on-airline-flights" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In-flight entertainment (IFE) systems rely on Synchronized Multimedia Integration Language (SMIL) to orchestrate multimedia presentation, dynamically matching passenger language preferences with available media streams. The primary mechanism for setting" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="setting-smil-fallback-audio-on-airline-flights">Setting SMIL
+Fallback Audio on Airline Flights</h1>
+<p>In-flight entertainment (IFE) systems rely on Synchronized Multimedia
+Integration Language (SMIL) to orchestrate multimedia presentation,
+dynamically matching passenger language preferences with available media
+streams. The primary mechanism for setting fallback audio languages
+within SMIL involves using the <code>&lt;switch&gt;</code> element
+combined with sequential <code>systemLanguage</code> test attributes.
+When a passenger's requested language is missing, the player parses down
+the ordered list of alternatives until it reaches a designated default
+track, ensuring continuous audio playback without system failure.</p>
+<h3 id="the-smil-switch-element-hierarchy">The SMIL
+<code>&lt;switch&gt;</code> Element Hierarchy</h3>
+<p>In standard airline IFE specifications, audio and video streams are
+separated to optimize storage and allow multi-language support for a
+single video asset. The core selection logic resides within SMIL’s
+<code>&lt;switch&gt;</code> construct.</p>
+<p>When a media package initializes, the playback engine evaluates each
+child element inside the <code>&lt;switch&gt;</code> block sequentially
+from top to bottom. The first child element whose test condition
+evaluates to <code>true</code> is rendered, while all subsequent child
+elements are ignored.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span> <span class="ot">version=</span><span class="st">&quot;3.0&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">par</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;movie_video.mp4&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">switch</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Passenger preferred language match --&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;audio_ja.mp4&quot;</span> <span class="ot">systemLanguage=</span><span class="st">&quot;ja&quot;</span> /&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Secondary airline regional fallback --&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;audio_fr.mp4&quot;</span> <span class="ot">systemLanguage=</span><span class="st">&quot;fr&quot;</span> /&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Final default fallback --&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;audio_en.mp4&quot;</span> /&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">switch</span>&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">par</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<h3 id="evaluation-of-systemlanguage-attributes">Evaluation of
+<code>systemLanguage</code> Attributes</h3>
+<p>The <code>systemLanguage</code> attribute specifies one or more
+language tags (conforming to BCP 47/RFC 5646 codes, such as
+<code>en</code>, <code>es</code>, or <code>zh-CN</code>).</p>
+<ol type="1">
+<li><strong>User Preference Query:</strong> When a passenger selects an
+interface language on their seatback screen, the IFE operating system
+sets a local environment variable denoting user preference.</li>
+<li><strong>Conditional Matching:</strong> The SMIL processor checks
+this local variable against the <code>systemLanguage</code> values
+defined on the <code>&lt;audio&gt;</code> tracks.</li>
+<li><strong>Exact and Subtag Matching:</strong> If a passenger selects
+<code>en-US</code> and a track is tagged <code>en</code>, the engine
+accepts the match. If the requested tag is not present, the evaluation
+fails for that specific node and moves to the next node.</li>
+</ol>
+<h3 id="the-fallback-catch-all-pattern">The Fallback Catch-All
+Pattern</h3>
+<p>The standard method to prevent silence when a preferred language
+track is unavailable is the terminal child pattern:</p>
+<ul>
+<li><strong>Omission of Test Attributes:</strong> The final
+<code>&lt;audio&gt;</code> tag inside the <code>&lt;switch&gt;</code>
+container deliberately omits the <code>systemLanguage</code>
+attribute.</li>
+<li><strong>Guaranteed Execution:</strong> In SMIL semantics, an element
+within a <code>&lt;switch&gt;</code> that has no test attributes
+automatically evaluates to <code>true</code>. Because the engine
+processes top-down, this track only executes if every preceding language
+test fails.</li>
+<li><strong>Industry Standard Defaults:</strong> For commercial
+aviation, this final catch-all stream is almost universally configured
+as English, or the primary national language of the airline's flag
+carrier.</li>
+</ul>
+<h3 id="multi-tiered-fallback-strategies">Multi-Tiered Fallback
+Strategies</h3>
+<p>Airlines operating global routes often employ multi-tiered fallback
+strategies rather than a single default. This is handled by chaining
+language codes within attributes or nesting rules:</p>
+<ul>
+<li><strong>Regional Chaining:</strong> Setting
+<code>systemLanguage="es, pt"</code> ensures that Portuguese acts as an
+immediate fallback for Spanish speakers before defaulting to
+English.</li>
+<li><strong>Route-Based Priority:</strong> Flight management data can
+dynamically inject flight-phase or route-specific configurations,
+altering which language tracks appear higher in the
+<code>&lt;switch&gt;</code> hierarchy depending on origin and
+destination pairings.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

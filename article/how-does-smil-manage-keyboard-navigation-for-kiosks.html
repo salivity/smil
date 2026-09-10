@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does SMIL Manage Keyboard Navigation for Kiosks? - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) provides native structural elements and attributes designed to handle non-pointer, keyboard-driven navigation across interactive presentations and public terminal displays. By combining deterministic fo">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-smil-manage-keyboard-navigation-for-kiosks">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does SMIL Manage Keyboard Navigation for Kiosks? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-smil-manage-keyboard-navigation-for-kiosks" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) provides native structural elements and attributes designed to handle non-pointer, keyboard-driven navigation across interactive presentations and public terminal displays. By combining deterministic fo" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-smil-manage-keyboard-navigation-for-kiosks">How Does
+SMIL Manage Keyboard Navigation for Kiosks?</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) provides native
+structural elements and attributes designed to handle non-pointer,
+keyboard-driven navigation across interactive presentations and public
+terminal displays. By combining deterministic focus ordering, temporal
+event listeners, and dedicated keyboard shortcuts, SMIL enables
+accessible multimedia playback and reliable navigation on physical
+hardware interfaces such as self-service kiosks, digital signage, and
+assistive keypad devices.</p>
+<h2 id="focus-management-and-logical-tabbing-order">Focus Management and
+Logical Tabbing Order</h2>
+<p>Interactive SMIL applications rely on focusable link elements—such as
+<code>&lt;a&gt;</code> and <code>&lt;area&gt;</code>—to define navigable
+interactive zones across temporal media. To ensure predictable
+navigation without a mouse or touch interface, SMIL incorporates the
+<code>tabindex</code> attribute.</p>
+<p>The <code>tabindex</code> attribute assigns an explicit sequential
+order to focusable items on the screen. When a user presses the Tab or
+directional navigation keys on an assistive keypad, the user agent
+shifts visual focus according to these numerical values rather than the
+physical rendering order. In interactive kiosks, this guarantees that
+users navigating via hardware buttons traverse menus, form options, and
+multimedia controls in a logical, top-to-bottom or priority-based
+sequence.</p>
+<h2 id="direct-input-mapping-with-access-keys">Direct Input Mapping with
+Access Keys</h2>
+<p>For rapid selection in kiosk environments and assistive accessibility
+contexts, SMIL implements shortcut mapping via the
+<code>accesskey</code> attribute and <code>accessKey()</code> timing
+specifiers.</p>
+<p>Assigning an <code>accesskey</code> to an interactive element binds
+direct alphanumeric or function key inputs to that action. In assistive
+hardware devices—such as ADA-compliant numeric keypads, tactile
+navigation bars, or audio-nav units—pressing a designated physical key
+directly activates the corresponding SMIL link or triggers an
+interactive sequence. This eliminates the need for sequential tabbing
+through complex visual layouts for users with visual impairments or
+limited motor dexterity.</p>
+<h2 id="time-synchronized-keyboard-event-triggers">Time-Synchronized
+Keyboard Event Triggers</h2>
+<p>SMIL synchronizes user input directly with multimedia timelines using
+declarative event-based timing. Elements can start, pause, resume, or
+terminate based on keyboard events specified in timing attributes like
+<code>begin</code> and <code>end</code>:</p>
+<ul>
+<li><strong>Direct Key Activations:</strong> Attributes such as
+<code>begin="accessKey(1)"</code> allow a media track, video chapter, or
+audio narration to trigger the instant a user presses key
+<code>1</code>.</li>
+<li><strong>Temporal Sensitivity:</strong> SMIL only accepts keyboard
+events during the active duration of the parent time container (such as
+<code>&lt;par&gt;</code>, <code>&lt;seq&gt;</code>, or
+<code>&lt;excl&gt;</code>). This prevents stale or out-of-context
+keystrokes from breaking the kiosk state machine.</li>
+<li><strong>Exclusive Interaction:</strong> Using the
+<code>&lt;excl&gt;</code> container ensures that when a new
+keyboard-triggered selection starts, conflicting interactive branches or
+previous media playouts pause or stop automatically.</li>
+</ul>
+<h2 id="multi-modal-accessibility-and-screen-readers">Multi-Modal
+Accessibility and Screen Readers</h2>
+<p>SMIL addresses digital accessibility standards by separating media
+tracks into alternative synchronized streams. When combined with
+keyboard navigation, SMIL allows interactive kiosks to switch
+dynamically between high-contrast visual presentations, closed captions,
+and spoken audio descriptions.</p>
+<p>When headphones or assistive audio jacks are detected on an
+interactive terminal, SMIL event bindings can trigger spoken audio menus
+synchronized with keypad presses, providing a fully independent,
+accessible experience without relying on visual feedback or standard
+touch screens.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

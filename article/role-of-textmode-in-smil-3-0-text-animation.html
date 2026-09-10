@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role of textMode in SMIL 3.0 Text Animation - smil</title>
+    <meta name="description" content="This article provides an overview of the textMode attribute in SMIL 3.0, explaining how it dictates dynamic rendering behaviors for timed text presentations. It examines the functional values of textMode—including replace, append, scroll, and crawl—a">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/role-of-textmode-in-smil-3-0-text-animation">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Role of textMode in SMIL 3.0 Text Animation - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/role-of-textmode-in-smil-3-0-text-animation" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of the textMode attribute in SMIL 3.0, explaining how it dictates dynamic rendering behaviors for timed text presentations. It examines the functional values of textMode—including replace, append, scroll, and crawl—a" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="role-of-textmode-in-smil-30-text-animation">Role of textMode in
+SMIL 3.0 Text Animation</h1>
+<p>This article provides an overview of the <code>textMode</code>
+attribute in SMIL 3.0, explaining how it dictates dynamic rendering
+behaviors for timed text presentations. It examines the functional
+values of <code>textMode</code>—including replace, append, scroll, and
+crawl—and details how this attribute simplifies synchronized multimedia
+authoring by automating motion, replacement, and spatial rendering
+within SMIL text regions.</p>
+<p>In the SMIL 3.0 (Synchronized Multimedia Integration Language)
+specification, text animation is managed primarily through the SMILtext
+module. Within this module, the <code>textMode</code> attribute governs
+how text appears, transitions, and interacts with existing content
+inside a designated presentation region over time. Instead of requiring
+authors to manually code motion trajectories or coordinate changes using
+transform matrices, <code>textMode</code> provides high-level control
+over the mechanical display behavior of timed text streams.</p>
+<p>The <code>textMode</code> attribute supports several key values that
+configure dynamic display behavior:</p>
+<ul>
+<li><strong><code>replace</code></strong>: This is the default
+presentation state. When new text is scheduled to display, it clears and
+overwrites any existing text within the target region. This setting is
+optimal for subtitles, closed captions, and static slide translations
+where distinct temporal phrases must be isolated from one another.</li>
+<li><strong><code>append</code></strong>: New text entries are added
+sequentially to the current content within the region without clearing
+what was previously displayed. This is suited for transcriptions, chat
+logs, or cumulative captioning where retaining preceding conversational
+context is necessary.</li>
+<li><strong><code>scroll</code></strong>: Text is animated vertically
+across the viewport, entering from one edge and exiting the opposite
+edge. SMIL players automatically calculate the movement velocity based
+on the designated duration (<code>dur</code>) and container height,
+making it the standard configuration for film-style closing credits,
+teleprompters, or lyric rolls.</li>
+<li><strong><code>crawl</code></strong>: Text moves continuously along a
+horizontal path across the target display area. Similar to a news ticker
+or stock marquee, the animation pacing is synchronized with playback
+timing constraints to ensure smooth, automated horizontal translation
+across the display bounds.</li>
+</ul>
+<p>Beyond defining presentation aesthetics, <code>textMode</code> plays
+a vital role in simplifying document architecture. In traditional SMIL
+animation, moving text requires pairing <code>&lt;text&gt;</code>
+elements with motion paths using tags such as
+<code>&lt;animate&gt;</code> or <code>&lt;animateMotion&gt;</code>,
+manually mapping pixel offsets against timeline keyframes. By declaring
+<code>textMode="scroll"</code> or <code>textMode="crawl"</code> directly
+on the <code>&lt;smilText&gt;</code> container, the rendering engine
+handles overflow, clipping bounds, and motion progression natively.</p>
+<p>Furthermore, <code>textMode</code> interacts directly with timing
+attributes like <code>dur</code>, <code>repeatCount</code>, and temporal
+boundaries set across parallel (<code>&lt;par&gt;</code>) or sequential
+(<code>&lt;seq&gt;</code>) containers. When a duration is assigned to an
+element configured with continuous text modes, the SMIL user agent
+interpolates the movement smoothly over that exact interval, ensuring
+text transitions maintain frame-accurate synchronization with
+accompanying audio and video tracks.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

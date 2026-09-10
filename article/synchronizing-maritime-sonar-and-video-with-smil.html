@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synchronizing Maritime Sonar and Video with SMIL - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) provides an XML-based framework that allows maritime navigation displays to align, coordinate, and present disparate data streams on a single interface. Modern marine vessels rely heavily on combining a">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/synchronizing-maritime-sonar-and-video-with-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Synchronizing Maritime Sonar and Video with SMIL - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/synchronizing-maritime-sonar-and-video-with-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) provides an XML-based framework that allows maritime navigation displays to align, coordinate, and present disparate data streams on a single interface. Modern marine vessels rely heavily on combining a" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="synchronizing-maritime-sonar-and-video-with-smil">Synchronizing
+Maritime Sonar and Video with SMIL</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) provides an
+XML-based framework that allows maritime navigation displays to align,
+coordinate, and present disparate data streams on a single interface.
+Modern marine vessels rely heavily on combining acoustic data from sonar
+systems with optical data from surface or underwater cameras. SMIL
+orchestrates these different media formats along a unified timeline,
+ensuring that acoustic anomalies and visual camera feeds are spatially
+and temporally synchronized for enhanced situational awareness and
+collision avoidance.</p>
+<h3
+id="temporal-synchronization-across-different-refresh-rates">Temporal
+Synchronization Across Different Refresh Rates</h3>
+<p>Sonar systems and video cameras capture reality at vastly different
+speeds. While high-definition optical video streams standard frame rates
+between 30 and 60 frames per second, sonar systems operate on acoustic
+pings dictated by the speed of sound through water, generating much
+slower, variable data updates.</p>
+<p>SMIL resolves this discrepancy by functioning as a time-based
+coordinator. Using elements such as <code>&lt;par&gt;</code> (parallel
+execution) and <code>&lt;seq&gt;</code> (sequential execution), along
+with precise timing attributes (<code>begin</code>, <code>dur</code>,
+<code>syncbase</code>), SMIL maps each incoming sonar return to the
+exact corresponding video timestamp. This real-time temporal alignment
+ensures that when an operator reviews recorded mission data or inspects
+a live feed, the acoustic reflection of a subsea obstacle accurately
+matches its optical visual counterpart without latency drift.</p>
+<h3 id="spatial-layout-and-multi-pane-display-management">Spatial Layout
+and Multi-Pane Display Management</h3>
+<p>Bridge navigation consoles and subsea remotely operated vehicle (ROV)
+workstations frequently rely on Multi-Function Displays (MFDs).
+Navigators require the flexibility to view raw sonar sweeps, 3D
+bathymetric point clouds, and live optical video either side-by-side or
+as composite overlays.</p>
+<p>SMIL defines spatial presentation through its
+<code>&lt;layout&gt;</code> and <code>&lt;region&gt;</code> elements.
+This allows navigation software to:</p>
+<ul>
+<li>Assign video and sonar feeds to dedicated, responsive quadrants on
+the operator's display.</li>
+<li>Dynamically resize or reposition feeds based on operational context,
+such as docking or deep-sea navigation.</li>
+<li>Control the z-index (stacking order) and transparency of visual
+elements, enabling operators to overlay semi-transparent sonar target
+tracks directly on top of forward-facing optical camera feeds.</li>
+</ul>
+<h3 id="event-driven-interaction-and-alert-systems">Event-Driven
+Interaction and Alert Systems</h3>
+<p>Maritime navigation operates under dynamic conditions where hazard
+detection requires immediate alert coordination. SMIL provides an
+event-handling model that links sensor triggers to the graphical
+interface.</p>
+<p>If forward-looking sonar identifies an underwater hazard within a
+preset safety perimeter, a system-generated event can signal the SMIL
+presentation to trigger visual cues. For instance, the interface can
+highlight the sonar contact, automatically switch the primary display
+region to an optical low-light or thermal camera tracking the obstacle,
+and begin recording the synchronized sequence for after-action
+review.</p>
+<h3 id="lightweight-and-cross-platform-standardization">Lightweight and
+Cross-Platform Standardization</h3>
+<p>Marine electronics often integrate hardware and software from
+multiple vendors, creating challenges for proprietary display protocols.
+Because SMIL is a lightweight, declarative XML standard, it introduces
+minimal processing overhead to embedded navigation systems. It acts as
+an open, hardware-agnostic specification layer, allowing bridge systems
+to interpret, record, and replay synchronized sonar and video streams
+across diverse onboard computer networks without requiring costly,
+proprietary rendering middleware.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

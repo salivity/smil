@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPUB 3 Media Overlays and SMIL 3.0 Timing Syntax - smil</title>
+    <meta name="description" content="EPUB 3 Media Overlays enable synchronized narration and text highlighting in digital publications by adopting a tailored subset of the W3C Synchronized Multimedia Integration Language (SMIL) 3.0. Rather than implementing the full, complex SMIL specificat">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/epub-3-media-overlays-and-smil-3-0-timing-syntax">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="EPUB 3 Media Overlays and SMIL 3.0 Timing Syntax - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/epub-3-media-overlays-and-smil-3-0-timing-syntax" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="EPUB 3 Media Overlays enable synchronized narration and text highlighting in digital publications by adopting a tailored subset of the W3C Synchronized Multimedia Integration Language (SMIL) 3.0. Rather than implementing the full, complex SMIL specificat" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="epub-3-media-overlays-and-smil-30-timing-syntax">EPUB 3 Media
+Overlays and SMIL 3.0 Timing Syntax</h1>
+<p>EPUB 3 Media Overlays enable synchronized narration and text
+highlighting in digital publications by adopting a tailored subset of
+the W3C Synchronized Multimedia Integration Language (SMIL) 3.0. Rather
+than implementing the full, complex SMIL specification, EPUB 3 relies
+primarily on SMIL 3.0's Timing and Synchronization module alongside
+select media elements. This integration creates a deterministic, linear
+timeline that matches recorded audio to distinct DOM fragments within
+XHTML documents.</p>
+<h3 id="the-smil-30-structural-model-in-epub-3">The SMIL 3.0 Structural
+Model in EPUB 3</h3>
+<p>Media Overlays use SMIL documents (files with a <code>.smil</code>
+extension) structured strictly around two fundamental SMIL 3.0 temporal
+containers: <code>&lt;seq&gt;</code> and <code>&lt;par&gt;</code>.</p>
+<ul>
+<li><strong><code>&lt;seq&gt;</code> (Sequence):</strong> Represents
+elements played in chronological succession. In EPUB 3, the root
+container is typically a <code>&lt;seq&gt;</code> element that maps to
+the sequential reading order of the corresponding EPUB Content
+Document.</li>
+<li><strong><code>&lt;par&gt;</code> (Parallel):</strong> Groups media
+objects that must play simultaneously. Each <code>&lt;par&gt;</code>
+represents a discrete synchronization point, typically containing
+exactly one visual reference (<code>&lt;text&gt;</code>) and one audio
+reference (<code>&lt;audio&gt;</code>).</li>
+</ul>
+<p>When a Reading System reaches a <code>&lt;par&gt;</code> block, it
+executes both child elements concurrently: the audio plays while the
+targeted textual element is highlighted.</p>
+<h3 id="timing-syntax-and-clock-values">Timing Syntax and Clock
+Values</h3>
+<p>SMIL 3.0 timing in EPUB 3 is defined using temporal clipping
+attributes on the <code>&lt;audio&gt;</code> element:
+<code>clipBegin</code> and <code>clipEnd</code>. These attributes
+specify the exact temporal segment of an external audio file assigned to
+that synchronization unit.</p>
+<p>EPUB 3 conforms directly to the SMIL 3.0 Clock Values syntax for
+these attributes. Clock values can be expressed in three primary
+formats:</p>
+<ol type="1">
+<li><strong>Full-Clock Values:</strong> Composed of hours, minutes,
+seconds, and optional fractions of a second formatted as
+<code>hh:mm:ss[.fraction]</code> (e.g.,
+<code>clipBegin="00:01:23.450"</code>).</li>
+<li><strong>Partial-Clock Values:</strong> Composed of minutes, seconds,
+and optional fractions formatted as <code>mm:ss[.fraction]</code> (e.g.,
+<code>clipEnd="01:28.125"</code>).</li>
+<li><strong>Timecount Values:</strong> Expressed as a raw number
+followed by an optional metric unit:
+<ul>
+<li>Seconds: <code>12.5s</code></li>
+<li>Milliseconds: <code>12500ms</code></li>
+<li>Default (unitless numbers are interpreted as seconds):
+<code>12.5</code></li>
+</ul></li>
+</ol>
+<p>If <code>clipBegin</code> is omitted, playback starts at the
+beginning of the audio file (<code>0s</code>). If <code>clipEnd</code>
+is omitted, playback continues until the physical end of the media
+resource.</p>
+<h3 id="granular-mapping-with-uri-fragment-identifiers">Granular Mapping
+with URI Fragment Identifiers</h3>
+<p>The timing defined by SMIL 3.0 clock values coordinates with the
+layout engine via URI references. The <code>&lt;text&gt;</code> element
+contains a <code>src</code> attribute targeting an XHTML element's
+unique <code>id</code> through a fragment identifier (e.g.,
+<code>&lt;text src="chapter1.xhtml#sentence-1" /&gt;</code>).</p>
+<p>The playback engine synchronizes the audio segment bounded by
+<code>clipBegin</code> and <code>clipEnd</code> to the visual rendering
+of the target element. As the audio playback time progresses between
+these offsets, the reading system applies styling (such as a highlight
+class defined in the package metadata) to that specific DOM node.</p>
+<h3 id="constraints-on-full-smil-30">Constraints on Full SMIL 3.0</h3>
+<p>To ensure lightweight parsing and predictable rendering across
+dedicated e-readers and mobile devices, EPUB 3 explicitly restricts
+several advanced SMIL 3.0 timing capabilities:</p>
+<ul>
+<li><strong>No Non-Linear Timing:</strong> Event-based triggers (such as
+<code>begin="id.click"</code>), interactive timing, and dynamic run-time
+adjustments are omitted.</li>
+<li><strong>No Nested Parallel Containers:</strong> Complex layouts with
+nested <code>&lt;par&gt;</code> elements running concurrent audio
+channels or overlapping text highlights are disallowed.</li>
+<li><strong>Strict Linearity:</strong> The document timeline must be
+deterministic, preventing cyclic timing loops, conditional execution
+(<code>&lt;switch&gt;</code>), and indeterminate durations
+(<code>dur="indefinite"</code>).</li>
+</ul>
+<p>By implementing a well-defined subset of SMIL 3.0 timing syntax, EPUB
+3 delivers synchronized audio-e-book experiences with precise temporal
+control while avoiding the complexity of a full-scale multimedia runtime
+engine.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

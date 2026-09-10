@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does the endsync Attribute Work in SMIL? - smil</title>
+    <meta name="description" content="The endsync attribute in Synchronized Multimedia Integration Language (SMIL) controls the active duration and synchronization semantics of a parallel container (<par>). By defining whether the container finishes when its first child ends, when all childr">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-the-endsync-attribute-work-in-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does the endsync Attribute Work in SMIL? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-the-endsync-attribute-work-in-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The endsync attribute in Synchronized Multimedia Integration Language (SMIL) controls the active duration and synchronization semantics of a parallel container (<par>). By defining whether the container finishes when its first child ends, when all childr" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-the-endsync-attribute-work-in-smil">How Does the
+endsync Attribute Work in SMIL?</h1>
+<p>The <code>endsync</code> attribute in Synchronized Multimedia
+Integration Language (SMIL) controls the active duration and
+synchronization semantics of a parallel container
+(<code>&lt;par&gt;</code>). By defining whether the container finishes
+when its first child ends, when all children finish, or when a specific
+designated child completes, <code>endsync</code> resolves how concurrent
+media tracks with differing durations interact within a single
+timeline.</p>
+<h2 id="purpose-of-the-endsync-attribute">Purpose of the endsync
+Attribute</h2>
+<p>In SMIL, a <code>&lt;par&gt;</code> element groups multiple
+multimedia elements—such as audio, video, text, and animations—to play
+concurrently. Because different media items frequently have distinct
+intrinsic or declared durations, the container requires explicit rules
+to govern its endpoint.</p>
+<p>When an explicit container duration (<code>dur</code>) or fixed
+container end condition (<code>end</code>) is not supplied, the
+<code>endsync</code> attribute dictates which child element's implicit
+or explicit end triggers the end of the entire parallel container. Once
+the selected condition is met, the container concludes, and any
+currently playing sibling elements inside that container are forced to
+terminate.</p>
+<h2 id="supported-values-and-semantics">Supported Values and
+Semantics</h2>
+<p>The SMIL specification defines several standard values for the
+<code>endsync</code> attribute:</p>
+<ul>
+<li><strong><code>endsync="last"</code> (Default):</strong> The
+container ends when the last active child element reaches its natural or
+declared end. If one child lasts 5 seconds and another lasts 15 seconds,
+the container terminates at 15 seconds.</li>
+<li><strong><code>endsync="first"</code>:</strong> The container ends
+immediately when the first child element finishes. Any remaining active
+child elements are immediately cut short and stopped.</li>
+<li><strong><code>endsync="all"</code>:</strong> The container ends when
+all child elements have ended their active durations. In scenarios with
+simple static durations, this behaves similarly to <code>last</code>,
+but it handles dynamically resolved endpoints where all streams must
+register completion.</li>
+<li>**<code>endsync="Id-value"</code> /
+<code>endsync="id(...)":**</code> The container synchronizes its ending
+to a specific child element referenced by its XML <code>id</code>.
+Regardless of whether other siblings finish earlier or later, the
+container finishes exactly when the designated element concludes.</li>
+</ul>
+<h2 id="interaction-with-child-durations">Interaction with Child
+Durations</h2>
+<p>The <code>endsync</code> evaluation takes place in real time during
+presentation playback:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">par</span> <span class="ot">endsync=</span><span class="st">&quot;first&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">video</span> <span class="ot">id=</span><span class="st">&quot;mainVideo&quot;</span> <span class="ot">src=</span><span class="st">&quot;clip.mp4&quot;</span> <span class="ot">dur=</span><span class="st">&quot;10s&quot;</span> /&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">audio</span> <span class="ot">id=</span><span class="st">&quot;bgMusic&quot;</span> <span class="ot">src=</span><span class="st">&quot;music.mp3&quot;</span> <span class="ot">dur=</span><span class="st">&quot;30s&quot;</span> /&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">par</span>&gt;</span></code></pre></div>
+<p>In this example, the audio track has a declared duration of 30
+seconds, but the video lasts only 10 seconds. Because
+<code>endsync</code> is set to <code>first</code>, the conclusion of
+<code>mainVideo</code> at the 10-second mark causes the entire
+<code>&lt;par&gt;</code> block to end, halting <code>bgMusic</code>
+prematurely at 10 seconds.</p>
+<p>Conversely, referencing an explicit ID allows critical elements to
+drive timeline progression:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">par</span> <span class="ot">endsync=</span><span class="st">&quot;masterAudio&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;ambient.mp4&quot;</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">audio</span> <span class="ot">id=</span><span class="st">&quot;masterAudio&quot;</span> <span class="ot">src=</span><span class="st">&quot;narration.mp3&quot;</span> <span class="ot">dur=</span><span class="st">&quot;12s&quot;</span> /&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">par</span>&gt;</span></code></pre></div>
+<p>Even though the ambient background video is configured to repeat
+indefinitely, the container terminates as soon as
+<code>masterAudio</code> finishes its 12-second playback.</p>
+<h2 id="precedence-and-edge-cases">Precedence and Edge Cases</h2>
+<p>The behavior of <code>endsync</code> is subject to container-level
+constraints:</p>
+<ul>
+<li><strong>Explicit <code>dur</code> on
+<code>&lt;par&gt;</code>:</strong> If a <code>&lt;par&gt;</code> element
+defines its own explicit <code>dur</code>, that duration sets the
+maximum active timeline boundary unless overridden by an earlier
+<code>endsync</code> trigger.</li>
+<li><strong>Explicit <code>end</code> on
+<code>&lt;par&gt;</code>:</strong> A container-level <code>end</code>
+attribute condition supersedes child completion events if the specified
+condition occurs first.</li>
+<li><strong>Zero or Indefinite Children:</strong> If all children are
+indefinite and <code>endsync="last"</code> is used, the container will
+run indefinitely until an external trigger stops it. If
+<code>endsync="first"</code> is used alongside at least one child with a
+finite duration, the container safely resolves at the end of that finite
+child.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

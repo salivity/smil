@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Does the SMIL begin Attribute Specify? - smil</title>
+    <meta name="description" content="The begin attribute on a Synchronized Multimedia Integration Language (SMIL) timed media element specifies the exact moment when the element becomes active and starts its presentation or playback. By defining when media such as video, audio, or animation">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/what-does-the-smil-begin-attribute-specify">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Does the SMIL begin Attribute Specify? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/what-does-the-smil-begin-attribute-specify" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The begin attribute on a Synchronized Multimedia Integration Language (SMIL) timed media element specifies the exact moment when the element becomes active and starts its presentation or playback. By defining when media such as video, audio, or animation" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-does-the-smil-begin-attribute-specify">What Does the SMIL
+begin Attribute Specify?</h1>
+<p>The <code>begin</code> attribute on a Synchronized Multimedia
+Integration Language (SMIL) timed media element specifies the exact
+moment when the element becomes active and starts its presentation or
+playback. By defining when media such as video, audio, or animation
+begins relative to a timeline, user interaction, or sibling elements,
+the <code>begin</code> attribute acts as a core mechanism for
+synchronizing complex, multi-track multimedia layouts across web
+standards and SMIL-based animation formats like SVG.</p>
+<h2 id="core-function-of-the-begin-attribute">Core Function of the begin
+Attribute</h2>
+<p>In SMIL timing architectures, every timed element possesses an active
+timeline. The <code>begin</code> attribute explicitly controls the start
+of this timeline by accepting one or more timing values (separated by
+semicolons). When the designated trigger or timestamp evaluates to true,
+the player transitions the media element from an inactive state to an
+active playing state. If the attribute is omitted, the default value
+typically resolves to <code>0s</code>, causing the element to play
+immediately when its parent synchronization container starts.</p>
+<h2 id="supported-timing-value-types">Supported Timing Value Types</h2>
+<p>The <code>begin</code> attribute supports a wide variety of timing
+specifications to handle static schedules as well as dynamic runtime
+events:</p>
+<ul>
+<li><strong>Clock Values (Offsets):</strong> Explicit time
+representations specifying an offset relative to the document or parent
+container's start (for example, <code>begin="5s"</code> or
+<code>begin="01:30"</code>).</li>
+<li><strong>Syncbase Values:</strong> Relative timing based on the start
+or end of another timed element by referencing its ID (for example,
+<code>begin="video1.end"</code> or
+<code>begin="intro.begin+2s"</code>).</li>
+<li><strong>Event Values:</strong> Triggers fired by DOM or
+user-interaction events (for example, <code>begin="button.click"</code>
+or <code>begin="mouseenter"</code>).</li>
+<li><strong>Wallclock Values:</strong> Real-world date and time
+definitions using standard clock syntax (for example,
+<code>begin="wallclock(2026-09-01T09:00:00Z)"</code>).</li>
+<li><strong>Repeat Values:</strong> Triggers based on the iteration
+cycle of another looping element (for example,
+<code>begin="anim1.repeat(2)"</code>).</li>
+<li><strong>Indefinite:</strong> Defines that the element will not start
+automatically on a timeline and must be triggered externally via
+scripting methods like <code>beginElement()</code> (using
+<code>begin="indefinite"</code>).</li>
+</ul>
+<h2 id="interaction-and-list-processing">Interaction and List
+Processing</h2>
+<p>When multiple begin conditions are declared as a semicolon-separated
+list (for example, <code>begin="click; prevMedia.end+5s"</code>), the
+SMIL engine evaluates each condition independently. The element
+activates whenever any of the listed conditions are met, allowing for
+flexible playback controls that respond to both scheduled timelines and
+real-time user input.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Hardware Sensor Event Binding Syntax - smil</title>
+    <meta name="description" content="This article provides a concise technical guide on the syntax and methods used to bind external hardware sensor inputs to Synchronized Multimedia Integration Language (SMIL) presentations. You will learn the exact event-value syntax for SMIL timing attri">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-hardware-sensor-event-binding-syntax">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Hardware Sensor Event Binding Syntax - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-hardware-sensor-event-binding-syntax" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a concise technical guide on the syntax and methods used to bind external hardware sensor inputs to Synchronized Multimedia Integration Language (SMIL) presentations. You will learn the exact event-value syntax for SMIL timing attri" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-hardware-sensor-event-binding-syntax">SMIL Hardware Sensor
+Event Binding Syntax</h1>
+<p>This article provides a concise technical guide on the syntax and
+methods used to bind external hardware sensor inputs to Synchronized
+Multimedia Integration Language (SMIL) presentations. You will learn the
+exact event-value syntax for SMIL timing attributes, how runtime engines
+translate physical signals into addressable DOM events, and how to
+structure declarative markup for devices such as GPIO pins, motion
+detectors, and serial sensors.</p>
+<h3 id="smil-event-value-timing-syntax">SMIL Event-Value Timing
+Syntax</h3>
+<p>In SMIL, external triggers are bound to media elements using
+event-value syntax within the <code>begin</code> or <code>end</code>
+timing attributes. The standard W3C SMIL event-value specification
+follows this structure:</p>
+<pre class="text"><code>begin=&quot;[element-id.]event-name[+clock-value|-clock-value]&quot;</code></pre>
+<p>When integrating hardware sensors, the physical input is mapped by
+the SMIL media player or runtime environment into an event name that the
+declarative markup can listen for.</p>
+<h3 id="standard-sensor-binding-methods">Standard Sensor Binding
+Methods</h3>
+<p>Depending on the underlying SMIL player engine (such as commercial
+digital signage appliances or custom SMIL 3.0 runtimes), hardware input
+bindings are declared in one of two ways:</p>
+<h4 id="1-direct-hardware-protocol-uri-binding">1. Direct Hardware
+Protocol URI Binding</h4>
+<p>Certain SMIL engines directly expose hardware controllers using
+protocol identifiers inside the <code>begin</code> attribute:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Triggering via a General Purpose Input/Output (GPIO) pin --&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;alert.mp4&quot;</span> <span class="ot">begin=</span><span class="st">&quot;gpio:pin1=high&quot;</span> <span class="ot">end=</span><span class="st">&quot;gpio:pin1=low&quot;</span> /&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Triggering via an RS-232 or USB serial string --&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;product_demo.mp4&quot;</span> <span class="ot">begin=</span><span class="st">&quot;serial:data=TRIGGER_PIR_01&quot;</span> /&gt;</span></code></pre></div>
+<h4 id="2-dom-interface-event-binding">2. DOM Interface Event
+Binding</h4>
+<p>Most modern implementations bridge hardware sensors into standard DOM
+events via an internal driver. The SMIL timing engine listens for an
+event dispatched to the document or to a specific interface element:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Listening for a global DOM event generated by a sensor driver --&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">par</span>&gt;</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">video</span> <span class="ot">id=</span><span class="st">&quot;promoVideo&quot;</span> <span class="ot">src=</span><span class="st">&quot;promo.mp4&quot;</span> <span class="ot">begin=</span><span class="st">&quot;sensorMotionDetected&quot;</span> /&gt;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">par</span>&gt;</span></code></pre></div>
+<p>If the hardware event is bound to a specific controller element in
+the <code>&lt;head&gt;</code> of the document:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">head</span>&gt;</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">sensors</span>&gt;</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">sensor</span> <span class="ot">id=</span><span class="st">&quot;pirSensor&quot;</span> <span class="ot">type=</span><span class="st">&quot;motion&quot;</span> <span class="ot">port=</span><span class="st">&quot;gpio4&quot;</span> /&gt;</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">sensors</span>&gt;</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">body</span>&gt;</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">seq</span>&gt;</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Triggers when the &#39;pirSensor&#39; element fires its &#39;activate&#39; event --&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;presentation.mp4&quot;</span> <span class="ot">begin=</span><span class="st">&quot;pirSensor.activate&quot;</span> /&gt;</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">seq</span>&gt;</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">body</span>&gt;</span></code></pre></div>
+<h3 id="complete-implementation-example">Complete Implementation
+Example</h3>
+<p>The following example demonstrates an interactive display loop. It
+displays a static idle image until an external sensor (such as a
+proximity or PIR sensor) fires an input event, plays a high-priority
+video, and then returns to the idle state.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span> <span class="ot">version=</span><span class="st">&quot;3.0&quot;</span> <span class="ot">baseProfile=</span><span class="st">&quot;Language&quot;</span>&gt;</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">layout</span>&gt;</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">root-layout</span> <span class="ot">width=</span><span class="st">&quot;1920&quot;</span> <span class="ot">height=</span><span class="st">&quot;1080&quot;</span> <span class="ot">backgroundColor=</span><span class="st">&quot;#000000&quot;</span> /&gt;</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;mainRegion&quot;</span> <span class="ot">top=</span><span class="st">&quot;0&quot;</span> <span class="ot">left=</span><span class="st">&quot;0&quot;</span> <span class="ot">width=</span><span class="st">&quot;1920&quot;</span> <span class="ot">height=</span><span class="st">&quot;1080&quot;</span> /&gt;</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">par</span> <span class="ot">dur=</span><span class="st">&quot;indefinite&quot;</span>&gt;</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Default background loop --&gt;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;default_idle.jpg&quot;</span> <span class="ot">region=</span><span class="st">&quot;mainRegion&quot;</span> <span class="ot">dur=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Interactive video triggered by hardware sensor --&gt;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;interactive_content.mp4&quot;</span> </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>             <span class="ot">region=</span><span class="st">&quot;mainRegion&quot;</span> </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>             <span class="ot">begin=</span><span class="st">&quot;hardwareSensor.trigger&quot;</span> </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>             <span class="ot">end=</span><span class="st">&quot;hardwareSensor.release&quot;</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>             <span class="ot">fill=</span><span class="st">&quot;remove&quot;</span> /&gt;</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">par</span>&gt;</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<h3 id="key-considerations-for-hardware-event-attributes">Key
+Considerations for Hardware Event Attributes</h3>
+<ul>
+<li><strong>Offsets:</strong> You can apply standard clock values to
+delay reactions to a hardware sensor:
+<code>begin="sensor.trigger+1.5s"</code>.</li>
+<li><strong>Debouncing and Loops:</strong> If a sensor repeatedly fires
+signals, setting <code>repeatCount="1"</code> and controlling playback
+via precise <code>begin</code> and <code>end</code> events prevents the
+media pipeline from restarting continuously.</li>
+<li><strong>Vendor Namespaces:</strong> When targeting specific hardware
+vendors (such as IAdea or standard A-SMIL compliant appliances), check
+the vendor-specific XML namespace declarations required in the root
+<code>&lt;smil&gt;</code> node to enable hardware-level peripheral
+access.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

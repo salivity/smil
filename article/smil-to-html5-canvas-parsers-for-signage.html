@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL to HTML5 Canvas Parsers for Signage - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) remains a widely used XML standard for scheduling and structuring digital signage content, but modern web runtimes often require rendering via HTML5 technologies. This article explores the current open-">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-to-html5-canvas-parsers-for-signage">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL to HTML5 Canvas Parsers for Signage - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-to-html5-canvas-parsers-for-signage" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) remains a widely used XML standard for scheduling and structuring digital signage content, but modern web runtimes often require rendering via HTML5 technologies. This article explores the current open-" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-to-html5-canvas-parsers-for-signage">SMIL to HTML5 Canvas
+Parsers for Signage</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) remains a widely
+used XML standard for scheduling and structuring digital signage
+content, but modern web runtimes often require rendering via HTML5
+technologies. This article explores the current open-source JavaScript
+tools available to parse SMIL signage files, the technical distinction
+between DOM and Canvas-based rendering, and how developers bridge the
+gap between SMIL definitions and HTML5 Canvas applications.</p>
+<h3 id="the-current-landscape-of-smil-parsers">The Current Landscape of
+SMIL Parsers</h3>
+<p>Direct, out-of-the-box open-source parsers that translate SMIL
+directly into an HTML5 <code>&lt;canvas&gt;</code> render context do not
+exist as single turnkey packages. Instead, the digital signage ecosystem
+primarily relies on open-source SMIL interpreters that parse XML
+playlists and layouts into web-friendly data structures, which are
+typically outputted as layered HTML/CSS DOM structures or routed through
+custom Canvas pipelines.</p>
+<p>The leading open-source libraries and approaches include:</p>
+<h4 id="1-signageos-smil-player">1. signageOS SMIL Player</h4>
+<p>The <code>signageos/smil-player</code> repository is the most mature
+open-source JavaScript implementation for modern digital signage. It
+reads W3C SMIL and A-SMIL files, interprets layout tags
+(<code>&lt;layout&gt;</code>, <code>&lt;root-layout&gt;</code>,
+<code>&lt;region&gt;</code>), and orchestrates timing controls such as
+<code>&lt;seq&gt;</code> (sequential) and <code>&lt;par&gt;</code>
+(parallel). While its default rendering layer targets DOM elements
+(HTML5 <code>&lt;video&gt;</code>, <code>&lt;img&gt;</code>, and
+<code>&lt;iframe&gt;</code>), its parsing and timing engines are fully
+decoupled. Developers frequently use this core engine to extract
+geometry, timing, and media asset URLs, routing the active playback
+queue to a custom <code>&lt;canvas&gt;</code> context instead of the
+DOM.</p>
+<h4 id="2-fast-xml-parser--xmldom-with-custom-ast">2. Fast-XML-Parser /
+xmldom with Custom AST</h4>
+<p>Because SMIL is an XML-based declarative language, many lightweight
+signage deployments avoid large runtimes by pairing a fast parser—such
+as <code>fast-xml-parser</code> or browser-native
+<code>DOMParser</code>—with an internal SMIL Abstract Syntax Tree (AST)
+transformer. The parser extracts:</p>
+<ul>
+<li><strong>Layout parameters:</strong> Translates <code>top</code>,
+<code>left</code>, <code>width</code>, <code>height</code>, and
+<code>z-index</code> from <code>&lt;region&gt;</code> tags into canvas
+drawing coordinates.</li>
+<li><strong>Timeline scheduling:</strong> Evaluates <code>dur</code>,
+<code>begin</code>, and <code>repeatCount</code> to generate a
+frame-accurate scheduling queue.</li>
+<li><strong>Media handlers:</strong> Feeds decoded media sources into
+<code>CanvasRenderingContext2D.drawImage()</code> calls inside a
+standard <code>requestAnimationFrame</code> loop.</li>
+</ul>
+<h4 id="3-legacy-web-smil-engines-fake-smil--smil-polyfill">3. Legacy
+Web SMIL Engines (fake-smil / smil-polyfill)</h4>
+<p>Libraries such as <code>fake-smil</code> were originally built to
+polyfill SMIL features within SVG. While primarily intended for vector
+animations rather than heavy digital signage playlist orchestration,
+they demonstrate how to parse SMIL timing attributes in JavaScript and
+animate coordinates programmatically. Developers adapting signage to
+canvas often borrow the scheduling algorithms from these polyfills to
+manage transitions like fades and wipes across canvas coordinate
+planes.</p>
+<h3 id="rendering-smil-onto-an-html5-canvas">Rendering SMIL Onto an
+HTML5 Canvas</h3>
+<p>To convert parsed SMIL data into an active Canvas app, the parsed
+objects must be mapped to immediate-mode graphics:</p>
+<ol type="1">
+<li><strong>Coordinate Normalization:</strong> The parser reads the
+<code>&lt;root-layout&gt;</code> to set the base Canvas resolution
+(e.g., 1920x1080). Child <code>&lt;region&gt;</code> definitions are
+then mapped to distinct bounding boxes within that canvas.</li>
+<li><strong>Media Buffering:</strong> HTML5 <code>&lt;canvas&gt;</code>
+cannot directly play video files; it requires background
+<code>&lt;video&gt;</code> and <code>Image</code> objects. The parser
+preloads these assets based on the SMIL <code>&lt;seq&gt;</code> or
+<code>&lt;par&gt;</code> node definitions.</li>
+<li><strong>Tick/Render Loop:</strong> A continuous rendering loop
+clears regions and draws current frames using <code>drawImage()</code>
+for active video and image feeds according to the z-order specified in
+the SMIL file. Text crawls (<code>&lt;text&gt;</code> or
+<code>&lt;ticker&gt;</code>) are drawn using Canvas typography
+APIs.</li>
+</ol>
+<p>While pure canvas-specific SMIL parsers are rare due to the native
+performance advantages of hardware-accelerated HTML5 DOM elements for
+video playback, decoupling the parsing layer of tools like
+<code>signageos/smil-player</code> provides a direct path to driving
+interactive HTML5 Canvas applications.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

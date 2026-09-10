@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Timing Model: Pause, Resume, and Seek - smil</title>
+    <meta name="description" content="The Synchronized Multimedia Integration Language (SMIL) timing model defines a structured framework for coordinating concurrent and sequential media elements over time. Programmatic manipulation—specifically pausing, resuming, and seeking—relies on m">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-timing-model-pause-resume-and-seek">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Timing Model: Pause, Resume, and Seek - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-timing-model-pause-resume-and-seek" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Synchronized Multimedia Integration Language (SMIL) timing model defines a structured framework for coordinating concurrent and sequential media elements over time. Programmatic manipulation—specifically pausing, resuming, and seeking—relies on m" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-timing-model-pause-resume-and-seek">SMIL Timing Model:
+Pause, Resume, and Seek</h1>
+<p>The Synchronized Multimedia Integration Language (SMIL) timing model
+defines a structured framework for coordinating concurrent and
+sequential media elements over time. Programmatic
+manipulation—specifically pausing, resuming, and seeking—relies on
+manipulating element-specific and container-level time graphs via
+standardized DOM interfaces like <code>ElementTimeControl</code>.
+Understanding how the SMIL engine recalculates active durations, adjusts
+local clocks, and maintains synchronization relationships provides
+complete control over dynamic interactive multimedia presentations.</p>
+<h2 id="the-smil-clock-hierarchy">The SMIL Clock Hierarchy</h2>
+<p>To understand programmatic operations, it is necessary to distinguish
+between the various clocks within the SMIL runtime:</p>
+<ul>
+<li><strong>Document Time:</strong> The global wall-clock time
+established when the document begins presentation.</li>
+<li><strong>Container Time:</strong> The time scale established by time
+container elements (<code>&lt;seq&gt;</code>, <code>&lt;par&gt;</code>,
+or <code>&lt;excl&gt;</code>).</li>
+<li><strong>Element Time (Simple and Active Time):</strong> The local
+clock of an individual element, which advances only when the element is
+actively running.</li>
+</ul>
+<p>Programmatic controls alter the relationship between global document
+time and local element time by inserting time offsets and freezing or
+shifting the local clock.</p>
+<h2 id="programmatic-pause-and-resume">Programmatic Pause and
+Resume</h2>
+<p>SMIL elements that implement the <code>ElementTimeControl</code>
+interface expose programmatic control through methods such as
+<code>pauseElement()</code> and <code>resumeElement()</code>.</p>
+<h3 id="the-pause-operation">The Pause Operation</h3>
+<p>When an element's <code>pauseElement()</code> method is invoked:</p>
+<ol type="1">
+<li><strong>Clock Freezing:</strong> The element’s active time clock
+halts at its current position (<span
+class="math inline">\(T_{\text{pause}}\)</span>).</li>
+<li><strong>State Preservation:</strong> The presentation engine
+preserves the visual and acoustic state of the element at that exact
+temporal instant.</li>
+<li><strong>Syncbase Impact:</strong> If child or dependent elements
+depend on the paused element’s clock (via syncbase values), their local
+progression also halts, preserving synchronization across the dependency
+graph. Global document time continues to advance unhindered.</li>
+</ol>
+<h3 id="the-resume-operation">The Resume Operation</h3>
+<p>When <code>resumeElement()</code> is executed:</p>
+<ol type="1">
+<li><strong>Offset Compensation:</strong> The engine calculates the
+duration the element spent in the paused state (<span
+class="math inline">\(\Delta t = T_{\text{resume\_doc}} -
+T_{\text{pause\_doc}}\)</span>).</li>
+<li><strong>Instance Time Adjustment:</strong> This elapsed duration is
+added as an internal offset to the element’s active start and end
+instance times.</li>
+<li><strong>Clock Resumption:</strong> Local element time resumes
+advancing from the exact millisecond where it stopped (<span
+class="math inline">\(T_{\text{pause}}\)</span>), ensuring that the
+active duration remains continuous without skipping frames or
+content.</li>
+</ol>
+<h2 id="programmatic-seeking">Programmatic Seeking</h2>
+<p>Seeking in SMIL entails moving the presentation playback point
+forward or backward to an arbitrary time point. This can occur globally
+via the root document time container or locally within specific time
+containers using methods like <code>setCurrentTime()</code> or through
+hyperlinking.</p>
+<h3 id="document-level-seeking">Document-Level Seeking</h3>
+<p>When seeking programmatically on the global document timeline:</p>
+<ol type="1">
+<li><strong>Interval Re-evaluation:</strong> The SMIL timing engine
+recalculates the entire time graph from the document start to the target
+seek time (<span class="math inline">\(T_{\text{target}}\)</span>).</li>
+<li><strong>State Reconstruction:</strong>
+<ul>
+<li>Elements whose active intervals have already elapsed are marked as
+finished and their end-state actions (such as <code>fill="freeze"</code>
+or <code>fill="remove"</code>) are resolved.</li>
+<li>Elements whose active intervals encompass <span
+class="math inline">\(T_{\text{target}}\)</span> are initialized or
+fast-forwarded to their corresponding simple time offset.</li>
+<li>Elements scheduled to begin after <span
+class="math inline">\(T_{\text{target}}\)</span> are placed into an
+inactive, awaiting state.</li>
+</ul></li>
+<li><strong>Event Suppression:</strong> Historically, standard SMIL
+implementations do not fire intermediate timing events (such as multiple
+<code>beginEvent</code> or <code>endEvent</code> triggers) for elements
+passed over during a seek, preventing cascading script execution during
+timeline jumps.</li>
+</ol>
+<h3 id="element-level-seeking">Element-Level Seeking</h3>
+<p>When seeking within an individual media element or time
+container:</p>
+<ul>
+<li>The parent timeline continues uninterrupted while the targeted
+element’s local time is set to the designated offset.</li>
+<li>If an element is sought past its defined <code>dur</code> (simple
+duration), the engine handles repeat iterations (<code>repeatDur</code>,
+<code>repeatCount</code>) or terminates the element based on its
+container constraints.</li>
+</ul>
+<h2 id="integration-in-modern-svg-implementations">Integration in Modern
+SVG Implementations</h2>
+<p>Because standalone SMIL is largely consumed today through SVG
+animation elements (<code>&lt;animate&gt;</code>,
+<code>&lt;animateTransform&gt;</code>, etc.), programmatic access is
+achieved using the <code>SVGAnimationElement</code> DOM interface:</p>
+<ul>
+<li><code>element.pauseElement()</code> stops the animation at its
+current frame.</li>
+<li><code>element.unpauseElement()</code> (or
+<code>resumeElement()</code>) resumes animation flow.</li>
+<li><code>svgRootElement.setCurrentTime(seconds)</code> acts as the
+primary seek mechanism, forcing the SVG engine to recalculate and render
+all running SMIL animations at the specified timestamp.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

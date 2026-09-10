@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Caching Headers and SMIL Prefetching - smil</title>
+    <meta name="description" content="This article explores how standard HTTP caching headers interact with Synchronized Multimedia Integration Language (SMIL) asset prefetching. While SMIL defines when and what assets a media player should download ahead of playback time, HTTP headers dicta">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/http-caching-headers-and-smil-prefetching">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="HTTP Caching Headers and SMIL Prefetching - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/http-caching-headers-and-smil-prefetching" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores how standard HTTP caching headers interact with Synchronized Multimedia Integration Language (SMIL) asset prefetching. While SMIL defines when and what assets a media player should download ahead of playback time, HTTP headers dicta" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="http-caching-headers-and-smil-prefetching">HTTP Caching Headers
+and SMIL Prefetching</h1>
+<p>This article explores how standard HTTP caching headers interact with
+Synchronized Multimedia Integration Language (SMIL) asset prefetching.
+While SMIL defines <em>when</em> and <em>what</em> assets a media player
+should download ahead of playback time, HTTP headers dictate
+<em>whether</em> those assets can be stored, how long they remain valid,
+and when they must be revalidated. Understanding this interaction is
+critical for digital signage networks, interactive kiosks, and
+multimedia streaming environments to balance smooth media transitions
+with network bandwidth efficiency.</p>
+<h2 id="the-role-of-smil-prefetching">The Role of SMIL Prefetching</h2>
+<p>SMIL uses the <code>&lt;prefetch&gt;</code> element to instruct media
+players to fetch scheduled media files—such as high-definition videos,
+images, or audio clips—before their scheduled presentation time. The
+primary goal of prefetching is to eliminate latency and buffering gaps
+between playlist items.</p>
+<p>When a SMIL player encounters a <code>&lt;prefetch&gt;</code> tag, it
+triggers an HTTP <code>GET</code> or <code>HEAD</code> request to
+download the specified asset into memory or local disk storage. However,
+SMIL itself does not manage persistent storage rules, file freshness, or
+eviction policies. Instead, it delegates resource storage and retrieval
+logic to the player’s underlying HTTP client engine.</p>
+<h2 id="how-http-caching-directives-govern-prefetched-assets">How HTTP
+Caching Directives Govern Prefetched Assets</h2>
+<p>Once a prefetch request is issued over HTTP, the response headers
+from the origin server or Content Delivery Network (CDN) take precedence
+over the media player’s local behavior.</p>
+<h3 id="1-freshness-and-expiration-cache-control-max-age-and-expires">1.
+Freshness and Expiration (<code>Cache-Control: max-age</code> and
+<code>Expires</code>)</h3>
+<ul>
+<li><strong>Fresh Assets:</strong> If an asset is prefetched with a
+<code>Cache-Control: max-age=86400</code> header, the player stores it
+locally. If the playlist references this asset multiple times within the
+24-hour window, the player renders it directly from cache without
+hitting the network.</li>
+<li><strong>Expired Assets:</strong> If an asset's <code>max-age</code>
+expires before its scheduled display time, the player must revalidate
+the resource prior to rendering. If the player is offline or has limited
+bandwidth at the moment of playback, an expired asset may cause playback
+stalls if revalidation fails.</li>
+</ul>
+<h3 id="2-validation-etag-and-last-modified">2. Validation
+(<code>ETag</code> and <code>Last-Modified</code>)</h3>
+<p>When an asset has expired, or when a SMIL playlist executes repeated
+prefetch commands for ongoing loops, conditional requests come into
+play:</p>
+<ul>
+<li>If the prefetch engine detects an existing version of the file in
+local storage, it sends an <code>If-None-Match</code> (with the stored
+<code>ETag</code>) or an <code>If-Modified-Since</code> header.</li>
+<li>A <code>304 Not Modified</code> response informs the SMIL engine
+that the locally prefetched file is still valid, consuming minimal
+bandwidth and instantly marking the asset ready for playback.</li>
+<li>A <code>200 OK</code> response indicates updated content, forcing
+the prefetch engine to download the new payload entirely before the
+transition occurs.</li>
+</ul>
+<h3 id="3-cache-prevention-no-cache-vs-no-store">3. Cache Prevention
+(<code>no-cache</code> vs. <code>no-store</code>)</h3>
+<p>Misconfiguring cache-prevention headers can severely degrade SMIL
+prefetching:</p>
+<ul>
+<li><strong><code>no-cache</code>:</strong> This directive does not
+prevent local storage; rather, it forces the SMIL engine to validate the
+cached asset with the server before rendering. In prefetch scenarios,
+the asset is downloaded ahead of time, but a quick handshake occurs at
+playback time. High-latency connections can still introduce
+micro-delays.</li>
+<li><strong><code>no-store</code>:</strong> This directive explicitly
+forbids the client from writing the asset to temporary or permanent
+storage. When applied to large media files targeted by a
+<code>&lt;prefetch&gt;</code> tag, <code>no-store</code> fundamentally
+breaks the prefetch mechanism. The engine may discard the file
+immediately after downloading or be forced to stream it dynamically when
+playback starts, leading to black screens or buffering delays.</li>
+</ul>
+<h2
+id="conflict-resolution-and-player-implementation-realities">Conflict
+Resolution and Player Implementation Realities</h2>
+<p>In modern deployments, media engines (such as WebKit-, Chromium-, or
+Android-based SMIL engines) resolve conflicts between SMIL instructions
+and HTTP headers using standard RFC caching rules.</p>
+<p>If a SMIL file declares:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">prefetch</span> <span class="ot">src=</span><span class="st">&quot;https://cdn.example.com/promo.mp4&quot;</span> <span class="ot">mediaSize=</span><span class="st">&quot;100%&quot;</span> /&gt;</span></code></pre></div>
+<p>but the server serves <code>promo.mp4</code> with
+<code>Cache-Control: no-store, private</code>, the player will download
+the bytes to fulfill the prefetch instruction, but it cannot persist
+them in the HTTP disk cache. Once the player’s short-term memory buffer
+is cleared, any subsequent reference to <code>promo.mp4</code> requires
+a full, redundant download.</p>
+<p>Conversely, if a server serves an asset with an excessively long
+<code>max-age</code> and an updated asset is uploaded under the same
+URL, the SMIL engine will rely on its local cache and fail to fetch the
+new version, despite explicit prefetch declarations in updated playlist
+iterations.</p>
+<h2
+id="recommended-http-header-configurations-for-smil-environments">Recommended
+HTTP Header Configurations for SMIL Environments</h2>
+<p>To achieve predictable playback and efficient bandwidth usage:</p>
+<ul>
+<li><strong>Static Media Assets (Videos, High-Res Images):</strong>
+Serve with immutable or long expiration headers (e.g.,
+<code>Cache-Control: public, max-age=31536000, immutable</code>) paired
+with versioned URLs (content hashing). This ensures prefetching occurs
+exactly once per unique file version.</li>
+<li><strong>Dynamic Playlists and SMIL Documents:</strong> Serve the
+controlling <code>.smil</code> or <code>.xml</code> playlist files with
+<code>Cache-Control: no-cache</code> along with robust <code>ETag</code>
+headers. This guarantees the player immediately discovers changes to the
+playback sequence while allowing media payloads to remain safely
+cached.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

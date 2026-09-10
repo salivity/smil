@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Timing vs QuickTime Track Timeline Model - smil</title>
+    <meta name="description" content="This article examines the core differences between the Synchronized Multimedia Integration Language (SMIL) timing architecture and the track-based timeline model used by Apple QuickTime. While both frameworks were designed to coordinate rich, multi-asset">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-timing-vs-quicktime-track-timeline-model">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Timing vs QuickTime Track Timeline Model - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-timing-vs-quicktime-track-timeline-model" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article examines the core differences between the Synchronized Multimedia Integration Language (SMIL) timing architecture and the track-based timeline model used by Apple QuickTime. While both frameworks were designed to coordinate rich, multi-asset" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-timing-vs-quicktime-track-timeline-model">SMIL Timing vs
+QuickTime Track Timeline Model</h1>
+<p>This article examines the core differences between the Synchronized
+Multimedia Integration Language (SMIL) timing architecture and the
+track-based timeline model used by Apple QuickTime. While both
+frameworks were designed to coordinate rich, multi-asset media
+presentations, they approach temporal layout from fundamentally distinct
+paradigms: SMIL relies on a declarative, dynamic, and event-driven
+timing graph, whereas QuickTime employs a deterministic, linear, and
+edit-list-driven timeline.</p>
+<h3 id="fundamental-architectural-paradigms">Fundamental Architectural
+Paradigms</h3>
+<p>SMIL (Synchronized Multimedia Integration Language) is an XML-based
+declarative markup specification maintained by the W3C. Its timing model
+organizes media elements dynamically through relative and hierarchical
+relationships. Instead of locking media into fixed temporal slots from
+the outset, SMIL evaluates the temporal relationship of assets using
+containers like <code>&lt;par&gt;</code> (parallel),
+<code>&lt;seq&gt;</code> (sequential), and <code>&lt;excl&gt;</code>
+(mutually exclusive). Timing in SMIL can be resolved at runtime based on
+asset loading, user interaction, or runtime events.</p>
+<p>Apple QuickTime, by contrast, is a binary container and engine
+architecture centered around a linear master time base. In QuickTime, a
+Movie contains one or more independent Tracks (e.g., video, audio,
+timecode, subtitles), each with its own time scale. Synchronization is
+achieved by mapping track-specific media samples onto the overall movie
+timeline using deterministic structures known as Edit Lists
+(<code>elst</code> atoms).</p>
+<h3 id="temporal-structure-dynamic-trees-vs-parallel-tracks">Temporal
+Structure: Dynamic Trees vs. Parallel Tracks</h3>
+<p>The structural layout of time marks the sharpest contrast between the
+two models:</p>
+<ul>
+<li><strong>SMIL’s Hierarchical Graph:</strong> SMIL creates a
+structured tree of time containers. A <code>&lt;seq&gt;</code> container
+plays its child elements one after another, recalculating start times
+relative to the completion of preceding elements. A
+<code>&lt;par&gt;</code> container plays its children concurrently.
+Because the duration of an element can depend on external events (such
+as a mouse click or network latency resolving a stream), the total
+duration and alignment of the presentation can change dynamically during
+playback.</li>
+<li><strong>QuickTime’s Parallel Track Model:</strong> QuickTime uses an
+absolute, continuous time coordinate system. Every track runs alongside
+the global movie timeline. While tracks can have varying sample rates
+and durations, their placement on the presentation timeline is rigidly
+indexed. Edit lists dictate exactly at what movie-time a segment of
+media begins and ends, making temporal alignment fixed, predictable, and
+frame-accurate.</li>
+</ul>
+<h3 id="synchronization-semantics-and-latency-handling">Synchronization
+Semantics and Latency Handling</h3>
+<p>Handling network stalls, slow decoding, and clock drift reveals
+differing design priorities in each architecture:</p>
+<ul>
+<li><strong>SMIL Synchronization Rules:</strong> SMIL explicitly defines
+behaviors for synchronization errors through attributes like
+<code>syncBehavior</code> (can be <code>canSlip</code>,
+<code>locked</code>, or <code>default</code>) and
+<code>syncTolerance</code>. In a <code>canSlip</code> scenario, if an
+audio stream buffers, other elements can continue playing independently.
+SMIL also supports unresolved durations (<code>indefinite</code>),
+allowing presentation nodes to wait indefinitely for external signals or
+user input before progressing.</li>
+<li><strong>QuickTime Time Base and Clock Drift:</strong> QuickTime
+utilizes a strictly coordinated master clock (Time Base). When media
+playback lags, the QuickTime synchronization engine typically drops
+video frames to maintain alignment with the audio track or master clock
+rate. Playback is strictly bounded; media samples cannot have indefinite
+durations on the timeline.</li>
+</ul>
+<h3 id="interactivity-and-event-driven-timing">Interactivity and
+Event-Driven Timing</h3>
+<p>SMIL natively integrates temporal logic with document-style user
+interaction. A SMIL element can define its start time using an event
+condition, such as <code>begin="button.click"</code>. This binds
+temporal behavior directly to user interface actions and DOM events
+without requiring procedural scripting.</p>
+<p>QuickTime handles timeline progression linearly from start to finish.
+Although later iterations of QuickTime introduced interactive elements
+through Wired Actions, Flash tracks, and VR nodes, the core track
+timeline remains fundamentally non-event-driven. User interaction in
+QuickTime typically manifests as scrubbing, pausing, or branching to a
+different point on the timeline, rather than altering the temporal
+structure of the media elements themselves.</p>
+<h3 id="summary-of-differences">Summary of Differences</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">SMIL Timing Architecture</th>
+<th style="text-align: left;">QuickTime Timeline Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Model Type</strong></td>
+<td style="text-align: left;">Declarative, hierarchical,
+event-driven</td>
+<td style="text-align: left;">Linear, sample-based, track-oriented</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Data Representation</strong></td>
+<td style="text-align: left;">XML markup (textual)</td>
+<td style="text-align: left;">Binary atoms/boxes (<code>moov</code>,
+<code>trak</code>, <code>mdia</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Temporal Placement</strong></td>
+<td style="text-align: left;">Relative (parents, siblings, events)</td>
+<td style="text-align: left;">Absolute (edit lists mapped to a time
+base)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Duration Handling</strong></td>
+<td style="text-align: left;">Can be explicit, media-driven, or
+indefinite</td>
+<td style="text-align: left;">Strictly defined and calculated at
+authoring</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Primary Use Case</strong></td>
+<td style="text-align: left;">Adaptive multimedia presentations and web
+layout</td>
+<td style="text-align: left;">Continuous digital media capture, editing,
+and streaming</td>
+</tr>
+</tbody>
+</table></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

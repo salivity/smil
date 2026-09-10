@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL 3.0 Extended Mobile Profile for Interactivity - smil</title>
+    <meta name="description" content="The Synchronized Multimedia Integration Language (SMIL) 3.0 Extended Mobile Profile provides a standardized, XML-based framework designed specifically to deliver interactive, synchronized multimedia presentations on mobile devices. Expanding upon basic l">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-3-0-extended-mobile-profile-for-interactivity">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL 3.0 Extended Mobile Profile for Interactivity - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-3-0-extended-mobile-profile-for-interactivity" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Synchronized Multimedia Integration Language (SMIL) 3.0 Extended Mobile Profile provides a standardized, XML-based framework designed specifically to deliver interactive, synchronized multimedia presentations on mobile devices. Expanding upon basic l" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-30-extended-mobile-profile-for-interactivity">SMIL 3.0
+Extended Mobile Profile for Interactivity</h1>
+<p>The Synchronized Multimedia Integration Language (SMIL) 3.0 Extended
+Mobile Profile provides a standardized, XML-based framework designed
+specifically to deliver interactive, synchronized multimedia
+presentations on mobile devices. Expanding upon basic linear messaging
+formats like standard MMS, this profile incorporates advanced modules
+that accommodate varying device capabilities, screen resolutions, and
+input constraints. By enabling event-based timing, adaptive content
+selection, and interactive state management, the SMIL 3.0 Extended
+Mobile Profile allows developers to construct responsive mobile
+experiences that react directly to user engagement.</p>
+<h3 id="event-driven-timing-and-user-navigation">Event-Driven Timing and
+User Navigation</h3>
+<p>Traditional mobile multimedia often relies on fixed, pre-scheduled
+timelines. The SMIL 3.0 Extended Mobile Profile overcomes this
+limitation by implementing interactive timing modules that support
+event-based synchronization.</p>
+<ul>
+<li><strong>User-Triggered Events:</strong> Media playback can be
+triggered, paused, or redirected using interactive events such as device
+clicks, screen taps, or key presses. Attributes like
+<code>begin="click"</code> allow elements to remain idle until a user
+explicitly engages with them.</li>
+<li><strong>Hyperlinking:</strong> The profile supports the SMIL Linking
+Module, integrating elements like <code>&lt;a&gt;</code> and
+<code>&lt;area&gt;</code>. This allows users to navigate across
+different temporal points within the same presentation or jump to
+external mobile web resources.</li>
+<li><strong>Dynamic Media Sequencing:</strong> Users can select between
+various playback branches, effectively transforming a passive slideshow
+into an interactive menu, mobile catalog, or branching narrative.</li>
+</ul>
+<h3 id="content-adaptation-via-the-switch-module">Content Adaptation via
+the Switch Module</h3>
+<p>Mobile environments feature a broad fragmentation of screen
+dimensions, network speeds, and hardware decoders. The Extended Mobile
+Profile incorporates the SMIL <code>&lt;switch&gt;</code> element
+alongside system test attributes to ensure presentations remain
+interactive and functional across diverse devices:</p>
+<ul>
+<li><strong>System Bitrate and Bandwidth:</strong> Presentations can
+dynamically adjust media streams based on real-time network conditions,
+preventing playback interruption during interactive sessions.</li>
+<li><strong>Screen Resolution and Color Depth:</strong> Content can
+switch between high-resolution assets and lightweight alternatives
+depending on the device display properties.</li>
+<li><strong>Language and Localization:</strong> Interactive prompts,
+subtitles, and audio tracks can adapt to the user's configured language
+preferences directly on the device.</li>
+</ul>
+<h3 id="flexible-visual-layout-and-positioning">Flexible Visual Layout
+and Positioning</h3>
+<p>The profile utilizes modular layout features that enable rich UI
+presentation on mobile screens without requiring complex external style
+sheets:</p>
+<ul>
+<li><strong>SMIL BasicLayout Module:</strong> Developers can define
+visual regions (e.g., header, video viewport, interactive button rows)
+using relative coordinate percentages rather than fixed pixels. This
+ensures the interface scales fluidly to portrait and landscape
+orientations.</li>
+<li><strong>Layering and Z-Ordering:</strong> Visual elements can
+overlap with defined stacking contexts (<code>z-index</code>), allowing
+clickable navigational overlays, subtitles, and interactive graphic
+controls to sit smoothly atop full-motion video.</li>
+</ul>
+<h3 id="state-handling-and-data-submission">State Handling and Data
+Submission</h3>
+<p>One of the defining additions in SMIL 3.0 is the inclusion of basic
+state management capabilities. Within the Extended Mobile Profile, this
+architecture allows the presentation to store, alter, and evaluate
+simple data points:</p>
+<ul>
+<li><strong>User Input Storage:</strong> The profile can capture simple
+input states from the user during presentation playback, such as quiz
+selections or form choices.</li>
+<li><strong>Conditional Execution:</strong> Using the SMIL State Module,
+visual components can be displayed or hidden based on stored variables,
+allowing personalized outcomes depending on past interactions within the
+presentation.</li>
+<li><strong>External Communication:</strong> Through integrated
+submission mechanisms, interactive mobile presentations can transmit
+user responses back to a web server via standard HTTP protocols, making
+it practical for surveys, mobile marketing campaigns, and interactive
+learning modules.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

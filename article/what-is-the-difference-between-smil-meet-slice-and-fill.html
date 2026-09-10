@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is the Difference Between SMIL Meet, Slice, and Fill? - smil</title>
+    <meta name="description" content="In Synchronized Multimedia Integration Language (SMIL), the fit attribute determines how visual media objects scale and position themselves inside a defined layout region. When the intrinsic dimensions and aspect ratio of an image or video do not match t">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/what-is-the-difference-between-smil-meet-slice-and-fill">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is the Difference Between SMIL Meet, Slice, and Fill? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/what-is-the-difference-between-smil-meet-slice-and-fill" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In Synchronized Multimedia Integration Language (SMIL), the fit attribute determines how visual media objects scale and position themselves inside a defined layout region. When the intrinsic dimensions and aspect ratio of an image or video do not match t" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-the-difference-between-smil-meet-slice-and-fill">What Is
+the Difference Between SMIL Meet, Slice, and Fill?</h1>
+<p>In Synchronized Multimedia Integration Language (SMIL), the
+<code>fit</code> attribute determines how visual media objects scale and
+position themselves inside a defined layout region. When the intrinsic
+dimensions and aspect ratio of an image or video do not match the
+assigned region, SMIL uses scaling values like <code>meet</code>,
+<code>slice</code>, and <code>fill</code> to resolve the layout
+discrepancy. This guide breaks down how each of these three scaling
+modes handles aspect ratios, visual cropping, and spatial
+distortion.</p>
+<h2 id="the-role-of-the-smil-fit-attribute">The Role of the SMIL
+<code>fit</code> Attribute</h2>
+<p>SMIL layouts rely on predetermined display regions defined in the
+document head. Because external assets often arrive in varying
+resolutions and aspect ratios, the <code>fit</code> attribute dictates
+whether the renderer should prioritize preserving the original
+proportions, filling the entire boundary, or clipping surplus visual
+data.</p>
+<h2
+id="fitmeet-uniform-scaling-with-letterboxing"><code>fit="meet"</code>
+(Uniform Scaling with Letterboxing)</h2>
+<p>The <code>meet</code> value scales the visual media object
+proportionally so that its entire content fits within the target region
+while maintaining its original aspect ratio.</p>
+<ul>
+<li><strong>Aspect Ratio:</strong> Strictly preserved.</li>
+<li><strong>Cropping:</strong> None; all visual content remains fully
+visible.</li>
+<li><strong>Visual Result:</strong> The renderer enlarges or shrinks the
+media until either its width or height touches the region's boundary. If
+the aspect ratios differ, empty space remains on the sides
+(pillarboxing) or top and bottom (letterboxing).</li>
+<li><strong>Equivalent Behavior:</strong> Behaves identically to
+<code>contain</code> in CSS <code>object-fit</code> or SVG
+<code>meet</code>.</li>
+</ul>
+<h2 id="fitslice-uniform-scaling-with-cropping"><code>fit="slice"</code>
+(Uniform Scaling with Cropping)</h2>
+<p>The <code>slice</code> value scales the media object proportionally
+until it completely covers the target region, maintaining the original
+aspect ratio by slicing away any overflowing dimensions.</p>
+<ul>
+<li><strong>Aspect Ratio:</strong> Strictly preserved.</li>
+<li><strong>Cropping:</strong> Content that extends beyond the region's
+boundaries is cropped.</li>
+<li><strong>Visual Result:</strong> The media scales until both its
+width and height completely cover the region. The dimension that exceeds
+the boundary is clipped equally or according to alignment rules,
+eliminating blank borders at the cost of losing peripheral detail.</li>
+<li><strong>Equivalent Behavior:</strong> Behaves identically to
+<code>cover</code> in CSS <code>object-fit</code> or SVG
+<code>slice</code>.</li>
+</ul>
+<h2 id="fitfill-non-uniform-distortion"><code>fit="fill"</code>
+(Non-Uniform Distortion)</h2>
+<p>The <code>fill</code> value scales the media object non-uniformly so
+that its width and height match the region dimensions exactly,
+disregarding the original aspect ratio.</p>
+<ul>
+<li><strong>Aspect Ratio:</strong> Ignored and distorted.</li>
+<li><strong>Cropping:</strong> None; all content remains inside the
+region.</li>
+<li><strong>Visual Result:</strong> The media stretches or squashes
+horizontally and vertically to occupy every pixel of the region. This
+ensures full coverage without letterboxing or cropping, but it often
+leads to visible unnatural stretching.</li>
+<li><strong>Equivalent Behavior:</strong> Behaves identically to
+<code>fill</code> in CSS <code>object-fit</code> or <code>none</code> in
+SVG <code>preserveAspectRatio</code>.</li>
+</ul>
+<h2 id="comparison-overview">Comparison Overview</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th><code>meet</code></th>
+<th><code>slice</code></th>
+<th><code>fill</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Maintains Aspect Ratio</strong></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td><strong>Fills Entire Region Area</strong></td>
+<td>Only if ratios match</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Cuts Off Media Content</strong></td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td><strong>Distorts / Stretches Image</strong></td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Common Use Case</strong></td>
+<td>Showing full diagrams/slides</td>
+<td>Backgrounds and hero media</td>
+<td>Exact grid fitting where stretch is acceptable</td>
+</tr>
+</tbody>
+</table></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

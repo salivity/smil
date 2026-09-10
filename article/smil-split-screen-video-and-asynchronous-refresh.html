@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Split-Screen Video and Asynchronous Refresh - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) enables multi-zone layouts by orchestrating concurrent media streams through discrete spatial regions and temporal synchronization containers. When handling split-screen video playback involving media o">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-split-screen-video-and-asynchronous-refresh">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Split-Screen Video and Asynchronous Refresh - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-split-screen-video-and-asynchronous-refresh" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) enables multi-zone layouts by orchestrating concurrent media streams through discrete spatial regions and temporal synchronization containers. When handling split-screen video playback involving media o" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-split-screen-video-and-asynchronous-refresh">SMIL
+Split-Screen Video and Asynchronous Refresh</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) enables
+multi-zone layouts by orchestrating concurrent media streams through
+discrete spatial regions and temporal synchronization containers. When
+handling split-screen video playback involving media or displays with
+asynchronous refresh rates, SMIL separates high-level timeline
+scheduling from the underlying graphics rendering layer. This
+architecture allows individual media decoders and presentation engines
+to render independently according to their native frame rates while
+remaining aligned with a shared, overarching presentation timeline.</p>
+<h2 id="spatial-regions-and-parallel-execution">Spatial Regions and
+Parallel Execution</h2>
+<p>SMIL achieves split-screen architecture by decoupling visual
+placement from time-based scheduling. Within the
+<code>&lt;head&gt;</code> section, the <code>&lt;layout&gt;</code>
+element defines separate <code>&lt;region&gt;</code> tags, each assigned
+distinct spatial coordinates, dimensions, and z-indices.</p>
+<p>In the <code>&lt;body&gt;</code> element, video assets targeting
+these regions are grouped within a parallel container
+(<code>&lt;par&gt;</code>). The <code>&lt;par&gt;</code> container
+instructs the SMIL player to initiate and play multiple media elements
+concurrently:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">layout</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">root-layout</span> <span class="ot">width=</span><span class="st">&quot;1920&quot;</span> <span class="ot">height=</span><span class="st">&quot;1080&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;left_screen&quot;</span> <span class="ot">left=</span><span class="st">&quot;0&quot;</span> <span class="ot">top=</span><span class="st">&quot;0&quot;</span> <span class="ot">width=</span><span class="st">&quot;50%&quot;</span> <span class="ot">height=</span><span class="st">&quot;100%&quot;</span> /&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;right_screen&quot;</span> <span class="ot">left=</span><span class="st">&quot;50%&quot;</span> <span class="ot">top=</span><span class="st">&quot;0&quot;</span> <span class="ot">width=</span><span class="st">&quot;50%&quot;</span> <span class="ot">height=</span><span class="st">&quot;100%&quot;</span> /&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">par</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;stream1.mp4&quot;</span> <span class="ot">region=</span><span class="st">&quot;left_screen&quot;</span> /&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;stream2.mp4&quot;</span> <span class="ot">region=</span><span class="st">&quot;right_screen&quot;</span> /&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">par</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<p>By isolating media elements into discrete regions, SMIL avoids
+coupling the display hardware properties of one stream to another.</p>
+<h2 id="decoupling-media-clocks-from-hardware-refresh-rates">Decoupling
+Media Clocks from Hardware Refresh Rates</h2>
+<p>SMIL relies on an abstract presentation clock rather than
+hardware-driven vertical synchronization (V-Sync) intervals. Refresh
+rates—such as a 60 Hz panel playing alongside a 59.94 Hz or 120 Hz
+feed—operate at the graphics rasterizer and compositor level, whereas
+SMIL operates strictly at the document object and timeline layer.</p>
+<p>When two videos in a split-screen configuration have different native
+frame rates (for example, 24 fps and 60 fps) or are rendered across
+displays with independent refresh cycles, the SMIL runtime relies on the
+underlying media engine (such as GStreamer, DirectShow, or HTML5/browser
+engines) to handle hardware composition. The SMIL interpreter handles
+start times, durations, and spatial positioning, while the rendering
+engine delegates each visual stream to separate hardware overlay planes,
+GPU textures, or compositor surfaces.</p>
+<p>Because each region maps to its own decoding thread or hardware
+pipeline, one stream's refresh or frame delivery does not block the
+other.</p>
+<h2 id="managing-sync-drift-and-slip-behavior">Managing Sync Drift and
+Slip Behavior</h2>
+<p>In asynchronous environments, clock drift inevitably occurs due to
+differences in media encoding, hardware clock variations, or display
+timing. SMIL handles these discrepancies through fine-grained
+synchronization attributes:</p>
+<ul>
+<li><strong><code>syncBehavior</code></strong>: Dictates how strictly an
+element must adhere to the timeline. Setting
+<code>syncBehavior="locked"</code> forces the player to drop or
+duplicate frames to maintain parity with the master clock. Setting
+<code>syncBehavior="canSlip"</code> permits a stream to drift
+independently if an asynchronous refresh rate or decoding bottleneck
+stalls frame delivery, ensuring the other split-screen video continues
+uninterrupted.</li>
+<li><strong><code>syncTolerance</code></strong>: Defines the acceptable
+temporal deviation window before the SMIL runtime enforces a hard
+correction (such as a frame seek or pause).</li>
+<li><strong><code>syncMaster</code></strong>: Designates one media
+element as the authoritative clock for the entire
+<code>&lt;par&gt;</code> container. If one video corresponds to an
+unpredictable stream or an asynchronous refresh display, setting the
+alternate, stable stream as the <code>syncMaster</code> prevents
+playback stutter across the combined layout.</li>
+</ul>
+<p>By relying on timeline synchronization rather than hardware-level
+frame locking, SMIL allows split-screen media with mismatched,
+asynchronous frame and refresh rates to coexist cleanly without
+introducing global pipeline stalls or cross-stream frame tearing.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

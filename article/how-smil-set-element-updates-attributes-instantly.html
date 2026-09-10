@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How SMIL set Element Updates Attributes Instantly - smil</title>
+    <meta name="description" content="The SMIL <set> element provides a streamlined mechanism for applying instantaneous, discrete attribute or property changes to an SVG or multimedia target without interpolation. Unlike standard animation elements that calculate intermediate values across">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-smil-set-element-updates-attributes-instantly">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How SMIL set Element Updates Attributes Instantly - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-smil-set-element-updates-attributes-instantly" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The SMIL <set> element provides a streamlined mechanism for applying instantaneous, discrete attribute or property changes to an SVG or multimedia target without interpolation. Unlike standard animation elements that calculate intermediate values across" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-smil-set-element-updates-attributes-instantly">How SMIL set
+Element Updates Attributes Instantly</h1>
+<p>The SMIL <code>&lt;set&gt;</code> element provides a streamlined
+mechanism for applying instantaneous, discrete attribute or property
+changes to an SVG or multimedia target without interpolation. Unlike
+standard animation elements that calculate intermediate values across a
+timeline, <code>&lt;set&gt;</code> functions as a non-additive state
+switch, replacing an underlying attribute's value with a designated
+target value immediately upon triggering and holding it for a specified
+duration.</p>
+<h3 id="discrete-value-assignment">Discrete Value Assignment</h3>
+<p>The fundamental operational characteristic of the
+<code>&lt;set&gt;</code> element is that it bypasses the continuous
+interpolation engine entirely. Traditional SMIL animation elements, such
+as <code>&lt;animate&gt;</code> or
+<code>&lt;animateTransform&gt;</code>, utilize <code>from</code>,
+<code>by</code>, <code>to</code>, or <code>values</code> lists along
+with timing functions to render smooth transitions over time.</p>
+<p>The <code>&lt;set&gt;</code> element requires only a <code>to</code>
+attribute. When the element's start condition (defined by
+<code>begin</code>) is reached, the SMIL processing model immediately
+maps the target attribute directly to the value specified in
+<code>to</code>. Because there is no timeline for transitioning between
+states, the change occurs instantaneously as a step function.</p>
+<h3 id="non-additive-processing">Non-Additive Processing</h3>
+<p>In SMIL, additive behavior allows animations to build upon an
+underlying base value or layer with concurrent animations using
+properties such as <code>additive="sum"</code> or
+<code>accumulate="sum"</code>.</p>
+<p>The <code>&lt;set&gt;</code> element enforces a non-additive model by
+design:</p>
+<ul>
+<li><strong>Direct Replacement:</strong> It completely replaces the
+target attribute’s presentation value with the <code>to</code> value
+rather than calculating a composite or cumulative result.</li>
+<li><strong>Compatibility with Non-Numeric Types:</strong> Because it
+does not add to or interpolate from the existing value,
+<code>&lt;set&gt;</code> is uniquely suited for non-numeric attributes,
+strings, and discrete states (such as <code>visibility="visible"</code>,
+<code>display="none"</code>, or discrete color switches) where
+arithmetic addition is conceptually invalid.</li>
+<li><strong>Precedence in the Sandwich Model:</strong> Within the SMIL
+animation sandwich model, an active <code>&lt;set&gt;</code> element
+overrides lower-priority values in the presentation cascade without
+blending into preceding animation layers.</li>
+</ul>
+<h3 id="lifecycle-and-state-reversion">Lifecycle and State
+Reversion</h3>
+<p>Although the attribute update itself happens instantaneously at the
+start boundary, the <code>&lt;set&gt;</code> element still abides by
+standard SMIL timing lifecycles:</p>
+<ul>
+<li><strong>Active Duration:</strong> The updated value remains applied
+for the period defined by <code>dur</code> or until an explicit
+<code>end</code> condition is met.</li>
+<li><strong>Reversion:</strong> By default, once the active duration
+ends, the attribute instantly reverts to its underlying base value or to
+the state determined by any lower-priority animations currently
+active.</li>
+<li><strong>Freezing State:</strong> If <code>fill="freeze"</code> is
+specified, the instantaneous value persists indefinitely after the
+duration expires, permanently holding the updated state until the
+overall animation timeline resets.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

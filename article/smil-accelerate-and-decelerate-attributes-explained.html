@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Accelerate and Decelerate Attributes Explained - smil</title>
+    <meta name="description" content="This article examines the role and functionality of the accelerate and decelerate attributes within Synchronized Multimedia Integration Language (SMIL) timing transitions. These attributes manipulate the playback speed of an animation across its duration">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-accelerate-and-decelerate-attributes-explained">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Accelerate and Decelerate Attributes Explained - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-accelerate-and-decelerate-attributes-explained" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article examines the role and functionality of the accelerate and decelerate attributes within Synchronized Multimedia Integration Language (SMIL) timing transitions. These attributes manipulate the playback speed of an animation across its duration" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-accelerate-and-decelerate-attributes-explained">SMIL
+Accelerate and Decelerate Attributes Explained</h1>
+<p>This article examines the role and functionality of the
+<code>accelerate</code> and <code>decelerate</code> attributes within
+Synchronized Multimedia Integration Language (SMIL) timing transitions.
+These attributes manipulate the playback speed of an animation across
+its duration, transitioning elements smoothly rather than abruptly.
+Below is a breakdown of what these attributes do, how they alter
+velocity curves, and the rules governing their implementation.</p>
+<h3 id="the-purpose-of-smil-easing-attributes">The Purpose of SMIL
+Easing Attributes</h3>
+<p>By default, SMIL animations progress linearly. A linear transition
+means an element moves, fades, or transforms at a constant velocity from
+start to finish, which often produces mechanical and unnatural
+motion.</p>
+<p>The <code>accelerate</code> and <code>decelerate</code> attributes
+introduce native easing mechanisms directly into SMIL timing elements.
+They adjust the progression rate of the element's active duration
+without requiring complex keyframe definitions or cubic Bézier spline
+coordinates.</p>
+<h3 id="the-accelerate-attribute">The <code>accelerate</code>
+Attribute</h3>
+<p>The <code>accelerate</code> attribute defines the proportion of the
+simple duration spent speeding up from a velocity of zero to the target
+run rate.</p>
+<ul>
+<li><strong>Syntax:</strong> Accepts a floating-point value between
+<code>0.0</code> and <code>1.0</code>.</li>
+<li><strong>Default Value:</strong> <code>0</code> (no acceleration
+phase).</li>
+<li><strong>Behavior:</strong> Setting <code>accelerate="0.3"</code>
+causes the element to spend the first 30% of its duration ramping up
+from a stationary state to full speed. Once full speed is reached, the
+remaining 70% continues at that constant velocity (unless a deceleration
+value is also present). This behavior is functionally equivalent to an
+"ease-in" effect.</li>
+</ul>
+<h3 id="the-decelerate-attribute">The <code>decelerate</code>
+Attribute</h3>
+<p>The <code>decelerate</code> attribute defines the proportion of the
+simple duration spent slowing down from the run rate to a final velocity
+of zero.</p>
+<ul>
+<li><strong>Syntax:</strong> Accepts a floating-point value between
+<code>0.0</code> and <code>1.0</code>.</li>
+<li><strong>Default Value:</strong> <code>0</code> (no deceleration
+phase).</li>
+<li><strong>Behavior:</strong> Setting <code>decelerate="0.5"</code>
+directs the element to spend the final 50% of its duration gradually
+bleeding off momentum until it comes to a complete halt at the end of
+the timeline. This mirrors an "ease-out" effect.</li>
+</ul>
+<h3 id="combining-both-attributes">Combining Both Attributes</h3>
+<p>When both <code>accelerate</code> and <code>decelerate</code> are
+applied simultaneously, they produce an "ease-in-out" curve:</p>
+<ul>
+<li><strong>Example:</strong> Setting <code>accelerate="0.2"</code> and
+<code>decelerate="0.2"</code> allocates the first 20% of the duration to
+speeding up, the middle 60% to running at peak velocity, and the final
+20% to coming to a stop.</li>
+<li><strong>Pure Smooth Transitions:</strong> Setting
+<code>accelerate="0.5"</code> and <code>decelerate="0.5"</code>
+eliminates the constant-speed phase entirely; the animation continuously
+accelerates to a midpoint peak and immediately begins decelerating.</li>
+</ul>
+<h3 id="constraints-and-failure-handling">Constraints and Failure
+Handling</h3>
+<p>The SMIL specification enforces a strict mathematical rule for these
+attributes:</p>
+<p><span class="math display">\[\text{accelerate} + \text{decelerate}
+\le 1.0\]</span></p>
+<p>The sum of the acceleration and deceleration phases cannot exceed the
+total duration (represented as 1.0). If the combined total of both
+attributes is greater than 1.0, the browser or SMIL processor treats the
+configuration as an error and ignores both attributes entirely,
+defaulting the animation back to standard linear progression.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

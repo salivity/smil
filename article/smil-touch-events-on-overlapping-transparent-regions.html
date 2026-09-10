@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Touch Events on Overlapping Transparent Regions - smil</title>
+    <meta name="description" content="In Synchronized Multimedia Integration Language (SMIL), processing touch or pointer events across overlapping transparent media regions depends on the layout stacking order (z-index), the active sensitivity attribute, and spatial hit-testing rules. When">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-touch-events-on-overlapping-transparent-regions">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Touch Events on Overlapping Transparent Regions - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-touch-events-on-overlapping-transparent-regions" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In Synchronized Multimedia Integration Language (SMIL), processing touch or pointer events across overlapping transparent media regions depends on the layout stacking order (z-index), the active sensitivity attribute, and spatial hit-testing rules. When" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-touch-events-on-overlapping-transparent-regions">SMIL Touch
+Events on Overlapping Transparent Regions</h1>
+<p>In Synchronized Multimedia Integration Language (SMIL), processing
+touch or pointer events across overlapping transparent media regions
+depends on the layout stacking order (<code>z-index</code>), the active
+<code>sensitivity</code> attribute, and spatial hit-testing rules. When
+multiple media layers occupy the same coordinate space, the SMIL runtime
+determines which element captures the touch based on visual depth and
+element responsiveness. By default, the topmost active element in the
+visual hierarchy intercepts the event, blocking underlying layers unless
+transparency and event pass-through are explicitly configured.</p>
+<h3 id="the-stacking-hierarchy-and-z-index">The Stacking Hierarchy and
+Z-Index</h3>
+<p>SMIL layout modules define screen placement using <code>region</code>
+elements within a <code>layout</code> container. When two or more
+regions overlap, their depth is governed by the <code>z-index</code>
+attribute:</p>
+<ul>
+<li><strong>Topmost Element Priority:</strong> The media element
+rendered with the highest <code>z-index</code> is evaluated first during
+hit-testing.</li>
+<li><strong>Default Tree Order:</strong> If <code>z-index</code> values
+are identical or omitted, the SMIL rendering engine evaluates elements
+in the order of document declaration (document tree order), with later
+elements rendered above earlier ones.</li>
+</ul>
+<p>When a touch occurs at a point where multiple regions intersect, the
+coordinate is tested against the topmost layer first.</p>
+<h3 id="transparency-and-the-sensitivity-attribute">Transparency and the
+<code>sensitivity</code> Attribute</h3>
+<p>Visual transparency (an alpha channel of 0% or empty background
+regions) does not automatically permit touch events to fall through to
+lower layers. In SMIL:</p>
+<ul>
+<li><strong>Default Event Capture:</strong> A fully transparent media
+region will still intercept touch events if it is designated as
+interactive (e.g., waiting for an <code>activateEvent</code>) and has
+default sensitivity. This behavior effectively creates an invisible
+shield over the media beneath it.</li>
+<li><strong>The <code>sensitivity</code> Control:</strong> SMIL provides
+the <code>sensitivity</code> attribute to dictate how user input is
+registered relative to transparency:
+<ul>
+<li>Setting <code>sensitivity="none"</code> (or leveraging
+<code>pointer-events: none</code> in hybrid SVG/SMIL profiles) instructs
+the engine to ignore touches on that layer, routing the interaction down
+to the next underlying visible region.</li>
+<li>Setting <code>sensitivity="opaque"</code> or defining alpha-channel
+thresholds ensures that only areas containing actual rendered pixels
+register input, allowing touches on transparent pixels to fall
+through.</li>
+</ul></li>
+</ul>
+<h3 id="processing-simultaneous-touch-events">Processing Simultaneous
+Touch Events</h3>
+<p>When handling true multi-touch inputs—where multiple touch points
+occur concurrently across overlapping regions—the engine processes each
+contact point independently:</p>
+<ol type="1">
+<li><strong>Point-by-Point Evaluation:</strong> Each touch contact is
+assigned a unique identifier and evaluated against the coordinate plane
+independently.</li>
+<li><strong>Distinct Target Assignment:</strong> If Finger A touches a
+non-overlapping section of Region 1, and Finger B simultaneously touches
+an overlapping section of Region 1 and Region 2, the runtime resolves
+each point separately. Finger A triggers the interaction on Region 1,
+while Finger B targets whichever layer possesses topmost interactive
+priority at that specific coordinate.</li>
+<li><strong>Single Contact Collisions:</strong> A single physical touch
+point cannot trigger two overlapping interactive media elements
+simultaneously. SMIL does not implement standard DOM-style spatial
+bubbling down the Z-axis. Once the topmost sensitive element claims the
+event (such as triggering an <code>activateEvent</code>), the
+interaction is consumed, and underlying layers remain unaffected.</li>
+</ol>
+<h3 id="media-state-and-timing-constraints">Media State and Timing
+Constraints</h3>
+<p>SMIL is an inherently time-based language. Hit-testing is strictly
+bounded by the temporal lifecycle of the overlapping elements:</p>
+<ul>
+<li>An overlapping region is only eligible to receive touch events
+during its active interval (between <code>begin</code> and
+<code>end</code>).</li>
+<li>If a top-layer transparent element has reached its <code>end</code>
+time and is no longer active, the engine bypasses it entirely, passing
+incoming touch events directly to the now-exposed layer beneath it.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

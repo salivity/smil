@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding the SMIL Erase Attribute - smil</title>
+    <meta name="description" content="In Synchronized Multimedia Integration Language (SMIL), the erase attribute defines the display behavior of a media object after its scheduled playback or active rendering duration concludes. This article covers the fundamental function of the erase attr">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/understanding-the-smil-erase-attribute">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Understanding the SMIL Erase Attribute - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/understanding-the-smil-erase-attribute" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In Synchronized Multimedia Integration Language (SMIL), the erase attribute defines the display behavior of a media object after its scheduled playback or active rendering duration concludes. This article covers the fundamental function of the erase attr" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="understanding-the-smil-erase-attribute">Understanding the SMIL
+Erase Attribute</h1>
+<p>In Synchronized Multimedia Integration Language (SMIL), the
+<code>erase</code> attribute defines the display behavior of a media
+object after its scheduled playback or active rendering duration
+concludes. This article covers the fundamental function of the
+<code>erase</code> attribute, examines its available values, and
+explains how it determines whether an element disappears from the
+presentation space or stays visible in its final state.</p>
+<h3 id="the-function-of-the-erase-attribute">The Function of the
+<code>erase</code> Attribute</h3>
+<p>When a media element (such as an image, video, or text segment)
+completes its active playback time in SMIL, the player must decide what
+to do with the rendering area the media occupied. The <code>erase</code>
+attribute dictates this post-playback behavior, giving authors control
+over screen persistence without requiring complex scripting.</p>
+<p>The attribute primarily accepts two values:</p>
+<ul>
+<li><strong><code>whenDone</code> (Default):</strong> Instructs the SMIL
+presentation engine to immediately remove the media object from the
+display canvas once its active duration ends. The area previously
+occupied by the object is cleared, revealing whatever content or
+background sits beneath it in the presentation hierarchy.</li>
+<li><strong><code>never</code>:</strong> Directs the rendering engine to
+retain the media object in its final rendered state. A video or
+animation stops on its last frame and remains frozen on screen, while
+static media like images or text simply stay visible. The object
+persists until the parent container ends or another element explicitly
+overrides its display area.</li>
+</ul>
+<h3 id="common-use-cases">Common Use Cases</h3>
+<p>Using <code>erase="never"</code> is essential in scenarios such
+as:</p>
+<ul>
+<li><strong>Slide Presentations:</strong> Keeping the final frame of an
+animated chart or diagram visible while an accompanying audio narration
+concludes.</li>
+<li><strong>Persistent Layouts:</strong> Ensuring logos, banners, or
+title cards remain in place after their initial transition or active
+animation ends.</li>
+<li><strong>Chained Media Transitions:</strong> Preventing visual
+flickering or blank frames between successive video or image elements by
+freezing the previous item until the next one loads.</li>
+</ul>
+<h3 id="evolution-in-modern-smil-standards">Evolution in Modern SMIL
+Standards</h3>
+<p>While introduced in SMIL 1.0, the <code>erase</code> attribute was
+largely superseded in SMIL 2.0 and later versions by the more
+comprehensive <code>fill</code> attribute. The
+<code>erase="whenDone"</code> behavior corresponds to
+<code>fill="remove"</code>, while <code>erase="never"</code> corresponds
+to <code>fill="freeze"</code>. However, the <code>erase</code> attribute
+remains foundational for understanding timeline state management and
+legacy SMIL implementation.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

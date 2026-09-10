@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL in Flight Entertainment: Video and Map Sync - smil</title>
+    <meta name="description" content="In-flight entertainment (IFE) systems rely on Synchronized Multimedia Integration Language (SMIL) to coordinate disparate media streams into a cohesive, perfectly timed passenger experience. By using an XML-based markup standard designed specifically for">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-in-flight-entertainment-video-and-map-sync">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL in Flight Entertainment: Video and Map Sync - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-in-flight-entertainment-video-and-map-sync" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In-flight entertainment (IFE) systems rely on Synchronized Multimedia Integration Language (SMIL) to coordinate disparate media streams into a cohesive, perfectly timed passenger experience. By using an XML-based markup standard designed specifically for" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-in-flight-entertainment-video-and-map-sync">SMIL in Flight
+Entertainment: Video and Map Sync</h1>
+<p>In-flight entertainment (IFE) systems rely on Synchronized Multimedia
+Integration Language (SMIL) to coordinate disparate media streams into a
+cohesive, perfectly timed passenger experience. By using an XML-based
+markup standard designed specifically for choreographing audio, video,
+graphics, and text along a shared timeline, modern aircraft systems
+ensure that critical briefings, moving maps, and multilingual elements
+remain precisely aligned across hundreds of individual seatback
+displays.</p>
+<p>SMIL operates as the scheduling backbone within the embedded media
+players of an IFE architecture. Rather than relying on a single,
+monolithic video file that contains burned-in graphics and a single
+audio language, airlines distribute media as discrete assets. SMIL
+orchestrates these components using basic temporal tags, primarily
+<code>&lt;par&gt;</code> (parallel playback) and
+<code>&lt;seq&gt;</code> (sequential playback). This separation of
+concerns allows the IFE system to trigger a moving flight path or
+dynamic graphical overlay simultaneously with a pre-recorded safety
+demonstration video.</p>
+<p>When broadcasting mandatory safety videos, synchronization across
+multiple channels is paramount. SMIL enables the system to bind a single
+high-definition video track to localized audio streams and
+closed-caption text files. Passenger units can be toggled to different
+languages independently while remaining locked to the primary visual
+demonstration. If the video depicts life vest inflation at the
+two-minute mark, the SMIL timeline dictates that the selected audio
+track, subtitle stream, and any complementary seatback diagrams execute
+concurrently down to the millisecond.</p>
+<p>The integration of moving maps benefits significantly from this
+framework during safety and descent briefings. Moving maps require
+real-time aircraft telemetry—such as GPS coordinates, altitude, and
+heading—fed from the avionics bus. Instead of interrupting playback to
+switch inputs, SMIL allows the IFE system to define spatial layout
+regions (<code>&lt;layout&gt;</code> and <code>&lt;region&gt;</code>
+tags). The system can render the moving map in a secondary visual
+container alongside or beneath the safety briefing, updating location
+coordinates dynamically without desynchronizing or stalling the active
+video playback.</p>
+<p>Using SMIL provides crucial network efficiency inside the cabin.
+Transmitting lightweight XML instructions over the aircraft’s onboard
+local area network requires negligible bandwidth compared to streaming
+pre-rendered multi-language composite feeds. Media files remain cached
+on local seatback units or cabin media servers, and the SMIL file
+provides the execution blueprint.</p>
+<p>Furthermore, SMIL handles operational interruptions gracefully. When
+a flight attendant or pilot triggers a priority public address (PA)
+override, the SMIL engine pauses active entertainment playback, stores
+the state of the media timeline, displays standard safety graphics, and
+either resumes playback or resets to safety-critical messaging as
+dictated by cabin management protocols.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Attributes for SMIL Animated SVGs - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) allows developers to animate SVG elements directly within XML code, but unoptimized animations can create severe barriers for users relying on assistive technologies. To maintain compliance with accessi">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/accessibility-attributes-for-smil-animated-svgs">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Accessibility Attributes for SMIL Animated SVGs - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/accessibility-attributes-for-smil-animated-svgs" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) allows developers to animate SVG elements directly within XML code, but unoptimized animations can create severe barriers for users relying on assistive technologies. To maintain compliance with accessi" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="accessibility-attributes-for-smil-animated-svgs">Accessibility
+Attributes for SMIL Animated SVGs</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) allows developers
+to animate SVG elements directly within XML code, but unoptimized
+animations can create severe barriers for users relying on assistive
+technologies. To maintain compliance with accessibility standards like
+the Web Content Accessibility Guidelines (WCAG), SMIL animated SVGs must
+be paired with specific semantic roles, descriptive text alternatives,
+and motion-control mechanisms. Implementing these attributes ensures
+that screen readers accurately convey visual content while preventing
+adverse reactions triggered by movement.</p>
+<h3 id="semantic-identification-with-roleimg">Semantic Identification
+with <code>role="img"</code></h3>
+<p>By default, assistive technologies may attempt to parse an SVG as an
+interactive document or navigate its internal DOM node by node. To
+present the SVG as a cohesive visual asset, apply the
+<code>role="img"</code> attribute to the root <code>&lt;svg&gt;</code>
+tag. This collapses the internal complexity of the graphic—including
+elements like <code>&lt;animate&gt;</code>,
+<code>&lt;animateTransform&gt;</code>, and
+<code>&lt;path&gt;</code>—into a single recognizable object for screen
+readers.</p>
+<h3 id="descriptive-labeling-aria-labelledby-title-and-desc">Descriptive
+Labeling: <code>aria-labelledby</code>, <code>&lt;title&gt;</code>, and
+<code>&lt;desc&gt;</code></h3>
+<p>An animated graphic conveying meaning needs a clear, text-based
+equivalent describing both the image and the purpose of the
+animation.</p>
+<ol type="1">
+<li><strong><code>&lt;title&gt;</code> and <code>&lt;desc&gt;</code>
+Elements:</strong> Include these as the first children inside the
+<code>&lt;svg&gt;</code> container. The <code>&lt;title&gt;</code>
+provides a concise name, while the <code>&lt;desc&gt;</code> explains
+the visual action or state change driven by the SMIL animation.</li>
+<li><strong><code>aria-labelledby</code> Attribute:</strong> Reference
+the IDs of the <code>&lt;title&gt;</code> and <code>&lt;desc&gt;</code>
+elements inside the <code>aria-labelledby</code> attribute on the root
+<code>&lt;svg&gt;</code>.</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">svg</span> <span class="ot">role=</span><span class="st">&quot;img&quot;</span> <span class="ot">aria-labelledby=</span><span class="st">&quot;svgTitle svgDesc&quot;</span> <span class="ot">viewBox=</span><span class="st">&quot;0 0 100 100&quot;</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">title</span> <span class="ot">id=</span><span class="st">&quot;svgTitle&quot;</span>&gt;Loading indicator&lt;/<span class="kw">title</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">desc</span> <span class="ot">id=</span><span class="st">&quot;svgDesc&quot;</span>&gt;A blue circle pulsing continuously to indicate background processing.&lt;/<span class="kw">desc</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">circle</span> <span class="ot">cx=</span><span class="st">&quot;50&quot;</span> <span class="ot">cy=</span><span class="st">&quot;50&quot;</span> <span class="ot">r=</span><span class="st">&quot;40&quot;</span> <span class="ot">fill=</span><span class="st">&quot;blue&quot;</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animate</span> <span class="ot">attributeName=</span><span class="st">&quot;r&quot;</span> <span class="ot">values=</span><span class="st">&quot;40;20;40&quot;</span> <span class="ot">dur=</span><span class="st">&quot;2s&quot;</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">circle</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">svg</span>&gt;</span></code></pre></div>
+<h3 id="decorative-management-with-aria-hiddentrue">Decorative
+Management with <code>aria-hidden="true"</code></h3>
+<p>If the SMIL animation is purely cosmetic—such as ambient background
+movement or accent flourishes—it must not disrupt users navigating with
+screen readers. In this scenario, omit the <code>&lt;title&gt;</code>
+and <code>&lt;desc&gt;</code> tags and pair the root
+<code>&lt;svg&gt;</code> with <code>aria-hidden="true"</code>. This
+completely hides the animation from the accessibility tree, eliminating
+unnecessary auditory clutter.</p>
+<h3 id="wcag-222-compliance-and-motion-control">WCAG 2.2.2 Compliance
+and Motion Control</h3>
+<p>WCAG Success Criterion 2.2.2 (Pause, Stop, Hide) requires that any
+moving, blinking, or scrolling information that starts automatically and
+lasts longer than five seconds must provide a mechanism for the user to
+pause, stop, or hide it.</p>
+<p>SMIL animations frequently use <code>repeatCount="indefinite"</code>,
+which directly conflicts with this requirement unless managed
+correctly:</p>
+<ul>
+<li><strong>Fixed Duration:</strong> Set the <code>repeatCount</code>
+and <code>dur</code> attributes so the entire animation stops within
+five seconds if no user controls are present.</li>
+<li><strong>Scripted Controls with SVG DOM:</strong> When indefinite
+loops are necessary, pair the SVG with accessible HTML button controls
+that call the native SVG DOM methods <code>pauseAnimations()</code> and
+<code>unpauseAnimations()</code>.</li>
+<li><strong>Reduced Motion Compatibility:</strong> SMIL does not
+natively evaluate the CSS <code>@media (prefers-reduced-motion)</code>
+query inside its animation attributes. Use JavaScript to detect the
+user's motion preferences via
+<code>window.matchMedia('(prefers-reduced-motion: reduce)')</code> and
+call <code>pauseAnimations()</code> automatically upon load if a
+preference for reduced motion is detected.</li>
+</ul>
+<h3 id="real-time-updates-with-aria-live">Real-Time Updates with
+<code>aria-live</code></h3>
+<p>If an SVG uses SMIL animations to visualize changing real-world
+metrics, such as a filling progress bar or an animated alert icon,
+assistive technologies need notification of these updates. Pair the SVG
+or its containing wrapper with <code>aria-live="polite"</code> and
+<code>aria-atomic="true"</code>. Dynamically update the associated
+<code>&lt;title&gt;</code> or an off-screen text alternative as the
+animation transitions to keep all users informed of the graphic's
+updated state.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

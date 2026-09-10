@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Do User Clicks Trigger Elements in SMIL? - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) handles interactivity declaratively by binding element timelines to user-generated Document Object Model (DOM) events rather than requiring custom JavaScript event listeners. By defining event-value syn">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-do-user-clicks-trigger-elements-in-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Do User Clicks Trigger Elements in SMIL? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-do-user-clicks-trigger-elements-in-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) handles interactivity declaratively by binding element timelines to user-generated Document Object Model (DOM) events rather than requiring custom JavaScript event listeners. By defining event-value syn" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-do-user-clicks-trigger-elements-in-smil">How Do User Clicks
+Trigger Elements in SMIL?</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) handles
+interactivity declaratively by binding element timelines to
+user-generated Document Object Model (DOM) events rather than requiring
+custom JavaScript event listeners. By defining event-value syntax inside
+timing attributes such as <code>begin</code> and <code>end</code>,
+authors can trigger animations, media playback, and style transitions
+immediately or with specified offsets when a user clicks a designated
+interface element.</p>
+<h2 id="the-architecture-of-event-based-timing">The Architecture of
+Event-Based Timing</h2>
+<p>In standard linear multimedia presentations, media elements and
+animations rely on clock values such as <code>begin="0s"</code> or
+<code>begin="10s"</code>. SMIL expands this model through an event-based
+timing mechanism that resolves timestamps dynamically during
+presentation runtime.</p>
+<p>When a user interacts with a rendered graphic, the host environment
+(such as an SVG user agent or a dedicated SMIL runtime) raises an
+interactive event. SMIL’s timing engine listens for these events and
+converts them into time instances within the presentation's document
+timeline, dynamically recalculating the active duration of the target
+element.</p>
+<h2 id="event-syntax-and-identifier-binding">Event Syntax and Identifier
+Binding</h2>
+<p>To link a click to a specific element or animation, SMIL uses a
+structured event-value syntax within <code>begin</code> or
+<code>end</code> attributes:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>begin=&quot;[ElementID].[EventName](+/- ClockValue)&quot;</span></code></pre></div>
+<p>The key components of this specification include:</p>
+<ul>
+<li><strong>Element ID:</strong> An optional identifier pointing to the
+target element that receives the interaction. If omitted, the event
+listener defaults to the element containing the animation or media
+element itself.</li>
+<li><strong>Event Name:</strong> The DOM or user interface event to
+monitor, most commonly <code>click</code> for pointer activations,
+alongside events like <code>mousedown</code>, <code>mouseup</code>,
+<code>mouseover</code>, or <code>focusin</code>.</li>
+<li><strong>Clock Offset:</strong> An optional positive or negative time
+offset appended to the event trigger (for example,
+<code>button1.click+2s</code>), which delays or advances the execution
+relative to the moment the click occurred.</li>
+</ul>
+<h3 id="example-triggering-svg-animations-on-click">Example: Triggering
+SVG Animations on Click</h3>
+<p>In Scalable Vector Graphics (SVG), which implements the SMIL
+animation specification, event-based timing allows interactive state
+changes directly in markup:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">svg</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="ot">width=</span><span class="st">&quot;300&quot;</span> <span class="ot">height=</span><span class="st">&quot;200&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Trigger Button --&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">rect</span> <span class="ot">id=</span><span class="st">&quot;triggerBtn&quot;</span> <span class="ot">x=</span><span class="st">&quot;20&quot;</span> <span class="ot">y=</span><span class="st">&quot;20&quot;</span> <span class="ot">width=</span><span class="st">&quot;100&quot;</span> <span class="ot">height=</span><span class="st">&quot;40&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#007acc&quot;</span> <span class="ot">rx=</span><span class="st">&quot;5&quot;</span> /&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">text</span> <span class="ot">x=</span><span class="st">&quot;70&quot;</span> <span class="ot">y=</span><span class="st">&quot;45&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#ffffff&quot;</span> <span class="ot">text-anchor=</span><span class="st">&quot;middle&quot;</span>&gt;Click Me&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Animated Target --&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">circle</span> <span class="ot">cx=</span><span class="st">&quot;200&quot;</span> <span class="ot">cy=</span><span class="st">&quot;100&quot;</span> <span class="ot">r=</span><span class="st">&quot;30&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#e74c3c&quot;</span>&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animate</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      <span class="ot">attributeName=</span><span class="st">&quot;r&quot;</span> </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      <span class="ot">to=</span><span class="st">&quot;60&quot;</span> </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      <span class="ot">dur=</span><span class="st">&quot;0.5s&quot;</span> </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>      <span class="ot">begin=</span><span class="st">&quot;triggerBtn.click&quot;</span> </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>      <span class="ot">restart=</span><span class="st">&quot;always&quot;</span> </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>      <span class="ot">fill=</span><span class="st">&quot;freeze&quot;</span> /&gt;</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">circle</span>&gt;</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">svg</span>&gt;</span></code></pre></div>
+<p>When the user selects the rectangle with the identifier
+<code>triggerBtn</code>, the timing engine registers the
+<code>click</code> event on that element and immediately schedules the
+<code>animate</code> element to begin its 0.5-second expansion.</p>
+<h2 id="managing-multiple-triggers-and-restart-behavior">Managing
+Multiple Triggers and Restart Behavior</h2>
+<p>SMIL accommodates complex user journeys by supporting list-based
+triggers and strict restart policies. Authors can specify multiple
+semicolon-separated conditions inside a single <code>begin</code>
+attribute:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>begin=&quot;startButton.click; resetBtn.click+1s; 0s&quot;</span></code></pre></div>
+<p>The element starts at document load (<code>0s</code>), but can be
+re-triggered whenever <code>startButton</code> is clicked, or one second
+after <code>resetBtn</code> is clicked.</p>
+<p>How the animation reacts to repeated clicks while it is already
+running is controlled by the <code>restart</code> attribute:</p>
+<ul>
+<li><code>restart="always"</code>: The element restarts its animation
+cycle immediately upon every click, resetting current playback.</li>
+<li><code>restart="whenNotActive"</code>: Subsequent clicks are ignored
+until the current playback and active duration finish completely.</li>
+<li><code>restart="never"</code>: The element responds to the initial
+click event only once per presentation session.</li>
+</ul>
+<p>Event-based timing in SMIL provides a robust, self-contained
+architecture for interactive vector graphics and multimedia. By defining
+interactivity directly within the document tree, SMIL decouples simple
+user interactions from complex procedural scripting while maintaining
+precise synchronization with other visual elements.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

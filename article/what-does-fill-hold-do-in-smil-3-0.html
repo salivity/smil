@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Does fill="hold" Do in SMIL 3.0? - smil</title>
+    <meta name="description" content="In SMIL 3.0 (Synchronized Multimedia Integration Language), the fill="hold" attribute determines the post-active state of a media or animation element by preserving its final visual or audible frame on screen after its active playback duration ends. Rath">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/what-does-fill-hold-do-in-smil-3-0">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Does fill="hold" Do in SMIL 3.0? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/what-does-fill-hold-do-in-smil-3-0" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In SMIL 3.0 (Synchronized Multimedia Integration Language), the fill="hold" attribute determines the post-active state of a media or animation element by preserving its final visual or audible frame on screen after its active playback duration ends. Rath" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-does-fillhold-do-in-smil-30">What Does fill="hold" Do in
+SMIL 3.0?</h1>
+<p>In SMIL 3.0 (Synchronized Multimedia Integration Language), the
+<code>fill="hold"</code> attribute determines the post-active state of a
+media or animation element by preserving its final visual or audible
+frame on screen after its active playback duration ends. Rather than
+disappearing or resetting to a default state, an element configured with
+<code>fill="hold"</code> remains visible and statically frozen until the
+parent container finishes or an explicit event terminates it. This
+article explores how <code>fill="hold"</code> functions within the SMIL
+timing architecture, its syntax and practical applications, and how it
+compares to alternative fill behaviors.</p>
+<h2 id="understanding-the-smil-timing-model">Understanding the SMIL
+Timing Model</h2>
+<p>SMIL defines multimedia presentations through temporal containers
+such as <code>&lt;seq&gt;</code> (sequential) and
+<code>&lt;par&gt;</code> (parallel). Every timed element possesses an
+active duration defined by attributes like <code>begin</code>,
+<code>dur</code>, and <code>end</code>. Once this active period
+concludes, the SMIL runtime must determine what to do with the element's
+visual or audio presentation.</p>
+<p>The <code>fill</code> attribute dictates this post-active behavior.
+By default, most media elements employ <code>fill="remove"</code>, which
+causes the element to cease rendering immediately upon completion. When
+setting <code>fill="hold"</code>, the author instructs the player to
+extend the element’s display state beyond its active lifecycle, holding
+the final rendered frame indefinitely or until the enclosing container
+terminates.</p>
+<h2 id="practical-implementation-and-syntax">Practical Implementation
+and Syntax</h2>
+<p>The <code>fill</code> attribute is applied directly to timing
+containers or individual media elements such as
+<code>&lt;video&gt;</code>, <code>&lt;img&gt;</code>,
+<code>&lt;audio&gt;</code>, <code>&lt;text&gt;</code>, or animation
+elements (<code>&lt;animate&gt;</code>, <code>&lt;set&gt;</code>).</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span> <span class="ot">version=</span><span class="st">&quot;3.0&quot;</span> <span class="ot">baseProfile=</span><span class="st">&quot;Language&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">par</span> <span class="ot">dur=</span><span class="st">&quot;15s&quot;</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Video plays for 5 seconds, then holds its final frame for the remaining 10 seconds --&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;intro.mp4&quot;</span> <span class="ot">dur=</span><span class="st">&quot;5s&quot;</span> <span class="ot">fill=</span><span class="st">&quot;hold&quot;</span> /&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Audio plays alongside for the full duration --&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;narration.mp3&quot;</span> <span class="ot">dur=</span><span class="st">&quot;15s&quot;</span> /&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">par</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<p>In this example, the video element stops actively decoding frames
+after 5 seconds, but the display continues to show the last frame until
+the parent <code>&lt;par&gt;</code> container reaches its 15-second
+duration.</p>
+<h2 id="key-differences-fillhold-vs-other-fill-values">Key Differences:
+<code>fill="hold"</code> vs. Other Fill Values</h2>
+<p>SMIL 3.0 supports several values for the <code>fill</code> attribute,
+each serving distinct layout and timing requirements:</p>
+<ul>
+<li><strong><code>hold</code></strong>: The element’s presentation
+remains visible in its final active state for the remainder of the
+parent container's duration.</li>
+<li><strong><code>remove</code></strong>: The element disappears
+immediately when its active duration finishes. This is the default
+behavior for most media nodes.</li>
+<li><strong><code>freeze</code></strong>: Syntactically synonymous with
+<code>hold</code> in SMIL 3.0 timing modules, maintaining backward
+compatibility with SVG animations and SMIL 1.0/2.0 implementations.</li>
+<li><strong><code>auto</code></strong>: Delegates fill behavior to the
+runtime environment or parent container inheritance rules.</li>
+<li><strong><code>transition</code></strong>: Keeps the final state
+visible while executing a transition effect to the subsequent
+element.</li>
+</ul>
+<h2 id="common-use-cases-in-multimedia-design">Common Use Cases in
+Multimedia Design</h2>
+<p>The <code>fill="hold"</code> attribute is essential for seamless
+multimedia sequencing and interactive layouts:</p>
+<ul>
+<li><strong>Slide Presentations and Overlays</strong>: Keeping
+background graphics, branding watermarks, or slide titles visible while
+other dynamic elements load or play sequentially.</li>
+<li><strong>Video Pauses and End Screens</strong>: Displaying a static
+closing title card from the end of a video stream without needing a
+separate image asset.</li>
+<li><strong>Synchronized Captions and Subtitles</strong>: Ensuring
+subtitles or textual explanations remain readable on screen until the
+next speaker begins.</li>
+<li><strong>Vector and SVG Animation States</strong>: Preserving
+transformed positions, colors, or opacities at the end of an animation
+sequence instead of snapping back to initial coordinates.</li>
+</ul>
+<p>By controlling the post-active lifecycle of presentation assets,
+<code>fill="hold"</code> provides granular control over visual
+persistence without inflating asset size or complicating timeline
+structures.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

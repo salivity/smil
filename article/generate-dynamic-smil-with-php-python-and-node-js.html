@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Dynamic SMIL with PHP, Python, and Node.js - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) is an XML-based standard used to choreograph multimedia elements such as video, audio, text, and images over a timeline. This guide provides a practical overview of how to generate dynamic SMIL document">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/generate-dynamic-smil-with-php-python-and-node-js">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Generate Dynamic SMIL with PHP, Python, and Node.js - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/generate-dynamic-smil-with-php-python-and-node-js" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) is an XML-based standard used to choreograph multimedia elements such as video, audio, text, and images over a timeline. This guide provides a practical overview of how to generate dynamic SMIL document" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="generate-dynamic-smil-with-php-python-and-nodejs">Generate
+Dynamic SMIL with PHP, Python, and Node.js</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) is an XML-based
+standard used to choreograph multimedia elements such as video, audio,
+text, and images over a timeline. This guide provides a practical
+overview of how to generate dynamic SMIL documents on a web server using
+PHP, Python, and Node.js. By dynamically serving SMIL files, streaming
+platforms and multimedia applications can alter video playlists, insert
+dynamic advertising, or adjust adaptive bitrate profiles on the fly
+based on database records or client requests.</p>
+<h3 id="key-requirements-for-dynamic-smil-delivery">Key Requirements for
+Dynamic SMIL Delivery</h3>
+<p>Regardless of the backend technology used, dynamically generated SMIL
+requires two fundamentals:</p>
+<ol type="1">
+<li><strong>The Correct MIME Type:</strong> The server must send the
+response with the <code>Content-Type</code> header set to
+<code>application/smil+xml</code> (or
+<code>application/smil</code>).</li>
+<li><strong>Valid XML Syntax:</strong> The output must be valid XML with
+root <code>&lt;smil&gt;</code> tags, typically containing
+<code>&lt;head&gt;</code> and <code>&lt;body&gt;</code> tags enclosing
+sequence (<code>&lt;seq&gt;</code>) or parallel
+(<code>&lt;par&gt;</code>) elements.</li>
+</ol>
+<hr />
+<h3 id="1-generating-smil-with-php">1. Generating SMIL with PHP</h3>
+<p>PHP can generate SMIL files by setting the response header and
+outputting XML either via standard templates or using the
+<code>DOMDocument</code> class for strict validation.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;?php</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">header</span>(<span class="st">&#39;Content-Type: application/smil+xml; charset=UTF-8&#39;</span>)<span class="ot">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Sample dynamic media items from a database or array</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="va">$mediaItems</span> <span class="op">=</span> [</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    [<span class="st">&#39;src&#39;</span> =&gt; <span class="st">&#39;intro.mp4&#39;</span><span class="ot">,</span> <span class="st">&#39;duration&#39;</span> =&gt; <span class="st">&#39;5s&#39;</span>]<span class="ot">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    [<span class="st">&#39;src&#39;</span> =&gt; <span class="st">&#39;main_feature.mp4&#39;</span><span class="ot">,</span> <span class="st">&#39;duration&#39;</span> =&gt; <span class="st">&#39;120s&#39;</span>]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>]<span class="ot">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">echo</span> <span class="st">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#39;</span> <span class="op">.</span> <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span><span class="ot">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">?&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>smil xmlns<span class="op">=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span> version<span class="op">=</span><span class="st">&quot;3.0&quot;</span> baseProfile<span class="op">=</span><span class="st">&quot;Language&quot;</span><span class="op">&gt;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">&lt;</span>head<span class="op">&gt;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>meta name<span class="op">=</span><span class="st">&quot;title&quot;</span> content<span class="op">=</span><span class="st">&quot;Dynamic Playlist&quot;</span> <span class="op">/&gt;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="op">&lt;/</span>head<span class="op">&gt;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="op">&lt;</span>body<span class="op">&gt;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>seq<span class="op">&gt;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;</span><span class="ot">?</span>php <span class="cf">foreach</span> (<span class="va">$mediaItems</span> <span class="kw">as</span> <span class="va">$item</span>)<span class="ot">:</span> <span class="kw">?&gt;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span>video src<span class="op">=</span><span class="st">&quot;&lt;?= htmlspecialchars(</span><span class="va">$item</span>[<span class="er">&#39;</span><span class="st">src&#39;], ENT_QUOTES, &#39;UTF-8&#39;) ?&gt;&quot;</span> dur<span class="op">=</span><span class="st">&quot;&lt;?= htmlspecialchars(</span><span class="va">$item</span>[<span class="er">&#39;</span><span class="st">duration&#39;], ENT_QUOTES, &#39;UTF-8&#39;) ?&gt;&quot;</span> <span class="op">/&gt;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;</span><span class="ot">?</span>php <span class="cf">endforeach</span><span class="ot">;</span> <span class="kw">?&gt;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;/</span>seq<span class="op">&gt;</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="op">&lt;/</span>body<span class="op">&gt;</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;/</span>smil<span class="op">&gt;</span></span></code></pre></div>
+<hr />
+<h3 id="2-generating-smil-with-python">2. Generating SMIL with
+Python</h3>
+<p>Using a framework like Flask, you can generate SMIL dynamically using
+Python's built-in <code>xml.etree.ElementTree</code> or template engines
+like Jinja2. The <code>ElementTree</code> approach ensures the XML is
+properly escaped and structured.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> flask <span class="im">import</span> Flask, Response</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xml.etree.ElementTree <span class="im">as</span> ET</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> Flask(<span class="va">__name__</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/playlist.smil&#39;</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_smil():</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    smil <span class="op">=</span> ET.Element(<span class="st">&#39;smil&#39;</span>, xmlns<span class="op">=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span>, version<span class="op">=</span><span class="st">&quot;3.0&quot;</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    head <span class="op">=</span> ET.SubElement(smil, <span class="st">&#39;head&#39;</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    ET.SubElement(head, <span class="st">&#39;meta&#39;</span>, name<span class="op">=</span><span class="st">&quot;title&quot;</span>, content<span class="op">=</span><span class="st">&quot;Dynamic Stream&quot;</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    body <span class="op">=</span> ET.SubElement(smil, <span class="st">&#39;body&#39;</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    seq <span class="op">=</span> ET.SubElement(body, <span class="st">&#39;seq&#39;</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    media_files <span class="op">=</span> [</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        {<span class="st">&quot;src&quot;</span>: <span class="st">&quot;video1.mp4&quot;</span>, <span class="st">&quot;dur&quot;</span>: <span class="st">&quot;10s&quot;</span>},</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        {<span class="st">&quot;src&quot;</span>: <span class="st">&quot;video2.mp4&quot;</span>, <span class="st">&quot;dur&quot;</span>: <span class="st">&quot;15s&quot;</span>}</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> media <span class="kw">in</span> media_files:</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        ET.SubElement(seq, <span class="st">&#39;video&#39;</span>, src<span class="op">=</span>media[<span class="st">&#39;src&#39;</span>], dur<span class="op">=</span>media[<span class="st">&#39;dur&#39;</span>])</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    xml_data <span class="op">=</span> ET.tostring(smil, encoding<span class="op">=</span><span class="st">&#39;utf-8&#39;</span>, xml_declaration<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Response(xml_data, mimetype<span class="op">=</span><span class="st">&#39;application/smil+xml&#39;</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&#39;__main__&#39;</span>:</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    app.run(port<span class="op">=</span><span class="dv">5000</span>)</span></code></pre></div>
+<hr />
+<h3 id="3-generating-smil-with-nodejs">3. Generating SMIL with
+Node.js</h3>
+<p>In Node.js, you can build SMIL payloads using a framework like
+Express alongside an XML-building library such as
+<code>xmlbuilder2</code> to prevent XML injection errors.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> express <span class="op">=</span> <span class="pp">require</span>(<span class="st">&#39;express&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> { create } <span class="op">=</span> <span class="pp">require</span>(<span class="st">&#39;xmlbuilder2&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> app <span class="op">=</span> <span class="fu">express</span>()<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>app<span class="op">.</span><span class="fu">get</span>(<span class="st">&#39;/playlist.smil&#39;</span><span class="op">,</span> (req<span class="op">,</span> res) <span class="kw">=&gt;</span> {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> mediaList <span class="op">=</span> [</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    { <span class="dt">src</span><span class="op">:</span> <span class="st">&#39;stream1.mp4&#39;</span><span class="op">,</span> <span class="dt">systemBitrate</span><span class="op">:</span> <span class="st">&#39;1000000&#39;</span> }<span class="op">,</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    { <span class="dt">src</span><span class="op">:</span> <span class="st">&#39;stream2.mp4&#39;</span><span class="op">,</span> <span class="dt">systemBitrate</span><span class="op">:</span> <span class="st">&#39;2500000&#39;</span> }</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> <span class="bu">root</span> <span class="op">=</span> <span class="fu">create</span>({ <span class="dt">version</span><span class="op">:</span> <span class="st">&#39;1.0&#39;</span><span class="op">,</span> <span class="dt">encoding</span><span class="op">:</span> <span class="st">&#39;UTF-8&#39;</span> })</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">ele</span>(<span class="st">&#39;smil&#39;</span><span class="op">,</span> { <span class="dt">xmlns</span><span class="op">:</span> <span class="st">&#39;http://www.w3.org/ns/SMIL&#39;</span><span class="op">,</span> <span class="dt">version</span><span class="op">:</span> <span class="st">&#39;3.0&#39;</span> })</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">ele</span>(<span class="st">&#39;head&#39;</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">up</span>()</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">ele</span>(<span class="st">&#39;body&#39;</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">ele</span>(<span class="st">&#39;switch&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  mediaList<span class="op">.</span><span class="fu">forEach</span>(item <span class="kw">=&gt;</span> {</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">root</span><span class="op">.</span><span class="fu">ele</span>(<span class="st">&#39;video&#39;</span><span class="op">,</span> {</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>      <span class="dt">src</span><span class="op">:</span> item<span class="op">.</span><span class="at">src</span><span class="op">,</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>      <span class="st">&#39;system-bitrate&#39;</span><span class="op">:</span> item<span class="op">.</span><span class="at">systemBitrate</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    })<span class="op">.</span><span class="fu">up</span>()<span class="op">;</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> xml <span class="op">=</span> <span class="bu">root</span><span class="op">.</span><span class="fu">end</span>({ <span class="dt">prettyPrint</span><span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  res<span class="op">.</span><span class="fu">set</span>(<span class="st">&#39;Content-Type&#39;</span><span class="op">,</span> <span class="st">&#39;application/smil+xml&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  res<span class="op">.</span><span class="fu">send</span>(xml)<span class="op">;</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>app<span class="op">.</span><span class="fu">listen</span>(<span class="dv">3000</span><span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Server running on port 3000&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<hr />
+<h3 id="best-practices">Best Practices</h3>
+<ul>
+<li><strong>Sanitize Input:</strong> Always encode user-provided
+variables or filenames using proper XML escaping functions to avoid
+generating malformed markup.</li>
+<li><strong>Caching:</strong> Set appropriate <code>Cache-Control</code>
+headers. If playlists update rarely, cache the dynamic output; if SMIL
+is used for real-time live ad insertion, mark responses with
+<code>no-cache</code>.</li>
+<li><strong>Validation:</strong> Test output using standard XML
+validators or dedicated media server parsers (such as Wowza or Nimble
+Streamer) to ensure compliance with SMIL schema versions.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

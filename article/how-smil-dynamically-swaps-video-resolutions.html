@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How SMIL Dynamically Swaps Video Resolutions - smil</title>
+    <meta name="description" content="This article details the mechanism behind dynamically swapping video resolutions in Synchronized Multimedia Integration Language (SMIL) based on fluctuating network speeds. It explores how client-side bandwidth detection, the SMIL <switch> element, bitra">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-smil-dynamically-swaps-video-resolutions">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How SMIL Dynamically Swaps Video Resolutions - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-smil-dynamically-swaps-video-resolutions" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article details the mechanism behind dynamically swapping video resolutions in Synchronized Multimedia Integration Language (SMIL) based on fluctuating network speeds. It explores how client-side bandwidth detection, the SMIL <switch> element, bitra" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-smil-dynamically-swaps-video-resolutions">How SMIL
+Dynamically Swaps Video Resolutions</h1>
+<p>This article details the mechanism behind dynamically swapping video
+resolutions in Synchronized Multimedia Integration Language (SMIL) based
+on fluctuating network speeds. It explores how client-side bandwidth
+detection, the SMIL <code>&lt;switch&gt;</code> element, bitrate
+threshold attributes, and keyframe alignment work together to deliver
+uninterrupted adaptive bitrate streaming.</p>
+<h3 id="the-smil-switch-element">The SMIL <code>&lt;switch&gt;</code>
+Element</h3>
+<p>The foundation of dynamic stream switching in SMIL is the
+<code>&lt;switch&gt;</code> element. The <code>&lt;switch&gt;</code> tag
+allows authors to define multiple alternative media elements,
+instructing the media player to evaluate constraints and select the
+single best child element to play at any given moment.</p>
+<p>Inside the <code>&lt;switch&gt;</code> block, multiple video streams
+of the same content are declared, each encoded at different resolutions,
+frame rates, and bitrates.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">switch</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;video_1080p.mp4&quot;</span> <span class="ot">systemBitrate=</span><span class="st">&quot;4500000&quot;</span> <span class="ot">width=</span><span class="st">&quot;1920&quot;</span> <span class="ot">height=</span><span class="st">&quot;1080&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;video_720p.mp4&quot;</span>  <span class="ot">systemBitrate=</span><span class="st">&quot;2500000&quot;</span> <span class="ot">width=</span><span class="st">&quot;1280&quot;</span> <span class="ot">height=</span><span class="st">&quot;720&quot;</span> /&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;video_480p.mp4&quot;</span>  <span class="ot">systemBitrate=</span><span class="st">&quot;1000000&quot;</span> <span class="ot">width=</span><span class="st">&quot;854&quot;</span>  <span class="ot">height=</span><span class="st">&quot;480&quot;</span> /&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;video_360p.mp4&quot;</span>  <span class="ot">systemBitrate=</span><span class="st">&quot;500000&quot;</span>  <span class="ot">width=</span><span class="st">&quot;640&quot;</span>  <span class="ot">height=</span><span class="st">&quot;360&quot;</span> /&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">switch</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<h3 id="the-systembitrate-test-attribute">The <code>systemBitrate</code>
+Test Attribute</h3>
+<p>Dynamic adaptation relies on the <code>systemBitrate</code> attribute
+assigned to each <code>&lt;video&gt;</code> node. This attribute defines
+the estimated bandwidth, expressed in bits per second, required to
+deliver that specific stream smoothly.</p>
+<p>When evaluating the <code>&lt;switch&gt;</code> block, the player
+processes the choices from top to bottom. It compares the current
+available bandwidth against the <code>systemBitrate</code> value of each
+stream. The player selects the highest-bitrate stream that does not
+exceed the currently measured network throughput.</p>
+<h3 id="bandwidth-monitoring-and-heuristics">Bandwidth Monitoring and
+Heuristics</h3>
+<p>The dynamic swapping process requires constant measurement of the
+client's network environment:</p>
+<ol type="1">
+<li><strong>Throughput Calculation:</strong> The media client
+continuously calculates the download rate of incoming media packets or
+video segments.</li>
+<li><strong>Buffer Fill Rate:</strong> The client monitors the player
+buffer (measured in seconds of cached video). If the buffer drains
+faster than it fills, bandwidth has degraded. If the buffer remains
+full, spare bandwidth is available.</li>
+<li><strong>Threshold Assessment:</strong> When network speed changes
+significantly, the client re-evaluates the <code>systemBitrate</code>
+conditions defined in the SMIL file to determine if a transition to a
+higher or lower resolution is required.</li>
+</ol>
+<h3 id="seamless-switching-at-keyframe-boundaries">Seamless Switching at
+Keyframe Boundaries</h3>
+<p>Changing video resolutions mid-stream without causing playback
+stutter, visual artifacts, or audio desynchronization requires strict
+encoding and playback synchronization:</p>
+<ul>
+<li><strong>Aligned Keyframes (GOP Alignment):</strong> All alternative
+video streams must be encoded with identical Group of Pictures (GOP)
+structures and matching keyframe (I-frame) intervals.</li>
+<li><strong>Shared Timelines:</strong> Each resolution variant must
+share the same presentation timestamps (PTS).</li>
+<li><strong>Execution of the Switch:</strong> When a switch condition is
+met, the player does not change resolutions immediately. Instead, it
+waits for the next incoming keyframe boundary. At this exact
+synchronization point, the decoder seamlessly substitutes the video
+stream for the new resolution while keeping the audio stream continuous
+and uninterrupted.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

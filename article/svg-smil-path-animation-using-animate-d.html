@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG SMIL Path Animation: Using animate d - smil</title>
+    <meta name="description" content="This article provides an overview of how Scalable Vector Graphics (SVG) leverages Synchronized Multimedia Integration Language (SMIL) to animate complex shapes. It details how the <animate> element modifies the path data (d) attribute, the strict structu">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/svg-smil-path-animation-using-animate-d">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SVG SMIL Path Animation: Using animate d - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/svg-smil-path-animation-using-animate-d" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of how Scalable Vector Graphics (SVG) leverages Synchronized Multimedia Integration Language (SMIL) to animate complex shapes. It details how the <animate> element modifies the path data (d) attribute, the strict structu" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="svg-smil-path-animation-using-animate-d">SVG SMIL Path
+Animation: Using animate d</h1>
+<p>This article provides an overview of how Scalable Vector Graphics
+(SVG) leverages Synchronized Multimedia Integration Language (SMIL) to
+animate complex shapes. It details how the <code>&lt;animate&gt;</code>
+element modifies the path data (<code>d</code>) attribute, the strict
+structural rules required for seamless shape morphing, key timing
+attributes, and how browsers compute vector interpolation natively
+without external JavaScript libraries.</p>
+<h2 id="how-smil-path-morphing-works">How SMIL Path Morphing Works</h2>
+<p>In SVG, the <code>&lt;path&gt;</code> element defines custom vector
+shapes through its <code>d</code> (data) attribute, which contains a
+series of path commands (such as <code>M</code> for moveto,
+<code>L</code> for lineto, and <code>C</code> for curveto) followed by
+coordinate pairs.</p>
+<p>To animate this attribute using SMIL, an <code>&lt;animate&gt;</code>
+element is nested inside the <code>&lt;path&gt;</code>. By setting the
+<code>attributeName</code> property to <code>"d"</code>, the SVG user
+agent continuously interpolates the numerical coordinate values over
+time, creating a morphing effect between distinct shapes.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">svg</span> <span class="ot">viewBox=</span><span class="st">&quot;0 0 100 100&quot;</span> <span class="ot">width=</span><span class="st">&quot;200&quot;</span> <span class="ot">height=</span><span class="st">&quot;200&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">path</span> <span class="ot">fill=</span><span class="st">&quot;teal&quot;</span> <span class="ot">d=</span><span class="st">&quot;M 10 10 L 90 10 L 90 90 L 10 90 Z&quot;</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animate</span> </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="ot">attributeName=</span><span class="st">&quot;d&quot;</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="ot">dur=</span><span class="st">&quot;2s&quot;</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="ot">to=</span><span class="st">&quot;M 50 10 L 90 90 L 50 70 L 10 90 Z&quot;</span> /&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">path</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">svg</span>&gt;</span></code></pre></div>
+<h2 id="the-topology-matching-requirement">The Topology Matching
+Requirement</h2>
+<p>The critical rule governing path animation in SMIL is
+<strong>structural parity</strong>. A browser cannot automatically
+generate or remove vector control points during a transition. For smooth
+interpolation to occur:</p>
+<ol type="1">
+<li><strong>Identical Command Sequences:</strong> The list of path
+commands must match exactly in order and type. For instance, if the
+starting path uses <code>M ... C ... C ... Z</code>, the destination
+path must also use <code>M ... C ... C ... Z</code>.</li>
+<li><strong>Matching Coordinate Counts:</strong> Each command must
+contain the exact same number of arguments. You cannot interpolate
+directly between a straight line (<code>L</code>, two values) and a
+cubic Bézier curve (<code>C</code>, six values).</li>
+<li><strong>Identical Subpath Structures:</strong> Both states must
+contain the same number of subpaths and closepath
+(<code>Z</code>/<code>z</code>) commands.</li>
+</ol>
+<p>If the command counts, types, or segment orders differ between the
+source and target states, the browser fails to interpolate. Instead, it
+falls back to a discrete jump, switching abruptly to the new shape at
+the halfway mark or end of the duration.</p>
+<p>To morph between shapes with differing visual structures—such as a
+triangle and a circle—designers must normalize the paths. For example, a
+triangle must be constructed using Bézier curves with flat handles so
+that its point count matches the circle's control points.</p>
+<h2 id="key-attributes-for-animate-d">Key Attributes for
+<code>&lt;animate d="..."&gt;</code></h2>
+<p>Several attributes control the mechanics of the path animation:</p>
+<ul>
+<li><strong><code>attributeName="d"</code>:</strong> Targets the path
+definition string for animation.</li>
+<li><strong><code>from</code> and <code>to</code>:</strong> Defines the
+start and end path strings for a simple two-state transition.</li>
+<li><strong><code>values</code>:</strong> A semicolon-separated list of
+path states used for multi-step animations (e.g.,
+<code>values="path1; path2; path3; path1"</code>).</li>
+<li><strong><code>dur</code>:</strong> Specifies the clock duration for
+one cycle of the animation (e.g., <code>3s</code>,
+<code>500ms</code>).</li>
+<li><strong><code>repeatCount</code>:</strong> Controls playback
+repetition, accepting a numeric value or <code>"indefinite"</code>.</li>
+<li><strong><code>calcMode</code>:</strong> Dictates how intermediate
+points are calculated:
+<ul>
+<li><code>linear</code> (default): Interpolates coordinates at an even
+pace between keyframes.</li>
+<li><code>paced</code>: Calculates interpolation to produce an even
+speed across the entire animation, though rarely used with
+<code>d</code> due to computational complexity.</li>
+<li><code>spline</code>: Uses cubic Bézier timing curves defined by the
+<code>keySplines</code> attribute to simulate easing (e.g., ease-in,
+ease-out).</li>
+<li><code>discrete</code>: Jumps from one path state to the next with no
+smooth transition.</li>
+</ul></li>
+<li><strong><code>keyTimes</code>:</strong> A semicolon-delimited list
+of normalized time values (ranging from <code>0</code> to
+<code>1</code>) that dictates when each path in the <code>values</code>
+list should be reached.</li>
+</ul>
+<h2 id="performance-and-browser-execution">Performance and Browser
+Execution</h2>
+<p>SMIL animations of the <code>d</code> attribute are processed
+natively by the browser's rendering engine. During each frame of the
+animation cycle:</p>
+<ol type="1">
+<li>The renderer parses the numeric values associated with each command
+in the path string.</li>
+<li>It linearly calculates the delta for each coordinate pair based on
+elapsed time and easing settings.</li>
+<li>It constructs a temporary path in memory and rasterizes the new
+shape to the screen.</li>
+</ol>
+<p>Because SMIL runs directly within the SVG DOM, animations persist
+when SVGs are embedded via <code>&lt;img&gt;</code> tags or used as CSS
+background images, scenarios where external JavaScript morphing engines
+(like GreenSock or anime.js) cannot execute.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

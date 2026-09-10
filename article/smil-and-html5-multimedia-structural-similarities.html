@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL and HTML5 Multimedia Structural Similarities - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) and HTML5 multimedia elements like <video> and <audio> share a common architectural lineage designed to make rich media a native component of the web. This article explores the primary structural simila">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-and-html5-multimedia-structural-similarities">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL and HTML5 Multimedia Structural Similarities - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-and-html5-multimedia-structural-similarities" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) and HTML5 multimedia elements like <video> and <audio> share a common architectural lineage designed to make rich media a native component of the web. This article explores the primary structural simila" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-and-html5-multimedia-structural-similarities">SMIL and
+HTML5 Multimedia Structural Similarities</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) and HTML5
+multimedia elements like <code>&lt;video&gt;</code> and
+<code>&lt;audio&gt;</code> share a common architectural lineage designed
+to make rich media a native component of the web. This article explores
+the primary structural similarities between the two specifications,
+detailing how both employ declarative syntax, centralized resource
+referencing, attribute-driven playback controls, and fallback mechanisms
+to manage media without requiring third-party plugins.</p>
+<h3 id="declarative-markup-paradigm">Declarative Markup Paradigm</h3>
+<p>Both SMIL and HTML5 abandon procedural scripts and proprietary
+browser plugins in favor of declarative, tag-based markup. In both
+architectures, audio and video objects are defined as standard elements
+directly within the document tree:</p>
+<ul>
+<li><strong>SMIL:</strong> Uses dedicated tags such as
+<code>&lt;video&gt;</code>, <code>&lt;audio&gt;</code>,
+<code>&lt;img /&gt;</code>, and <code>&lt;text&gt;</code> to declare
+visual and auditory assets.</li>
+<li><strong>HTML5:</strong> Uses dedicated <code>&lt;video&gt;</code>
+and <code>&lt;audio&gt;</code> elements natively integrated into the
+Document Object Model (DOM).</li>
+</ul>
+<p>This structural design allows parsers to treat multimedia components
+as first-class document nodes capable of interacting with stylesheets,
+scripts, and parent containers.</p>
+<h3 id="resource-referencing-and-media-sourcing">Resource Referencing
+and Media Sourcing</h3>
+<p>SMIL and HTML5 handle asset linking through nearly identical
+structures:</p>
+<ul>
+<li><strong>Direct URI Attributes:</strong> Both use the
+<code>src</code> attribute directly on the parent element to identify
+the path of the media file (e.g.,
+<code>&lt;video src="media.mp4"&gt;</code> in HTML5 and
+<code>&lt;video src="media.mp4" /&gt;</code> in SMIL).</li>
+<li><strong>Alternative Sourcing:</strong> To handle codec
+compatibility, both architectures support nested declarative
+declarations. HTML5 uses the <code>&lt;source&gt;</code> tag with
+<code>type</code> attributes, while SMIL uses the
+<code>&lt;switch&gt;</code> container to evaluate system capabilities
+and select the appropriate media resource.</li>
+</ul>
+<h3 id="intrinsic-temporal-and-playback-attributes">Intrinsic Temporal
+and Playback Attributes</h3>
+<p>Controlling media delivery in both SMIL and HTML5 relies on
+standardized element-level attributes rather than external programmatic
+controls:</p>
+<ul>
+<li><strong>Repetition:</strong> Both support looping behavior. HTML5
+uses the boolean <code>loop</code> attribute, mirroring SMIL's
+<code>repeatCount</code> and <code>repeatDur</code> attributes.</li>
+<li><strong>Automated Playback:</strong> Both specifications implement
+declarative auto-start behaviors through attributes like
+<code>autoplay</code>.</li>
+<li><strong>Media Fragments and Offsets:</strong> SMIL introduced
+<code>clipBegin</code> and <code>clipEnd</code> to play specific
+segments of a media file without physical editing. HTML5 adopts this
+model structurally via Media Fragments URI syntax (e.g.,
+<code>#t=10,30</code>) and modern temporal attributes.</li>
+</ul>
+<h3 id="accessibility-and-text-track-integration">Accessibility and Text
+Track Integration</h3>
+<p>Synchronizing external text—such as captions, subtitles, and
+descriptions—is fundamental to both architectures:</p>
+<ul>
+<li><strong>HTML5:</strong> Integrates the <code>&lt;track&gt;</code>
+element as a direct child of <code>&lt;video&gt;</code> and
+<code>&lt;audio&gt;</code>, linking external WebVTT files with defined
+roles (captions, subtitles, descriptions).</li>
+<li><strong>SMIL:</strong> Structurally synchronizes text via parallel
+timing containers (<code>&lt;par&gt;</code>) linking
+<code>&lt;text&gt;</code> or <code>&lt;textstream&gt;</code> elements to
+video components with matching <code>begin</code> and <code>dur</code>
+timings.</li>
+</ul>
+<p>While SMIL implemented synchronization through explicit parent timing
+containers and HTML5 relies on integrated sub-elements and browser-level
+timing engines, both prioritize an identical hierarchical relationship
+between primary media and supporting accessibility tracks.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

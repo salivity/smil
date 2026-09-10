@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does SMIL syncMaster Synchronize Streams? - smil</title>
+    <meta name="description" content="In Synchronized Multimedia Integration Language (SMIL), the syncMaster="true" attribute designates a specific media stream as the primary clock source for a synchronized presentation. When parallel media elements such as audio, video, and text captions p">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-smil-syncmaster-synchronize-streams">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does SMIL syncMaster Synchronize Streams? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-smil-syncmaster-synchronize-streams" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In Synchronized Multimedia Integration Language (SMIL), the syncMaster="true" attribute designates a specific media stream as the primary clock source for a synchronized presentation. When parallel media elements such as audio, video, and text captions p" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-smil-syncmaster-synchronize-streams">How Does SMIL
+syncMaster Synchronize Streams?</h1>
+<p>In Synchronized Multimedia Integration Language (SMIL), the
+<code>syncMaster="true"</code> attribute designates a specific media
+stream as the primary clock source for a synchronized presentation. When
+parallel media elements such as audio, video, and text captions play
+simultaneously, hardware timing differences, network latency, and
+decoding overhead can cause streams to drift out of sync. Assigning
+<code>syncMaster="true"</code> forces the SMIL playback engine to tie
+the presentation's timeline directly to that designated master element,
+ensuring that all dependent sibling elements adjust their playback to
+stay strictly aligned.</p>
+<h2 id="the-challenge-of-multi-stream-media-drift">The Challenge of
+Multi-Stream Media Drift</h2>
+<p>When multiple continuous media objects run inside a parallel
+container (<code>&lt;par&gt;</code>), each file typically possesses its
+own internal playback clock and decoding pipeline. Over time, slight
+deviations occur:</p>
+<ul>
+<li><strong>Buffer Stalls:</strong> A video stream might pause to fetch
+more data while an audio stream continues unhindered.</li>
+<li><strong>Hardware &amp; Processing Delays:</strong> Rendering
+high-resolution video frames requires more processing power than
+rendering subtitles or plain text, leading to lagging visuals.</li>
+<li><strong>Clock Skew:</strong> Slight clock frequency discrepancies
+between audio and video hardware outputs can accumulate over long
+presentations.</li>
+</ul>
+<p>Without a master clock, the playback engine either allows elements to
+drift independently or relies on a generic presentation clock that may
+not reflect whether a specific media stream has stalled or skipped.</p>
+<h2 id="how-syncmaster-establishes-the-master-clock">How syncMaster
+Establishes the Master Clock</h2>
+<p>When you assign <code>syncMaster="true"</code> to a continuous media
+element—most commonly the main audio or video track—it becomes the
+authoritative reference for its parent container.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">par</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;presentation.mp4&quot;</span> <span class="ot">syncMaster=</span><span class="st">&quot;true&quot;</span> /&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;commentary.mp3&quot;</span> <span class="ot">syncBehavior=</span><span class="st">&quot;locked&quot;</span> /&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">textstream</span> <span class="ot">src=</span><span class="st">&quot;subtitles.rt&quot;</span> <span class="ot">syncBehavior=</span><span class="st">&quot;locked&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">par</span>&gt;</span></code></pre></div>
+<p>Under this configuration:</p>
+<ol type="1">
+<li><strong>Master Dictates Time:</strong> The playback engine polls the
+time code directly from the designated master element rather than
+relying on an abstract internal timer.</li>
+<li><strong>Buffer Synchronization:</strong> If the sync master
+encounters a buffer underflow and pauses playback, the entire
+synchronization context pauses. Dependent streams freeze on their
+current frame or silence until the master resumes.</li>
+<li><strong>Seek Coordination:</strong> When a user seeks or skips
+forward within the sync master, all synchronized child elements
+immediately adjust their positions to match the master's new
+timestamp.</li>
+<li><strong>Speed and Rate Matching:</strong> If the master element
+changes playback rate (such as 1.5x fast-forward), dependent elements
+scale their playback rates accordingly to preserve alignment.</li>
+</ol>
+<h2 id="relationship-with-syncbehavior-and-synctolerance">Relationship
+with syncBehavior and syncTolerance</h2>
+<p>The <code>syncMaster</code> attribute works in tandem with two other
+SMIL synchronization attributes: <code>syncBehavior</code> and
+<code>syncTolerance</code>.</p>
+<h3 id="syncbehavior-settings">syncBehavior Settings</h3>
+<p>The <code>syncBehavior</code> attribute defines how strictly
+dependent elements must follow the timeline:</p>
+<ul>
+<li><strong><code>locked</code>:</strong> The element must strictly
+adhere to the sync master's clock. If the element falls behind, it must
+drop frames or skip ahead; if it gets ahead, it must wait.</li>
+<li><strong><code>canSlip</code>:</strong> The element is allowed to
+drift if necessary, prioritizing smooth playback of its own content over
+strict temporal alignment.</li>
+<li><strong><code>default</code>:</strong> The element inherits the
+synchronization rules defined by the runtime environment or parent
+container.</li>
+</ul>
+<h3 id="synctolerance-thresholds">syncTolerance Thresholds</h3>
+<p>The <code>syncTolerance</code> attribute specifies an acceptable time
+window (e.g., <code>syncTolerance="0.2s"</code>) within which a stream
+is allowed to deviate before the engine forces a resynchronization. This
+prevents jarring micro-adjustments and stuttering caused by minor,
+imperceptible frame delays.</p>
+<h2 id="precedence-and-scope-rules">Precedence and Scope Rules</h2>
+<p>SMIL enforces strict constraints on master designation to prevent
+conflicting timing instructions:</p>
+<ul>
+<li><strong>Single Master per Scope:</strong> Only one active media
+element can serve as the sync master within a single synchronization
+context at any given time.</li>
+<li><strong>Document Order Precedence:</strong> If multiple elements
+within the same <code>&lt;par&gt;</code> container declare
+<code>syncMaster="true"</code>, the SMIL player gives precedence to the
+first active element encountered in document order, ignoring subsequent
+master declarations until the first finishes.</li>
+<li><strong>Hierarchical Scope:</strong> The master designation applies
+to the immediate synchronization container and its children, allowing
+nested containers to manage sub-timelines if necessary.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

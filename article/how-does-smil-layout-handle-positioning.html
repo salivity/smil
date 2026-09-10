@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does SMIL Layout Handle Positioning? - smil</title>
+    <meta name="description" content="The <layout> element in Synchronized Multimedia Integration Language (SMIL) serves as the central container for determining the visual coordinate space and spatial arrangement of all rendered media assets. Placed within the document's <head> section, it">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-smil-layout-handle-positioning">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does SMIL Layout Handle Positioning? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-smil-layout-handle-positioning" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The <layout> element in Synchronized Multimedia Integration Language (SMIL) serves as the central container for determining the visual coordinate space and spatial arrangement of all rendered media assets. Placed within the document's <head> section, it" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-smil-layout-handle-positioning">How Does SMIL Layout
+Handle Positioning?</h1>
+<p>The <code>&lt;layout&gt;</code> element in Synchronized Multimedia
+Integration Language (SMIL) serves as the central container for
+determining the visual coordinate space and spatial arrangement of all
+rendered media assets. Placed within the document's
+<code>&lt;head&gt;</code> section, it establishes the master display
+canvas and partitions that screen area into reusable regions. This
+architecture enables authors to strictly decouple spatial presentation
+rules from the temporal timeline declared in the document body, giving
+developers complete control over multi-layered visual staging.</p>
+<h2 id="structural-position-and-canvas-definition">Structural Position
+and Canvas Definition</h2>
+<p>Within the SMIL document hierarchy, the <code>&lt;layout&gt;</code>
+element acts as a configuration block that must appear before any
+presentation playback begins. It hosts the
+<code>&lt;root-layout&gt;</code> element, which sets the dimensions,
+background color, and title of the primary application viewport.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">layout</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">root-layout</span> <span class="ot">width=</span><span class="st">&quot;1920&quot;</span> <span class="ot">height=</span><span class="st">&quot;1080&quot;</span> <span class="ot">background-color=</span><span class="st">&quot;#000000&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;main_video&quot;</span> <span class="ot">left=</span><span class="st">&quot;0&quot;</span> <span class="ot">top=</span><span class="st">&quot;0&quot;</span> <span class="ot">width=</span><span class="st">&quot;1440&quot;</span> <span class="ot">height=</span><span class="st">&quot;1080&quot;</span> /&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;sidebar&quot;</span> <span class="ot">left=</span><span class="st">&quot;1440&quot;</span> <span class="ot">top=</span><span class="st">&quot;0&quot;</span> <span class="ot">width=</span><span class="st">&quot;480&quot;</span> <span class="ot">height=</span><span class="st">&quot;1080&quot;</span> /&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Media references go here --&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<p>The <code>&lt;root-layout&gt;</code> defines the outer bounds of the
+render window. If omitted, the host application or player determines
+default canvas boundaries, which can cause inconsistent rendering across
+different client engines.</p>
+<h2 id="spatial-partitioning-with-the-region-element">Spatial
+Partitioning with the Region Element</h2>
+<p>Inside the <code>&lt;layout&gt;</code> block, authors define one or
+more <code>&lt;region&gt;</code> tags. Each <code>&lt;region&gt;</code>
+describes an explicit rectangular area on the screen using absolute
+pixels or percentage-based coordinate values. Key attributes governing
+this spatial control include:</p>
+<ul>
+<li><strong>Coordinates (<code>top</code>, <code>left</code>,
+<code>bottom</code>, <code>right</code>):</strong> Determine the origin
+point of the region relative to the root layout's coordinate
+system.</li>
+<li><strong>Dimensions (<code>width</code>,
+<code>height</code>):</strong> Control the size of the target rendering
+rectangle.</li>
+<li><strong>Layering (<code>z-index</code>):</strong> Sets the stacking
+order for overlapping media surfaces, where higher values render above
+lower values.</li>
+<li><strong>Aspect Ratio Handling (<code>fit</code>):</strong> Dictates
+how media adapts when its native aspect ratio does not match the
+region's geometry. Common values include <code>fill</code> (stretches to
+fill), <code>meet</code> (scales proportionally until constrained),
+<code>slice</code> (scales to cover, clipping excess), and
+<code>hidden</code> (maintains original scale and crops overflowing
+content).</li>
+</ul>
+<h2 id="decoupling-space-from-media-timing">Decoupling Space from Media
+Timing</h2>
+<p>The primary architectural advantage of the
+<code>&lt;layout&gt;</code> element is the separation of spatial
+properties from the temporal execution tree. Media elements in the
+document <code>&lt;body&gt;</code>—such as <code>&lt;video&gt;</code>,
+<code>&lt;img&gt;</code>, and <code>&lt;text&gt;</code>—do not declare
+their own pixel coordinates. Instead, they reference a predefined region
+identifier via the <code>region</code> attribute:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">seq</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;intro.mp4&quot;</span> <span class="ot">region=</span><span class="st">&quot;main_video&quot;</span> /&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;infographic.png&quot;</span> <span class="ot">region=</span><span class="st">&quot;sidebar&quot;</span> /&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">seq</span>&gt;</span></code></pre></div>
+<p>This structure allows multiple media clips across different timeline
+intervals to occupy the same screen real estate without duplicating
+coordinate rules. It also enables dynamic theme changes and resolution
+scaling by updating region metrics in a single
+<code>&lt;layout&gt;</code> block rather than modifying every media node
+in the file.</p>
+<h2 id="alternative-layout-engines-and-modularity">Alternative Layout
+Engines and Modularity</h2>
+<p>While SMIL provides native declarative spatial elements via its Basic
+Layout module, the <code>&lt;layout&gt;</code> element also supports
+external layout vocabularies. By adjusting the <code>type</code>
+attribute (such as <code>type="text/css"</code>), authors can delegate
+spatial positioning to Cascading Style Sheets or SMIL Hierarchical
+Layout modules.</p>
+<p>Through its coordinate mapping, layer stacking, and region management
+capabilities, the <code>&lt;layout&gt;</code> element remains the
+foundational building block for constructing complex, broadcast-style
+visual presentations in SMIL.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

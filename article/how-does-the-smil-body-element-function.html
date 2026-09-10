@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does the SMIL Body Element Function? - smil</title>
+    <meta name="description" content="In Synchronized Multimedia Integration Language (SMIL), the <body> element serves as the execution engine and primary container for all media content and temporal logic. While the <head> element defines document-level metadata, spatial layouts, and styli">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-the-smil-body-element-function">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does the SMIL Body Element Function? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-the-smil-body-element-function" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In Synchronized Multimedia Integration Language (SMIL), the <body> element serves as the execution engine and primary container for all media content and temporal logic. While the <head> element defines document-level metadata, spatial layouts, and styli" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-the-smil-body-element-function">How Does the SMIL Body
+Element Function?</h1>
+<p>In Synchronized Multimedia Integration Language (SMIL), the
+<code>&lt;body&gt;</code> element serves as the execution engine and
+primary container for all media content and temporal logic. While the
+<code>&lt;head&gt;</code> element defines document-level metadata,
+spatial layouts, and styling rules, the <code>&lt;body&gt;</code>
+element defines what media plays, when it appears, and how different
+streams synchronize over time. This article explores the architecture of
+the <code>&lt;body&gt;</code> element, its default temporal behavior,
+its relationship to container structures like <code>&lt;seq&gt;</code>
+and <code>&lt;par&gt;</code>, and how it orchestrates multimedia
+delivery.</p>
+<h2 id="structural-role-within-the-smil-document">Structural Role Within
+the SMIL Document</h2>
+<p>A valid SMIL file follows an XML tree structure anchored by the root
+<code>&lt;smil&gt;</code> element, which directly encloses two primary
+child elements: <code>&lt;head&gt;</code> and
+<code>&lt;body&gt;</code>.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">layout</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">root-layout</span> <span class="ot">width=</span><span class="st">&quot;640&quot;</span> <span class="ot">height=</span><span class="st">&quot;480&quot;</span>/&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;main_region&quot;</span> <span class="ot">top=</span><span class="st">&quot;0&quot;</span> <span class="ot">left=</span><span class="st">&quot;0&quot;</span> <span class="ot">width=</span><span class="st">&quot;640&quot;</span> <span class="ot">height=</span><span class="st">&quot;480&quot;</span>/&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Temporal and media definitions occur here --&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<p>This design enforces a clean separation between spatial presentation
+and temporal execution. The <code>&lt;head&gt;</code> dictates where
+components are placed on a screen, but the <code>&lt;body&gt;</code>
+determines the timeline and interactive flow.</p>
+<h2 id="default-temporal-container-semantics">Default Temporal Container
+Semantics</h2>
+<p>The <code>&lt;body&gt;</code> tag is not merely a passive wrapper; it
+is an active time container. In standard SMIL specifications, the
+<code>&lt;body&gt;</code> element functions implicitly as a sequential
+(<code>&lt;seq&gt;</code>) or parallel (<code>&lt;par&gt;</code>)
+container depending on the SMIL profile in use.</p>
+<p>In standard SMIL timing architectures, <code>&lt;body&gt;</code>
+operates with parallel semantics by default. Any child element placed
+directly inside <code>&lt;body&gt;</code> starts playback at time zero
+relative to the presentation timeline unless explicitly constrained by
+timing attributes.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">body</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;background.mp4&quot;</span> <span class="ot">region=</span><span class="st">&quot;main_region&quot;</span> /&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;narration.mp3&quot;</span> /&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">body</span>&gt;</span></code></pre></div>
+<p>In the example above, both the video and audio tracks begin
+simultaneously when the SMIL presentation initializes.</p>
+<h2 id="encapsulation-of-media-and-time-containers">Encapsulation of
+Media and Time Containers</h2>
+<p>Inside the <code>&lt;body&gt;</code>, developers organize media
+through discrete media objects and composite time containers:</p>
+<ul>
+<li><strong>Media Elements:</strong> Core components like
+<code>&lt;video&gt;</code>, <code>&lt;audio&gt;</code>,
+<code>&lt;img&gt;</code>, and <code>&lt;text&gt;</code> reference raw
+multimedia assets and bind them to spatial regions defined in the
+layout.</li>
+<li><strong>Parallel Containers (<code>&lt;par&gt;</code>):</strong>
+Instruct the playback engine to execute all child media elements
+simultaneously.</li>
+<li><strong>Sequential Containers (<code>&lt;seq&gt;</code>):</strong>
+Instruct the player to execute child media elements one after another in
+document order.</li>
+<li><strong>Exclusive Containers (<code>&lt;excl&gt;</code>):</strong>
+Ensure that only one child element plays at any given moment, enabling
+interactive menus or user-driven selection tracks.</li>
+</ul>
+<p>By nesting <code>&lt;par&gt;</code>, <code>&lt;seq&gt;</code>, and
+<code>&lt;excl&gt;</code> tags inside <code>&lt;body&gt;</code>, complex
+multimedia orchestrations can be constructed without external
+scripting.</p>
+<h2 id="global-timing-and-lifecycle-control">Global Timing and Lifecycle
+Control</h2>
+<p>The <code>&lt;body&gt;</code> element also accepts global timing
+attributes that govern the lifecycle of the entire presentation:</p>
+<ul>
+<li><code>dur</code>: Specifies an explicit duration for the entire
+presentation. Once this duration elapses, playback halts regardless of
+remaining child timelines.</li>
+<li><code>begin</code> and <code>end</code>: Define master start and end
+conditions, which can be linked to wall-clock time, player triggers, or
+interactive events.</li>
+<li><code>repeatCount</code> or <code>repeatDur</code>: Governs looping
+behavior for the complete presentation lifecycle.</li>
+</ul>
+<p>Through these mechanisms, the <code>&lt;body&gt;</code> element
+functions as the central conductor of a SMIL presentation, integrating
+disparate assets into a synchronized timeline.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

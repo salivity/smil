@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How JavaScript Libraries Emulate SMIL in Browsers - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) enables the declarative timing, layout, and synchronization of multimedia elements, yet modern browsers have largely deprecated native SMIL support outside of basic SVG animations. JavaScript libraries">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-javascript-libraries-emulate-smil-in-browsers">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How JavaScript Libraries Emulate SMIL in Browsers - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-javascript-libraries-emulate-smil-in-browsers" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) enables the declarative timing, layout, and synchronization of multimedia elements, yet modern browsers have largely deprecated native SMIL support outside of basic SVG animations. JavaScript libraries" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-javascript-libraries-emulate-smil-in-browsers">How
+JavaScript Libraries Emulate SMIL in Browsers</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) enables the
+declarative timing, layout, and synchronization of multimedia elements,
+yet modern browsers have largely deprecated native SMIL support outside
+of basic SVG animations. JavaScript libraries such as SMILweb bridge
+this gap by reading SMIL markup, translating its declarative tags into
+HTML5 components, and managing a client-side execution loop. By parsing
+XML structures, building a virtual timing tree, and controlling standard
+media elements via the DOM, these libraries successfully emulate a
+native SMIL runtime environment inside standard web browsers.</p>
+<h3 id="xml-parsing-and-document-translation">XML Parsing and Document
+Translation</h3>
+<p>The emulation process begins with fetching and parsing the SMIL
+source code. Because SMIL is an XML-based format, libraries use the
+browser's built-in <code>DOMParser</code> to convert the raw SMIL file
+into an accessible XML Document Object Model.</p>
+<p>Once parsed, the library traverses the XML nodes and maps
+SMIL-specific elements to native HTML equivalents:</p>
+<ul>
+<li><strong>Media nodes</strong> such as <code>&lt;video&gt;</code>,
+<code>&lt;audio&gt;</code>, and <code>&lt;img&gt;</code> are mapped
+directly to HTML5 <code>&lt;video&gt;</code>,
+<code>&lt;audio&gt;</code>, and <code>&lt;img&gt;</code> elements.</li>
+<li><strong>Text and presentation nodes</strong> (like
+<code>&lt;text&gt;</code> or <code>&lt;textstream&gt;</code>) are
+converted into <code>&lt;div&gt;</code> or <code>&lt;span&gt;</code>
+elements.</li>
+<li><strong>Layout structures</strong> defined in the
+<code>&lt;head&gt;</code> through <code>&lt;layout&gt;</code> and
+<code>&lt;region&gt;</code> elements are translated into standard CSS
+rules, using absolute positioning, percentage-based dimensions, and
+<code>z-index</code> layering inside a main viewport container.</li>
+</ul>
+<h3 id="building-the-timing-and-synchronization-graph">Building the
+Timing and Synchronization Graph</h3>
+<p>SMIL's defining capability is its complex time model, which
+coordinates media using structural containers like
+<code>&lt;seq&gt;</code> (sequential playback), <code>&lt;par&gt;</code>
+(parallel playback), and <code>&lt;excl&gt;</code> (mutually exclusive
+playback). Because native HTML lacks these synchronization concepts, the
+JavaScript library constructs a hierarchical timing graph in memory.</p>
+<p>During this stage, the library resolves dynamic temporal
+relationships:</p>
+<ol type="1">
+<li><strong>Syncbase Timing:</strong> Resolves conditions where an
+element’s start depends on another element's lifecycle (e.g.,
+<code>begin="video1.end"</code>).</li>
+<li><strong>Durations and Repeats:</strong> Computes intrinsic
+durations, explicit durations (<code>dur</code>), and loop limits
+(<code>repeatCount</code>).</li>
+<li><strong>Event-Driven Triggers:</strong> Maps user interactions (like
+<code>begin="click"</code>) to standard JavaScript event listeners on
+corresponding DOM nodes.</li>
+</ol>
+<h3 id="the-virtual-clock-and-execution-engine">The Virtual Clock and
+Execution Engine</h3>
+<p>To maintain tight synchronization across multiple elements, the
+library deploys a master clock mechanism driven by
+<code>requestAnimationFrame()</code> or the Web Audio API's
+high-resolution timeline.</p>
+<p>During every clock tick, the emulation engine evaluates the state of
+the timing graph:</p>
+<ul>
+<li><strong>Activation:</strong> Elements scheduled to start at the
+current time are injected into or made visible within the active DOM
+layout, and their media playback is initiated via HTMLMediaElement
+methods (<code>.play()</code>).</li>
+<li><strong>Clock Drift Correction:</strong> Media elements like
+<code>&lt;video&gt;</code> and <code>&lt;audio&gt;</code> can drift due
+to buffering or system latency. The runtime monitors the
+<code>currentTime</code> property of playing media against the master
+timeline, seeking forward or backward to correct discrepancies.</li>
+<li><strong>Deactivation:</strong> When an element's calculated end time
+is reached, the engine halts the media, fires any registered exit
+events, and either hides the DOM elements or resets them according to
+the specified SMIL <code>fill</code> behavior (<code>freeze</code> or
+<code>remove</code>).</li>
+</ul>
+<h3 id="emulating-interactivity-and-event-routing">Emulating
+Interactivity and Event Routing</h3>
+<p>SMIL allows interactive navigation through tags like
+<code>&lt;a&gt;</code> and hyperlinking attributes that target specific
+timeline intervals. Emulation libraries capture standard browser
+user-input events and route them into the timing engine rather than
+following normal browser navigation paths. When an interactive link or
+trigger is activated, the library updates the timeline cursor,
+recalculates dependent temporal nodes, and dynamically updates visual
+media to mirror full SMIL player functionality natively in the
+browser.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

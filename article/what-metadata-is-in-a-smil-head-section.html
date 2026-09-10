@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Metadata Is in a SMIL Head Section? - smil</title>
+    <meta name="description" content="The <head> section of a Synchronized Multimedia Integration Language (SMIL) document contains essential non-visual information, configurations, and descriptive properties that govern how multimedia presentations behave and are cataloged. Rather than defi">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/what-metadata-is-in-a-smil-head-section">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Metadata Is in a SMIL Head Section? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/what-metadata-is-in-a-smil-head-section" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The <head> section of a Synchronized Multimedia Integration Language (SMIL) document contains essential non-visual information, configurations, and descriptive properties that govern how multimedia presentations behave and are cataloged. Rather than defi" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-metadata-is-in-a-smil-head-section">What Metadata Is in a
+SMIL Head Section?</h1>
+<p>The <code>&lt;head&gt;</code> section of a Synchronized Multimedia
+Integration Language (SMIL) document contains essential non-visual
+information, configurations, and descriptive properties that govern how
+multimedia presentations behave and are cataloged. Rather than defining
+the sequential playback of audio, video, or images, the
+<code>&lt;head&gt;</code> stores document-level properties,
+administrative details, semantic markup, and spatial layout rules.
+Understanding these metadata types is key to authoring accessible,
+searchable, and well-structured multimedia presentations.</p>
+<h2 id="basic-name-value-document-properties">Basic Name-Value Document
+Properties</h2>
+<p>The simplest form of metadata in a SMIL document is stored using the
+<code>&lt;meta&gt;</code> element. This element utilizes standard
+<code>name</code> and <code>content</code> attributes to define generic
+administrative and descriptive values. Common attributes include:</p>
+<ul>
+<li><strong>Title and Description:</strong> Identifies the formal title
+and a brief narrative summary of the multimedia presentation.</li>
+<li><strong>Author and Publisher:</strong> Specifies the individual,
+organization, or entity responsible for creating and distributing the
+file.</li>
+<li><strong>Copyright and Licensing:</strong> Details intellectual
+property rights, terms of use, or Creative Commons licensing.</li>
+<li><strong>Generator:</strong> Identifies the software, tool, or
+authoring environment used to output the SMIL code.</li>
+<li><strong>Keywords:</strong> Lists searchable tags to aid media
+indexing engines and playback search tools.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">head</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">meta</span> <span class="ot">name=</span><span class="st">&quot;title&quot;</span> <span class="ot">content=</span><span class="st">&quot;Interactive Geography Lesson&quot;</span> /&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">meta</span> <span class="ot">name=</span><span class="st">&quot;author&quot;</span> <span class="ot">content=</span><span class="st">&quot;Jane Doe&quot;</span> /&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">meta</span> <span class="ot">name=</span><span class="st">&quot;copyright&quot;</span> <span class="ot">content=</span><span class="st">&quot;2026 Educational Media Group&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">head</span>&gt;</span></code></pre></div>
+<h2 id="semantic-and-rdfdublin-core-metadata">Semantic and RDF/Dublin
+Core Metadata</h2>
+<p>For standardized indexing and advanced semantic web applications,
+SMIL supports the <code>&lt;metadata&gt;</code> container element. This
+container typically holds structured XML schemas, most commonly Resource
+Description Framework (RDF) and Dublin Core elements.</p>
+<p>Semantic metadata allows media servers, digital asset management
+(DAM) platforms, and search engines to extract rich descriptions about
+the content's context, language, subject matter, and target audience
+without parsing the entire playback timeline.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">head</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">metadata</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">rdf:RDF</span> <span class="ot">xmlns:rdf=</span><span class="st">&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>             <span class="ot">xmlns:dc=</span><span class="st">&quot;http://purl.org/dc/elements/1.1/&quot;</span>&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">rdf:Description</span> <span class="ot">about=</span><span class="st">&quot;&quot;</span>&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">dc:title</span>&gt;Introduction to Plate Tectonics&lt;/<span class="kw">dc:title</span>&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">dc:creator</span>&gt;Jane Doe&lt;/<span class="kw">dc:creator</span>&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">dc:language</span>&gt;en-US&lt;/<span class="kw">dc:language</span>&gt;</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">dc:format</span>&gt;application/smil+xml&lt;/<span class="kw">dc:format</span>&gt;</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">rdf:Description</span>&gt;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">rdf:RDF</span>&gt;</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">metadata</span>&gt;</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">head</span>&gt;</span></code></pre></div>
+<h2 id="layout-configurations">Layout Configurations</h2>
+<p>Spatial presentation rules are defined as structural metadata within
+the <code>&lt;layout&gt;</code> element inside the
+<code>&lt;head&gt;</code>. While the <code>&lt;body&gt;</code>
+coordinates time and media sequencing, the <code>&lt;head&gt;</code>
+sets the dimensions, coordinates, and visual layers where that media
+appears.</p>
+<ul>
+<li><strong><code>&lt;root-layout&gt;</code>:</strong> Defines the
+global viewport dimensions (width and height), background color, and
+overall presentation canvas.</li>
+<li><strong><code>&lt;region&gt;</code>:</strong> Creates dedicated
+target zones with specific coordinates (top, left, width, height,
+z-index) to position text captions, video streams, or overlay
+graphics.</li>
+</ul>
+<h2 id="presentation-styles-and-transitions">Presentation Styles and
+Transitions</h2>
+<p>Visual styling rules and scene transitions are also declared in the
+<code>&lt;head&gt;</code> for reuse throughout the presentation
+timeline:</p>
+<ul>
+<li><strong><code>&lt;style&gt;</code> Elements:</strong> Store
+Cascading Style Sheets (CSS) definitions for text formatting,
+typography, borders, and colors applied to SMIL visual components.</li>
+<li><strong><code>&lt;transition&gt;</code> Elements:</strong> Define
+reusable transition effects, such as wipes, dissolves, or fades,
+specifying transition types, subtypes, and duration parameters that body
+elements reference during playback.</li>
+</ul>
+<h2 id="system-and-custom-content-modifiers">System and Custom Content
+Modifiers</h2>
+<p>SMIL allows authors to define conditional playback rules and custom
+attributes inside <code>&lt;head&gt;</code> sub-elements like
+<code>&lt;customAttributes&gt;</code>. This metadata specifies user
+preferences, bandwidth requirements, language choices, or accessibility
+flags (such as audio descriptions or closed-captioning toggles) to
+ensure the media engine adapts presentation delivery to client
+capabilities.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

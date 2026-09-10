@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Media Player ASX vs SMIL Support - smil</title>
+    <meta name="description" content="During the height of the streaming media wars, Microsoft took a divergent path from open web standards by implementing its proprietary Advanced Stream Redirector (ASX) format in Windows Media Player instead of adopting native support for the W3C’s Sync">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/windows-media-player-asx-vs-smil-support">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Windows Media Player ASX vs SMIL Support - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/windows-media-player-asx-vs-smil-support" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="During the height of the streaming media wars, Microsoft took a divergent path from open web standards by implementing its proprietary Advanced Stream Redirector (ASX) format in Windows Media Player instead of adopting native support for the W3C’s Sync" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="windows-media-player-asx-vs-smil-support">Windows Media Player
+ASX vs SMIL Support</h1>
+<p>During the height of the streaming media wars, Microsoft took a
+divergent path from open web standards by implementing its proprietary
+Advanced Stream Redirector (ASX) format in Windows Media Player instead
+of adopting native support for the W3C’s Synchronized Multimedia
+Integration Language (SMIL). While both formats utilized XML syntax to
+orchestrate multimedia presentations, ASX functioned primarily as a
+streaming redirector and playlist control mechanism, whereas standard
+SMIL offered a full spatial and temporal presentation engine. This
+fundamental design difference dictated how Windows Media Player handled
+media sequencing, layout composition, and network failover compared to
+players that fully embraced standard SMIL.</p>
+<h3 id="purpose-and-architectural-scope">Purpose and Architectural
+Scope</h3>
+<p>Standard SMIL was developed by the World Wide Web Consortium (W3C) as
+an open standard to orchestrate independent multimedia tracks—such as
+audio, video, text captions, and static graphics—into an integrated,
+interactive presentation. It served as a standalone presentation layer
+independent of the underlying media player.</p>
+<p>In contrast, Microsoft designed ASX (specifically ASX version 3.0) as
+an XML metafile tailored to Windows Media Technologies. Its primary
+purpose was not to assemble complex multi-track visual presentations
+from scratch, but rather to serve as a pointer and controller for
+Advanced Systems Format (ASF), Windows Media Video (WMV), and Windows
+Media Audio (WMA) streams. ASX scripts solved the browser issue of
+launching media streams without downloading them entirely by handing off
+network URLs to the Windows Media Player executable.</p>
+<h3 id="temporal-synchronization-sequential-vs-parallel-timing">Temporal
+Synchronization: Sequential vs. Parallel Timing</h3>
+<p>The most significant functional difference lies in timing and
+synchronization capabilities:</p>
+<ul>
+<li><strong>SMIL Timing:</strong> Standard SMIL supports robust
+synchronization containers. Authors can define parallel playback
+(<code>&lt;par&gt;</code>), where multiple media elements play
+simultaneously with fine-grained start and end offsets, as well as
+sequential playback (<code>&lt;seq&gt;</code>) and mutually exclusive
+playback (<code>&lt;excl&gt;</code>). This enables complex behaviors,
+such as playing background music while synchronizing subtitles and
+changing slide images at exact timestamps.</li>
+<li><strong>ASX Timing:</strong> ASX is fundamentally sequential.
+Presentations are organized around an <code>&lt;ASX&gt;</code> root
+containing multiple <code>&lt;ENTRY&gt;</code> blocks, which Windows
+Media Player executes sequentially like a playlist. While ASX allows
+clipping via <code>&lt;STARTTIME&gt;</code> and
+<code>&lt;DURATION&gt;</code> tags, it does not natively support
+parallel tracks of diverse media inside the script itself. Simultaneous
+audio and video synchronization had to be pre-muxed into the underlying
+ASF/WMV container rather than synchronized dynamically at runtime
+through markup.</li>
+</ul>
+<h3 id="spatial-layout-and-visual-presentation">Spatial Layout and
+Visual Presentation</h3>
+<p>Standard SMIL features a dedicated layout model using elements like
+<code>&lt;layout&gt;</code>, <code>&lt;root-layout&gt;</code>, and
+<code>&lt;region&gt;</code>, which allow authors to define exact
+coordinate grids, z-indexes, and viewports for different visual
+components directly inside the document.</p>
+<p>ASX provides no native spatial layout capabilities. Windows Media
+Player rendered video strictly within its fixed playback canvas. While
+ASX supported basic supplementary content—such as displaying static
+graphic banners with <code>&lt;BANNER&gt;</code> and linking to external
+web pages using <code>&lt;MOREINFO&gt;</code>—it could not arrange
+multiple overlapping or adjacent visual media streams on a canvas. To
+achieve interactive spatial layouts, Microsoft required developers to
+integrate Windows Media Player into Internet Explorer using ActiveX or
+build proprietary Windows Media Player skins.</p>
+<h3 id="network-resiliency-and-streaming-directives">Network Resiliency
+and Streaming Directives</h3>
+<p>Where ASX matched or exceeded basic SMIL usage in Windows
+environments was in streaming management and server integration:</p>
+<ul>
+<li><strong>Failover and Redundancy:</strong> ASX provided native
+mechanisms for fallback streams. Using multiple <code>&lt;REF&gt;</code>
+elements within an <code>&lt;ENTRY&gt;</code>, content creators could
+specify fallback servers, alternate protocols (such as MMS, RTSP, or
+HTTP), and dynamic rollover paths if a primary stream failed.</li>
+<li><strong>Client-Side Parameter Injection:</strong> ASX scripts
+seamlessly passed parameters to Windows Media Services, handling
+client-side event tracking, advertising insertion, and dynamic bitrate
+switching optimized specifically for the Windows Media ecosystem.</li>
+</ul>
+<h3 id="industry-trajectory-and-htmltime">Industry Trajectory and
+HTML+TIME</h3>
+<p>Rather than implementing standard SMIL natively into Windows Media
+Player, Microsoft submitted a proposal to the W3C called HTML+TIME
+(Timed Interactive Multimedia Extensions). This effort sought to
+integrate SMIL's temporal concepts directly into HTML DOM elements
+within Internet Explorer rather than maintaining a separate SMIL engine
+inside the media player. Consequently, Windows Media Player remained
+tethered to ASX for media delivery, while competitors like RealPlayer
+and QuickTime served as the primary reference implementations for
+standard SMIL authoring throughout the early 2000s.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

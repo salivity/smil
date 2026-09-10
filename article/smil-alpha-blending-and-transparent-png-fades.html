@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Alpha Blending and Transparent PNG Fades - smil</title>
+    <meta name="description" content="This article explains how Synchronized Multimedia Integration Language (SMIL) manages alpha blending during transitions between transparent PNG overlays. It covers the underlying compositing model, the mathematical interpolation of alpha channels, how SM">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-alpha-blending-and-transparent-png-fades">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Alpha Blending and Transparent PNG Fades - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-alpha-blending-and-transparent-png-fades" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how Synchronized Multimedia Integration Language (SMIL) manages alpha blending during transitions between transparent PNG overlays. It covers the underlying compositing model, the mathematical interpolation of alpha channels, how SM" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-alpha-blending-and-transparent-png-fades">SMIL Alpha
+Blending and Transparent PNG Fades</h1>
+<p>This article explains how Synchronized Multimedia Integration
+Language (SMIL) manages alpha blending during transitions between
+transparent PNG overlays. It covers the underlying compositing model,
+the mathematical interpolation of alpha channels, how SMIL handles
+semi-transparent edge artifacts, and how the rendered frames are
+composited against background media.</p>
+<h3 id="the-smil-transition-model">The SMIL Transition Model</h3>
+<p>SMIL defines transitions through the <code>&lt;transition&gt;</code>
+tag, which specifies attributes such as <code>type="fade"</code>,
+<code>subtype="crossfade"</code>, and <code>dur</code> (duration). When
+applied to media elements using the <code>transIn</code> or
+<code>transOut</code> attributes, the SMIL rendering engine orchestrates
+a timed transition between an outgoing asset and an incoming asset
+within the same display region.</p>
+<p>When both assets are PNG images containing variable per-pixel alpha
+transparency (an 8-bit alpha channel), SMIL relies on a two-step
+rendering process: interpolating the transition progress and compositing
+the overlapping pixels onto the background layer.</p>
+<h3 id="linear-alpha-interpolation">Linear Alpha Interpolation</h3>
+<p>During a crossfade, SMIL interpolates the opacity of both images
+concurrently over the specified duration:</p>
+<ol type="1">
+<li><strong>Outgoing Asset:</strong> The effective opacity scales from
+its base alpha value down to 0: <span
+class="math display">\[\alpha_{1,\text{current}} =
+\alpha_{1,\text{original}} \times (1 - t)\]</span></li>
+<li><strong>Incoming Asset:</strong> The effective opacity scales from 0
+up to its base alpha value: <span
+class="math display">\[\alpha_{2,\text{current}} =
+\alpha_{2,\text{original}} \times t\]</span></li>
+</ol>
+<p>Here, <span class="math inline">\(t\)</span> represents the
+normalized progress of the transition, moving linearly from <span
+class="math inline">\(0.0\)</span> to <span
+class="math inline">\(1.0\)</span>. SMIL modifies the global alpha
+multiplier of each media element without altering the underlying PNG
+pixel data directly.</p>
+<h3 id="compositing-and-porter-duff-operations">Compositing and
+Porter-Duff Operations</h3>
+<p>SMIL implementations execute blending using the Porter-Duff "Source
+Over" (<code>src-over</code>) compositing operator. For transparent
+PNGs, this operation is executed on a per-pixel basis:</p>
+<ul>
+<li><strong>Pre-multiplication:</strong> To avoid dark fringing or
+discoloration around semi-transparent edges, compliant SMIL engines
+convert straight RGB color values to pre-multiplied alpha values (<span
+class="math inline">\(R \times \alpha, G \times \alpha, B \times
+\alpha\)</span>) before calculating intermediate frames.</li>
+<li><strong>Color Calculation:</strong> The resulting color <span
+class="math inline">\(C\)</span> at any given pixel during the fade is
+the sum of the scaled contributions of both layers: <span
+class="math display">\[C_{\text{result}} = (C_1 \times
+\alpha_{1,\text{current}}) + (C_2 \times \alpha_{2,\text{current}}
+\times (1 - \alpha_{1,\text{current}}))\]</span></li>
+<li><strong>Final Alpha Calculation:</strong> The accumulated alpha
+<span class="math inline">\(\alpha_{\text{result}}\)</span> of the
+blended overlay is calculated as: <span
+class="math display">\[\alpha_{\text{result}} =
+\alpha_{1,\text{current}} + \alpha_{2,\text{current}} \times (1 -
+\alpha_{1,\text{current}})\]</span></li>
+</ul>
+<h3 id="background-integration-and-stacking">Background Integration and
+Stacking</h3>
+<p>Because PNG overlays often contain fully transparent regions, the
+background layer (such as a video stream or color canvas defined in the
+SMIL <code>&lt;root-layout&gt;</code> or <code>&lt;region&gt;</code>)
+must show through both during and after the transition.</p>
+<p>SMIL maintains the visual hierarchy using region-level stacking
+orders (<code>z-index</code>):</p>
+<ul>
+<li>If the incoming and outgoing PNGs share a single region and
+transition via a direct crossfade, the intermediate blended frame is
+calculated in an off-screen buffer.</li>
+<li>The combined buffer is then composited over the background elements
+using the final calculated alpha channel.</li>
+<li>This ensures that fully transparent regions in the source PNGs
+remain completely clear throughout the duration of the fade, preventing
+artificial darkening or background occlusion.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

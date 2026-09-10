@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How SMIL Manages Audio and Video Lip-Sync - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) manages lip-sync synchronization between separate audio and video network streams by defining a shared temporal timeline using structured markup tags and synchronization attributes. By declaring a maste">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-smil-manages-audio-and-video-lip-sync">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How SMIL Manages Audio and Video Lip-Sync - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-smil-manages-audio-and-video-lip-sync" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) manages lip-sync synchronization between separate audio and video network streams by defining a shared temporal timeline using structured markup tags and synchronization attributes. By declaring a maste" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-smil-manages-audio-and-video-lip-sync">How SMIL Manages
+Audio and Video Lip-Sync</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) manages lip-sync
+synchronization between separate audio and video network streams by
+defining a shared temporal timeline using structured markup tags and
+synchronization attributes. By declaring a master timeline, setting
+strict tolerance thresholds, and leveraging underlying network protocols
+like RTP and RTCP to track presentation timestamps, SMIL ensures that
+client playback engines actively correct drift between decoupled network
+tracks.</p>
+<h3 id="the-par-container-and-timeline-coherence">The
+<code>&lt;par&gt;</code> Container and Timeline Coherence</h3>
+<p>SMIL arranges concurrent media streams using the parallel container
+tag, <code>&lt;par&gt;</code>. When audio and video assets are hosted at
+different network endpoints or transmitted over separate connections,
+placing them inside a <code>&lt;par&gt;</code> block establishes that
+their presentations must begin simultaneously. However, starting at the
+same time does not prevent drift caused by network jitter or decoding
+delays. To achieve true lip-sync—where deviations must generally stay
+within +45 to -125 milliseconds—SMIL incorporates specific
+synchronization attributes to govern run-time playback behavior.</p>
+<h3 id="assigning-the-master-clock-with-syncmaster">Assigning the Master
+Clock with <code>syncMaster</code></h3>
+<p>The human ear is far more sensitive to audio discontinuities like
+pops, pitch shifts, or dropped samples than the eye is to dropped video
+frames. SMIL accounts for this through the <code>syncMaster</code>
+attribute. By setting <code>syncMaster="true"</code> on the audio
+element, the author designates the audio stream's playback clock as the
+authoritative timeline for the entire <code>&lt;par&gt;</code>
+container:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">par</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;rtsp://example.com/video.mp4&quot;</span> <span class="ot">syncBehavior=</span><span class="st">&quot;locked&quot;</span> <span class="ot">syncTolerance=</span><span class="st">&quot;0.05s&quot;</span> /&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;rtsp://example.com/audio.mp4&quot;</span> <span class="ot">syncMaster=</span><span class="st">&quot;true&quot;</span> /&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">par</span>&gt;</span></code></pre></div>
+<p>When audio is established as the master, the video stream must
+continuously adapt its presentation rate to remain aligned with the
+audio's progress.</p>
+<h3
+id="defining-drift-handling-with-syncbehavior-and-synctolerance">Defining
+Drift Handling with <code>syncBehavior</code> and
+<code>syncTolerance</code></h3>
+<p>SMIL provides fine-grained control over how the media renderer
+handles timing variations through two attributes:</p>
+<ul>
+<li><strong><code>syncBehavior</code></strong>: Setting this attribute
+to <code>"locked"</code> forces the SMIL player to maintain
+synchronization at all costs. If the network or decoder lags, the player
+is not permitted to let the streams drift independently. Setting it to
+<code>"canSlip"</code> allows streams to diverge, which is unsuitable
+for lip-sync.</li>
+<li><strong><code>syncTolerance</code></strong>: This attribute
+specifies the maximum acceptable temporal variance (for example,
+<code>syncTolerance="0.04s"</code> for 40 milliseconds) before
+corrective action occurs. If video playback lags behind or runs ahead of
+the audio master by more than the defined tolerance, the SMIL engine
+initiates synchronization corrections.</li>
+</ul>
+<h3 id="network-protocol-integration-and-timestamp-mapping">Network
+Protocol Integration and Timestamp Mapping</h3>
+<p>SMIL functions at the presentation layer, relying on network
+protocols such as Real-Time Transport Protocol (RTP) and Real-Time
+Control Protocol (RTCP) to measure synchronization across distinct
+network sockets.</p>
+<p>Each separate media packet carries an RTP timestamp, but because
+independent audio and video streams generate unrelated RTP clocks, they
+cannot be aligned by RTP timestamps alone. RTCP Sender Reports (SR)
+periodically transmit absolute wall-clock times (NTP timestamps) mapped
+directly to corresponding RTP timestamps. The SMIL-compliant media
+player uses this cross-reference to establish a synchronized Normal Play
+Time (NPT) for both streams, feeding accurate temporal offsets into the
+SMIL synchronization engine.</p>
+<h3 id="client-side-correction-mechanisms">Client-Side Correction
+Mechanisms</h3>
+<p>When the SMIL player identifies that the video stream has breached
+the <code>syncTolerance</code> threshold relative to the master audio
+clock, it enforces runtime corrections:</p>
+<ul>
+<li><strong>If the video is late:</strong> The client drops
+non-reference video frames (such as B-frames) or accelerates video
+rendering until the presentation matches the master audio
+timestamp.</li>
+<li><strong>If the video is early:</strong> The client buffers incoming
+video frames and pauses or delays the rendering of frames to let the
+audio catch up.</li>
+<li><strong>Severe desynchronization:</strong> If network starvation
+causes audio to exhaust its buffer entirely, the SMIL engine pauses the
+master timeline, effectively pausing video presentation as well until
+adequate buffer levels are restored across both streams.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

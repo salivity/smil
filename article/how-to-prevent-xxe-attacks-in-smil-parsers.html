@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Prevent XXE Attacks in SMIL Parsers - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) is an XML-based standard used to describe multimedia presentations, rich media, and Multimedia Messaging Service (MMS) payloads. Because SMIL relies on standard XML parsing engines, it inherits severe s">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-to-prevent-xxe-attacks-in-smil-parsers">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Prevent XXE Attacks in SMIL Parsers - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-to-prevent-xxe-attacks-in-smil-parsers" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) is an XML-based standard used to describe multimedia presentations, rich media, and Multimedia Messaging Service (MMS) payloads. Because SMIL relies on standard XML parsing engines, it inherits severe s" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-to-prevent-xxe-attacks-in-smil-parsers">How to Prevent XXE
+Attacks in SMIL Parsers</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) is an XML-based
+standard used to describe multimedia presentations, rich media, and
+Multimedia Messaging Service (MMS) payloads. Because SMIL relies on
+standard XML parsing engines, it inherits severe security
+vulnerabilities if the underlying parser resolves untrusted XML External
+Entities (XXE). This article outlines the specific parser
+configurations, validation techniques, and network defense measures
+required to protect SMIL parsers from XXE-based data exfiltration, local
+file disclosure, and Server-Side Request Forgery (SSRF).</p>
+<h3 id="1-completely-disable-dtd-processing">1. Completely Disable DTD
+Processing</h3>
+<p>The most robust defense against XXE attacks is disabling Document
+Type Definitions (DTDs) entirely. SMIL files generally do not require
+custom DTDs to define multimedia layouts or timing. By instructing the
+XML parser to reject any <code>&lt;!DOCTYPE&gt;</code> declaration,
+external entity injection is neutralized before it can be processed.</p>
+<ul>
+<li><strong>Java (<code>DocumentBuilderFactory</code>,
+<code>SAXParserFactory</code>):</strong> Set the feature
+<code>http://apache.org/xml/features/disallow-doctype-decl</code> to
+<code>true</code>.</li>
+<li><strong>C/C++ (<code>libxml2</code>):</strong> Do not pass flags
+that expand entities or load external subsets, such as
+<code>XML_PARSE_NOENT</code> or <code>XML_PARSE_DTDLOAD</code>. Keep
+these options turned off by default.</li>
+<li><strong>Python (<code>lxml</code>):</strong> Set
+<code>resolve_entities=False</code> and <code>load_dtd=False</code>
+during parser initialization, or use the <code>defusedxml</code>
+package.</li>
+</ul>
+<h3 id="2-disable-external-entity-and-parameter-entity-resolution">2.
+Disable External Entity and Parameter Entity Resolution</h3>
+<p>If an application requires DTD processing for schema validation, you
+must explicitly disable the fetching of external general entities and
+external parameter entities. This prevents an attacker from using
+<code>SYSTEM</code> or <code>PUBLIC</code> identifiers to load local
+files or remote resources.</p>
+<ul>
+<li>Set
+<code>http://xml.org/sax/features/external-general-entities</code> to
+<code>false</code>.</li>
+<li>Set
+<code>http://xml.org/sax/features/external-parameter-entities</code> to
+<code>false</code>.</li>
+<li>Set
+<code>http://apache.org/xml/features/nonvalidating/load-external-dtd</code>
+to <code>false</code>.</li>
+</ul>
+<h3 id="3-restrict-network-access-during-parsing">3. Restrict Network
+Access During Parsing</h3>
+<p>Attackers frequently leverage XXE in media formats to trigger
+out-of-band (OOB) connections to attacker-controlled servers or scan
+internal infrastructure.</p>
+<ul>
+<li><strong>Parser-Level Network Blocks:</strong> If using
+<code>libxml2</code>, enable the <code>XML_PARSE_NONET</code> flag,
+which completely forbids network access for fetching external DTDs or
+entities.</li>
+<li><strong>Custom Entity Resolvers:</strong> Implement an empty or
+restrictive <code>EntityResolver</code> (or <code>URIResolver</code>).
+If the parser encounters an external resource identifier, the custom
+resolver should immediately return an empty input stream or throw an
+exception rather than making a network call.</li>
+</ul>
+<h3 id="4-mitigate-xml-entity-expansion-billion-laughs-attack">4.
+Mitigate XML Entity Expansion (Billion Laughs Attack)</h3>
+<p>Even without external file access, nested inline entities can cause
+exponential memory consumption, leading to a Denial of Service (DoS).
+Secure the SMIL parser by limiting entity expansion:</p>
+<ul>
+<li>Enable the secure processing feature
+(<code>XMLConstants.FEATURE_SECURE_PROCESSING</code> in Java) to impose
+hard limits on entity expansion depth and total entity counts.</li>
+<li>In C-based libraries, leverage built-in recursion depth limits,
+ensuring the parser runs on an updated version with entity expansion
+guards (such as modern versions of <code>libxml2</code>).</li>
+</ul>
+<h3 id="5-enforce-strict-input-validation-and-pre-parsing-filters">5.
+Enforce Strict Input Validation and Pre-Parsing Filters</h3>
+<p>Before passing untrusted SMIL markup to the XML engine:</p>
+<ul>
+<li><strong>Pre-Check File Signatures:</strong> For protocols like MMS,
+scan raw incoming data streams for suspicious strings like
+<code>&lt;!DOCTYPE</code> or <code>&lt;!ENTITY</code> before
+initializing the parser. If custom DTDs are not part of the business
+specification, reject payloads containing these tokens immediately.</li>
+<li><strong>Schema Validation:</strong> Validate the SMIL structure
+strictly against local, pre-compiled XML schemas (XSD). Never allow the
+parser to fetch remote XSD or DTD definitions referenced in the input
+payload.</li>
+</ul>
+<h3 id="6-sandbox-the-parsing-environment">6. Sandbox the Parsing
+Environment</h3>
+<p>Apply defense-in-depth principles to limit the impact if a parser
+vulnerability is exploited:</p>
+<ul>
+<li><strong>Least Privilege:</strong> Run the SMIL parsing process under
+an unprivileged user account with read-only access to necessary binaries
+and zero access to sensitive directories (such as <code>/etc</code>,
+configuration directories, or cloud credential stores).</li>
+<li><strong>Egress Filtering:</strong> Restrict outgoing network traffic
+from the media-rendering engine using firewall rules or container
+network policies, preventing any unauthorized outbound HTTP, HTTPS, or
+DNS connections.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

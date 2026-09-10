@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL 3.0 Player Hardware and Software Requirements - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) 3.0 is a W3C specification designed for authoring interactive audiovisual presentations. Because SMIL 3.0 is architected into modular profiles ranging from lightweight mobile environments to full-featur">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-3-0-player-hardware-and-software-requirements">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL 3.0 Player Hardware and Software Requirements - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-3-0-player-hardware-and-software-requirements" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) 3.0 is a W3C specification designed for authoring interactive audiovisual presentations. Because SMIL 3.0 is architected into modular profiles ranging from lightweight mobile environments to full-featur" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-30-player-hardware-and-software-requirements">SMIL 3.0
+Player Hardware and Software Requirements</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) 3.0 is a W3C
+specification designed for authoring interactive audiovisual
+presentations. Because SMIL 3.0 is architected into modular profiles
+ranging from lightweight mobile environments to full-featured desktop
+digital signage, compliance requirements depend heavily on the target
+profile being implemented. This article breaks down the baseline
+hardware specifications and essential software components required to
+run a fully compliant SMIL 3.0 player.</p>
+<h3 id="smil-30-profiles-and-scalability">SMIL 3.0 Profiles and
+Scalability</h3>
+<p>SMIL 3.0 defines several standardized profiles:</p>
+<ul>
+<li><strong>SMIL 3.0 Tiny / Unified Mobile:</strong> Targeted at
+resource-constrained devices, such as mobile handsets and embedded
+controllers.</li>
+<li><strong>SMIL 3.0 DAISY:</strong> Targeted at accessible digital
+audiobooks.</li>
+<li><strong>SMIL 3.0 Language Profile:</strong> The full, comprehensive
+specification for high-end multimedia systems and digital signage.</li>
+</ul>
+<p>Minimum specifications scale depending on which profile the player
+targets.</p>
+<hr />
+<h3 id="minimum-hardware-requirements">Minimum Hardware
+Requirements</h3>
+<p>For a baseline, compliant SMIL 3.0 player capable of
+standard-definition media playback and layout handling (SMIL 3.0
+Tiny/Mobile):</p>
+<ul>
+<li><strong>Processor (CPU):</strong>
+<ul>
+<li><em>Low-end / Tiny Profile:</em> 500 MHz single-core ARM or x86
+processor.</li>
+<li><em>Full Language Profile:</em> 1.5 GHz dual-core processor or
+better (required for decoding multiple concurrent media streams,
+transition effects, and vector graphics).</li>
+</ul></li>
+<li><strong>Memory (RAM):</strong>
+<ul>
+<li><em>Low-end:</em> 256 MB minimum available RAM.</li>
+<li><em>Full Language Profile:</em> 1 GB to 2 GB minimum available RAM
+to handle simultaneous media buffers and layout caches.</li>
+</ul></li>
+<li><strong>Internal Storage:</strong> 50 MB of free storage for the
+runtime engine, with additional capacity reserved for caching external
+media assets.</li>
+<li><strong>Display Output:</strong> Color display supporting at least
+16-bit color depth. Resolution can scale from 320x240 (mobile) to
+1920x1080 or higher (digital signage).</li>
+<li><strong>Audio Output:</strong> Standard audio interface capable of
+stereo output at 44.1 kHz / 16-bit.</li>
+<li><strong>Network Connectivity:</strong> Network interface (Ethernet,
+Wi-Fi, or cellular) with sustained bandwidth matching the bitrates of
+referenced remote media files.</li>
+</ul>
+<hr />
+<h3 id="minimum-software-requirements">Minimum Software
+Requirements</h3>
+<p>To achieve compliance, the player software must provide the core
+architectural components defined by the SMIL 3.0 recommendation:</p>
+<h4 id="1-operating-system">1. Operating System</h4>
+<ul>
+<li>Any standard modern operating system capable of thread scheduling
+and timer resolution (Linux, Android, Windows, macOS, or specialized
+POSIX-compliant Real-Time Operating Systems).</li>
+</ul>
+<h4 id="2-xml-parsing-layer">2. XML Parsing Layer</h4>
+<ul>
+<li>A fully compliant <strong>XML 1.0/1.1 parser</strong> with XML
+Namespaces support. The parser must correctly validate and parse SMIL
+3.0 syntax, attributes, and modular extensions without corrupting
+document structure.</li>
+</ul>
+<h4 id="3-timing-and-synchronization-engine">3. Timing and
+Synchronization Engine</h4>
+<p>The player must implement the SMIL 3.0 Timing and Synchronization
+module:</p>
+<ul>
+<li>High-precision system clock access (sub-millisecond resolution
+recommended).</li>
+<li>Support for parallel (<code>&lt;par&gt;</code>), sequential
+(<code>&lt;seq&gt;</code>), and exclusive (<code>&lt;excl&gt;</code>)
+time containers.</li>
+<li>Correct resolution of event-based begin and end times,
+synchronization arcs, and media end-point conditions.</li>
+</ul>
+<h4 id="4-layout-and-rendering-engine">4. Layout and Rendering
+Engine</h4>
+<ul>
+<li>Support for the <strong>SMIL BasicLayout</strong> module (at
+minimum) or <strong>EnhancedLayout</strong> /
+<strong>SubRegionLayout</strong> modules depending on profile
+targets.</li>
+<li>Coordinate system mapper capable of positioning overlapping regions,
+managing z-index layering, and scaling media according to
+<code>fit</code> attributes (e.g., <code>fill</code>, <code>meet</code>,
+<code>slice</code>).</li>
+</ul>
+<h4 id="5-codec-and-media-decoding-framework">5. Codec and Media
+Decoding Framework</h4>
+<p>SMIL specifies how media is scheduled and laid out, but relies on
+underlying decoders for actual media rendering:</p>
+<ul>
+<li><strong>Audio:</strong> MP3, AAC, or linear PCM decoders.</li>
+<li><strong>Video:</strong> H.264 / AVC baseline decoder (or modern
+equivalents like H.265/VP9).</li>
+<li><strong>Images:</strong> Static image decoders for JPEG, PNG, and
+GIF.</li>
+<li><strong>Text:</strong> A rendering engine capable of displaying
+plain text, basic formatted text, or synchronized subtitles.</li>
+</ul>
+<h4 id="6-networking-and-protocol-support">6. Networking and Protocol
+Support</h4>
+<ul>
+<li>Support for URI resolution.</li>
+<li>Protocols for remote asset delivery: <strong>HTTP/HTTPS</strong> for
+standard asset downloading/progressive playback, and
+<strong>RTSP/RTP</strong> if implementing SMIL 3.0 streaming
+modules.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

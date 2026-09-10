@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How SMIL Calculates Cubic Bézier Curves - smil</title>
+    <meta name="description" content="This article provides an overview of how Synchronized Multimedia Integration Language (SMIL) uses cubic Bézier curves to calculate smooth acceleration and deceleration during animations. It covers the underlying mathematical principles of cubic Bézier">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-smil-calculates-cubic-bézier-curves">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How SMIL Calculates Cubic Bézier Curves - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-smil-calculates-cubic-bézier-curves" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of how Synchronized Multimedia Integration Language (SMIL) uses cubic Bézier curves to calculate smooth acceleration and deceleration during animations. It covers the underlying mathematical principles of cubic Bézier" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-smil-calculates-cubic-bézier-curves">How SMIL Calculates
+Cubic Bézier Curves</h1>
+<p>This article provides an overview of how Synchronized Multimedia
+Integration Language (SMIL) uses cubic Bézier curves to calculate smooth
+acceleration and deceleration during animations. It covers the
+underlying mathematical principles of cubic Bézier interpolation,
+explains how SMIL translates normalized time into visual property
+changes through attributes like <code>keySplines</code>, and details the
+numerical algorithms engines use to solve parametric equations for
+real-time frame rendering.</p>
+<h3 id="defining-splines-in-smil">Defining Splines in SMIL</h3>
+<p>In SVG and SMIL, pacing is controlled via the
+<code>calcMode="spline"</code> attribute combined with
+<code>keySplines</code>. When using splines, each interval between two
+keyframes is governed by a cubic Bézier curve defined by two control
+points: <span class="math inline">\((x_1, y_1)\)</span> and <span
+class="math inline">\((x_2, y_2)\)</span>.</p>
+<p>The curve operates inside a normalized coordinate space ranging from
+<span class="math inline">\((0,0)\)</span> to <span
+class="math inline">\((1,1)\)</span>:</p>
+<ul>
+<li><span class="math inline">\(P_0 = (0, 0)\)</span>: The start of the
+time interval and property value.</li>
+<li><span class="math inline">\(P_1 = (x_1, y_1)\)</span>: The first
+control point, determining the initial tangent and acceleration.</li>
+<li><span class="math inline">\(P_2 = (x_2, y_2)\)</span>: The second
+control point, determining the final tangent and deceleration.</li>
+<li><span class="math inline">\(P_3 = (1, 1)\)</span>: The end of the
+time interval and property value.</li>
+</ul>
+<p>The <span class="math inline">\(x\)</span>-coordinates correspond to
+normalized time elapsed within the interval, and must stay within the
+range <span class="math inline">\([0, 1]\)</span>. The <span
+class="math inline">\(y\)</span>-coordinates correspond to the
+progression of the animated attribute and can occasionally exceed <span
+class="math inline">\([0, 1]\)</span> for overshoot or bounce
+effects.</p>
+<h3 id="the-mathematical-formula">The Mathematical Formula</h3>
+<p>A cubic Bézier curve is a parametric curve defined by a parameter
+<span class="math inline">\(t\)</span>, where <span
+class="math inline">\(t \in [0, 1]\)</span>. The general formula is:</p>
+<p><span class="math display">\[B(t) = (1 - t)^3 P_0 + 3(1 - t)^2 t P_1
++ 3(1 - t) t^2 P_2 + t^3 P_3\]</span></p>
+<p>Because <span class="math inline">\(P_0 = (0,0)\)</span> and <span
+class="math inline">\(P_3 = (1,1)\)</span>, the explicit parametric
+functions for the time component <span
+class="math inline">\(X(t)\)</span> and the value component <span
+class="math inline">\(Y(t)\)</span> simplify to:</p>
+<p><span class="math display">\[X(t) = 3(1 - t)^2 t x_1 + 3(1 - t) t^2
+x_2 + t^3\]</span> <span class="math display">\[Y(t) = 3(1 - t)^2 t y_1
++ 3(1 - t) t^2 y_2 + t^3\]</span></p>
+<p>Expanding both functions in terms of standard polynomial coefficients
+yields:</p>
+<p><span class="math display">\[X(t) = (1 - 3x_2 + 3x_1)t^3 + (3x_2 -
+6x_1)t^2 + 3x_1 t\]</span> <span class="math display">\[Y(t) = (1 - 3y_2
++ 3y_1)t^3 + (3y_2 - 6y_1)t^2 + 3y_1 t\]</span></p>
+<h3 id="finding-value-from-time-solving-for-parameter-t">Finding Value
+from Time: Solving for Parameter <span
+class="math inline">\(t\)</span></h3>
+<p>In an animation runtime, the known input is normalized elapsed time,
+<span class="math inline">\(T_X\)</span> (where <span
+class="math inline">\(T_X = X(t)\)</span>), and the engine must
+determine the corresponding output value factor <span
+class="math inline">\(Y(t)\)</span>. Because the parametric equation
+defines <span class="math inline">\(X\)</span> as a function of <span
+class="math inline">\(t\)</span> rather than <span
+class="math inline">\(Y\)</span> directly as a function of <span
+class="math inline">\(X\)</span>, the SMIL engine must solve for <span
+class="math inline">\(t\)</span> such that:</p>
+<p><span class="math display">\[f(t) = X(t) - T_X = 0\]</span></p>
+<p>Because an analytical solution to this cubic equation is
+computationally expensive to evaluate across millions of frames,
+rendering engines use numerical root-finding algorithms:</p>
+<ol type="1">
+<li><p><strong>Newton-Raphson Iteration</strong>: The engine begins with
+an initial guess (often <span class="math inline">\(t_0 = T_X\)</span>).
+It iteratively refines the guess using the derivative of <span
+class="math inline">\(X(t)\)</span> with respect to <span
+class="math inline">\(t\)</span>: <span class="math display">\[t_{n+1} =
+t_n - \frac{X(t_n) - T_X}{X&#39;(t_n)}\]</span> The derivative <span
+class="math inline">\(X&#39;(t)\)</span> is computed directly from the
+polynomial coefficients: <span class="math display">\[X&#39;(t) = 3(1 -
+3x_2 + 3x_1)t^2 + 2(3x_2 - 6x_1)t + 3x_1\]</span> Usually, 4 to 8
+iterations of Newton-Raphson provide sufficient precision for sub-pixel
+display accuracy.</p></li>
+<li><p><strong>Bisection Method (Fallback)</strong>: If the slope <span
+class="math inline">\(X&#39;(t)\)</span> approaches zero or the
+iteration fails to converge rapidly, the engine switches to a binary
+search (bisection) over the interval <span class="math inline">\([0,
+1]\)</span> to guarantee finding the correct root <span
+class="math inline">\(t\)</span>.</p></li>
+</ol>
+<h3 id="mapping-to-property-output">Mapping to Property Output</h3>
+<p>Once the parameter <span class="math inline">\(t\)</span> is
+calculated for the given time <span class="math inline">\(T_X\)</span>,
+the engine evaluates <span class="math inline">\(Y(t)\)</span>:</p>
+<p><span class="math display">\[\text{Factor} = Y(t)\]</span></p>
+<p>This factor is then applied to interpolate between the starting value
+(<span class="math inline">\(V_{\text{start}}\)</span>) and ending value
+(<span class="math inline">\(V_{\text{end}}\)</span>) of the animated
+attribute:</p>
+<p><span class="math display">\[\text{Current Value} = V_{\text{start}}
++ \text{Factor} \times (V_{\text{end}} - V_{\text{start}})\]</span></p>
+<h3 id="rate-of-change-acceleration-and-deceleration">Rate of Change:
+Acceleration and Deceleration</h3>
+<p>The perceived acceleration and deceleration correspond directly to
+the slope of the curve, given by the derivative of <span
+class="math inline">\(Y\)</span> with respect to <span
+class="math inline">\(X\)</span>:</p>
+<p><span class="math display">\[\frac{dY}{dX} =
+\frac{Y&#39;(t)}{X&#39;(t)}\]</span></p>
+<ul>
+<li><strong>Acceleration (Ease-in)</strong>: Setting a small <span
+class="math inline">\(y_1\)</span> relative to <span
+class="math inline">\(x_1\)</span> results in a low initial derivative
+(<span class="math inline">\(dY/dX \approx 0\)</span>). The output value
+changes minimally as time elapses at the beginning. As <span
+class="math inline">\(t\)</span> increases, the slope steepens,
+accelerating the animation.</li>
+<li><strong>Deceleration (Ease-out)</strong>: Setting <span
+class="math inline">\(y_2\)</span> near <span
+class="math inline">\(1\)</span> while <span
+class="math inline">\(x_2\)</span> remains low causes the curve to
+flatten toward the end. The derivative drops toward zero near <span
+class="math inline">\((1,1)\)</span>, slowing down the rate of change
+for a smooth stop.</li>
+<li><strong>Ease-in-out</strong>: Setting both a low initial slope
+(<span class="math inline">\(y_1 \approx 0\)</span>) and a flat final
+slope (<span class="math inline">\(y_2 \approx 1\)</span>) produces an
+S-curve that smoothly accelerates from rest, reaches peak velocity in
+the middle, and gently decelerates to the destination.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

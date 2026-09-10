@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL vs ActionScript: Declarative vs Imperative - smil</title>
+    <meta name="description" content="This article examines the fundamental differences between Synchronized Multimedia Integration Language (SMIL) and ActionScript, contrasting SMIL’s declarative, markup-driven multimedia timing with ActionScript’s imperative, timeline-based scripting.">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-vs-actionscript-declarative-vs-imperative">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL vs ActionScript: Declarative vs Imperative - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-vs-actionscript-declarative-vs-imperative" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article examines the fundamental differences between Synchronized Multimedia Integration Language (SMIL) and ActionScript, contrasting SMIL’s declarative, markup-driven multimedia timing with ActionScript’s imperative, timeline-based scripting." />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-vs-actionscript-declarative-vs-imperative">SMIL vs
+ActionScript: Declarative vs Imperative</h1>
+<p>This article examines the fundamental differences between
+Synchronized Multimedia Integration Language (SMIL) and ActionScript,
+contrasting SMIL’s declarative, markup-driven multimedia timing with
+ActionScript’s imperative, timeline-based scripting. By analyzing their
+syntax, execution models, interactivity thresholds, and architectural
+legacies, this comparison clarifies how each technology historically
+approached the challenge of orchestrating dynamic digital media.</p>
+<h3 id="architectural-paradigms-what-vs-how">Architectural Paradigms:
+"What" vs. "How"</h3>
+<p>The core distinction between SMIL and ActionScript lies in their
+execution paradigms. SMIL operates on a declarative paradigm based on
+XML. Authors define <em>what</em> elements should appear, mutate, or
+synchronize by establishing relationships and timing attributes directly
+in the markup. The underlying player or browser engine manages the
+interpolation, timing cycles, and rendering loops without requiring
+explicit algorithmic instructions.</p>
+<p>In contrast, ActionScript—the ECMAScript-derived programming language
+of Adobe Flash—operates on an imperative, event-driven paradigm. While
+tightly coupled to Flash’s visual timeline and frame structure,
+ActionScript defines <em>how</em> an animation or state transition
+occurs. Developers write explicit instructions, manipulating properties
+through procedural commands, mathematical formulas, and frame-by-frame
+updates.</p>
+<h3 id="timing-and-synchronization-models">Timing and Synchronization
+Models</h3>
+<p>SMIL employs an intrinsic temporal model specifically engineered for
+multimedia synchronization:</p>
+<ul>
+<li><strong>Container Elements:</strong> Elements like
+<code>&lt;seq&gt;</code> (sequential) and <code>&lt;par&gt;</code>
+(parallel) dictate playback order natively.</li>
+<li><strong>Clock Values:</strong> Timing is determined by real-time
+clock references (e.g., seconds, milliseconds, or wallclock time),
+meaning playback synchronizes predictably regardless of system
+performance drops.</li>
+<li><strong>Event-Based Triggers:</strong> A SMIL animation can be bound
+to another element's lifecycle natively (e.g.,
+<code>begin="anim1.end + 2s"</code>).</li>
+</ul>
+<p>ActionScript originally depended on the Flash stage's frame rate
+(fps) to govern timing. Script execution occurred at discrete intervals
+corresponding to timeline frames:</p>
+<ul>
+<li><strong>Frame Scripts:</strong> Code placed on keyframes executed
+sequentially as the playhead advanced.</li>
+<li><strong>Variable Execution Speed:</strong> Because the timing model
+was frame-dependent, a machine under heavy load would drop frame rates,
+inadvertently slowing down the perceived timeline unless manually
+synchronized using the <code>Date</code> class or time-based delta
+calculations.</li>
+<li><strong>Code-Driven Loops:</strong> As ActionScript matured into
+ActionScript 3.0, control moved toward listener patterns, such as
+<code>Event.ENTER_FRAME</code> and explicit <code>Timer</code>
+instances, requiring programmatic orchestration of parallel and
+sequential states.</li>
+</ul>
+<h3 id="interactivity-and-state-management">Interactivity and State
+Management</h3>
+<p>SMIL’s capability ceiling is determined by what can be expressed in
+markup. While it supports basic user-triggered interactions—such as
+restarting an animation on a click or hovering to trigger a state—it
+lacks a Turing-complete logic system. Managing complex application
+states, persistent data storage, or intricate input validation is beyond
+SMIL’s scope without embedding external scripts.</p>
+<p>ActionScript functions as a complete, object-oriented language. It
+allows developers to decouple visual states from timeline tracks
+entirely. Beyond playing animations, ActionScript manages complex state
+machines, parses external data feeds (such as XML, JSON, or AMF),
+connects to sockets, handles dynamic physics calculations, and manages
+sophisticated user interfaces. Where SMIL describes media composition,
+ActionScript programs interactive software.</p>
+<h3 id="integration-and-current-web-relevance">Integration and Current
+Web Relevance</h3>
+<p>SMIL was developed as a standardized W3C recommendation to integrate
+seamlessly into web standards, particularly as the animation engine for
+Scalable Vector Graphics (SVG). However, its adoption was hindered by
+inconsistent browser implementation and the subsequent rise of CSS
+animations and the Web Animations API, which took over declarative and
+programmatic roles respectively.</p>
+<p>ActionScript required the proprietary, sandboxed Flash Player runtime
+to function within web browsers. While this guaranteed strict visual and
+functional parity across all operating systems, it isolated Flash
+content from the Document Object Model (DOM). The transition to open web
+standards, security concerns, and the cessation of mobile and desktop
+Flash Player support led to ActionScript’s obsolescence, leaving SMIL's
+core timing concepts preserved in modern SVG and CSS standards.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

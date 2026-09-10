@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sync SMIL Audio Playback Over Local Wi-Fi Mesh - smil</title>
+    <meta name="description" content="Synchronizing Synchronized Multimedia Integration Language (SMIL) audio playback across multiple mobile devices on a local Wi-Fi mesh requires a shared network timebase, a command distribution protocol, and precise client-side audio scheduling. Because S">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/sync-smil-audio-playback-over-local-wi-fi-mesh">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Sync SMIL Audio Playback Over Local Wi-Fi Mesh - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/sync-smil-audio-playback-over-local-wi-fi-mesh" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronizing Synchronized Multimedia Integration Language (SMIL) audio playback across multiple mobile devices on a local Wi-Fi mesh requires a shared network timebase, a command distribution protocol, and precise client-side audio scheduling. Because S" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="sync-smil-audio-playback-over-local-wi-fi-mesh">Sync SMIL Audio
+Playback Over Local Wi-Fi Mesh</h1>
+<p>Synchronizing Synchronized Multimedia Integration Language (SMIL)
+audio playback across multiple mobile devices on a local Wi-Fi mesh
+requires a shared network timebase, a command distribution protocol, and
+precise client-side audio scheduling. Because SMIL coordinates temporal
+events based on a local timeline, devices must translate SMIL timing
+directives into absolute wall-clock timestamps synchronized across the
+mesh. By combining local clock synchronization, master-follower
+messaging, and audio buffer scheduling, multiple devices can play
+synchronized SMIL-orchestrated audio without perceptible latency.</p>
+<h3 id="1-establish-a-shared-network-clock">1. Establish a Shared
+Network Clock</h3>
+<p>Standard Wi-Fi mesh networks introduce variable latency and jitter,
+making real-time "play now" commands ineffective. Instead, all devices
+must share a synchronized reference clock:</p>
+<ul>
+<li><strong>Precision Time Protocol (PTP / IEEE 1588) or NTP:</strong>
+Implement a lightweight PTP or Network Time Protocol (NTP) client on
+each mobile device. Designate one device on the mesh as the local master
+clock.</li>
+<li><strong>Offset Calculation:</strong> Each follower device
+continuously polls the master clock to calculate round-trip delay and
+local clock drift, maintaining a synchronized sub-millisecond network
+timestamp.</li>
+</ul>
+<h3 id="2-translate-smil-timelines-to-absolute-time">2. Translate SMIL
+Timelines to Absolute Time</h3>
+<p>SMIL schedules media relative to container elements (e.g.,
+<code>&lt;seq&gt;</code> for sequential playback,
+<code>&lt;par&gt;</code> for parallel playback) and offsets (e.g.,
+<code>begin="0s"</code>). To synchronize these events across
+devices:</p>
+<ul>
+<li><strong>Timeline Orchestration:</strong> When an action occurs (such
+as starting a playlist or seeking), the coordinator node converts the
+SMIL timeline offsets into future absolute timestamps (e.g., <em>Current
+Clock Time + 500ms</em>).</li>
+<li><strong>Deterministic Event Mapping:</strong> Instead of
+distributing individual playback triggers sequentially, the coordinator
+parses the SMIL document and maps every audio node to a synchronized
+schedule that each device executes independently against its local,
+synchronized clock.</li>
+</ul>
+<h3 id="3-transport-playback-commands-via-udp-multicast">3. Transport
+Playback Commands via UDP Multicast</h3>
+<p>Distribute commands across the local Wi-Fi mesh using a lightweight
+transport layer:</p>
+<ul>
+<li><strong>UDP Multicast or Broadcast:</strong> Unicast connections
+(like standard HTTP or TCP) can choke the mesh radio spectrum and
+produce staggered arrival times. UDP multicast sends a single packet to
+all listening devices simultaneously.</li>
+<li><strong>Command Payload:</strong> Transmit JSON or Protocol Buffers
+containing the target media URI, the target playback position, and the
+absolute execution timestamp.</li>
+</ul>
+<h3 id="4-implement-pre-buffering-and-scheduled-playback">4. Implement
+Pre-buffering and Scheduled Playback</h3>
+<p>Mobile operating systems introduce audio pipeline latency through
+decoding and hardware buffers. To prevent playback stutter and
+desynchronization:</p>
+<ul>
+<li><strong>Asset Caching:</strong> Pre-load all audio assets specified
+in the SMIL playlist into device memory before the target execution
+timestamp arrives.</li>
+<li><strong>Hardware Timestamp Scheduling:</strong> Utilize low-level
+audio APIs (such as AAudio/Oboe on Android or AVAudioEngine on iOS) to
+schedule audio frame playback precisely at the designated hardware clock
+cycle corresponding to the network timestamp.</li>
+</ul>
+<h3 id="5-continuously-correct-for-drift">5. Continuously Correct for
+Drift</h3>
+<p>Even when starting synchronously, hardware clocks in separate mobile
+devices run at slightly different speeds, resulting in cumulative drift
+over time:</p>
+<ul>
+<li><strong>Periodic Synchronization Pings:</strong> The master device
+broadcasts periodic timecode beacons matching current SMIL timeline
+positions.</li>
+<li><strong>Dynamic Audio Resampling:</strong> If a device detects that
+its local playback has drifted by more than 10–20 milliseconds relative
+to the master timestamp, it should imperceptibly adjust the playback
+rate (resampling by ±0.5% to 1%) rather than hard-seeking, maintaining
+phase alignment without causing audible audio clicks or pitch
+shifts.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

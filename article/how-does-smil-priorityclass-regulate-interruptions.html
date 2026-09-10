@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does SMIL priorityClass Regulate Interruptions? - smil</title>
+    <meta name="description" content="In Synchronized Multimedia Integration Language (SMIL), the <priorityClass> element defines explicit conflict-resolution and interruption policies for sibling elements inside an exclusive container (<excl>). By grouping media elements into priority tiers">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-smil-priorityclass-regulate-interruptions">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does SMIL priorityClass Regulate Interruptions? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-smil-priorityclass-regulate-interruptions" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In Synchronized Multimedia Integration Language (SMIL), the <priorityClass> element defines explicit conflict-resolution and interruption policies for sibling elements inside an exclusive container (<excl>). By grouping media elements into priority tiers" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-smil-priorityclass-regulate-interruptions">How Does
+SMIL priorityClass Regulate Interruptions?</h1>
+<p>In Synchronized Multimedia Integration Language (SMIL), the
+<code>&lt;priorityClass&gt;</code> element defines explicit
+conflict-resolution and interruption policies for sibling elements
+inside an exclusive container (<code>&lt;excl&gt;</code>). By grouping
+media elements into priority tiers and assigning specific interruption
+behaviors, authors can control whether an active element halts, pauses,
+ignores, or defers when another element attempts to start.</p>
+<h3 id="the-role-of-excl-and-priority-grouping">The Role of
+<code>&lt;excl&gt;</code> and Priority Grouping</h3>
+<p>The <code>&lt;excl&gt;</code> container specifies that only one child
+element may play at a time. While a basic <code>&lt;excl&gt;</code>
+relies on default startup rules to resolve playback collisions, modern
+multimedia presentations often require nuanced behavior. For instance,
+high-priority media like urgent audio alerts should interrupt ambient
+background narration, whereas lower-priority background sounds should
+not disrupt essential playback.</p>
+<p>The <code>&lt;priorityClass&gt;</code> element addresses this need by
+organizing children inside <code>&lt;excl&gt;</code> into hierarchical
+groups. Elements placed in a higher-priority class take precedence over
+elements in lower-priority classes, while elements within the same class
+follow peer-level interruption rules.</p>
+<h3 id="core-interruption-attributes">Core Interruption Attributes</h3>
+<p>Interruption behavior is governed by three core attributes attached
+to the <code>&lt;priorityClass&gt;</code> element:</p>
+<ul>
+<li><strong><code>peers</code></strong>: Determines what happens when an
+element in the current <code>&lt;priorityClass&gt;</code> attempts to
+start while another element in the <em>same</em> class is currently
+playing.</li>
+<li><strong><code>higher</code></strong>: Specifies how elements in this
+priority class react when an element from a <em>higher-priority</em>
+class attempts to start.</li>
+<li><strong><code>lower</code></strong>: Specifies how elements in this
+priority class react when an element from a <em>lower-priority</em>
+class attempts to start.</li>
+</ul>
+<h3 id="interruption-actions-stop-pause-defer-and-never">Interruption
+Actions: Stop, Pause, Defer, and Never</h3>
+<p>Each of the three control attributes accepts specific action values
+that dictate playback state transitions:</p>
+<ul>
+<li><strong><code>stop</code></strong>: The currently playing element is
+immediately terminated and removed from the active timeline when
+interrupted.</li>
+<li><strong><code>pause</code></strong>: The currently playing element
+pauses its presentation and retains its state. When the interrupting
+element finishes, the paused element resumes playback unless explicitly
+prevented by timing rules.</li>
+<li><strong><code>defer</code></strong>: The incoming element is queued
+rather than starting immediately. It waits until the active element
+completes before beginning its playback cycle.</li>
+<li><strong><code>never</code></strong>: The incoming element is
+completely rejected and ignored, allowing the currently active element
+to continue uninterrupted.</li>
+</ul>
+<h3 id="practical-application-and-execution-flow">Practical Application
+and Execution Flow</h3>
+<p>When an event triggers a child media element inside an
+<code>&lt;excl&gt;</code>, the SMIL engine evaluates the priority level
+of the incoming media against the active media:</p>
+<ol type="1">
+<li><strong>Incoming Media from a Higher Priority Class</strong>: The
+engine checks the <code>higher</code> attribute of the active element's
+priority class. If set to <code>pause</code>, the active element freezes
+while the higher-priority media plays, resuming automatically once the
+higher-priority event concludes.</li>
+<li><strong>Incoming Media from a Lower Priority Class</strong>: The
+engine consults the <code>lower</code> attribute of the active class. If
+set to <code>never</code>, the incoming lower-priority request is
+discarded, protecting high-value content from lower-level
+interruptions.</li>
+<li><strong>Incoming Media within the Same Class</strong>: The engine
+applies the <code>peers</code> attribute rule to resolve the conflict
+between elements of equal priority.</li>
+</ol>
+<p>Through the combination of tiered classes and attribute
+configurations, the <code>&lt;priorityClass&gt;</code> element
+transforms <code>&lt;excl&gt;</code> from a simple mutually exclusive
+switch into a deterministic scheduling engine for complex, interactive
+multimedia.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

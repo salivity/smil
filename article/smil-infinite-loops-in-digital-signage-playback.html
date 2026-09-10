@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Infinite Loops in Digital Signage Playback - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) manages continuous, 24/7 playback in digital signage by applying declarative timing attributes to structured container elements. By using the repeatCount="indefinite" attribute on top-level sequential o">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-infinite-loops-in-digital-signage-playback">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Infinite Loops in Digital Signage Playback - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-infinite-loops-in-digital-signage-playback" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) manages continuous, 24/7 playback in digital signage by applying declarative timing attributes to structured container elements. By using the repeatCount="indefinite" attribute on top-level sequential o" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-infinite-loops-in-digital-signage-playback">SMIL Infinite
+Loops in Digital Signage Playback</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) manages
+continuous, 24/7 playback in digital signage by applying declarative
+timing attributes to structured container elements. By using the
+<code>repeatCount="indefinite"</code> attribute on top-level sequential
+or parallel containers, SMIL instructs the media player's rendering
+engine to reset the timeline automatically upon reaching the end of a
+playlist. This article explains the syntax, structural hierarchy, and
+player-level resource management that enable SMIL to maintain seamless,
+infinite playback loops without timeline drift or memory
+degradation.</p>
+<h2 id="the-declarative-loop-repeatcountindefinite">The Declarative
+Loop: <code>repeatCount="indefinite"</code></h2>
+<p>In SMIL, timeline repetition is handled declaratively rather than
+programmatically. Instead of requiring external scripting or continuous
+timeline recalculations, SMIL provides the <code>repeatCount</code>
+attribute within its Timing and Synchronization Module.</p>
+<p>To create an infinite loop for a digital signage channel, the
+attribute value is set to <code>"indefinite"</code> on the master
+playlist container:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">seq</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;ad1.mp4&quot;</span> <span class="ot">dur=</span><span class="st">&quot;15s&quot;</span> /&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;poster.jpg&quot;</span> <span class="ot">dur=</span><span class="st">&quot;10s&quot;</span> /&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;ad2.mp4&quot;</span> <span class="ot">dur=</span><span class="st">&quot;30s&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">seq</span>&gt;</span></code></pre></div>
+<p>When the final item (<code>ad2.mp4</code>) concludes its 30-second
+duration, the active time container detects an end condition, resolves
+its lifecycle, and re-initializes the timeline at offset
+<code>0s</code>.</p>
+<h2 id="container-hierarchy-sequential-vs-parallel-looping">Container
+Hierarchy: Sequential vs. Parallel Looping</h2>
+<p>Digital signage layouts often divide screens into multiple distinct
+zones, such as a main video area, a ticker, and an advertising banner.
+SMIL structures these layouts using nested <code>&lt;par&gt;</code>
+(parallel) and <code>&lt;seq&gt;</code> (sequential) tags:</p>
+<ul>
+<li><strong>The Master Timeline
+(<code>&lt;par repeatCount="indefinite"&gt;</code>):</strong>
+Coordinates multi-zone screen layouts. Each zone runs its own
+independent schedule while sharing a common root timeline.</li>
+<li><strong>Zone Playlists
+(<code>&lt;seq repeatCount="indefinite"&gt;</code>):</strong> Placed
+inside the root container, each zone loops its media sequentially.
+Because each <code>&lt;seq&gt;</code> manages its own duration, zones do
+not need to have matching total runtimes; when a faster-rotating
+playlist reaches its end, it restarts independently of the other
+zones.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">par</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Main Video Zone Playlist --&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">seq</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;promo1.mp4&quot;</span> <span class="ot">dur=</span><span class="st">&quot;30s&quot;</span> /&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;promo2.mp4&quot;</span> <span class="ot">dur=</span><span class="st">&quot;30s&quot;</span> /&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">seq</span>&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Background Audio Zone --&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">seq</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span>&gt;</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;track1.mp3&quot;</span> <span class="ot">dur=</span><span class="st">&quot;60s&quot;</span> /&gt;</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">seq</span>&gt;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">par</span>&gt;</span></code></pre></div>
+<h2 id="deterministic-timing-and-clock-drift-prevention">Deterministic
+Timing and Clock Drift Prevention</h2>
+<p>Over extended periods of continuous playback, hardware clock
+variations and media decoding latencies can cause timing drift. SMIL
+mitigates this using strict timing semantics:</p>
+<ul>
+<li><strong>Explicit Durations (<code>dur</code>):</strong> Defining
+explicit durations prevents a hanging or corrupt media asset from
+freezing the loop. If a media stream stalls, the container enforces the
+boundary set by <code>dur</code> and advances to the next element.</li>
+<li><strong>Sync Tolerance (<code>syncBehavior</code>):</strong>
+Designers use attributes like <code>syncBehavior="locked"</code> or
+<code>syncBehavior="canSlip"</code> to govern how tightly elements
+align. In continuous loops, <code>canSlip</code> is standard for
+non-critical zones, allowing the player to favor uninterrupted playback
+over microsecond-level synchronization.</li>
+</ul>
+<h2 id="memory-management-and-asset-lifecycle">Memory Management and
+Asset Lifecycle</h2>
+<p>A primary challenge of infinite playback is preventing memory leaks
+and hardware exhaustion on low-power digital signage appliances.
+Compliant SMIL media engines treat each loop boundary as an operational
+checkpoint:</p>
+<ol type="1">
+<li><strong>Garbage Collection:</strong> When an asset finishes its
+duration within a sequence, the player destroys the associated rendering
+context, releases the hardware decoding pipelines, and clears media
+cache allocations.</li>
+<li><strong>Pre-Buffering:</strong> To ensure seamless transitions
+between loop iterations, the player evaluates the container's next node
+in advance. When the final asset in a loop is playing, the engine
+pre-loads the first asset of the sequence.</li>
+<li><strong>Dynamic Content Updates:</strong> The boundary of an
+infinite loop provides an opportunity to evaluate content updates. Many
+SMIL engines check for modified media files or updated schedules
+whenever <code>repeatCount</code> restarts, applying changes seamlessly
+without requiring a hard reboot of the application.</li>
+</ol></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Does endsync Do in SMIL? - smil</title>
+    <meta name="description" content="The endsync attribute in Synchronized Multimedia Integration Language (SMIL) controls when a parallel time container (<par>) ends its active duration relative to the lifespans of its child elements. By setting endsync to first, last, or all, developers d">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/what-does-endsync-do-in-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Does endsync Do in SMIL? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/what-does-endsync-do-in-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The endsync attribute in Synchronized Multimedia Integration Language (SMIL) controls when a parallel time container (<par>) ends its active duration relative to the lifespans of its child elements. By setting endsync to first, last, or all, developers d" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-does-endsync-do-in-smil">What Does endsync Do in SMIL?</h1>
+<p>The <code>endsync</code> attribute in Synchronized Multimedia
+Integration Language (SMIL) controls when a parallel time container
+(<code>&lt;par&gt;</code>) ends its active duration relative to the
+lifespans of its child elements. By setting <code>endsync</code> to
+<code>first</code>, <code>last</code>, or <code>all</code>, developers
+determine whether a composite multimedia presentation cuts short as soon
+as the earliest track finishes, waits for a specific element to
+conclude, or continues until every track has naturally completed.</p>
+<h2 id="the-role-of-endsync-in-smil">The Role of endsync in SMIL</h2>
+<p>In SMIL, the <code>&lt;par&gt;</code> container plays multiple media
+elements—such as video, audio, text, and animations—simultaneously.
+Because each child element often has a different duration, the container
+needs a rule to determine when to conclude playback.</p>
+<p>The <code>endsync</code> attribute specifies the synchronization
+condition that dictates the end of the <code>&lt;par&gt;</code>
+container. The three core values—<code>first</code>, <code>last</code>,
+and <code>all</code>—handle child lifespans differently.</p>
+<h2 id="endsyncfirst">endsync="first"</h2>
+<p>When <code>endsync</code> is set to <code>first</code>, the
+<code>&lt;par&gt;</code> container ends its playback as soon as the
+<strong>first</strong> child element reaches the end of its active
+duration.</p>
+<ul>
+<li><strong>Behavior:</strong> Any remaining child elements that have
+not finished playing are immediately cut off and terminated.</li>
+<li><strong>Common Use Case:</strong> Ideal for scenarios where a
+primary shorter element (such as a brief voiceover or short animation)
+dictates the entire scene length, preventing background music or ambient
+loops from continuing alone.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">par</span> <span class="ot">endsync=</span><span class="st">&quot;first&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Plays for 5 seconds; container ends here, cutting the video short --&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;short_audio.mp3&quot;</span> <span class="ot">dur=</span><span class="st">&quot;5s&quot;</span> /&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;long_video.mp4&quot;</span> <span class="ot">dur=</span><span class="st">&quot;20s&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">par</span>&gt;</span></code></pre></div>
+<h2 id="endsynclast">endsync="last"</h2>
+<p>When <code>endsync</code> is set to <code>last</code>, the
+<code>&lt;par&gt;</code> container ends when the <strong>last scheduled
+child element with an explicit duration</strong> finishes its active
+duration.</p>
+<ul>
+<li><strong>Behavior:</strong> It looks specifically at the children
+that have a resolved or scheduled end. If the container contains
+children with indefinite durations (such as continuous animations or
+streams without a fixed end), <code>endsync="last"</code> ignores those
+indefinite elements and waits only for the last deterministic child to
+end.</li>
+<li><strong>Common Use Case:</strong> Useful when combining fixed-length
+media (like a 15-second audio track) with indefinite background loops,
+ensuring the container ends naturally when the main content finishes
+without waiting forever.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">par</span> <span class="ot">endsync=</span><span class="st">&quot;last&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Container ends at 15 seconds, ignoring the indefinite loop --&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;speech.mp3&quot;</span> <span class="ot">dur=</span><span class="st">&quot;15s&quot;</span> /&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;background_animation.svg&quot;</span> <span class="ot">dur=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">par</span>&gt;</span></code></pre></div>
+<h2 id="endsyncall">endsync="all"</h2>
+<p>When <code>endsync</code> is set to <code>all</code> (which is often
+the default behavior for <code>&lt;par&gt;</code> containers), the
+container waits until <strong>every single child element</strong> has
+completed its active duration.</p>
+<ul>
+<li><strong>Behavior:</strong> The container will not terminate until
+all children—including those with unresolved or indefinite
+durations—have ended. If any single child element has
+<code>dur="indefinite"</code> and is never stopped by an event, the
+<code>&lt;par&gt;</code> container will never end.</li>
+<li><strong>Common Use Case:</strong> Standard presentations where every
+piece of media must run its full, natural course before transitioning to
+the next sequence.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">par</span> <span class="ot">endsync=</span><span class="st">&quot;all&quot;</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Container waits until the full 30 seconds elapse --&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;background.mp3&quot;</span> <span class="ot">dur=</span><span class="st">&quot;30s&quot;</span> /&gt;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;presentation.mp4&quot;</span> <span class="ot">dur=</span><span class="st">&quot;20s&quot;</span> /&gt;</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">text</span> <span class="ot">src=</span><span class="st">&quot;captions.html&quot;</span> <span class="ot">dur=</span><span class="st">&quot;10s&quot;</span> /&gt;</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">par</span>&gt;</span></code></pre></div>
+<h2 id="summary-comparison">Summary Comparison</h2>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>When the Container Ends</th>
+<th>Behavior with Indefinite Elements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>first</code></td>
+<td>As soon as the shortest child finishes.</td>
+<td>Truncates any longer media instantly.</td>
+</tr>
+<tr>
+<td><code>last</code></td>
+<td>When the last scheduled/finite child finishes.</td>
+<td>Ignores indefinite children and closes when fixed media ends.</td>
+</tr>
+<tr>
+<td><code>all</code></td>
+<td>When every child element has finished.</td>
+<td>Will run indefinitely if any child has an indefinite duration.</td>
+</tr>
+</tbody>
+</table></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

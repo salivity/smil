@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does repeatCount Repeat Elements in SMIL? - smil</title>
+    <meta name="description" content="The repeatCount attribute in Synchronized Multimedia Integration Language (SMIL) defines the number of times a media element or temporal container plays its simple duration. By accepting numeric values, fractional counts, or the keyword indefinite, repea">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-repeatcount-repeat-elements-in-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does repeatCount Repeat Elements in SMIL? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-repeatcount-repeat-elements-in-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The repeatCount attribute in Synchronized Multimedia Integration Language (SMIL) defines the number of times a media element or temporal container plays its simple duration. By accepting numeric values, fractional counts, or the keyword indefinite, repea" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-repeatcount-repeat-elements-in-smil">How Does
+repeatCount Repeat Elements in SMIL?</h1>
+<p>The <code>repeatCount</code> attribute in Synchronized Multimedia
+Integration Language (SMIL) defines the number of times a media element
+or temporal container plays its simple duration. By accepting numeric
+values, fractional counts, or the keyword <code>indefinite</code>,
+<code>repeatCount</code> allows authors to precisely control playback
+loops across standalone media files, animation elements, and complex
+timing containers such as <code>&lt;seq&gt;</code> and
+<code>&lt;par&gt;</code>.</p>
+<h2 id="understanding-the-repeatcount-syntax-and-values">Understanding
+the repeatCount Syntax and Values</h2>
+<p>The <code>repeatCount</code> attribute specifies the iteration count
+for the active duration of an element. It accepts two primary types of
+values:</p>
+<ul>
+<li><strong>Numeric Values (<code>N</code> or
+<code>N.n</code>):</strong> A positive decimal value representing how
+many times the element cycles through its simple duration
+(<code>dur</code>). An integer value like <code>3</code> loops the
+playback three complete times. A fractional value like <code>2.5</code>
+plays two complete iterations followed by the first half of the
+element's duration before stopping.</li>
+<li><strong>The <code>indefinite</code> Keyword:</strong> Sets the
+element to repeat continuously without a predetermined stop time. The
+element will loop until an external event, an explicit <code>end</code>
+condition, or a parent container forces it to terminate.</li>
+</ul>
+<h2 id="repeating-individual-media-and-animation-elements">Repeating
+Individual Media and Animation Elements</h2>
+<p>When applied to basic media elements (such as
+<code>&lt;video&gt;</code>, <code>&lt;audio&gt;</code>, or
+<code>&lt;img&gt;</code>) or SVG animation elements (such as
+<code>&lt;animate&gt;</code> or <code>&lt;animateTransform&gt;</code>),
+<code>repeatCount</code> determines how many times the media payload or
+animation track runs from start to finish.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Plays a 4-second audio clip 3 full times (Total active duration: 12 seconds) --&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;chime.mp3&quot;</span> <span class="ot">dur=</span><span class="st">&quot;4s&quot;</span> <span class="ot">repeatCount=</span><span class="st">&quot;3&quot;</span> /&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Loops an SVG rotation animation continuously --&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">animateTransform</span> <span class="ot">attributeName=</span><span class="st">&quot;transform&quot;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                  <span class="ot">type=</span><span class="st">&quot;rotate&quot;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                  <span class="ot">from=</span><span class="st">&quot;0 50 50&quot;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                  <span class="ot">to=</span><span class="st">&quot;360 50 50&quot;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                  <span class="ot">dur=</span><span class="st">&quot;2s&quot;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                  <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span></code></pre></div>
+<p>For media elements with a natural intrinsic duration, defining
+<code>repeatCount</code> without an explicit <code>dur</code> will
+repeat the intrinsic timeline of the media file. If <code>dur</code> is
+explicitly defined, each iteration uses the defined <code>dur</code>
+rather than the media file's natural length.</p>
+<h2 id="repeating-container-elements-seq-par-and-excl">Repeating
+Container Elements: <code>&lt;seq&gt;</code>, <code>&lt;par&gt;</code>,
+and <code>&lt;excl&gt;</code></h2>
+<p>SMIL timing containers manage groups of elements, and applying
+<code>repeatCount</code> to a container repeats the entire group
+structure as a single cohesive unit:</p>
+<ul>
+<li><strong>Sequential Containers (<code>&lt;seq&gt;</code>):</strong>
+Each iteration plays all child elements in order from first to last.
+Once the final child finishes, the entire sequence restarts at the first
+child until the <code>repeatCount</code> threshold is satisfied.</li>
+<li><strong>Parallel Containers (<code>&lt;par&gt;</code>):</strong> All
+child elements start simultaneously. Once the container reaches the end
+of its active duration—determined by container rules or child
+durations—the entire parallel group restarts in unison.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Repeats the sequence of two slides twice (Total active duration: 20 seconds) --&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">seq</span> <span class="ot">repeatCount=</span><span class="st">&quot;2&quot;</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;slide1.jpg&quot;</span> <span class="ot">dur=</span><span class="st">&quot;5s&quot;</span> /&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;slide2.jpg&quot;</span> <span class="ot">dur=</span><span class="st">&quot;5s&quot;</span> /&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">seq</span>&gt;</span></code></pre></div>
+<p>At the start of each iteration, all child elements reset to their
+initial state, restarting any nested timelines or visual
+transformations.</p>
+<h2 id="calculating-active-duration-with-repeatcount">Calculating Active
+Duration with repeatCount</h2>
+<p>The total active duration of an element with <code>repeatCount</code>
+is calculated using the formula:</p>
+<p><span class="math display">\[\text{Active Duration} = \text{dur}
+\times \text{repeatCount}\]</span></p>
+<p>If a 5-second video uses <code>repeatCount="1.5"</code>, the element
+plays for a total of 7.5 seconds, cutting off midway through the second
+playback loop.</p>
+<h2 id="interactions-with-other-smil-timing-attributes">Interactions
+with Other SMIL Timing Attributes</h2>
+<p>SMIL provides additional timing controls that can modify or constrain
+how <code>repeatCount</code> behaves:</p>
+<ul>
+<li><strong><code>repeatDur</code> vs.
+<code>repeatCount</code>:</strong> While <code>repeatCount</code>
+specifies the iteration count, <code>repeatDur</code> specifies the
+total duration of the repeated playback (e.g.,
+<code>repeatDur="30s"</code>). If both are specified on the same
+element, the loop terminates whichever limit is reached first.</li>
+<li><strong><code>min</code> and <code>max</code> Constraints:</strong>
+Setting a <code>max</code> attribute places a strict ceiling on the
+element's total active duration. If <code>dur="5s"</code> and
+<code>repeatCount="10"</code> would produce a 50-second runtime, but
+<code>max="20s"</code> is present, playback halts after 20 seconds (4
+iterations).</li>
+<li><strong><code>fill</code> Attribute:</strong> When
+<code>repeatCount</code> finishes, the <code>fill</code> attribute
+determines the final presentation state. Using
+<code>fill="freeze"</code> holds the element at its final rendered frame
+of the last iteration, while <code>fill="remove"</code> removes the
+element from the display immediately upon completion.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does fill Freeze Differ From fill Remove in SMIL? - smil</title>
+    <meta name="description" content="In SVG Synchronized Multimedia Integration Language (SMIL) animations, the fill attribute determines the final state of an animated property once the animation sequence reaches its end. Setting fill="freeze" preserves the target element's final animation">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-fill-freeze-differ-from-fill-remove-in-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does fill Freeze Differ From fill Remove in SMIL? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-fill-freeze-differ-from-fill-remove-in-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In SVG Synchronized Multimedia Integration Language (SMIL) animations, the fill attribute determines the final state of an animated property once the animation sequence reaches its end. Setting fill="freeze" preserves the target element's final animation" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-fill-freeze-differ-from-fill-remove-in-smil">How Does
+fill Freeze Differ From fill Remove in SMIL?</h1>
+<p>In SVG Synchronized Multimedia Integration Language (SMIL)
+animations, the <code>fill</code> attribute determines the final state
+of an animated property once the animation sequence reaches its end.
+Setting <code>fill="freeze"</code> preserves the target element's final
+animation value indefinitely after completion, locking the animated
+attributes in place. Conversely, setting
+<code>fill="remove"</code>—which is the default SMIL behavior—causes the
+animated property to discard its animated values and instantly snap back
+to its original pre-animation state the moment the duration
+finishes.</p>
+<p>Understanding the distinction between these two values is critical
+for crafting predictable vector animations, state changes, and
+interactive user interfaces without relying on external JavaScript.</p>
+<h2 id="understanding-the-smil-fill-attribute">Understanding the SMIL
+<code>fill</code> Attribute</h2>
+<p>The <code>fill</code> attribute in SMIL timing borrows concepts
+directly from multimedia scheduling standards rather than standard SVG
+presentation styling (like paint fills). In SMIL, <code>fill</code>
+answers a simple question: what should happen to the presentation values
+during the post-active animation interval?</p>
+<p>When an animation begins, it overrides or augments an element's base
+value. When the specified duration (<code>dur</code>) ends, SMIL must
+decide whether to continue applying the animation's influence or clear
+it from the rendering pipeline.</p>
+<h2 id="the-behavior-of-fillremove">The Behavior of
+<code>fill="remove"</code></h2>
+<p><code>fill="remove"</code> is the default setting for any SMIL
+animation where the <code>fill</code> attribute is omitted.</p>
+<p>Under <code>fill="remove"</code>, the animation actively manipulates
+the target attribute only for the duration specified by
+<code>dur</code>. The moment the active duration elapses, the
+animation's effect ceases entirely. The animated property reverts to
+whatever value it held prior to the animation starting (or to whatever
+base value is defined elsewhere in the stylesheet or attribute
+list).</p>
+<h3 id="key-characteristics-of-fillremove">Key Characteristics of
+<code>fill="remove"</code></h3>
+<ul>
+<li><strong>Default SMIL Behavior:</strong> Requires no explicit
+declaration.</li>
+<li><strong>Instant Reversion:</strong> No transition occurs; values
+jump back immediately upon completion.</li>
+<li><strong>Looping Compatibility:</strong> Ideal for discrete,
+repeating animations that must start cleanly from their initial base
+value every cycle.</li>
+</ul>
+<h3 id="code-example-fillremove">Code Example:
+<code>fill="remove"</code></h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">svg</span> <span class="ot">width=</span><span class="st">&quot;200&quot;</span> <span class="ot">height=</span><span class="st">&quot;100&quot;</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- The circle starts at cx=&quot;20&quot;, moves to cx=&quot;180&quot;, then immediately snaps back to cx=&quot;20&quot; --&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">circle</span> <span class="ot">cx=</span><span class="st">&quot;20&quot;</span> <span class="ot">cy=</span><span class="st">&quot;50&quot;</span> <span class="ot">r=</span><span class="st">&quot;15&quot;</span> <span class="ot">fill=</span><span class="st">&quot;crimson&quot;</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animate</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="ot">attributeName=</span><span class="st">&quot;cx&quot;</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="ot">from=</span><span class="st">&quot;20&quot;</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="ot">to=</span><span class="st">&quot;180&quot;</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      <span class="ot">dur=</span><span class="st">&quot;2s&quot;</span> </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="ot">fill=</span><span class="st">&quot;remove&quot;</span> /&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">circle</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">svg</span>&gt;</span></code></pre></div>
+<h2 id="the-behavior-of-fillfreeze">The Behavior of
+<code>fill="freeze"</code></h2>
+<p><code>fill="freeze"</code> keeps the animation active beyond its
+nominal duration by extending the final calculated value into an
+indefinite post-active phase.</p>
+<p>Once the animation completes, SMIL "freezes" the visual state of the
+animated attribute at the exact terminal value defined by the
+<code>to</code> attribute, the last item in a <code>values</code> list,
+or the final frame of a path transformation. The underlying SVG DOM base
+value does not permanently change, but the rendered presentation layer
+remains fixed on that final frame.</p>
+<h3 id="key-characteristics-of-fillfreeze">Key Characteristics of
+<code>fill="freeze"</code></h3>
+<ul>
+<li><strong>State Persistence:</strong> Keeps UI elements in their end
+state (e.g., icons transforming into "active" states).</li>
+<li><strong>Stacking Transitions:</strong> Allows sequential animations
+to pick up where the previous animation left off without visual
+flicker.</li>
+<li><strong>Presentation-Layer Override:</strong> The element appears
+modified on screen without requiring script-based DOM manipulation.</li>
+</ul>
+<h3 id="code-example-fillfreeze">Code Example:
+<code>fill="freeze"</code></h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">svg</span> <span class="ot">width=</span><span class="st">&quot;200&quot;</span> <span class="ot">height=</span><span class="st">&quot;100&quot;</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- The circle starts at cx=&quot;20&quot;, moves to cx=&quot;180&quot;, and stays permanently at cx=&quot;180&quot; --&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">circle</span> <span class="ot">cx=</span><span class="st">&quot;20&quot;</span> <span class="ot">cy=</span><span class="st">&quot;50&quot;</span> <span class="ot">r=</span><span class="st">&quot;15&quot;</span> <span class="ot">fill=</span><span class="st">&quot;seagreen&quot;</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">animate</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="ot">attributeName=</span><span class="st">&quot;cx&quot;</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="ot">from=</span><span class="st">&quot;20&quot;</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="ot">to=</span><span class="st">&quot;180&quot;</span> </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      <span class="ot">dur=</span><span class="st">&quot;2s&quot;</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      <span class="ot">fill=</span><span class="st">&quot;freeze&quot;</span> /&gt;</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">circle</span>&gt;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">svg</span>&gt;</span></code></pre></div>
+<h2 id="comparative-overview">Comparative Overview</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th><code>fill="freeze"</code></th>
+<th><code>fill="remove"</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Default Setting</strong></td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Post-Active State</strong></td>
+<td>Retains the final animation value</td>
+<td>Reverts to the pre-animation base value</td>
+</tr>
+<tr>
+<td><strong>Common Use Cases</strong></td>
+<td>One-way transitions, modal reveals, UI toggles</td>
+<td>Pulsing effects, repeating loops, temporary hover states</td>
+</tr>
+<tr>
+<td><strong>DOM Value Impact</strong></td>
+<td>Presentation layer locked; base DOM attribute unchanged</td>
+<td>Presentation layer cleared; base DOM attribute unchanged</td>
+</tr>
+<tr>
+<td><strong>Chained Animations</strong></td>
+<td>Seamless handoff to subsequent animations</td>
+<td>Can cause visible snap-back glitches if chained without care</td>
+</tr>
+</tbody>
+</table>
+<h2 id="choosing-between-freeze-and-remove">Choosing Between Freeze and
+Remove</h2>
+<p>Choose <code>fill="freeze"</code> when the animation represents a
+state change, such as expanding an accordion icon, fading in a
+persistent element, or drawing an SVG path to completion. Choose
+<code>fill="remove"</code> when designing ambient, looping, or transient
+animations where returning to the base graphic is the intended
+outcome.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

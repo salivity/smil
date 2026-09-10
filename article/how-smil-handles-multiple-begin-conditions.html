@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How SMIL Handles Multiple Begin Conditions - smil</title>
+    <meta name="description" content="In Synchronized Multimedia Integration Language (SMIL), separating multiple begin conditions with semicolons allows an element to trigger across a series of distinct timing events, clock values, or user interactions. This article explains how the SMIL ti">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-smil-handles-multiple-begin-conditions">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How SMIL Handles Multiple Begin Conditions - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-smil-handles-multiple-begin-conditions" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In Synchronized Multimedia Integration Language (SMIL), separating multiple begin conditions with semicolons allows an element to trigger across a series of distinct timing events, clock values, or user interactions. This article explains how the SMIL ti" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-smil-handles-multiple-begin-conditions">How SMIL Handles
+Multiple Begin Conditions</h1>
+<p>In Synchronized Multimedia Integration Language (SMIL), separating
+multiple begin conditions with semicolons allows an element to trigger
+across a series of distinct timing events, clock values, or user
+interactions. This article explains how the SMIL timing model processes
+semicolon-delimited values within the <code>begin</code> attribute, how
+it compiles an instance times list, and how runtime restart rules
+dictate when an element actually plays.</p>
+<h2 id="the-logical-or-behavior">The Logical OR Behavior</h2>
+<p>When an element defines multiple begin values separated by semicolons
+(for example, <code>begin="2s; click; target.end"</code>), SMIL treats
+these values as an "OR" condition. The element does not wait for all
+conditions to occur simultaneously. Instead, satisfying any individual
+condition in the list can trigger the element to begin.</p>
+<h2 id="the-instance-time-list">The Instance Time List</h2>
+<p>Under the SMIL timing architecture, multiple begin conditions
+generate an internal schedule known as the <strong>Instance Time
+List</strong>:</p>
+<ol type="1">
+<li><strong>Resolution:</strong> Each condition in the
+semicolon-separated list is evaluated independently. A condition can be
+an absolute clock value (e.g., <code>5s</code>), a syncbase value
+referencing another element (e.g., <code>animA.begin + 1s</code>), or an
+event-based trigger (e.g., <code>click</code>).</li>
+<li><strong>Chronological Sorting:</strong> The engine resolves these
+conditions into specific timestamps and sorts them into the instance
+list chronologically, rather than the order in which they appear in the
+attribute string.</li>
+<li><strong>Dynamic Additions:</strong> For interactive conditions (such
+as a mouse click), instance times are added to the list dynamically
+whenever the user triggers the event.</li>
+</ol>
+<p>The element will start playing at the earliest valid instance time
+presented by the list.</p>
+<h2 id="the-impact-of-the-restart-attribute">The Impact of the Restart
+Attribute</h2>
+<p>While multiple conditions allow multiple begin opportunities, how the
+element responds to subsequent triggers after the initial playback is
+determined entirely by the <code>restart</code> attribute:</p>
+<ul>
+<li><strong><code>restart="always"</code> (Default):</strong> The
+element restarts immediately whenever any condition in the
+semicolon-separated list resolves, even if the element is currently in
+the middle of playing.</li>
+<li><strong><code>restart="whenNotActive"</code>:</strong> If a
+condition triggers while the element is currently active, that trigger
+is ignored. Conditions only initiate playback if the element has reached
+its end or has not yet started.</li>
+<li><strong><code>restart="never"</code>:</strong> The element plays
+only once. The first condition in the list to evaluate initiates
+playback, and all other conditions in the semicolon-separated list are
+permanently ignored for the remainder of the document's timeline.</li>
+</ul>
+<h2 id="order-independence">Order Independence</h2>
+<p>The position of conditions within the semicolon-separated list does
+not enforce execution priority. For instance,
+<code>begin="10s; 2s"</code> will cause the element to begin at 2
+seconds first, because the SMIL engine evaluates timeline values by
+their temporal occurrence rather than their positional syntax in the
+markup.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL High-Contrast Modes for Visual Accessibility - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) accommodates high-contrast display modes primarily through conditional processing attributes and adaptive layout design. By querying the host environment's display settings using predefined system test">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-high-contrast-modes-for-visual-accessibility">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL High-Contrast Modes for Visual Accessibility - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-high-contrast-modes-for-visual-accessibility" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) accommodates high-contrast display modes primarily through conditional processing attributes and adaptive layout design. By querying the host environment's display settings using predefined system test" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-high-contrast-modes-for-visual-accessibility">SMIL
+High-Contrast Modes for Visual Accessibility</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) accommodates
+high-contrast display modes primarily through conditional processing
+attributes and adaptive layout design. By querying the host
+environment's display settings using predefined system test attributes,
+SMIL players can dynamically substitute visual elements, alter color
+schemes, and adjust media presentations. This mechanism ensures that
+users with low vision or visual impairments receive content optimized
+for maximum legibility without requiring completely separate media
+files.</p>
+<h3 id="the-switch-element-and-systemscreencontrast">The
+<code>&lt;switch&gt;</code> Element and
+<code>systemScreenContrast</code></h3>
+<p>The core mechanism for handling high-contrast displays in SMIL is the
+<code>&lt;switch&gt;</code> element combined with the
+<code>systemScreenContrast</code> system test attribute.</p>
+<p>When a presentation runs, the SMIL player queries the operating
+system or user agent to determine whether a high-contrast mode is
+active. The <code>systemScreenContrast</code> attribute accepts two
+standard values:</p>
+<ul>
+<li><code>high</code>: Evaluates to true if the user's system is
+configured to a high-contrast accessibility mode.</li>
+<li><code>normal</code>: Evaluates to true under standard display
+settings.</li>
+</ul>
+<p>Inside a <code>&lt;switch&gt;</code> container, the player evaluates
+its child elements sequentially from top to bottom and renders only the
+first element whose test attributes evaluate to true.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">switch</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Rendered if high-contrast mode is enabled --&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">text</span> <span class="ot">src=</span><span class="st">&quot;captions-high-contrast.html&quot;</span> <span class="ot">systemScreenContrast=</span><span class="st">&quot;high&quot;</span> /&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Fallback for standard display settings --&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">text</span> <span class="ot">src=</span><span class="st">&quot;captions-standard.html&quot;</span> /&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">switch</span>&gt;</span></code></pre></div>
+<h3 id="dynamic-asset-replacement">Dynamic Asset Replacement</h3>
+<p>Authors can use this conditional logic across any media element
+supported by SMIL, including video, images, animations, and text
+streams. When high-contrast mode is detected, presentations can:</p>
+<ul>
+<li><strong>Swap Backgrounds and Graphics:</strong> Replace intricate,
+low-contrast background images with solid, single-color backdrops (such
+as pure black or white) to prevent visual clutter.</li>
+<li><strong>Adjust Subtitles and Text Overlays:</strong> Switch from
+transparent caption overlays to solid-background bounding boxes with
+high-contrast text pairings, such as yellow text on black or white text
+on blue.</li>
+<li><strong>Serve Alternative Video Streams:</strong> Load alternate
+video tracks where visual elements have been pre-processed with elevated
+contrast, bold outlines, or simplified color palettes.</li>
+</ul>
+<h3 id="layout-and-style-adaptation">Layout and Style Adaptation</h3>
+<p>SMIL integrates with layout engines using standard SMIL layout syntax
+or Cascading Style Sheets (CSS). Through layout regions defined in the
+<code>&lt;head&gt;</code> section, authors can declare distinct display
+regions tailored to contrast preferences.</p>
+<p>By testing for contrast settings, a presentation can shift its layout
+regions to use higher-weight fonts, increased text sizing, and distinct
+border styling. This level of adaptability ensures that text
+elements—such as synchronous transcriptions, menus, and labels—maintain
+sufficient luminosity contrast ratios against surrounding visual
+elements.</p>
+<h3 id="user-control-and-fallbacks">User Control and Fallbacks</h3>
+<p>Because SMIL's accessibility model relies on standard evaluation
+rules, it respects the user's explicit operating system settings
+automatically. If a user toggles high-contrast mode on their operating
+system, conforming SMIL players recognize the preference on startup or
+during runtime evaluation. If the player does not support
+<code>systemScreenContrast</code>, the <code>&lt;switch&gt;</code>
+construct safely defaults to the final element in the sequence, ensuring
+the presentation remains functional even on legacy software.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

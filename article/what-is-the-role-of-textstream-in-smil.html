@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is the Role of textstream in SMIL? - smil</title>
+    <meta name="description" content="The <textstream> element in Synchronized Multimedia Integration Language (SMIL) acts as a specialized media object tag designed to stream timed, dynamic text data in sync with audio and video. Unlike static text references that render a single block of c">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/what-is-the-role-of-textstream-in-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is the Role of textstream in SMIL? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/what-is-the-role-of-textstream-in-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The <textstream> element in Synchronized Multimedia Integration Language (SMIL) acts as a specialized media object tag designed to stream timed, dynamic text data in sync with audio and video. Unlike static text references that render a single block of c" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-the-role-of-textstream-in-smil">What Is the Role of
+textstream in SMIL?</h1>
+<p>The <code>&lt;textstream&gt;</code> element in Synchronized
+Multimedia Integration Language (SMIL) acts as a specialized media
+object tag designed to stream timed, dynamic text data in sync with
+audio and video. Unlike static text references that render a single
+block of content throughout an interval, <code>&lt;textstream&gt;</code>
+establishes an active conduit for sequential textual data. This makes it
+a core mechanism for delivering real-time scrolling captions, live
+subtitling, teleprompter feeds, and synchronized news tickers within
+multimedia presentations.</p>
+<h2 id="defining-the-textstream-element">Defining the
+<code>&lt;textstream&gt;</code> Element</h2>
+<p>In the SMIL media object hierarchy, standard text elements (such as
+<code>&lt;text&gt;</code>) reference static text documents rendered at
+specific timestamps. In contrast, <code>&lt;textstream&gt;</code>
+designates external sources where text data is delivered continuously
+over time, often via dedicated streaming protocols or timed-text formats
+(like RealText or QuickTime Text).</p>
+<p>By assigning a layout region to the <code>&lt;textstream&gt;</code>
+tag, SMIL user agents can allocate dedicated display areas—such as
+bottom-third caption banners or rolling sidebars—where incoming text
+flows dynamically without requiring manual reloads of the layout
+container.</p>
+<h2 id="key-capabilities-for-real-time-scrolling-captions">Key
+Capabilities for Real-Time Scrolling Captions</h2>
+<p>Using <code>&lt;textstream&gt;</code> provides several technical
+advantages when handling streaming captions:</p>
+<ul>
+<li><strong>Temporal Synchronization:</strong> The element integrates
+directly into SMIL timing containers like <code>&lt;par&gt;</code>
+(parallel) and <code>&lt;seq&gt;</code> (sequential). This guarantees
+that incoming caption streams remain precisely synchronized with
+concurrent video and audio tracks, even when network jitter occurs.</li>
+<li><strong>Continuous Flow and Motion:</strong> Because the stream
+format handles incremental timecodes, captions can scroll smoothly
+(horizontally or vertically) across the allocated viewport rather than
+flashing abruptly across page boundaries.</li>
+<li><strong>Bandwidth Efficiency:</strong> Streaming raw text requires
+minimal data overhead compared to burning open captions directly into a
+video raster. This allows low-bandwidth users to receive crisp, scalable
+text streams alongside adaptive bitrate media.</li>
+<li><strong>Accessibility and Multi-Language Routing:</strong> In
+combination with SMIL <code>&lt;switch&gt;</code> logic and
+<code>system-language</code> or <code>system-captions</code> test
+attributes, <code>&lt;textstream&gt;</code> elements enable multimedia
+players to dynamically select appropriate closed-caption streams based
+on user accessibility settings or language preferences.</li>
+</ul>
+<h2 id="implementation-structure">Implementation Structure</h2>
+<p>A standard implementation defines a designated display region in the
+SMIL <code>&lt;head&gt;</code> and pairs the
+<code>&lt;textstream&gt;</code> reference with media tracks inside a
+parallel timing container in the <code>&lt;body&gt;</code>:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">layout</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">root-layout</span> <span class="ot">width=</span><span class="st">&quot;640&quot;</span> <span class="ot">height=</span><span class="st">&quot;480&quot;</span> <span class="ot">background-color=</span><span class="st">&quot;black&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;video_region&quot;</span> <span class="ot">top=</span><span class="st">&quot;0&quot;</span> <span class="ot">left=</span><span class="st">&quot;0&quot;</span> <span class="ot">width=</span><span class="st">&quot;640&quot;</span> <span class="ot">height=</span><span class="st">&quot;420&quot;</span> /&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;caption_region&quot;</span> <span class="ot">top=</span><span class="st">&quot;420&quot;</span> <span class="ot">left=</span><span class="st">&quot;0&quot;</span> <span class="ot">width=</span><span class="st">&quot;640&quot;</span> <span class="ot">height=</span><span class="st">&quot;60&quot;</span> /&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">par</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;rtsp://example.com/broadcast.mp4&quot;</span> <span class="ot">region=</span><span class="st">&quot;video_region&quot;</span> /&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">textstream</span> <span class="ot">src=</span><span class="st">&quot;rtsp://example.com/live_captions.rt&quot;</span> <span class="ot">region=</span><span class="st">&quot;caption_region&quot;</span> /&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">par</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<p>In this architecture, the player handles the video broadcast and
+caption stream as separate, synchronized entities. As real-time
+transcription feeds into the caption stream source, the SMIL rendering
+engine continuously translates incoming timestamps to update the
+designated caption region.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

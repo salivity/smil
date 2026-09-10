@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reroute SMIL Pathways Using Fire Alarm Triggers - smil</title>
+    <meta name="description" content="This article explores how digital evacuation maps utilizing Synchronized Multimedia Integration Language (SMIL) can dynamically reroute animated pathways when a fire alarm is triggered. It details the integration pipeline between physical building safety">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/reroute-smil-pathways-using-fire-alarm-triggers">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Reroute SMIL Pathways Using Fire Alarm Triggers - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/reroute-smil-pathways-using-fire-alarm-triggers" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores how digital evacuation maps utilizing Synchronized Multimedia Integration Language (SMIL) can dynamically reroute animated pathways when a fire alarm is triggered. It details the integration pipeline between physical building safety" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="reroute-smil-pathways-using-fire-alarm-triggers">Reroute SMIL
+Pathways Using Fire Alarm Triggers</h1>
+<p>This article explores how digital evacuation maps utilizing
+Synchronized Multimedia Integration Language (SMIL) can dynamically
+reroute animated pathways when a fire alarm is triggered. It details the
+integration pipeline between physical building safety systems and web
+runtimes, the manipulation of SMIL's <code>&lt;animateMotion&gt;</code>
+and <code>&lt;mpath&gt;</code> elements, and the architectural
+strategies required to replace compromised evacuation routes with safe
+alternatives in real time.</p>
+<h3 id="the-signal-pipeline-from-hardware-to-smil">The Signal Pipeline:
+From Hardware to SMIL</h3>
+<p>Industrial fire alarm control panels (FACPs) communicate incidents
+using protocols such as BACnet, Modbus, or dry contact relays tied to
+IoT microcontrollers. To interface with a SMIL-rendering engine
+(typically an SVG-capable browser runtime on a digital signage display),
+an intermediary gateway translates the panel’s hardware state into
+standard web protocols, such as WebSockets or Server-Sent Events
+(SSE).</p>
+<p>When an alarm triggers in a specific zone, the gateway broadcasts a
+payload containing the hazard location and active alarm status directly
+to the display client.</p>
+<h3 id="mechanism-1-event-driven-smil-synchronization">Mechanism 1:
+Event-Driven SMIL Synchronization</h3>
+<p>SMIL supports event-based timing natively via its <code>begin</code>
+and <code>end</code> attributes. Rather than relying solely on
+wall-clock time, animations can listen for DOM events dispatched by the
+WebSocket listener.</p>
+<p>To implement this:</p>
+<ol type="1">
+<li>Define multiple <code>&lt;animateMotion&gt;</code> elements under
+the moving indicator (e.g., an evacuation arrow), each mapped to
+different route coordinates.</li>
+<li>Set the default route to begin immediately and loop.</li>
+<li>Configure secondary emergency routes to listen for custom events
+dispatched by the application layer.</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">circle</span> <span class="ot">r=</span><span class="st">&quot;5&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#00FF00&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Default Route --&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">animateMotion</span> <span class="ot">id=</span><span class="st">&quot;defaultPath&quot;</span> <span class="ot">path=</span><span class="st">&quot;M 10 10 L 100 10&quot;</span> <span class="ot">dur=</span><span class="st">&quot;3s&quot;</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> <span class="ot">end=</span><span class="st">&quot;alarmTrigger.begin&quot;</span> /&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Alternate Hazard-Avoidance Route --&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">animateMotion</span> <span class="ot">id=</span><span class="st">&quot;emergencyPath&quot;</span> <span class="ot">path=</span><span class="st">&quot;M 10 10 L 10 100 L 100 100&quot;</span> <span class="ot">dur=</span><span class="st">&quot;4s&quot;</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> <span class="ot">begin=</span><span class="st">&quot;alarmTrigger.begin&quot;</span> /&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">circle</span>&gt;</span></code></pre></div>
+<p>When the alarm event fires, JavaScript calls
+<code>document.getElementById('emergencyPath').beginElement()</code>,
+instantly halting the primary route and starting the detour.</p>
+<h3 id="mechanism-2-dynamic-path-mutation-via-mpath">Mechanism 2:
+Dynamic Path Mutation via <code>&lt;mpath&gt;</code></h3>
+<p>When evacuation paths must be calculated algorithmically (e.g., via
+Dijkstra’s or A* pathfinding to find the shortest exit avoiding the
+danger zone), predefined paths are insufficient. In this scenario, SMIL
+animations should decouple the motion from hardcoded attributes by using
+the <code>&lt;mpath&gt;</code> element, which references an external SVG
+<code>&lt;path&gt;</code>.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">path</span> <span class="ot">id=</span><span class="st">&quot;activeEvacRoute&quot;</span> <span class="ot">d=</span><span class="st">&quot;M 50,50 L 200,50&quot;</span> <span class="ot">fill=</span><span class="st">&quot;none&quot;</span> <span class="ot">stroke=</span><span class="st">&quot;transparent&quot;</span> /&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">circle</span> <span class="ot">r=</span><span class="st">&quot;6&quot;</span> <span class="ot">fill=</span><span class="st">&quot;#00AAFF&quot;</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">animateMotion</span> <span class="ot">dur=</span><span class="st">&quot;2s&quot;</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span>&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">mpath</span> <span class="ot">href=</span><span class="st">&quot;#activeEvacRoute&quot;</span> /&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">animateMotion</span>&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">circle</span>&gt;</span></code></pre></div>
+<p>When the fire alarm triggers:</p>
+<ol type="1">
+<li>The client script identifies the blocked zones.</li>
+<li>The pathfinding algorithm generates a new SVG path data string
+(<code>d</code> attribute).</li>
+<li>The script updates the target path using
+<code>document.getElementById('activeEvacRoute').setAttribute('d', newPathData)</code>.</li>
+<li>The animation engine recalculates the trajectory along the new
+geometric coordinates without requiring a page reload.</li>
+</ol>
+<h3 id="mechanism-3-conditional-route-swapping-with-switch">Mechanism 3:
+Conditional Route Swapping with <code>&lt;switch&gt;</code></h3>
+<p>For environments where strict SMIL players without full JavaScript
+engines are used, conditional routing can be handled using the SMIL
+<code>&lt;switch&gt;</code> element combined with system test
+attributes. Displays evaluate predefined environmental variables or
+external system states:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">switch</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Active only when system flag evaluates to Zone 1 Alarm --&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">animateMotion</span> <span class="ot">systemBitrate=</span><span class="st">&quot;zone1_alarm&quot;</span> <span class="ot">path=</span><span class="st">&quot;M 0 0 L 0 500&quot;</span> <span class="ot">dur=</span><span class="st">&quot;3s&quot;</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">&lt;!-- Default standard pathway --&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">animateMotion</span> <span class="ot">path=</span><span class="st">&quot;M 0 0 L 500 0&quot;</span> <span class="ot">dur=</span><span class="st">&quot;3s&quot;</span> <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">switch</span>&gt;</span></code></pre></div>
+<h3 id="ensuring-safety-and-state-recovery">Ensuring Safety and State
+Recovery</h3>
+<p>Dynamic rerouting architectures must include fail-safe
+procedures:</p>
+<ul>
+<li><strong>Heartbeat Verification:</strong> If the WebSocket connection
+to the alarm gateway drops, the display should trigger visual fault
+indicators or fall back to static, safe exit patterns.</li>
+<li><strong>State Latching:</strong> Evacuation paths should lock into
+an emergency state until an explicit, authorized "all clear" signal is
+verified from the fire panel.</li>
+<li><strong>Visual Priority:</strong> Dynamic path changes should
+simultaneously trigger styling changes—such as altering stroke color to
+high-visibility amber or red and increasing motion speed—to immediately
+signal an active redirection to building occupants.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

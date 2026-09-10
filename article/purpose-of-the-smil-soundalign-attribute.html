@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purpose of the SMIL soundAlign Attribute - smil</title>
+    <meta name="description" content="The soundAlign attribute in advanced SMIL (Synchronized Multimedia Integration Language) audio modules defines the spatial distribution, channel mapping, and soundstage orientation of an audio asset. By enabling authors to explicitly direct how acoustic">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/purpose-of-the-smil-soundalign-attribute">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Purpose of the SMIL soundAlign Attribute - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/purpose-of-the-smil-soundalign-attribute" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The soundAlign attribute in advanced SMIL (Synchronized Multimedia Integration Language) audio modules defines the spatial distribution, channel mapping, and soundstage orientation of an audio asset. By enabling authors to explicitly direct how acoustic" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="purpose-of-the-smil-soundalign-attribute">Purpose of the SMIL
+soundAlign Attribute</h1>
+<p>The <code>soundAlign</code> attribute in advanced SMIL (Synchronized
+Multimedia Integration Language) audio modules defines the spatial
+distribution, channel mapping, and soundstage orientation of an audio
+asset. By enabling authors to explicitly direct how acoustic signals map
+across multi-channel speaker configurations, <code>soundAlign</code>
+ensures that sound rendering corresponds directly with the layout,
+movement, and presentation context of rich multimedia environments.</p>
+<h3 id="spatial-positioning-and-channel-distribution">Spatial
+Positioning and Channel Distribution</h3>
+<p>In advanced audio layout modules, SMIL provides control beyond simple
+volume adjustments. The <code>soundAlign</code> attribute is designed to
+position an audio source within a defined auditory field. Authors can
+set sound placement toward specific channels—such as left, right,
+center, or ambient surround channels—or align the soundstage to match
+the listener's perspective. This spatial alignment prevents all audio
+streams from defaulting to a flat mono or generic stereo mix, providing
+a more balanced acoustic landscape when multiple audio tracks play
+simultaneously.</p>
+<h3 id="audiovisual-cohesion">Audiovisual Cohesion</h3>
+<p>A primary function of <code>soundAlign</code> is coordinating
+auditory assets with accompanying visual media. When a visual element is
+displayed in a specific layout region or transitions across the screen,
+<code>soundAlign</code> allows the associated sound to correspond
+spatially with that visual location. By anchoring the origin of the
+audio to visual cues, SMIL helps create a natural, immersive
+presentation where directional audio reinforces on-screen action.</p>
+<h3 id="separation-from-temporal-synchronization">Separation from
+Temporal Synchronization</h3>
+<p>While SMIL is best known for timing attributes such as
+<code>begin</code>, <code>dur</code>, and <code>syncBehavior</code>,
+<code>soundAlign</code> serves a distinct spatial purpose rather than a
+temporal one. It does not dictate playback timing, drift tolerance, or
+clock synchronization; instead, it specifies spatial orientation and
+channel balancing at runtime. This modular approach allows authors to
+decouple the timing logic of an audio element from its acoustic
+layout.</p>
+<h3 id="practical-impact-and-accessibility">Practical Impact and
+Accessibility</h3>
+<p>Utilizing <code>soundAlign</code> is particularly valuable in complex
+presentations such as interactive learning modules, multi-speaker
+dialogue tracks, and assistive technologies. By panning narration,
+background music, and interface sound effects to distinct spatial
+coordinates or speaker outputs, authors can prevent audio masking,
+improve speech intelligibility, and deliver accessible, multi-channel
+multimedia content.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

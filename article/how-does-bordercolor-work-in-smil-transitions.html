@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does borderColor Work in SMIL Transitions? - smil</title>
+    <meta name="description" content="The borderColor attribute in Synchronized Multimedia Integration Language (SMIL) defines the visual color applied to the leading boundary or edge during a wipe, iris, or geometric transition effect. Used in conjunction with borderWidth, it enhances trans">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-bordercolor-work-in-smil-transitions">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does borderColor Work in SMIL Transitions? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-bordercolor-work-in-smil-transitions" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The borderColor attribute in Synchronized Multimedia Integration Language (SMIL) defines the visual color applied to the leading boundary or edge during a wipe, iris, or geometric transition effect. Used in conjunction with borderWidth, it enhances trans" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-bordercolor-work-in-smil-transitions">How Does
+borderColor Work in SMIL Transitions?</h1>
+<p>The <code>borderColor</code> attribute in Synchronized Multimedia
+Integration Language (SMIL) defines the visual color applied to the
+leading boundary or edge during a wipe, iris, or geometric transition
+effect. Used in conjunction with <code>borderWidth</code>, it enhances
+transition effects between media elements by highlighting the moving
+demarcation line where the incoming visual stream replaces the outgoing
+one. This attribute supports standard color representations, allowing
+developers and designers to create stylized, branded, or visually
+distinct transition borders rather than default hard cuts.</p>
+<h2 id="the-role-and-function-of-bordercolor-in-smil">The Role and
+Function of borderColor in SMIL</h2>
+<p>In the SMIL Transitions module, visual transitions—such as wipes,
+fades, slides, and expands—are defined using transition elements like
+<code>&lt;transition&gt;</code> or
+<code>&lt;transitionFilter&gt;</code>. When a transition involves
+geometric movement across a visual plane, the engine calculates a moving
+boundary between the previous state and the new state.</p>
+<p>The <code>borderColor</code> attribute explicitly targets this
+transition boundary:</p>
+<ul>
+<li><strong>Visual Demarcation:</strong> It colors the separating band
+between the outgoing and incoming media, preventing visual artifacts and
+creating a smoother, stylized edge.</li>
+<li><strong>Stylistic Customization:</strong> Without border styling,
+transitions create a flat edge. Adding a custom border color creates
+effects similar to broadcast video wipes, glowing edges, or framed
+curtains.</li>
+<li><strong>Coordination with Border Properties:</strong> The
+<code>borderColor</code> attribute operates directly alongside
+<code>borderWidth</code>. If <code>borderWidth</code> is set to zero
+(the default in most implementations), the border color remains
+invisible because no geometric area is allocated for the border
+stroke.</li>
+</ul>
+<h2 id="supported-color-formats">Supported Color Formats</h2>
+<p>SMIL specifications align with standard web color models for the
+<code>borderColor</code> attribute. Accepted formats include:</p>
+<ul>
+<li><strong>Named Colors:</strong> Standard keywords such as
+<code>red</code>, <code>blue</code>, <code>black</code>,
+<code>white</code>, and extended SVG/CSS color names.</li>
+<li><strong>Hexadecimal Notation:</strong> Three-digit or six-digit
+formats such as <code>#FFF</code> or <code>#FF5733</code>.</li>
+<li><strong>RGB Functional Notation:</strong> Color declarations defined
+via <code>rgb(r, g, b)</code>.</li>
+</ul>
+<p>If an invalid color value is provided, SMIL user agents typically
+fall back to the default implementation color, which is standard black
+(<code>#000000</code>).</p>
+<h2 id="practical-implementation-example">Practical Implementation
+Example</h2>
+<p>Transitions in SMIL are declared either within the
+<code>&lt;head&gt;</code> of the document or attached directly to media
+elements within the <code>&lt;body&gt;</code>.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span> <span class="ot">version=</span><span class="st">&quot;3.0&quot;</span> <span class="ot">baseProfile=</span><span class="st">&quot;Language&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">layout</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">root-layout</span> <span class="ot">width=</span><span class="st">&quot;640&quot;</span> <span class="ot">height=</span><span class="st">&quot;480&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">region</span> <span class="ot">id=</span><span class="st">&quot;main_region&quot;</span> <span class="ot">width=</span><span class="st">&quot;640&quot;</span> <span class="ot">height=</span><span class="st">&quot;480&quot;</span> /&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">transition</span> <span class="ot">id=</span><span class="st">&quot;wipeRightWithGoldBorder&quot;</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                <span class="ot">type=</span><span class="st">&quot;barWipe&quot;</span> </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                <span class="ot">subtype=</span><span class="st">&quot;leftToRight&quot;</span> </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                <span class="ot">dur=</span><span class="st">&quot;2s&quot;</span> </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                <span class="ot">borderWidth=</span><span class="st">&quot;4&quot;</span> </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                <span class="ot">borderColor=</span><span class="st">&quot;#FFD700&quot;</span> /&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">seq</span>&gt;</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;intro.jpg&quot;</span> <span class="ot">dur=</span><span class="st">&quot;5s&quot;</span> <span class="ot">region=</span><span class="st">&quot;main_region&quot;</span> /&gt;</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">img</span> <span class="ot">src=</span><span class="st">&quot;feature.jpg&quot;</span> <span class="ot">dur=</span><span class="st">&quot;5s&quot;</span> <span class="ot">region=</span><span class="st">&quot;main_region&quot;</span> <span class="ot">transIn=</span><span class="st">&quot;wipeRightWithGoldBorder&quot;</span> /&gt;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">seq</span>&gt;</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<p>In this implementation, as <code>feature.jpg</code> replaces
+<code>intro.jpg</code> over two seconds from left to right, a solid gold
+line four units wide sweeps across the canvas, clearly framing the
+arrival of the new visual media.</p>
+<h2 id="key-considerations-and-best-practices">Key Considerations and
+Best Practices</h2>
+<ul>
+<li><strong>Width Dependency:</strong> Always specify a positive numeric
+value for <code>borderWidth</code> when assigning a
+<code>borderColor</code>, as an omitted or zero-value border renders the
+color property inactive.</li>
+<li><strong>Contrast and Accessibility:</strong> Choose border colors
+that maintain sufficient contrast against both the incoming and outgoing
+media to avoid visual vibration or jarring flashes.</li>
+<li><strong>Rendering Engine Support:</strong> Full compliance with SMIL
+Transition border parameters depends on the specific SMIL player, SVG
+user agent, or digital signage engine rendering the presentation.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

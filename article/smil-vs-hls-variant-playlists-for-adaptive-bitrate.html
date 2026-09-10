@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL vs HLS Variant Playlists for Adaptive Bitrate - smil</title>
+    <meta name="description" content="This article compares Synchronized Multimedia Integration Language (SMIL) and HTTP Live Streaming (HLS) variant playlists for adaptive bitrate (ABR) streaming. It examines how each format functions within a streaming architecture, their structural and sy">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-vs-hls-variant-playlists-for-adaptive-bitrate">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL vs HLS Variant Playlists for Adaptive Bitrate - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-vs-hls-variant-playlists-for-adaptive-bitrate" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article compares Synchronized Multimedia Integration Language (SMIL) and HTTP Live Streaming (HLS) variant playlists for adaptive bitrate (ABR) streaming. It examines how each format functions within a streaming architecture, their structural and sy" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-vs-hls-variant-playlists-for-adaptive-bitrate">SMIL vs HLS
+Variant Playlists for Adaptive Bitrate</h1>
+<p>This article compares Synchronized Multimedia Integration Language
+(SMIL) and HTTP Live Streaming (HLS) variant playlists for adaptive
+bitrate (ABR) streaming. It examines how each format functions within a
+streaming architecture, their structural and syntax differences, how
+they handle protocol delivery, and their current relevance in modern
+media workflows.</p>
+<h3 id="architectural-role-server-side-vs-client-facing">Architectural
+Role: Server-Side vs. Client-Facing</h3>
+<p>The primary difference between SMIL and HLS variant playlists lies in
+where they operate within the streaming pipeline.</p>
+<p>SMIL is fundamentally a server-side configuration tool in modern
+streaming workflows. Media servers, such as Wowza Streaming Engine, use
+XML-based SMIL files internally to map multiple single-bitrate video
+renditions into a unified ABR group. The media player rarely reads the
+SMIL file directly; instead, the server reads the SMIL file to
+dynamically generate client-compatible manifests.</p>
+<p>In contrast, an HLS variant playlist (often called a master playlist
+or multivariant playlist) is a client-facing manifest. The client-side
+video player fetches the <code>.m3u8</code> variant playlist directly
+over HTTP. The player parses this file, continuously evaluates local
+network bandwidth and device capabilities, and requests the appropriate
+media chunks independently.</p>
+<h3 id="syntax-and-data-format">Syntax and Data Format</h3>
+<p>SMIL uses an XML structure governed by W3C standards. It defines
+media sources and their properties—such as system bitrates, video
+widths, and heights—using standard XML tags (<code>&lt;smil&gt;</code>,
+<code>&lt;body&gt;</code>, <code>&lt;switch&gt;</code>,
+<code>&lt;video&gt;</code>).</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;&lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">switch</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;stream_high.mp4&quot;</span> <span class="ot">system-bitrate=</span><span class="st">&quot;2500000&quot;</span> <span class="ot">width=</span><span class="st">&quot;1920&quot;</span> <span class="ot">height=</span><span class="st">&quot;1080&quot;</span> /&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;stream_low.mp4&quot;</span> <span class="ot">system-bitrate=</span><span class="st">&quot;800000&quot;</span> <span class="ot">width=</span><span class="st">&quot;854&quot;</span> <span class="ot">height=</span><span class="st">&quot;480&quot;</span> /&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">switch</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<p>HLS variant playlists use the UTF-8 encoded extended M3U plain-text
+format, standardized by the IETF (RFC 8216). Rendition metadata is
+declared using specific tags such as <code>#EXT-X-STREAM-INF</code>,
+which pairs parameters like <code>BANDWIDTH</code>,
+<code>RESOLUTION</code>, and <code>CODECS</code> directly with the URI
+of a corresponding media playlist.</p>
+<pre class="m3u8"><code>#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-STREAM-INF:BANDWIDTH=2500000,RESOLUTION=1920x1080,CODECS=&quot;avc1.4d4028,mp4a.40.2&quot;
+stream_high.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=800000,RESOLUTION=854x480,CODECS=&quot;avc1.4d401f,mp4a.40.2&quot;
+stream_low.m3u8</code></pre>
+<h3 id="delivery-protocol-and-cdn-caching">Delivery Protocol and CDN
+Caching</h3>
+<p>SMIL was developed during the era of stateful, connection-oriented
+streaming protocols like RTSP and RTMP. Because RTMP and RTSP maintain
+dedicated server connections, SMIL served as an instruction set for the
+server to switch streams mid-session. These legacy protocols do not
+cache effectively across standard Content Delivery Networks (CDNs).</p>
+<p>HLS variant playlists were purpose-built for stateless HTTP delivery.
+The variant playlist references sub-playlists, which point to segmented
+media files (TS segments or fragmented MP4s). Because every request is a
+standard HTTP <code>GET</code>, variant playlists and their associated
+media segments can be easily cached at the CDN edge, allowing ABR
+streaming to scale to millions of concurrent viewers without overloading
+origin servers.</p>
+<h3 id="modern-implementation-and-coexistence">Modern Implementation and
+Coexistence</h3>
+<p>SMIL is no longer used as an end-to-end delivery mechanism for
+consumer playback. Native players in iOS, Android, web browsers, and
+smart TVs do not parse SMIL for ABR video playback.</p>
+<p>Instead, SMIL and HLS variant playlists often coexist in hybrid
+enterprise architectures. An engineer may maintain a single SMIL file on
+an origin server to define bitrate ladders and dynamic stream names.
+When a client requests an ABR stream, the origin server reads the SMIL
+file and automatically converts those parameters into an HLS variant
+playlist to deliver to the client.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

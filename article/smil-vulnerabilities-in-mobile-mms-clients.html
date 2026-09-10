@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Vulnerabilities in Mobile MMS Clients - smil</title>
+    <meta name="description" content="Parsing untrusted Synchronized Multimedia Integration Language (SMIL) attachments in mobile MMS clients exposes devices to critical security risks, including remote code execution, memory corruption, and denial-of-service conditions. Because many mobile">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-vulnerabilities-in-mobile-mms-clients">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Vulnerabilities in Mobile MMS Clients - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-vulnerabilities-in-mobile-mms-clients" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Parsing untrusted Synchronized Multimedia Integration Language (SMIL) attachments in mobile MMS clients exposes devices to critical security risks, including remote code execution, memory corruption, and denial-of-service conditions. Because many mobile" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-vulnerabilities-in-mobile-mms-clients">SMIL Vulnerabilities
+in Mobile MMS Clients</h1>
+<p>Parsing untrusted Synchronized Multimedia Integration Language (SMIL)
+attachments in mobile MMS clients exposes devices to critical security
+risks, including remote code execution, memory corruption, and
+denial-of-service conditions. Because many mobile messaging services
+automatically download and parse MMS payloads without user interaction,
+vulnerabilities in native SMIL processing engines represent a severe,
+zero-click attack surface. This article examines the primary technical
+vulnerabilities that arise when mobile operating systems and messaging
+applications parse untrusted SMIL files.</p>
+<h3 id="memory-corruption-and-buffer-overflows">Memory Corruption and
+Buffer Overflows</h3>
+<p>Most mobile operating systems process media formats using low-level,
+native code libraries (such as C or C++) to maximize performance. When
+parsers evaluate SMIL structures—such as layout tags, timing parameters,
+and coordinate bounds—flaws in memory management can be triggered:</p>
+<ul>
+<li><strong>Integer Overflows:</strong> Discrepancies between signed and
+unsigned integers when calculating buffer sizes for media dimensions or
+playback timelines can result in smaller-than-needed memory
+allocations.</li>
+<li><strong>Heap and Stack Buffer Overflows:</strong> Supplying
+excessively long strings or deeply nested layout containers can
+overwrite adjacent memory space, allowing attackers to hijack execution
+flow and achieve arbitrary Remote Code Execution (RCE). The historical
+Stagefright vulnerabilities in Android demonstrated how integer and
+buffer overflows in media parsers could compromise devices through
+incoming MMS payloads.</li>
+</ul>
+<h3 id="xml-specific-parsing-flaws">XML-Specific Parsing Flaws</h3>
+<p>SMIL is an XML-based markup language, meaning it inherits structural
+security weaknesses inherent to XML parsers if they are improperly
+configured:</p>
+<ul>
+<li><strong>XML External Entity (XXE) Injection:</strong> If the
+underlying parser resolves external entities, an attacker can define
+references within the SMIL document to read local system files (e.g.,
+using <code>file://</code> URIs) or interact with internal network
+services.</li>
+<li><strong>XML Entity Expansion (Billion Laughs Attack):</strong>
+Maliciously crafted recursive entity declarations can consume gigabytes
+of memory during parsing, leading to application crashes or entire
+system lockups.</li>
+</ul>
+<h3 id="unrestricted-resource-resolution-and-ssrf">Unrestricted Resource
+Resolution and SSRF</h3>
+<p>SMIL files define presentations by linking to various media elements
+via URIs (such as <code>&lt;img src="..."/&gt;</code> or
+<code>&lt;video src="..."/&gt;</code>). Vulnerabilities emerge when the
+parser does not strictly validate or sandbox these URIs:</p>
+<ul>
+<li><strong>Local File Inclusion:</strong> A parser might interpret
+relative or absolute local paths, permitting an attacker to include
+sensitive device files into the rendered presentation.</li>
+<li><strong>Server-Side Request Forgery (SSRF) / Client-Side Request
+Forgery:</strong> If the MMS engine automatically resolves and fetches
+remote HTTP/RTSP links defined in the SMIL document, attackers can force
+the device to beacon to external servers, exposing the user's IP
+address, device metadata, or interacting with intranet services.</li>
+</ul>
+<h3 id="logic-errors-and-state-machine-flaws">Logic Errors and State
+Machine Flaws</h3>
+<p>SMIL manages the synchronization, sequencing, and visual placement of
+multimedia elements over time. Complex or conflicting timing attributes
+(such as circular dependencies, negative durations, or contradictory
+event triggers) can cause state machine desynchronization. These logic
+errors often result in null-pointer dereferences, use-after-free
+conditions, or unhandled exceptions that terminate the messaging
+service.</p>
+<h3 id="zero-click-exploitation-via-auto-retrieval">Zero-Click
+Exploitation via Auto-Retrieval</h3>
+<p>The severity of SMIL parser vulnerabilities is magnified by the
+default behavior of many MMS applications:</p>
+<ul>
+<li><strong>Automatic Download and Parsing:</strong> Mobile carriers and
+default messaging clients often configure MMS retrieval to occur
+automatically in the background.</li>
+<li><strong>Lack of User Interaction:</strong> Because the parser is
+invoked upon receipt of the message rather than when the user opens it,
+an attacker needs only the victim's phone number to deploy an exploit
+payload.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

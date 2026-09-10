@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Embed Copyright and DRM Metadata in SMIL - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) provides standardized mechanisms for embedding intellectual property data and digital rights management (DRM) metadata within multimedia presentations. Through structural header elements—chiefly <meta">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-to-embed-copyright-and-drm-metadata-in-smil">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Embed Copyright and DRM Metadata in SMIL - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-to-embed-copyright-and-drm-metadata-in-smil" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) provides standardized mechanisms for embedding intellectual property data and digital rights management (DRM) metadata within multimedia presentations. Through structural header elements—chiefly <meta" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-to-embed-copyright-and-drm-metadata-in-smil">How to Embed
+Copyright and DRM Metadata in SMIL</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) provides
+standardized mechanisms for embedding intellectual property data and
+digital rights management (DRM) metadata within multimedia
+presentations. Through structural header elements—chiefly
+<code>&lt;meta&gt;</code> and <code>&lt;metadata&gt;</code>—SMIL allows
+authors to define basic copyright ownership, attach machine-readable
+rights frameworks using Resource Description Framework (RDF) and Dublin
+Core, and reference external DRM licensing architectures. This article
+breaks down the exact syntax and mechanisms SMIL provides to declare
+ownership and enforce intellectual property rules.</p>
+<h3 id="the-meta-element">The <code>&lt;meta&gt;</code> Element</h3>
+<p>The simplest mechanism for embedding copyright information in SMIL is
+the <code>&lt;meta&gt;</code> element, located within the document’s
+<code>&lt;head&gt;</code> section. The <code>&lt;meta&gt;</code> element
+uses attribute-value pairs to store straightforward, non-structural
+metadata:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">meta</span> <span class="ot">name=</span><span class="st">&quot;author&quot;</span> <span class="ot">content=</span><span class="st">&quot;Content Creator&quot;</span> /&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">meta</span> <span class="ot">name=</span><span class="st">&quot;copyright&quot;</span> <span class="ot">content=</span><span class="st">&quot;Copyright 2024 Example Media LLC&quot;</span> /&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">meta</span> <span class="ot">name=</span><span class="st">&quot;license&quot;</span> <span class="ot">content=</span><span class="st">&quot;https://example.com/terms&quot;</span> /&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Media elements --&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<p>This approach is best suited for human-readable statements, basic
+indexing by search engines, and simple metadata readers that do not
+require complex relational schemas.</p>
+<h3 id="the-metadata-container-and-rdf-integration">The
+<code>&lt;metadata&gt;</code> Container and RDF Integration</h3>
+<p>For granular, machine-processable rights declarations, SMIL specifies
+the <code>&lt;metadata&gt;</code> container. Designed to hold XML-based
+schema definitions, the <code>&lt;metadata&gt;</code> element allows
+developers to embed Resource Description Framework (RDF) and Extensible
+Metadata Platform (XMP) statements.</p>
+<p>By embedding RDF, authors can use standardized vocabularies such as
+Dublin Core (<code>dc:</code>) to define intellectual property
+attributes:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">metadata</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">rdf:RDF</span> <span class="ot">xmlns:rdf=</span><span class="st">&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>               <span class="ot">xmlns:dc=</span><span class="st">&quot;http://purl.org/dc/elements/1.1/&quot;</span>&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">rdf:Description</span> <span class="ot">rdf:about=</span><span class="st">&quot;&quot;</span>&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>          &lt;<span class="kw">dc:creator</span>&gt;Jane Doe&lt;/<span class="kw">dc:creator</span>&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>          &lt;<span class="kw">dc:rights</span>&gt;All rights reserved. Unauthorized reproduction prohibited.&lt;/<span class="kw">dc:rights</span>&gt;</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>          &lt;<span class="kw">dc:publisher</span>&gt;Media Distribution Corp&lt;/<span class="kw">dc:publisher</span>&gt;</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>          &lt;<span class="kw">dc:date</span>&gt;2024&lt;/<span class="kw">dc:date</span>&gt;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">rdf:Description</span>&gt;</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">rdf:RDF</span>&gt;</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">metadata</span>&gt;</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Media elements --&gt;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<h3
+id="machine-readable-rights-expression-odrl-and-creative-commons">Machine-Readable
+Rights Expression (ODRL and Creative Commons)</h3>
+<p>Beyond descriptive copyright notices, the
+<code>&lt;metadata&gt;</code> element can host formal Rights Expression
+Languages (REL), such as the Open Digital Rights Language (ODRL) or
+Creative Commons RDF schemas.</p>
+<p>Embedding an ODRL profile inside the <code>&lt;metadata&gt;</code>
+block permits authors to outline explicit permissions, prohibitions, and
+duties, such as:</p>
+<ul>
+<li>Permitted play counts or temporal constraints.</li>
+<li>Commercial versus non-commercial distribution allowances.</li>
+<li>Automated redirection for license renewal or royalty
+attribution.</li>
+</ul>
+<h3 id="handling-cryptographic-drm-and-encrypted-media">Handling
+Cryptographic DRM and Encrypted Media</h3>
+<p>SMIL acts as a declarative presentation layer rather than an
+encryption or enforcement engine. Therefore, SMIL addresses
+cryptographic DRM using two primary approaches:</p>
+<ol type="1">
+<li><strong>Media-Level DRM Passthrough:</strong> SMIL can reference
+media files that are independently encrypted using standards like MPEG
+Common Encryption (CENC) or FairPlay. When a SMIL media element (such as
+<code>&lt;video src="encrypted_stream.mp4" /&gt;</code>) executes, the
+host player delegates decryption and key retrieval to the native
+platform's Content Decryption Module (CDM).</li>
+<li><strong>Custom Parameter Passing via
+<code>&lt;param&gt;</code>:</strong> When an individual media element
+requires specific authorization parameters, license server URLs, or
+content IDs, developers can nest <code>&lt;param&gt;</code> tags inside
+the media tags:</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;protected_asset.mp4&quot;</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">param</span> <span class="ot">name=</span><span class="st">&quot;drmType&quot;</span> <span class="ot">content=</span><span class="st">&quot;urn:example:drm&quot;</span> /&gt;</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">param</span> <span class="ot">name=</span><span class="st">&quot;licenseServer&quot;</span> <span class="ot">content=</span><span class="st">&quot;https://license.example.com/acquire&quot;</span> /&gt;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">param</span> <span class="ot">name=</span><span class="st">&quot;contentId&quot;</span> <span class="ot">content=</span><span class="st">&quot;asset-98765&quot;</span> /&gt;</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">video</span>&gt;</span></code></pre></div>
+<p>Through these combined mechanisms—simple <code>&lt;meta&gt;</code>
+strings, RDF/Dublin Core expressions inside
+<code>&lt;metadata&gt;</code>, and programmatic parameter passing for
+encrypted assets—SMIL provides a structured, extensible architecture for
+managing copyright and DRM across diverse media workflows.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

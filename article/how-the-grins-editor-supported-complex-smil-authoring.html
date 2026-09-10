@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How the GRiNS Editor Supported Complex SMIL Authoring - smil</title>
+    <meta name="description" content="This article explores how the GRiNS (GRaphical INterface for SMIL) editor revolutionized the creation of complex Synchronized Multimedia Integration Language (SMIL) presentations. Developed by the Centrum Wiskunde & Informatica (CWI), GRiNS eliminated th">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-the-grins-editor-supported-complex-smil-authoring">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How the GRiNS Editor Supported Complex SMIL Authoring - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-the-grins-editor-supported-complex-smil-authoring" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores how the GRiNS (GRaphical INterface for SMIL) editor revolutionized the creation of complex Synchronized Multimedia Integration Language (SMIL) presentations. Developed by the Centrum Wiskunde & Informatica (CWI), GRiNS eliminated th" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-the-grins-editor-supported-complex-smil-authoring">How the
+GRiNS Editor Supported Complex SMIL Authoring</h1>
+<p>This article explores how the GRiNS (GRaphical INterface for SMIL)
+editor revolutionized the creation of complex Synchronized Multimedia
+Integration Language (SMIL) presentations. Developed by the Centrum
+Wiskunde &amp; Informatica (CWI), GRiNS eliminated the need to manually
+code complex XML syntax by introducing multiple synchronized graphical
+views. By separating the authoring process into temporal, structural,
+and spatial dimensions, GRiNS provided multimedia authors with a visual,
+intuitive framework to design, synchronize, and preview intricate
+interactive presentations.</p>
+<h3 id="hierarchical-structure-view">Hierarchical Structure View</h3>
+<p>SMIL relies on structured containers like <code>&lt;seq&gt;</code>
+(sequential) and <code>&lt;par&gt;</code> (parallel) to dictate how
+media elements behave relative to one another. GRiNS visualized this
+underlying hierarchy using a tree-based structure view. Authors could
+manipulate the presentation’s logic using drag-and-drop operations,
+nesting parallel and sequential blocks to organize complex timelines.
+This abstraction allowed creators to manage large-scale multimedia
+projects containing hundreds of assets without losing track of
+parent-child relationships or logical dependencies.</p>
+<h3 id="temporal-graph-and-timeline-management">Temporal Graph and
+Timeline Management</h3>
+<p>Hand-coding synchronization attributes—such as dynamic begin times,
+end times, and sync arcs—is notoriously error-prone in raw XML. GRiNS
+resolved this by providing a graphical timeline and time-graph
+interface. Authors could visually adjust the duration of audio, video,
+text, and image tracks by dragging edges or setting visual markers. More
+importantly, GRiNS automatically computed complex temporal constraints,
+such as event-based triggers (e.g., an element starting when a user
+clicks a button) and resolved conflicting timing dependencies in real
+time.</p>
+<h3 id="spatial-wysiwyg-layout">Spatial WYSIWYG Layout</h3>
+<p>SMIL defines screen layouts through abstract visual regions using
+properties like top, left, width, height, and z-index. GRiNS featured a
+direct-manipulation spatial view that functioned similarly to a desktop
+publishing canvas. Authors could visually draw, resize, and position
+display regions across various screen resolutions. Assigning media files
+to these regions was a matter of simple drag-and-drop assignment,
+enabling immediate visual feedback on how overlapping visual elements,
+captions, and video streams would appear to the end user.</p>
+<h3 id="visual-hyperlinking-and-interactivity">Visual Hyperlinking and
+Interactivity</h3>
+<p>Interactive presentations rely on SMIL anchors
+(<code>&lt;a&gt;</code>) and area tags to facilitate user navigation.
+GRiNS supported graphical authoring of these interactions by allowing
+users to draw hot-spots directly onto visual media and graphically link
+them to target elements, external URLs, or temporal offsets. The editor
+mapped these interactive links cleanly into the temporal structure,
+allowing authors to test non-linear navigation paths directly within the
+workspace.</p>
+<h3 id="integrated-simulation-and-validation">Integrated Simulation and
+Validation</h3>
+<p>Beyond authoring, GRiNS served as an integrated player and validator.
+The software included a built-in simulation engine that let authors
+preview presentations at any point in the creation process. Because SMIL
+documents must accommodate varying network bandwidths and media loading
+latencies, the GRiNS environment helped authors simulate and verify
+playback performance. When authoring was complete, the editor exported
+fully compliant, standards-based SMIL code, guaranteeing cross-platform
+compatibility across standard SMIL players.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using XSLT to Convert XML Feeds to SMIL Playlists - smil</title>
+    <meta name="description" content="Extensible Stylesheet Language Transformations (XSLT) serve as the vital bridge between disparate external data sources and synchronized multimedia players. This article explains how XSLT converts heterogeneous XML feeds—such as RSS, Media RSS, and pro">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/using-xslt-to-convert-xml-feeds-to-smil-playlists">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Using XSLT to Convert XML Feeds to SMIL Playlists - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/using-xslt-to-convert-xml-feeds-to-smil-playlists" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Extensible Stylesheet Language Transformations (XSLT) serve as the vital bridge between disparate external data sources and synchronized multimedia players. This article explains how XSLT converts heterogeneous XML feeds—such as RSS, Media RSS, and pro" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="using-xslt-to-convert-xml-feeds-to-smil-playlists">Using XSLT to
+Convert XML Feeds to SMIL Playlists</h1>
+<p>Extensible Stylesheet Language Transformations (XSLT) serve as the
+vital bridge between disparate external data sources and synchronized
+multimedia players. This article explains how XSLT converts
+heterogeneous XML feeds—such as RSS, Media RSS, and proprietary CMS
+outputs—into standardized Synchronized Multimedia Integration Language
+(SMIL) playlists. By parsing source data, restructuring tags, and
+injecting timing and layout rules, XSLT enables automated, dynamic
+multimedia scheduling across digital signage networks and media
+streaming platforms without requiring complex custom middleware.</p>
+<h3 id="resolving-schema-mismatches">Resolving Schema Mismatches</h3>
+<p>External XML feeds rarely match the rigid schema required by
+SMIL-compliant players. Content management systems, news agencies, and
+weather services publish data using various standards like RSS 2.0,
+Atom, or custom XML schemas.</p>
+<p>SMIL, by contrast, relies on a distinct syntax designed specifically
+for temporal and spatial multimedia playback. XSLT acts as an automated
+translator. It parses the incoming source XML tree, matches specific
+nodes using XPath expressions, and rewrites the content into the valid
+structural elements required by the SMIL standard.</p>
+<h3 id="mapping-data-to-smil-structural-containers">Mapping Data to SMIL
+Structural Containers</h3>
+<p>SMIL organizes playback through temporal containers:</p>
+<ul>
+<li><code>&lt;seq&gt;</code> defines sequential playback, where media
+files play one after another.</li>
+<li><code>&lt;par&gt;</code> defines parallel playback, allowing
+multiple elements (such as a background video, an audio track, and a
+crawling text ticker) to execute simultaneously.</li>
+</ul>
+<p>XSLT templates match incoming collections of items—such as
+<code>&lt;item&gt;</code> in an RSS feed or <code>&lt;entry&gt;</code>
+in Atom—and wrap them within these temporal elements. The transformation
+constructs the necessary <code>&lt;head&gt;</code> metadata, sets up
+<code>&lt;layout&gt;</code> and <code>&lt;region&gt;</code> definitions,
+and dynamically populates the <code>&lt;body&gt;</code> of the SMIL file
+with corresponding media references.</p>
+<h3 id="attribute-transformation-and-normalization">Attribute
+Transformation and Normalization</h3>
+<p>External feeds often store media metadata in disparate formats. For
+example, an image URL might be placed inside an
+<code>&lt;enclosure url="..."&gt;</code> attribute in an RSS feed or
+within a <code>&lt;media:content&gt;</code> tag in Media RSS.</p>
+<p>XSLT extracts these disparate values and normalizes them into
+standard SMIL tags, such as <code>&lt;video&gt;</code>,
+<code>&lt;img&gt;</code>, or <code>&lt;ref&gt;</code>. Crucial
+parameters are calculated and mapped during this process:</p>
+<ul>
+<li><strong>Source paths:</strong> Mapping source URLs directly to the
+<code>src</code> attribute.</li>
+<li><strong>Timing:</strong> Converting feed parameters or default play
+lengths into the SMIL <code>dur</code> (duration) attribute.</li>
+<li><strong>Layout assignment:</strong> Assigning media to designated
+screen zones via the <code>region</code> attribute.</li>
+</ul>
+<h3 id="filtering-and-conditional-logic">Filtering and Conditional
+Logic</h3>
+<p>XSLT provides built-in conditional logic through elements like
+<code>&lt;xsl:if&gt;</code> and <code>&lt;xsl:choose&gt;</code>. This
+allows the transformation pipeline to sanitize and filter feed data
+before the player processes it:</p>
+<ul>
+<li><strong>Filtering expired content:</strong> XPath comparisons can
+exclude items whose expiration timestamps have passed.</li>
+<li><strong>Format validation:</strong> The stylesheet can verify file
+extensions or MIME types, routing supported image formats to
+<code>&lt;img&gt;</code> nodes and video formats to
+<code>&lt;video&gt;</code> nodes, while discarding incompatible
+files.</li>
+<li><strong>Fallback handling:</strong> If an image URL is missing or
+malformed, conditional logic can inject a placeholder graphic to prevent
+playback interruptions.</li>
+</ul>
+<h3 id="operational-advantages">Operational Advantages</h3>
+<p>Using XSLT for SMIL generation decouples content distribution from
+content rendering. Because XSLT processors are natively available in
+almost all programming environments and many edge devices,
+transformations can occur on a central server, via an API gateway, or
+locally on the digital signage player itself. When the structure of an
+incoming feed changes, operators only need to update the XSLT template,
+leaving the playback hardware and core ingestion software untouched.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

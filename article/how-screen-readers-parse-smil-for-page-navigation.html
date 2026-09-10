@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Screen Readers Parse SMIL for Page Navigation - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) is the standard used in accessible digital publishing, such as EPUB 3 Media Overlays, to synchronize recorded audio with text. Assistive technologies and reading systems parse SMIL timing files to estab">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-screen-readers-parse-smil-for-page-navigation">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Screen Readers Parse SMIL for Page Navigation - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-screen-readers-parse-smil-for-page-navigation" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) is the standard used in accessible digital publishing, such as EPUB 3 Media Overlays, to synchronize recorded audio with text. Assistive technologies and reading systems parse SMIL timing files to estab" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-screen-readers-parse-smil-for-page-navigation">How Screen
+Readers Parse SMIL for Page Navigation</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) is the standard
+used in accessible digital publishing, such as EPUB 3 Media Overlays, to
+synchronize recorded audio with text. Assistive technologies and reading
+systems parse SMIL timing files to establish a bi-directional map
+between document structure and temporal audio tracks. By translating
+clock values into Document Object Model (DOM) references, screen readers
+enable users to jump directly to specific pages, navigate by heading or
+paragraph, and resume playback precisely from saved bookmarks.</p>
+<h3 id="the-anatomy-of-smil-synchronization">The Anatomy of SMIL
+Synchronization</h3>
+<p>To understand how screen readers navigate synchronized content, it is
+necessary to examine the basic structure of a SMIL file. SMIL files
+correlate text fragments with audio segments through parallel containers
+(<code>&lt;par&gt;</code> tags). Within each container, two primary
+references exist:</p>
+<ul>
+<li><strong>A Text Reference (<code>&lt;text&gt;</code>):</strong>
+Targets a specific element inside the XHTML document using a fragment
+identifier (e.g., <code>chapter1.xhtml#p01</code>).</li>
+<li><strong>An Audio Reference (<code>&lt;audio&gt;</code>):</strong>
+Targets an audio file and specifies a temporal window using
+<code>clipBegin</code> and <code>clipEnd</code> attributes measured in
+clock values (e.g., <code>clipBegin="0:04:12.500"</code>).</li>
+</ul>
+<p>During initialization, the reading system parses the SMIL documents
+referenced in the publication package and builds an in-memory two-way
+index: a temporal-to-spatial table (mapping timecodes to DOM node IDs)
+and a spatial-to-temporal table (mapping DOM node IDs to timecodes).</p>
+<h3 id="how-screen-readers-execute-page-jumping">How Screen Readers
+Execute Page Jumping</h3>
+<p>Page jumping relies on structured pagination markup within the
+content document, typically identified via ARIA roles
+(<code>role="doc-pagebreak"</code>) or EPUB semantic attributes
+(<code>epub:type="pagebreak"</code>).</p>
+<p>When a user initiates a jump to a specific page:</p>
+<ol type="1">
+<li><strong>Target Resolution:</strong> The assistive tool identifies
+the target page break element in the XHTML structure and retrieves its
+unique ID.</li>
+<li><strong>SMIL Query:</strong> The engine queries its pre-indexed
+spatial-to-temporal table for that specific element ID.</li>
+<li><strong>Clock Extraction:</strong> The parser locates the
+<code>&lt;par&gt;</code> node referencing the element and extracts the
+<code>clipBegin</code> timestamp from the accompanying
+<code>&lt;audio&gt;</code> tag.</li>
+<li><strong>Hardware Alignment:</strong> The player seeks the audio
+stream to the extracted timestamp while the rendering engine scrolls the
+viewport and shifts the accessibility focus directly to the target DOM
+node.</li>
+</ol>
+<p>If a page break lands inside a continuous sentence rather than at an
+explicit boundary, modern engines read the closest granular
+<code>&lt;par&gt;</code> container, aligning playback without audible
+distortion or skipping text context.</p>
+<h3 id="the-mechanics-of-bookmarking">The Mechanics of Bookmarking</h3>
+<p>Bookmarking synchronized media requires capturing both visual/textual
+position and temporal audio status:</p>
+<ol type="1">
+<li><strong>State Capture:</strong> When a user sets a bookmark, the
+assistive engine captures the ID of the active text element in focus and
+queries the media player for the exact current audio timestamp
+(<code>currentTime</code>).</li>
+<li><strong>Relative Offset Calculation:</strong> The engine compares
+<code>currentTime</code> against the <code>clipBegin</code> and
+<code>clipEnd</code> values of the current SMIL <code>&lt;par&gt;</code>
+segment. It saves the document URI, the target element ID, and an
+optional temporal offset (the exact millisecond offset within that
+specific segment).</li>
+<li><strong>Restoration:</strong> When a user activates a bookmark, the
+screen reader does not simply play audio from raw seconds. It reloads
+the referenced XHTML document, focuses the stored node ID, and instructs
+the audio controller to seek directly to the saved timestamp via the
+SMIL timing reference.</li>
+</ol>
+<p>This synchronization ensures that visual highlights, screen reader
+cursor focus, and natural-voice audio playback remain perfectly aligned
+across reading sessions.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

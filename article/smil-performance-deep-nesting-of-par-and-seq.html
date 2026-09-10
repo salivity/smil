@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIL Performance: Deep Nesting of par and seq - smil</title>
+    <meta name="description" content="Deeply nesting <par> (parallel) and <seq> (sequential) timing containers in Synchronized Multimedia Integration Language (SMIL) significantly degrades engine performance by exponentially increasing the complexity of the temporal graph. This article exami">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/smil-performance-deep-nesting-of-par-and-seq">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SMIL Performance: Deep Nesting of par and seq - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/smil-performance-deep-nesting-of-par-and-seq" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Deeply nesting <par> (parallel) and <seq> (sequential) timing containers in Synchronized Multimedia Integration Language (SMIL) significantly degrades engine performance by exponentially increasing the complexity of the temporal graph. This article exami" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="smil-performance-deep-nesting-of-par-and-seq">SMIL Performance:
+Deep Nesting of par and seq</h1>
+<p>Deeply nesting <code>&lt;par&gt;</code> (parallel) and
+<code>&lt;seq&gt;</code> (sequential) timing containers in Synchronized
+Multimedia Integration Language (SMIL) significantly degrades engine
+performance by exponentially increasing the complexity of the temporal
+graph. This article examines how excessive hierarchy strains SMIL
+processors through complex timeline recalculations, synchronization
+overhead, memory consumption, and frame-timing drift, along with
+structural strategies to mitigate these runtime bottlenecks.</p>
+<h3 id="the-smil-timing-graph-complexity">The SMIL Timing Graph
+Complexity</h3>
+<p>A SMIL engine evaluates timing relationships by building an internal
+dependency graph representing the document’s temporal hierarchy.</p>
+<ul>
+<li><strong><code>&lt;seq&gt;</code> containers</strong> define an
+ordered queue where the start of each child depends on the end or
+duration of the preceding child.</li>
+<li><strong><code>&lt;par&gt;</code> containers</strong> evaluate all
+child elements concurrently, requiring the container to monitor the
+active durations and end conditions of every branch simultaneously.</li>
+</ul>
+<p>When these containers are nested deeply within one another (for
+example, a <code>&lt;seq&gt;</code> inside a <code>&lt;par&gt;</code>
+inside another <code>&lt;seq&gt;</code>), the engine must construct a
+deeply branching timeline tree. Every timing dependency becomes an
+equation that relies on the resolved states of parent, sibling, and
+ancestor nodes.</p>
+<h3 id="cascading-timeline-recalculations">Cascading Timeline
+Recalculations</h3>
+<p>The primary performance cost of deep nesting occurs during runtime
+timeline updates. SMIL documents frequently feature dynamic behaviors,
+such as user interactions, network delays, or elements with indefinite
+durations (<code>dur="indefinite"</code>).</p>
+<p>When the start or end time of an element inside a deeply nested
+container changes, the engine cannot simply update that single node.
+Instead, it must trigger a cascading recalculation up to the root
+container and back down through adjacent branches:</p>
+<ol type="1">
+<li>The inner node notifies its immediate container.</li>
+<li>The container recalculates its own boundaries and propagates the
+change to parent nodes.</li>
+<li>The parent updates its layout, which may alter the computed start
+times of subsequent siblings in a <code>&lt;seq&gt;</code> or change the
+total active duration of an enclosing <code>&lt;par&gt;</code>.</li>
+<li>Downward recalculations are forced on all downstream children.</li>
+</ol>
+<p>In trees with high nesting depth (<span
+class="math inline">\(O(N)\)</span> depth), this traversal shifts the
+recalculation overhead from a linear operation to an exponential or
+high-order polynomial processing task, leading to noticeable CPU
+spikes.</p>
+<h3 id="synchronization-drift-and-media-latency">Synchronization Drift
+and Media Latency</h3>
+<p>SMIL engines strive to maintain presentation sync via a
+synchronization clock. When deeply nested containers demand excessive
+CPU cycles for timeline parsing, the engine's main execution thread is
+blocked.</p>
+<p>This delay causes:</p>
+<ul>
+<li><strong>Audio-Video Desynchronization:</strong> Clocks drift apart
+while the engine traverses the hierarchy to determine which media
+element should play next.</li>
+<li><strong>Late Element Starts:</strong> In <code>&lt;seq&gt;</code>
+containers nested several layers deep, the transition between one
+element ending and the next beginning incurs a processing gap, resulting
+in black frames or stalled playback.</li>
+<li><strong>Dropped Frames:</strong> Hardware-constrained players (such
+as digital signage devices or embedded media players) frequently drop
+presentation frames to catch up with the master clock after resolving
+deep dependency trees.</li>
+</ul>
+<h3 id="event-propagation-and-syncbase-overhead">Event Propagation and
+Syncbase Overhead</h3>
+<p>Deep nesting exacerbates the overhead of syncbase timing and DOM
+events. In SMIL, an element can begin relative to another element
+anywhere in the document using syncbase expressions (e.g.,
+<code>begin="mediaA.end+2s"</code>).</p>
+<p>When syncbase relationships cross multiple levels of nested
+<code>&lt;par&gt;</code> and <code>&lt;seq&gt;</code> scopes, resolving
+the absolute presentation time requires traversing up to the lowest
+common ancestor and back down. If events (such as click triggers or
+repeat events) occur rapidly within a deeply nested branch, the engine
+must queue, bubble, and recalculate multiple simultaneous timeline
+branches, causing event queue congestion and interface sluggishness.</p>
+<h3 id="memory-overhead-and-lifecycle-management">Memory Overhead and
+Lifecycle Management</h3>
+<p>Every nested <code>&lt;par&gt;</code> and <code>&lt;seq&gt;</code>
+node represents an active software state machine inside the SMIL engine.
+For each container layer, the engine allocates resources to track:</p>
+<ul>
+<li>Resolved start and end instance times.</li>
+<li>Container boundary conditions (<code>fill</code>,
+<code>endsync</code>, <code>restart</code>).</li>
+<li>Event listeners and sync arcs.</li>
+</ul>
+<p>Deep structures hinder efficient garbage collection and memory
+deallocation. Because an element’s timing resolution often depends on
+future or past siblings within nested lists, the engine must retain
+element states in memory longer than necessary, increasing the overall
+memory footprint of the runtime environment.</p>
+<h3 id="best-practices-for-mitigating-nesting-overhead">Best Practices
+for Mitigating Nesting Overhead</h3>
+<p>To maintain high frame rates and precise temporal alignment, authors
+should optimize SMIL structures:</p>
+<ul>
+<li><strong>Flatten the Hierarchy:</strong> Use explicit start times
+(<code>begin="10s"</code>) relative to a single common ancestor
+<code>&lt;par&gt;</code> rather than nesting multiple
+<code>&lt;seq&gt;</code> and <code>&lt;par&gt;</code> layers to create
+chronological order.</li>
+<li><strong>Minimize Cross-Branch Syncbases:</strong> Keep synchronized
+elements within the same immediate parent container to avoid multi-level
+tree traversals.</li>
+<li><strong>Avoid Empty Wrapper Containers:</strong> Remove structural
+containers that do not define unique timing attributes or
+constraints.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

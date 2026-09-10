@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does SMIL Communicate State to a Server? - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) communicates client-side runtime state back to an authoring or backend server primarily through the SMIL StateSubmission Module introduced in the SMIL 3.0 specification. By coupling an internal XML data">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-does-smil-communicate-state-to-a-server">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does SMIL Communicate State to a Server? - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-does-smil-communicate-state-to-a-server" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) communicates client-side runtime state back to an authoring or backend server primarily through the SMIL StateSubmission Module introduced in the SMIL 3.0 specification. By coupling an internal XML data" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-smil-communicate-state-to-a-server">How Does SMIL
+Communicate State to a Server?</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) communicates
+client-side runtime state back to an authoring or backend server
+primarily through the <strong>SMIL StateSubmission Module</strong>
+introduced in the SMIL 3.0 specification. By coupling an internal XML
+data model with declarative submission elements—specifically
+<code>&lt;submission&gt;</code> and <code>&lt;send&gt;</code>—a SMIL
+presentation can capture user inputs, track playback progress, and
+transmit structured data over protocols such as HTTP without requiring
+custom scripting.</p>
+<h2 id="the-smil-30-state-architecture">The SMIL 3.0 State
+Architecture</h2>
+<p>In earlier versions of SMIL, presentations were predominantly
+unidirectional. Player runtimes evaluated static switch conditions or
+local system metrics, but they lacked a standardized way to modify and
+persist internal variables. SMIL 3.0 introduced dedicated State
+modules—drawing inspiration from XForms and XPath—to allow dynamic state
+handling:</p>
+<ul>
+<li><strong>SMIL UserState Module:</strong> Defines the presentation's
+internal data model using elements like <code>&lt;state&gt;</code>, and
+provides control elements like <code>&lt;setvalue&gt;</code>,
+<code>&lt;newvalue&gt;</code>, and <code>&lt;delvalue&gt;</code> to
+update document variables dynamically.</li>
+<li><strong>SMIL StateSubmission Module:</strong> Defines transmission
+rules and execution triggers that package this state data and dispatch
+it to an external endpoint.</li>
+</ul>
+<h2 id="the-core-submission-elements">The Core Submission Elements</h2>
+<p>State transmission relies on two coordinating elements:
+<code>&lt;submission&gt;</code> and <code>&lt;send&gt;</code>.</p>
+<h3 id="1-the-submission-element">1. The <code>&lt;submission&gt;</code>
+Element</h3>
+<p>Declared within the document's <code>&lt;head&gt;</code> or state
+declaration area, the <code>&lt;submission&gt;</code> element specifies
+the connection parameters for the external endpoint:</p>
+<ul>
+<li><strong><code>action</code>:</strong> The destination URL where the
+state payload will be sent.</li>
+<li><strong><code>method</code>:</strong> The transport method,
+typically standard HTTP verbs such as <code>post</code> or
+<code>put</code>.</li>
+<li><strong><code>ref</code>:</strong> Specifies which subset of the
+internal state tree or node set to transmit.</li>
+<li><strong><code>replace</code>:</strong> Instructs the player how to
+handle the server's response. Options include:</li>
+<li><code>none</code>: Ignores the server's reply and continues playback
+uninterrupted.</li>
+<li><code>instance</code>: Replaces the local state data model with the
+XML payload returned by the server.</li>
+<li><code>all</code>: Replaces the entire SMIL document with the new
+document returned by the server.</li>
+</ul>
+<h3 id="2-the-send-element">2. The <code>&lt;send&gt;</code>
+Element</h3>
+<p>While <code>&lt;submission&gt;</code> defines <em>how</em> and
+<em>where</em> data travels, the <code>&lt;send&gt;</code> element
+defines <em>when</em> the submission occurs. Because
+<code>&lt;send&gt;</code> participates directly in SMIL's timing engine,
+submissions can be scheduled precisely or tied to interactive user
+triggers:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">smil</span> <span class="ot">xmlns=</span><span class="st">&quot;http://www.w3.org/ns/SMIL&quot;</span> <span class="ot">version=</span><span class="st">&quot;3.0&quot;</span> <span class="ot">baseProfile=</span><span class="st">&quot;Language&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">head</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">state</span> <span class="ot">language=</span><span class="st">&quot;http://www.w3.org/2007/SPARQL&quot;</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">data</span> <span class="ot">xmlns=</span><span class="st">&quot;&quot;</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">score</span>&gt;85&lt;/<span class="kw">score</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">completed</span>&gt;true&lt;/<span class="kw">completed</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      &lt;/<span class="kw">data</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">state</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">submission</span> <span class="ot">id=</span><span class="st">&quot;submitScore&quot;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                <span class="ot">action=</span><span class="st">&quot;https://example.com/api/progress&quot;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                <span class="ot">method=</span><span class="st">&quot;post&quot;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                <span class="ot">replace=</span><span class="st">&quot;none&quot;</span> /&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">head</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">body</span>&gt;</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">par</span>&gt;</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Media playback and user interaction --&gt;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;lesson.mp4&quot;</span> <span class="ot">id=</span><span class="st">&quot;lessonVideo&quot;</span> /&gt;</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>      <span class="co">&lt;!-- Trigger submission when video reaches the end --&gt;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">send</span> <span class="ot">submission=</span><span class="st">&quot;submitScore&quot;</span> <span class="ot">begin=</span><span class="st">&quot;lessonVideo.end&quot;</span> /&gt;</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">par</span>&gt;</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">body</span>&gt;</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">smil</span>&gt;</span></code></pre></div>
+<h2 id="practical-applications-of-state-communication">Practical
+Applications of State Communication</h2>
+<p>By combining <code>&lt;state&gt;</code>,
+<code>&lt;setvalue&gt;</code>, and <code>&lt;send&gt;</code>, SMIL
+presentations maintain a continuous feedback loop with authoring
+servers:</p>
+<ul>
+<li><strong>Learning Management Systems (LMS):</strong> Tracking student
+responses, quiz answers, and module completion in interactive
+educational media.</li>
+<li><strong>Digital Signage Analytics:</strong> Reporting playback
+health, ad impression timestamps, and localized device telemetry back to
+central content managers.</li>
+<li><strong>Dynamic Content Personalization:</strong> Updating the
+client's internal data tree via <code>replace="instance"</code> to
+tailor downstream branching paths based on server-side business
+logic.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

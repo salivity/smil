@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Menu Boards Push Pricing to Active SMIL Layouts - smil</title>
+    <meta name="description" content="Modern digital menu board systems push updated pricing to active SMIL (Synchronized Multimedia Integration Language) layouts without interrupting active screen playback or triggering full system reboots. This seamless update mechanism relies on decoupled">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-menu-boards-push-pricing-to-active-smil-layouts">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Menu Boards Push Pricing to Active SMIL Layouts - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-menu-boards-push-pricing-to-active-smil-layouts" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Modern digital menu board systems push updated pricing to active SMIL (Synchronized Multimedia Integration Language) layouts without interrupting active screen playback or triggering full system reboots. This seamless update mechanism relies on decoupled" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-menu-boards-push-pricing-to-active-smil-layouts">How Menu
+Boards Push Pricing to Active SMIL Layouts</h1>
+<p>Modern digital menu board systems push updated pricing to active SMIL
+(Synchronized Multimedia Integration Language) layouts without
+interrupting active screen playback or triggering full system reboots.
+This seamless update mechanism relies on decoupled content
+architectures, localized data feeds, real-time communication protocols,
+and dynamic web-based rendering layers that execute within the SMIL
+engine.</p>
+<h3 id="decoupling-media-assets-from-pricing-data">Decoupling Media
+Assets from Pricing Data</h3>
+<p>SMIL acts as an XML-based orchestration layer that defines screen
+zones, playback sequences, and media timing. In modern digital signage
+deployments, menu layouts separate static heavy media (such as
+background videos and food photography) from dynamic text elements (such
+as item names, calorie counts, and prices).</p>
+<p>Instead of burning prices directly into static image files or video
+renders, the SMIL playlist references dynamic web widgets
+(HTML5/JavaScript) or structured text overlays within designated screen
+regions. The SMIL file maintains the layout structure, while the content
+layer remains data-driven and fluid.</p>
+<h3 id="data-synchronization-websockets-and-polling">Data
+Synchronization: WebSockets and Polling</h3>
+<p>When a price changes in a restaurant’s Point of Sale (POS) or Content
+Management System (CMS), the update is published via an API to the
+digital signage server. To push this data to the edge device playing the
+SMIL layout, the software uses one of two primary transport methods:</p>
+<ul>
+<li><strong>Persistent WebSockets or MQTT:</strong> The SMIL-compliant
+media player maintains an active, low-overhead TCP connection with the
+signage server. When a price changes, the server broadcasts an immediate
+push payload containing the updated stock-keeping unit (SKU) IDs and new
+price values directly to the player.</li>
+<li><strong>HTTP Polling / Manifest Checks:</strong> The player queries
+a remote JSON or XML endpoint at predefined intervals (e.g., every 30 to
+60 seconds) to check for modified timestamps or revised price
+tables.</li>
+</ul>
+<h3 id="dom-updates-within-smil-rendering-engines">DOM Updates Within
+SMIL Rendering Engines</h3>
+<p>Most enterprise SMIL hardware players run an underlying browser
+engine (such as Chromium or WebKit) inside the media zones defined by
+SMIL <code>&lt;ref&gt;</code> or <code>&lt;body&gt;</code> tags.</p>
+<p>When the local player receives the updated pricing data:</p>
+<ol type="1">
+<li>The incoming data payload is parsed into local memory or written to
+a local data cache (such as IndexedDB or a local JSON file).</li>
+<li>A JavaScript event or state-management hook triggers inside the
+active HTML view layer.</li>
+<li>The Document Object Model (DOM) updates only the specific text nodes
+containing the changed prices.</li>
+</ol>
+<p>Because only the text elements are re-rendered, the background
+animations, video loops, and surrounding graphics continue running
+smoothly without flickering, black frames, or visual pauses.</p>
+<h3 id="local-caching-and-offline-resilience">Local Caching and Offline
+Resilience</h3>
+<p>To prevent screens from displaying blank price fields during internet
+outages, menu board software systems enforce local data persistence. The
+SMIL player stores the latest retrieved pricing dataset on its onboard
+flash storage.</p>
+<p>If network connectivity drops when a price update is initiated, the
+system queues the update on the server. The player continues displaying
+the most recent locally cached pricing until the connection is restored,
+at which point the queue flushes and updates the SMIL presentation
+immediately.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

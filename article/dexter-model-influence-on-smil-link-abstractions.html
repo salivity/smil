@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dexter Model Influence on SMIL Link Abstractions - smil</title>
+    <meta name="description" content="This article examines how the Dexter Hypertext Reference Model shaped the hyperlinking architecture of the Synchronized Multimedia Integration Language (SMIL). Developed to formalize hypertext systems, the Dexter Model introduced conceptual separations b">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/dexter-model-influence-on-smil-link-abstractions">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Dexter Model Influence on SMIL Link Abstractions - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/dexter-model-influence-on-smil-link-abstractions" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article examines how the Dexter Hypertext Reference Model shaped the hyperlinking architecture of the Synchronized Multimedia Integration Language (SMIL). Developed to formalize hypertext systems, the Dexter Model introduced conceptual separations b" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="dexter-model-influence-on-smil-link-abstractions">Dexter Model
+Influence on SMIL Link Abstractions</h1>
+<p>This article examines how the Dexter Hypertext Reference Model shaped
+the hyperlinking architecture of the Synchronized Multimedia Integration
+Language (SMIL). Developed to formalize hypertext systems, the Dexter
+Model introduced conceptual separations between content, link
+mechanisms, and runtime presentation. Through its intermediate evolution
+in the Amsterdam Hypermedia Model (AHM), Dexter directly influenced
+SMIL’s implementation of non-embedded linking, multidimensional anchor
+specifications, and the temporal synchronization of link behaviors.</p>
+<h3 id="the-dexter-foundation-and-the-ahm-bridge">The Dexter Foundation
+and the AHM Bridge</h3>
+<p>The Dexter Hypertext Reference Model established a formal three-layer
+architecture: the Within-Component layer (the raw media or text), the
+Storage layer (the network of nodes and links), and the Runtime layer
+(presentation and user interaction). A central innovation of Dexter was
+the concept of "anchoring," an addressing mechanism that bridges the
+Storage layer to specific locations or fragments within a component
+without altering the component’s internal data.</p>
+<p>Traditional static text hypertext systems often embedded link
+information directly into the content stream, as seen in basic HTML.
+However, continuous multimedia components—such as video, audio, and
+dynamic animations—cannot easily accommodate embedded link structures.
+Researchers extended the Dexter model into the Amsterdam Hypermedia
+Model (AHM) by adding dynamic temporal attributes and presentation
+contexts to Dexter's component and link primitives. When the World Wide
+Web Consortium (W3C) formed the working group to develop SMIL, AHM's
+Dexter-derived principles served as the primary theoretical
+framework.</p>
+<h3 id="separation-of-links-from-media-content">Separation of Links from
+Media Content</h3>
+<p>Dexter posited that links must exist as independent structural
+entities rather than inline data. SMIL operationalizes this abstraction
+through dedicated hyperlinking tags, notably the <code>&lt;a&gt;</code>
+and <code>&lt;area&gt;</code> elements.</p>
+<p>Because SMIL treats media elements (such as
+<code>&lt;video&gt;</code>, <code>&lt;audio&gt;</code>, and
+<code>&lt;img&gt;</code>) as separate continuous objects, links operate
+externally across parallel timelines. This design allows authoring
+systems to define interactive paths, jump targets, and relationships
+without modifying or re-encoding the underlying binary media files. The
+link remains an abstracted structural relationship managed strictly
+within the SMIL document structure, fulfilling Dexter's Storage layer
+paradigm.</p>
+<h3 id="temporal-and-spatial-anchoring">Temporal and Spatial
+Anchoring</h3>
+<p>In the Dexter model, an anchor consists of an identifier and an
+anchor value that specifies a sub-component region. SMIL directly
+applies this concept through its <code>&lt;area&gt;</code> element, but
+expands Dexter's spatial dimensions to incorporate time.</p>
+<p>SMIL enables authors to define anchors that are bounded both
+spatially and temporally:</p>
+<ul>
+<li><strong>Spatial Boundaries:</strong> Using attributes such as
+<code>coords</code>, SMIL designates precise visual regions on visual
+media over which an interaction can occur.</li>
+<li><strong>Temporal Boundaries:</strong> Using attributes like
+<code>begin</code>, <code>end</code>, or <code>dur</code>, SMIL dictates
+the exact time span during which the anchor exists within the media
+timeline.</li>
+</ul>
+<p>By treating time as an addressable sub-component dimension, SMIL
+mirrors Dexter's definition of an anchor specification: addressing a
+subset of an atomic component through an abstract interface rather than
+manipulating internal file offsets.</p>
+<h3 id="presentation-specifications-and-link-traversal">Presentation
+Specifications and Link Traversal</h3>
+<p>The Dexter model introduced Presentation Specifications (PSpecs) to
+dictate how components and links should be rendered at runtime. SMIL
+inherited this separation by including traversal behaviors directly
+within its link abstractions.</p>
+<p>Attributes such as <code>show</code> (defining whether the target
+opens in a new context, replaces the current context, or pauses the
+presentation) and <code>sourcePlaystate</code> (dictating whether the
+originating timeline continues playing or pauses upon link activation)
+separate the link's topology from its interactive runtime behavior. This
+distinction allows the hypermedia engine to manage complex
+synchronization constraints smoothly when a user departs from or returns
+to a presentation timeline.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

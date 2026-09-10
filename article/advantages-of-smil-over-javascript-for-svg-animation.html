@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advantages of SMIL Over JavaScript for SVG Animation - smil</title>
+    <meta name="description" content="This article explores why Synchronized Multimedia Integration Language (SMIL) remains a powerful choice for animating Scalable Vector Graphics (SVG) compared to JavaScript’s requestAnimationFrame. While JavaScript delivers granular procedural control,">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/advantages-of-smil-over-javascript-for-svg-animation">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Advantages of SMIL Over JavaScript for SVG Animation - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/advantages-of-smil-over-javascript-for-svg-animation" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores why Synchronized Multimedia Integration Language (SMIL) remains a powerful choice for animating Scalable Vector Graphics (SVG) compared to JavaScript’s requestAnimationFrame. While JavaScript delivers granular procedural control," />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="advantages-of-smil-over-javascript-for-svg-animation">Advantages
+of SMIL Over JavaScript for SVG Animation</h1>
+<p>This article explores why Synchronized Multimedia Integration
+Language (SMIL) remains a powerful choice for animating Scalable Vector
+Graphics (SVG) compared to JavaScript’s
+<code>requestAnimationFrame</code>. While JavaScript delivers granular
+procedural control, SMIL offers distinct architectural benefits for
+vector graphics, including native file portability, reduced scripting
+overhead, seamless path morphing, and automatic browser-level
+performance optimizations that function even when scripts are
+disabled.</p>
+<h2 id="1-portability-and-security-in-standalone-contexts">1.
+Portability and Security in Standalone Contexts</h2>
+<p>The most significant advantage of SMIL over JavaScript is its ability
+to run in restricted environments. When an SVG is embedded as an image
+(<code>&lt;img src="graphic.svg"&gt;</code>) or referenced via CSS
+(<code>background-image: url('graphic.svg')</code>), browsers treat it
+as a static asset and block all JavaScript execution for security
+reasons.</p>
+<p>Because SMIL is declarative XML native to the SVG specification:</p>
+<ul>
+<li>It executes fully inside <code>&lt;img&gt;</code> tags and CSS
+backgrounds.</li>
+<li>It maintains animations when SVGs are embedded within other
+documents or converted to standalone asset pipelines.</li>
+<li>It eliminates cross-site scripting (XSS) attack vectors associated
+with inline JavaScript animation routines.</li>
+</ul>
+<h2 id="2-browser-engine-optimization-and-compositing">2. Browser Engine
+Optimization and Compositing</h2>
+<p>JavaScript's <code>requestAnimationFrame</code> runs on the browser's
+main thread. If the main thread experiences heavy JavaScript execution,
+DOM updates, or layout recalculations, frame rates drop and cause visual
+stutter (jank).</p>
+<p>SMIL animations are declared directly in the markup, allowing the
+browser’s internal rendering engine to parse and optimize the animation
+pipeline ahead of time:</p>
+<ul>
+<li><strong>Thread Offloading:</strong> Browsers can delegate certain
+SMIL transformations directly to the compositor thread or GPU.</li>
+<li><strong>Automatic Resource Throttling:</strong> Modern browsers
+automatically pause or downsample SMIL animations when the element is
+off-screen, minimized, or in a background tab, preserving CPU cycles and
+battery life without requiring custom <code>IntersectionObserver</code>
+or <code>Page Visibility API</code> code.</li>
+</ul>
+<h2 id="3-built-in-vector-operations-without-external-libraries">3.
+Built-In Vector Operations Without External Libraries</h2>
+<p>Animating complex vector mechanics via
+<code>requestAnimationFrame</code> requires substantial math calculation
+or large third-party libraries (such as GSAP). SMIL provides native
+declarative elements designed specifically for vector coordinate
+systems:</p>
+<ul>
+<li><strong>Motion Paths (<code>&lt;animateMotion&gt;</code>):</strong>
+Elements can effortlessly travel along arbitrary vector paths, complete
+with automatic rotation to align with the trajectory via the
+<code>rotate="auto"</code> attribute.</li>
+<li><strong>Shape Morphing (<code>&lt;animate&gt;</code> with
+<code>d</code> attribute):</strong> Interpolating between complex path
+data strings is handled natively by the engine, provided coordinate
+counts match.</li>
+<li><strong>Additive and Cumulative Transformations:</strong> Using
+<code>additive="sum"</code> and <code>accumulate="sum"</code>, complex
+multi-layered transformations can be stacked directly in XML without
+computing intermediate matrix multiplications in JavaScript.</li>
+</ul>
+<h2 id="4-reduced-code-footprint-and-declarative-readability">4. Reduced
+Code Footprint and Declarative Readability</h2>
+<p>A <code>requestAnimationFrame</code> loop demands boilerplate:
+setting up timestamps, tracking elapsed time, calculating easing curves,
+and imperatively modifying DOM attributes every frame.</p>
+<p>SMIL achieves identical visual outputs with clean, declarative syntax
+encapsulated directly inside the target vector elements:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">rect</span> <span class="ot">width=</span><span class="st">&quot;100&quot;</span> <span class="ot">height=</span><span class="st">&quot;100&quot;</span> <span class="ot">fill=</span><span class="st">&quot;blue&quot;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">animateTransform</span> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="ot">attributeName=</span><span class="st">&quot;transform&quot;</span> </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">type=</span><span class="st">&quot;rotate&quot;</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="ot">from=</span><span class="st">&quot;0 50 50&quot;</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">to=</span><span class="st">&quot;360 50 50&quot;</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="ot">dur=</span><span class="st">&quot;4s&quot;</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="ot">repeatCount=</span><span class="st">&quot;indefinite&quot;</span> /&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">rect</span>&gt;</span></code></pre></div>
+<p>This declarative model reduces overall payload size, removes
+dependency management, and keeps graphics and motion logic
+self-contained within a single SVG file.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How SMIL Coordinates Audio Tracks for Commentary - smil</title>
+    <meta name="description" content="Synchronized Multimedia Integration Language (SMIL) manages multi-track audio playback by orchestrating temporal relationships, grouping parallel media elements, and evaluating dynamic user or system conditions. By utilizing container elements like <par>">
+    <link rel="canonical" href="https://salivity.github.io/smil/article/how-smil-coordinates-audio-tracks-for-commentary">
+    <link rel="search" type="application/opensearchdescription+xml" title="smil" href="/smil/opensearch.xml">
+    <link rel="icon" href="/smil/favicon.ico">
+    <link rel="stylesheet" href="/smil/css/style.css">
+    <link media="print" rel="stylesheet" href="/smil/css/print.css">
+    <script src="/smil/js/fuse.min.js"></script>
+    <script src="/smil/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How SMIL Coordinates Audio Tracks for Commentary - smil" />
+    <meta property="og:url" content="https://salivity.github.io/smil/article/how-smil-coordinates-audio-tracks-for-commentary" />
+    <meta property="og:image:url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/smil/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Synchronized Multimedia Integration Language (SMIL) manages multi-track audio playback by orchestrating temporal relationships, grouping parallel media elements, and evaluating dynamic user or system conditions. By utilizing container elements like <par>" />
+    <link rel="manifest" href="/smil/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/smil/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>smil</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/smil/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-smil-coordinates-audio-tracks-for-commentary">How SMIL
+Coordinates Audio Tracks for Commentary</h1>
+<p>Synchronized Multimedia Integration Language (SMIL) manages
+multi-track audio playback by orchestrating temporal relationships,
+grouping parallel media elements, and evaluating dynamic user or system
+conditions. By utilizing container elements like
+<code>&lt;par&gt;</code> alongside conditional elements like
+<code>&lt;switch&gt;</code>, SMIL ensures that alternative audio
+tracks—such as director commentary, descriptive audio, or multi-language
+feeds—remain sample-accurate and synchronized with the master video
+timeline during playback and track switching.</p>
+<h3 id="parallel-media-containers-and-synchronization">Parallel Media
+Containers and Synchronization</h3>
+<p>SMIL uses the <code>&lt;par&gt;</code> (parallel) element to define
+media components that must play simultaneously. To coordinate alternate
+audio alongside a video track, both the video source and the audio
+streams are grouped within the same <code>&lt;par&gt;</code>
+container.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">par</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;main_feature.mp4&quot;</span> <span class="ot">id=</span><span class="st">&quot;videoTrack&quot;</span> <span class="ot">syncMaster=</span><span class="st">&quot;true&quot;</span>/&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;standard_audio.mp3&quot;</span> <span class="ot">id=</span><span class="st">&quot;mainAudio&quot;</span>/&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;director_commentary.mp3&quot;</span> <span class="ot">id=</span><span class="st">&quot;commentaryAudio&quot;</span>/&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">par</span>&gt;</span></code></pre></div>
+<p>By assigning the attribute <code>syncMaster="true"</code> to the
+primary video, SMIL forces the player engine to treat the video as the
+temporal reference clock. If network latency or decoding delays cause an
+audio track to slip, the SMIL runtime adjusts playback speed or drops
+frames to preserve lip-sync and continuity with the master video.</p>
+<h3 id="conditional-selection-via-the-switch-element">Conditional
+Selection via the <code>&lt;switch&gt;</code> Element</h3>
+<p>To allow users to choose between the standard mix and an audio
+commentary, SMIL employs the <code>&lt;switch&gt;</code> element. The
+<code>&lt;switch&gt;</code> container evaluates its child elements
+sequentially and plays only the first item whose test attributes
+evaluate to true.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">par</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">video</span> <span class="ot">src=</span><span class="st">&quot;main_feature.mp4&quot;</span> <span class="ot">syncMaster=</span><span class="st">&quot;true&quot;</span>/&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">switch</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;director_commentary.mp3&quot;</span> <span class="ot">systemAudioDesc=</span><span class="st">&quot;true&quot;</span> <span class="ot">title=</span><span class="st">&quot;Director Commentary&quot;</span>/&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">audio</span> <span class="ot">src=</span><span class="st">&quot;standard_audio.mp3&quot;</span> <span class="ot">title=</span><span class="st">&quot;Standard Audio&quot;</span>/&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">switch</span>&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">par</span>&gt;</span></code></pre></div>
+<p>In this architecture, players supporting accessibility or commentary
+flags check attributes such as <code>systemAudioDesc</code> or custom
+runtime parameters. If the commentary setting is active, the engine
+loads the commentary track; otherwise, it falls back to the default
+audio.</p>
+<h3 id="timeline-alignment-and-offset-control">Timeline Alignment and
+Offset Control</h3>
+<p>Commentary tracks often do not start at the exact beginning of a
+video or may require pauses. SMIL controls track placement along the
+master timeline through explicit timing attributes:</p>
+<ul>
+<li><strong><code>begin</code></strong>: Defines when the commentary
+track starts relative to the container timeline (e.g.,
+<code>begin="00:01:15"</code> to start commentary after introductory
+titles).</li>
+<li><strong><code>clipBegin</code> and <code>clipEnd</code></strong>:
+Specify sub-clips of longer audio files to synchronize without
+re-encoding the media file.</li>
+<li><strong><code>dur</code></strong>: Dictates the active duration of
+the audio clip.</li>
+</ul>
+<h3 id="dynamic-commentary-switching">Dynamic Commentary Switching</h3>
+<p>When users switch audio tracks mid-stream, SMIL handles continuity
+through event-based timing. Rather than restarting media from the
+beginning, compliant playback engines resolve the current container time
+(<code>media.currentTime</code>) and transition playback to the selected
+commentary stream at the identical offset, maintaining seamless
+contextual alignment between what is seen on screen and what is heard in
+the commentary.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/smil'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/smil/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/smil/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>
